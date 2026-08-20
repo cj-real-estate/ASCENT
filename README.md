@@ -1,171 +1,104 @@
 # Ascent — ascentcas.com
 
-Marketing site for **Ascent Client Acquisition Systems** (Oklahoma City, OK).
-Two landing pages built from one set of components:
+Marketing site for **Ascent Client Acquisition Systems**. One page, one job:
+make a skeptical contractor who just got a cold email believe this is a real
+firm, and get him to book the free pipeline audit.
 
-| Route | Job | Traffic |
-|---|---|---|
-| `/` | The **firm** — brand-level page for service businesses generally | People who Google the name, get a card, click the domain in a signature |
-| `/fence` | The **pitch** — trade-specific page built to convert fence-company owners | Every outbound email, call follow-up, DM, and ad links **directly here**, never to `/` |
-
-## Stack
-
-Next.js (App Router) · TypeScript · Tailwind v4 (brand tokens as CSS custom
-properties in `app/globals.css`) · self-hosted Archivo + IBM Plex (woff2 in
-`app/fonts/`) · Vercel Web Analytics · static prerender + one serverless
-route (`/api/book`).
+Static Next.js (App Router) + TypeScript + Tailwind v4. No database, no auth,
+no server state. Deployed on Vercel.
 
 ## Local dev
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # production build (all pages prerender static)
-npm run start      # serve the production build
-npm run typecheck
+npm run build      # production build (static)
+npm run generate:assets  # regenerate favicons / og-image from the SVG mark
 ```
 
-Copy `.env.example` to `.env.local` for the booking-form email route. Without
-`RESEND_API_KEY` + `BOOKING_TO_EMAIL`, form submissions still land the
-visitor on `/thanks` but are only **logged** to the server/function log under
-`[BOOKING_ROUTE_UNCONFIGURED]` — set these before launch.
+Node 20+. Fonts are self-hosted in `src/fonts/` (Archivo 800, IBM Plex Sans
+400/600, IBM Plex Mono 500 — latin subsets) via `next/font/local`; nothing is
+fetched from Google at runtime.
 
-## Content architecture — how the verticals work
+## Where things live
 
-Every trade-specific string on a page — headlines, calculator labels, proof,
-vocabulary — lives in one content module typed against the `Vertical`
-interface:
+| Path | What |
+|---|---|
+| `content/verticals/fence.ts` | **Every vertical-specific string on the site.** Copy, stats, pricing, labels — components read from it and hard-code nothing. |
+| `content/verticals/types.ts` | The `Vertical` interface the content module is typed against. |
+| `docs/ascent-brand-style-guide.md` | Authoritative palette / type / logo rules. `globals.css` implements it. |
+| `docs/BUILD-NOTES.md` | Design-system conventions the components follow. |
+| `src/components/` | Presentational components; all take content via props. |
+| `src/lib/calculator.ts` | The pipeline-calculator math, in one place, exactly as specified. |
+| `scripts/generate-assets.mjs` | Regenerates `public/` icons and the OG image from the vector mark. |
 
-```
-content/verticals/
-  types.ts      ← the Vertical interface (the contract)
-  general.ts    ← the brand page at /
-  fence.ts      ← the fence page at /fence
-  index.ts      ← registry (sitemap derives from this)
-```
+## Adding a second vertical
 
-Components (`components/`) render whatever they're handed and contain **zero
-trade names**. `components/VerticalPage.tsx` assembles the fixed section
-order: Header → Hero + calculator → Problem → What gets installed → Proof →
-Where to start → Booking → Footer.
+The brand is trade-agnostic on purpose; the vertical lives in the content
+layer. To add, say, roofing:
 
-### Adding a third vertical (e.g. roofing)
+1. Copy `content/verticals/fence.ts` → `content/verticals/roofing.ts` and
+   rewrite the strings (it's typed — the compiler tells you what's required).
+2. Add a route (e.g. `src/app/roofing/page.tsx`) that imports the new module
+   and renders the same components `src/app/page.tsx` does.
 
-1. `cp content/verticals/fence.ts content/verticals/roofing.ts`, rewrite the
-   strings for the trade, set `path: "/roofing"`, `slug: "roofing"`.
-2. Register it in `content/verticals/index.ts` (adds it to the sitemap).
-3. Create the route — three lines of glue, same as `app/fence/page.tsx`:
+No component changes. If a component ever needs a vertical string, it goes in
+the `Vertical` interface, not in the component.
 
-   ```tsx
-   // app/roofing/page.tsx
-   import { roofing } from "@/content/verticals";
-   import { VerticalPage } from "@/components/VerticalPage";
-   import { verticalMetadata } from "@/lib/seo";
+## The founding-spots counter — manually maintained
 
-   export const metadata = verticalMetadata(roofing);
-   export default function RoofingPage() {
-     return <VerticalPage vertical={roofing} />;
-   }
-   ```
+`foundingSpotsRemaining` in `content/verticals/fence.ts` is a hand-edited
+constant. **Edit it when a client signs. Nothing decrements it for you** — no
+timer, no randomization, by design. If it reads `0`, the Founding Five section
+and the booking headline switch to the "filled / waitlist" framing.
 
-If a new page genuinely needs a field the interface doesn't have, **widen
-`types.ts` and update every existing content file to match — never fork the
-components.**
+> ⚠️ It currently reads `5` pending the client's confirmed count (decision #5
+> below). If that's wrong, fix it before launch — an inaccurate scarcity
+> counter torches the site's credibility.
 
-## The calculator
+## Booking form email
 
-`components/Calculator.tsx` + `lib/calculator.ts`, shared by every vertical
-(only labels differ). Math is implemented exactly as specified:
+The fallback booking form posts to `/api/book`, which emails the lead via
+Resend. Configure in Vercel (see `.env.example`):
 
-```
-quotesWritten    = estimatesPerMonth × months
-valueQuoted      = quotesWritten × averageTicket
-valueUnclosed    = valueQuoted × (1 − closeRate)
-recoveryRate     = closeRate ÷ 2
-recoverableValue = valueUnclosed × recoveryRate
-```
+- `RESEND_API_KEY`
+- `BOOKING_TO_EMAIL` — where leads land
+- `BOOKING_FROM_EMAIL` — verified sender
 
-Live on load (defaults render server-side), ~500ms count-up on change,
-`prefers-reduced-motion` jumps instantly, sliders are keyboard-operable with
-visible focus, output announced via a debounced `aria-live` region. The
-conservative-assumption line is permanent — never put it behind a toggle.
+Without these, the route logs in dev and returns an honest 503 in production.
+Set them before launch or wire the Cal.com link (`booking.schedulingLink` in
+the content module) so the page always has a live path to `/thanks`.
 
-## Booking
+## Deploying on Vercel
 
-`booking.calLink` in a content module switches the booking section between
-the Cal.com inline embed (when set, e.g. `"ascent/pipeline-audit"`) and the
-fallback form (when `null`, the current state). The form posts to
-`/api/book` (honeypot, no CAPTCHA), which emails the lead via Resend and
-routes the visitor to `/thanks`. The general page's form has a **free-text
-trade field** on purpose — what people type is market research; don't turn it
-into a dropdown.
+This app lives in the `ascent-site/` subdirectory — set **Root Directory** to
+`ascent-site` in the Vercel project settings, connect the repo, add the env
+vars above, point `ascentcas.com` at the project, and enable **Web
+Analytics** (cookieless — no consent banner needed).
 
-## Brand tokens
+## Decisions still owed by the client
 
-Defined in `app/globals.css` `@theme` — Ink `#1F1F1F`, Paper `#FFFFFF`,
-Surface `#F4F4F4`, orange `#F05E23` as accent only. Contrast rules baked into
-the tokens: full-strength orange is fine on Ink at any size but only as
-**large text** on light backgrounds — small text on Paper/Surface uses
-`accent-deep` (`#B8430C`); muted text is `fog` on dark, `slate` on light.
-`ascent-brand-style-guide.md` is authoritative — if any value here disagrees
-with it, the style guide wins.
+Rendered as visible placeholders on the site until supplied — search the
+content module for `DECISION`:
 
-## Assets
+1. **Proof attribution line** — whose results, which market, what period
+   (`proof.attributionLine`). The site shows `[NEEDS ATTRIBUTION LINE]` until then.
+2. **Ad-account screenshots** — cleared for publication? (`proof.screenshots`)
+3. **Phone + email** (`business.phone` / `business.email`) — footer, privacy
+   page, and JSON-LD pick them up automatically.
+4. **Cal.com vs Calendly + scheduling link** (`booking.schedulingLink`).
+5. **Current founding-spots count** (`foundingSpotsRemaining`).
+6. Whether founding pricing stays published at launch (currently: yes).
 
-- The lockup is currently **typographic** (`components/Lockup.tsx`) with a
-  placeholder triangle mark, and `app/icon.svg` / `public/og-image.png` are
-  generated placeholders. Request the `.svg` lockup and mark from the client
-  and swap them in when they arrive.
-- Proof-section ad-account screenshots: once approved, drop files in
-  `public/` and fill `proof.screenshots` in the content module.
+## Logo note
 
-## Verified against the quality floor
+Delivered brand assets were raster-only, so the chevron mark is recreated as
+SVG in `src/components/Logo.tsx` and all icons/OG are generated from it. When
+the client supplies the official `.svg` lockup, swap it into `Logo.tsx` and
+the `d`-paths in `scripts/generate-assets.mjs`, then `npm run generate:assets`.
 
-Production build, Chromium, this commit: Lighthouse **mobile perf 96 / a11y
-100 / SEO 100** on both `/` and `/fence` (median of runs; local best-practices
-dings one 404 for the Vercel Analytics script, which only exists once deployed
-on Vercel) · CLS 0 (metric-adjusted font fallbacks) · no horizontal scroll at
-320px · full keyboard pass with visible orange focus ring · calculator math
-property-checked · form → `/thanks` end-to-end · honeypot drops silently.
+## Deploying and connecting the domain
 
-## Outstanding [DECISION] items (the client owes these)
-
-Rendered as **visible placeholders** until supplied — do not fill them with
-plausible copy:
-
-1. **Proof attribution line** — whose results, which market, what period →
-   `proof.attributionLine` (currently renders `[NEEDS ATTRIBUTION LINE]`).
-2. **Ad-account screenshots** — publishable? → `proof.screenshots`.
-3. **Phone + email** → `footer.phone` / `footer.email` (currently
-   `[Phone — pending]` / `[Email — pending]`, also referenced on `/privacy`).
-4. **Scheduler** — Cal.com vs Calendly and the link → `booking.calLink`.
-5. **Founding-spots line** on `/` — yes/no, and the live count →
-   `offer.foundingSpotsRemaining` (hand-maintained; `null`/`0` omits the
-   line; never a timer, never auto-decrementing).
-6. **Stated service area** on `/` — "Oklahoma" vs "Oklahoma City metro"
-   (currently "Oklahoma" per the hero eyebrow and JSON-LD `areaServed`).
-
-## ⚠️ fence.ts is provisional
-
-This repository was empty when the general page was built, so there was no
-existing fence build to move to `/fence`. `content/verticals/fence.ts` is a
-faithful adaptation of the final general-page copy with fence vocabulary and
-the real fence-client numbers — nothing invented — but the authoritative
-fence copy lives in `ascent-website-handoff.md` (including its full four-tier
-price grid, represented here by the two-card offer until those tiers are
-supplied). **Reconcile `fence.ts` against that document before `/fence` takes
-outbound traffic.** If an old deployment served the fence pitch at any other
-path, add a permanent redirect to `/fence` in `next.config.ts` (a commented
-example is there).
-
-## Deploy
-
-Vercel. Static pages + one function (`/api/book`). Set the env vars from
-`.env.example` in the Vercel project. `robots.txt`, `sitemap.xml`,
-canonicals, OpenGraph/Twitter cards, and `LocalBusiness` JSON-LD (no
-`aggregateRating` — there are no reviews, and fabricating structured data is
-a Google violation) are all wired.
-
-**Connecting the domain:** the step-by-step Vercel + GoDaddy runbook for
-`ascentcas.com` — import, env vars, DNS records, verification — is in
-[`DEPLOY.md`](DEPLOY.md).
+See `DEPLOY.md` for the Vercel import + GoDaddy DNS runbook for
+ascentcas.com, and `CONNECT-DOMAIN-CHROME.md` for a paste-ready browser-agent
+version of the same steps.

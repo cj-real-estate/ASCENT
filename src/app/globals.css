@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/*
+ * Brand tokens — source of truth is docs/ascent-brand-style-guide.md §3.
+ * Do not add colors that are not in the guide.
+ */
+:root {
+  --orange:       #F05E23;
+  --orange-deep:  #C4491A;
+  --orange-tint:  #FDEDE5;
+  --ink:          #1F1F1F;
+  --graphite:     #2E2E2E;
+  --slate:        #6B6B6B;
+  --fog:          #9A9A9A;
+  --line:         #E5E5E5;
+  --surface:      #F4F4F4;
+  --paper:        #FFFFFF;
+  --on-dark:      #D9D9D9;
+}
+
+@theme inline {
+  --color-orange:      var(--orange);
+  --color-orange-deep: var(--orange-deep);
+  --color-orange-tint: var(--orange-tint);
+  --color-ink:         var(--ink);
+  --color-graphite:    var(--graphite);
+  --color-slate:       var(--slate);
+  --color-fog:         var(--fog);
+  --color-line:        var(--line);
+  --color-surface:     var(--surface);
+  --color-paper:       var(--paper);
+  --color-on-dark:     var(--on-dark);
+
+  --font-display: var(--font-archivo), Arial, sans-serif;
+  --font-sans:    var(--font-plex-sans), Arial, sans-serif;
+  --font-mono:    var(--font-plex-mono), ui-monospace, "Courier New", monospace;
+
+  /* Type scale from the brand guide: 12/14/16/20/26/34/46/62, body 17 */
+  --text-body: 17px;
+
+  --breakpoint-xs: 23.75rem; /* 380px — lets the calculator readout step up early */
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Orange focus ring, 2px offset — quality floor §10 */
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+/* On dark sections the ring needs a paper offset to stay visible */
+[data-dark] :focus-visible {
+  outline-color: var(--orange);
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+@layer components {
+  /* Eyebrow — mono 500 uppercase, tracking 0.12em. Color set per-surface. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  /* Display headings — Archivo 800, tight tracking, tight leading */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  /* Mono data readout (stat numbers, calculator output) */
+  .readout {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  /* Section shell: single column mobile, 1200px cap, generous rhythm */
+  .section-shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1200px;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .section-shell { padding-inline: 32px; }
+  }
+}
+
+/* Range inputs — styled to brand, thumb comfortably tappable */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 44px; /* full tap target; the visible track is drawn thinner */
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--track, var(--line));
+}
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--track, var(--line));
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -10px;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: none;
+}
+input[type="range"]::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: none;
+}
+input[type="range"]:focus-visible {
+  outline: none;
+}
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--ink);
+}
+input[type="range"]:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+/* Number inputs: kill spinners, they're useless at 44px targets */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Below-the-fold sections skip initial render work; the browser lays
+   them out on approach. Keeps LCP about the hero, not the whole page. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
