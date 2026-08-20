@@ -6,6 +6,10 @@ plus DNS propagation.
 
 Repo: `cj-real-estate/ASCENT` · production branch: `main`
 
+> Driving this with Claude for Chrome instead of by hand? Use
+> [`CONNECT-DOMAIN-CHROME.md`](CONNECT-DOMAIN-CHROME.md) — the same steps as a
+> paste-ready prompt, with the guardrails a browser agent needs.
+
 ---
 
 ## 1. Import the repo into Vercel
