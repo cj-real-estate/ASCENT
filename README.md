@@ -165,3 +165,7 @@ Vercel. Static pages + one function (`/api/book`). Set the env vars from
 canonicals, OpenGraph/Twitter cards, and `LocalBusiness` JSON-LD (no
 `aggregateRating` — there are no reviews, and fabricating structured data is
 a Google violation) are all wired.
+
+**Connecting the domain:** the step-by-step Vercel + GoDaddy runbook for
+`ascentcas.com` — import, env vars, DNS records, verification — is in
+[`DEPLOY.md`](DEPLOY.md).
