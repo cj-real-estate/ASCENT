@@ -123,11 +123,11 @@ const fence: Vertical = {
         label: "Quoted, then signed inside 30 days — from follow-up alone",
       },
     ],
-    // DECISION #1 — client owes the exact attribution wording: whose
-    // results, which market, what period, in one sentence. null renders
-    // the visible [NEEDS ATTRIBUTION LINE] placeholder. Never fill this
-    // with a vague line like "results from a recent client".
-    attributionLine: null,
+    // Supplied by the client 2026-08-21. Keep it specific and checkable —
+    // the named company, market, and dates are what make the three stats
+    // above verifiable rather than assertions.
+    attributionLine:
+      "Results from Prestige Fence, Oklahoma City — August 1–19, 2026.",
     // DECISION #2 — ad-account screenshots, once cleared for publication.
     screenshots: [],
   },

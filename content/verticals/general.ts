@@ -192,9 +192,11 @@ const general: Vertical = {
         label: "Quoted, then signed inside 30 days — from follow-up alone",
       },
     ],
-    // DECISION #1 — one sentence from the client: whose results, which
-    // market, what period. Renders [NEEDS ATTRIBUTION LINE] until supplied.
-    attributionLine: null,
+    // Supplied by the client 2026-08-21. Keep it specific and checkable —
+    // the named company, market, and dates are what make the three stats
+    // above verifiable rather than assertions.
+    attributionLine:
+      "Results from Prestige Fence, Oklahoma City — August 1–19, 2026.",
     // DECISION #2 — ad-account screenshots, once cleared for publication.
     screenshots: [],
   },
