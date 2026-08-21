@@ -23,9 +23,9 @@ const fence: Vertical = {
     city: "Oklahoma City",
     region: "OK",
     areaServed: "Oklahoma City metro",
-    // DECISION #3 — client to supply. null renders a visible placeholder.
-    phone: null,
-    email: null,
+    // Supplied by the client 2026-08-21.
+    phone: "580-304-8470",
+    email: "caleb@ascentcas.com",
   },
 
   seo: {

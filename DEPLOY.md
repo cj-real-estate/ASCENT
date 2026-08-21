@@ -102,7 +102,7 @@ you'd have to recreate those records there.
   minutes, up to a couple of hours on GoDaddy's default TTL.
 - SSL provisions automatically once the records resolve. No action needed.
 - Check all four: `ascentcas.com`, `www.ascentcas.com` (should 308 to the apex),
-  `ascentcas.com/fence`, and a form submission landing on `/thanks`.
+  `ascentcas.com/privacy`, and a form submission landing on `/thanks`.
 - Send yourself a test lead and confirm it hits the inbox from step 2.
 
 ## 6. After it's live
@@ -110,13 +110,13 @@ you'd have to recreate those records there.
 - **Enable Web Analytics**: project → *Analytics* → *Enable*. The
   `@vercel/analytics` component is already in the app; it does nothing until the
   project-level toggle is on.
-- **Point outbound traffic at `/fence`, never at `/`.** The apex is the brand
-  page; the fence page is the one built to convert. Reconcile
-  `content/verticals/fence.ts` against the fence handoff before you do
-  (see the warning in README.md).
+- **Outbound traffic goes to the apex, `ascentcas.com`.** This build is a
+  single page: the fence pitch *is* `/`, driven by
+  `content/verticals/fence.ts`. There is no `/fence` route — an earlier
+  two-route build had one, and links to it will 404.
 - **The `[DECISION]` placeholders are publicly visible** the moment the domain
-  resolves: `[NEEDS ATTRIBUTION LINE]` under the proof stats, and
-  `[Phone — pending]` / `[Email — pending]` in the footer and on `/privacy`.
-  That's deliberate — they're honest gaps rather than invented filler — but
-  they're the first thing to fill in. All six open items are listed at the
-  bottom of README.md.
+  resolves. Phone and email are now filled in; what remains visible is
+  `[NEEDS ATTRIBUTION LINE]` under the proof stats and the scheduling-embed
+  placeholder in the booking section. That's deliberate — they're honest gaps
+  rather than invented filler — but they're the first thing to fill in. The
+  open items are listed at the bottom of README.md.

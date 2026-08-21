@@ -121,7 +121,7 @@ Switch to the GoDaddy tab, on the DNS records page for `ascentcas.com`.
    - `https://ascentcas.com` — loads, headline reads "You don't have a lead
      problem. You have a lead-handling problem."
    - `https://www.ascentcas.com` — redirects to the apex
-   - `https://ascentcas.com/fence` — loads a fence-specific version
+   - `https://ascentcas.com/privacy` — loads the privacy page
    - The calculator on the homepage shows a dollar figure and updates when you
      drag a slider
 5. Give me a final summary: the two DNS records as they now stand, the domain

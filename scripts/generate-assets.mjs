@@ -33,20 +33,36 @@ const WHITE = "#FFFFFF";
 
 /*
  * The two-chevron mark, copied EXACTLY from src/components/Logo.tsx.
- * viewBox 0 0 108 112 — outer chevron up-left, inner chevron offset
+ * viewBox 0 0 277 260 — outer chevron up-left, inner chevron offset
  * down-right with its apex tucked into the outer's notch.
  * Future vector swap: edit these two path strings (and Logo.tsx) only.
  */
 const CHEVRONS = {
-  viewBox: { w: 108, h: 112 },
-  outer: "M50 0 L100 62 H72 L50 34.7 L28 62 H0 Z",
-  inner: "M58 50 L108 112 H80 L58 84.7 L36 112 H8 Z",
+  viewBox: { w: 277, h: 260 },
+  outer: "M138.5,0 L277,205 L200,205 L138.5,114 L77,205 L0,205 Z",
+  inner: "M169.5,108 L272,260 L215,260 L169.5,192.5 L124,260 L67,260 Z",
 };
 
 /**
  * Square SVG with the mark centered, scaled to fit inside `size` minus
  * `padFrac` padding on each side. `bg` null → transparent.
  */
+/*
+ * The mark, with a transparent channel knocked out of the outer chevron
+ * wherever the inner one crosses it. Without it the all-white reverse merges
+ * into a single blob and the inner chevron disappears (brand guide §2).
+ * `idSuffix` keeps mask ids unique when several marks share one document.
+ */
+function markPaths(outerFill, innerFill, idSuffix = "m") {
+  const { w, h } = CHEVRONS.viewBox;
+  return `<mask id="gap-${idSuffix}" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}">
+      <rect x="0" y="0" width="${w}" height="${h}" fill="#fff"/>
+      <path d="${CHEVRONS.inner}" fill="#000" stroke="#000" stroke-width="16" stroke-linejoin="round"/>
+    </mask>
+    <path d="${CHEVRONS.outer}" fill="${outerFill}" mask="url(#gap-${idSuffix})"/>
+    <path d="${CHEVRONS.inner}" fill="${innerFill}"/>`;
+}
+
 function markSvg({ size, padFrac, outerFill, innerFill, bg = null }) {
   const { w, h } = CHEVRONS.viewBox;
   const pad = size * padFrac;
@@ -57,8 +73,7 @@ function markSvg({ size, padFrac, outerFill, innerFill, bg = null }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   ${rect}
   <g transform="translate(${tx} ${ty}) scale(${scale})">
-    <path d="${CHEVRONS.outer}" fill="${outerFill}"/>
-    <path d="${CHEVRONS.inner}" fill="${innerFill}"/>
+    ${markPaths(outerFill, innerFill, "icon")}
   </g>
 </svg>`;
 }
@@ -94,8 +109,7 @@ function ogHtml() {
   const archivo = pathToFileURL(path.join(FONTS, "archivo-800.woff2"));
   const plexMono = pathToFileURL(path.join(FONTS, "plex-mono-500.woff2"));
   const mark = `<svg width="176" height="150" viewBox="0 0 ${CHEVRONS.viewBox.w} ${CHEVRONS.viewBox.h}" xmlns="http://www.w3.org/2000/svg">
-    <path d="${CHEVRONS.outer}" fill="${WHITE}"/>
-    <path d="${CHEVRONS.inner}" fill="${WHITE}"/>
+    ${markPaths(WHITE, WHITE, "og")}
   </svg>`;
   return `<!doctype html>
 <html>

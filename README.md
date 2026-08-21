@@ -86,16 +86,39 @@ content module for `DECISION`:
 2. **Ad-account screenshots** — cleared for publication? (`proof.screenshots`)
 3. **Phone + email** (`business.phone` / `business.email`) — footer, privacy
    page, and JSON-LD pick them up automatically.
+   *(Supplied 2026-08-21: 580-304-8470 / caleb@ascentcas.com.)*
 4. **Cal.com vs Calendly + scheduling link** (`booking.schedulingLink`).
 5. **Current founding-spots count** (`foundingSpotsRemaining`).
 6. Whether founding pricing stays published at launch (currently: yes).
 
-## Logo note
+## Logo and brand files
 
-Delivered brand assets were raster-only, so the chevron mark is recreated as
-SVG in `src/components/Logo.tsx` and all icons/OG are generated from it. When
-the client supplies the official `.svg` lockup, swap it into `Logo.tsx` and
-the `d`-paths in `scripts/generate-assets.mjs`, then `npm run generate:assets`.
+The delivered brand assets were raster-only, so the mark is drawn as vector
+geometry and everything else is generated from it. Downloadable files live in
+`brand/`:
+
+| File | Use |
+|---|---|
+| `ascent-lockup.svg` | Primary lockup, orange + ink — on Paper or Surface |
+| `ascent-lockup-white.svg` | Reverse lockup, all white — on Ink, Graphite, or a photo |
+| `ascent-mark.svg` | Chevron only, orange + ink |
+| `ascent-mark-white.svg` | Chevron only, white |
+
+The wordmark in these files is **outlined, not live text**, so a print shop,
+Illustrator, or a shirt vendor renders them correctly with no font installed.
+
+**The mark geometry lives in three places and they must change together:**
+`src/components/Logo.tsx`, `scripts/generate-assets.mjs`, and
+`scripts/build-logo-svg.py`. After any change:
+
+```bash
+npm run generate:assets                 # favicons + OG image
+python3 scripts/build-logo-svg.py       # brand/*.svg  (pip install fonttools brotli)
+```
+
+A transparent channel is knocked out of the outer chevron wherever the inner
+one crosses it. Without it the all-white reverse merges into a single blob and
+the inner chevron disappears — the failure the brand guide calls out in §2.
 
 ## Deploying and connecting the domain
 

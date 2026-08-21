@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 /*
  * Ascent mark + lockup, rebuilt as vector.
  *
@@ -11,6 +13,11 @@
  * variant "onDark"  → all white reverse (use on Ink or Graphite)
  */
 
+/** Mark geometry — mirrored in scripts/generate-assets.mjs and
+ *  scripts/build-logo-svg.py. Change all three together. */
+const OUTER = "M138.5,0 L277,205 L200,205 L138.5,114 L77,205 L0,205 Z";
+const INNER = "M169.5,108 L272,260 L215,260 L169.5,192.5 L124,260 L67,260 Z";
+
 export function AscentMark({
   variant = "onLight",
   className,
@@ -22,18 +29,29 @@ export function AscentMark({
 }) {
   const outer = variant === "onDark" ? "#FFFFFF" : "var(--orange, #F05E23)";
   const inner = variant === "onDark" ? "#FFFFFF" : "var(--ink, #1F1F1F)";
+  const maskId = useId();
   return (
     <svg
-      viewBox="0 0 108 112"
+      viewBox="0 0 277 260"
       className={className}
       role={title ? "img" : undefined}
       aria-hidden={title ? undefined : true}
       aria-label={title}
     >
-      {/* outer chevron — orange */}
-      <path d="M50 0 L100 62 H72 L50 34.7 L28 62 H0 Z" fill={outer} />
-      {/* inner chevron — ink, offset down-right, apex tucked into the notch */}
-      <path d="M58 50 L108 112 H80 L58 84.7 L36 112 H8 Z" fill={inner} />
+      {/* A transparent channel is knocked out of the outer chevron wherever
+          the inner one crosses it. Without it the all-white reverse merges
+          into a single blob — the exact failure the brand guide calls out
+          ("the inner chevron disappears"). Transparent, not painted, so it
+          works on Ink, Graphite, or a photo alike. */}
+      <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="277" height="260">
+        <rect x="0" y="0" width="277" height="260" fill="#fff" />
+        <path d={INNER} fill="#000" stroke="#000" strokeWidth="16" strokeLinejoin="round" />
+      </mask>
+      {/* outer chevron — orange, upper-left */}
+      <path d={OUTER} fill={outer} mask={`url(#${maskId})`} />
+      {/* inner chevron — ink, ~0.74x, offset down-right, apex tucked into
+          the orange notch and dropping below its baseline */}
+      <path d={INNER} fill={inner} />
     </svg>
   );
 }
