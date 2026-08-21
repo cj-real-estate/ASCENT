@@ -1,5 +1,6 @@
 import type { Vertical } from "@content/verticals/types";
 import BookingForm from "./BookingForm";
+import CalendlyConversion from "./CalendlyConversion";
 
 /*
  * Booking section (§9) — dark (bg-ink), `data-dark` so the global focus ring
@@ -34,6 +35,7 @@ export function BookingSection({
 
         {booking.schedulingLink ? (
           <>
+            <CalendlyConversion />
             {/* 700px is Calendly's own minimum for the inline calendar —
                 below it the widget scrolls internally on mobile. Lazy because
                 the section sits well below the fold. */}

@@ -1,5 +1,7 @@
 import Script from "next/script";
 
+import { GOOGLE_ADS_ID } from "@/lib/conversion";
+
 /*
  * Google Ads global site tag (gtag.js).
  *
@@ -15,7 +17,7 @@ import Script from "next/script";
  * Note this tag sets advertising cookies, which is why /privacy discloses
  * Google Ads by name. If the tag is ever removed, correct that page too.
  */
-const GOOGLE_ADS_ID = "AW-18403357820";
+
 
 export default function GoogleTag() {
   if (process.env.NODE_ENV === "development") return null;

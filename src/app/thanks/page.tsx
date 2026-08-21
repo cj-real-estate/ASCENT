@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import general from "@content/verticals/general";
+import LeadConversion from "@/components/LeadConversion";
 
 /*
  * Post-submission confirmation. Dark full-height page, noindex — it only
@@ -20,6 +21,7 @@ export default function ThanksPage() {
       data-dark
       className="flex min-h-dvh flex-col justify-center bg-ink py-16 md:py-28"
     >
+      <LeadConversion />
       <div className="section-shell">
         <h1 className="display max-w-[20ch] text-[34px] text-paper xs:text-[40px] md:text-[62px]">
           {thanks.h1}

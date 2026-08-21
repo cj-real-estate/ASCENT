@@ -148,6 +148,22 @@ only on ascentcas.com, change the guard to
 `process.env.VERCEL_ENV !== "production"` — at the cost that the tag then
 silently stops firing anywhere that variable isn't set.
 
+### Conversion tracking
+
+One conversion action is reported: "Submit lead form"
+(`AW-18403357820/CG1nCJmW2eUcEPzos8dE`), defined in `src/lib/conversion.ts`.
+There are two booking paths and they need different handling:
+
+| Path | Signal |
+|---|---|
+| Fallback form | routes to `/thanks`, so `LeadConversion` fires on page load there |
+| Calendly embed | books inside an iframe and never navigates the page, so `CalendlyConversion` listens for Calendly's `calendly.event_scheduled` message |
+
+Google's setup screen only offers page-load or click tracking. Page load alone
+would miss **every** calendar booking, which is the primary path — hence the
+message listener. The two paths are mutually exclusive, and each reports at
+most once per session, so a refreshed `/thanks` does not inflate the count.
+
 The tag sets advertising cookies, which is why `/privacy` names Google Ads and
 links to Google's opt-out. **If the tag is ever removed, correct that page
 too** — it currently states that these cookies exist.
