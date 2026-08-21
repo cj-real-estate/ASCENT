@@ -2,7 +2,7 @@ import type { Vertical } from "@content/verticals/types";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProblemSection from "@/components/ProblemSection";
-import InstallSection from "@/components/InstallSection";
+import ServicesSection from "@/components/ServicesSection";
 import ProofSection from "@/components/ProofSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import PricingSection from "@/components/PricingSection";
@@ -32,8 +32,9 @@ export function VerticalPage({
       <main>
         <Hero vertical={vertical} />
         <ProblemSection vertical={vertical} />
-        {/* Brand page: the four things we install + the owner's three jobs */}
-        <InstallSection vertical={vertical} />
+        {/* Everything we sell; carries the owner card where the page
+            has no standalone three-step section */}
+        <ServicesSection vertical={vertical} />
         <ProofSection vertical={vertical} />
         {/* Vertical page: the standalone three-step section */}
         <HowItWorksSection vertical={vertical} />

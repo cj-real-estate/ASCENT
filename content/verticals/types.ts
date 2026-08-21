@@ -60,22 +60,31 @@ export interface HowItWorksStep {
   body: string;
 }
 
-export interface InstallItem {
+export interface ServiceItem {
   title: string;
   body: string;
 }
 
-export interface InstallContent {
+export interface ServicesContent {
   eyebrow: string;
   h2: string;
-  /** Deliberately unnumbered — these run in parallel, not in sequence. */
-  items: InstallItem[];
+  /** Deliberately unnumbered — these are a menu, not a sequence. */
+  items: ServiceItem[];
+  /**
+   * The order argument, below the grid: follow-up first, traffic after.
+   * Without it a flat service list implies everything runs on day one.
+   */
+  closing: string;
+  /**
+   * The dark "what you actually do" card. null on verticals that carry the
+   * same three steps in a standalone `howItWorks` section instead.
+   */
   ownerCard: {
     heading: string;
     /** Numbered 1-3 in the UI. */
     steps: HowItWorksStep[];
     closing: string;
-  };
+  } | null;
 }
 
 /**
@@ -170,11 +179,11 @@ export interface Vertical {
   };
 
   /**
-   * "What gets installed" — the four things we run, beside a dark card
-   * listing the three things the owner does. Verticals that instead use the
-   * standalone three-step `howItWorks` section set this to null.
+   * Everything the firm sells, in one grid. null omits the section.
+   * Claims here must match what is actually delivered — the follow-up is
+   * texts and emails, not automated calling.
    */
-  install: InstallContent | null;
+  services: ServicesContent | null;
 
   /**
    * Standalone three-step section. null on verticals that carry the same

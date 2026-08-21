@@ -132,8 +132,46 @@ const fence: Vertical = {
     screenshots: [],
   },
 
-  // Fence uses the standalone three-step section below.
-  install: null,
+  services: {
+    eyebrow: "WHAT WE DO",
+    h2: "Everything that brings you work, in one system.",
+    items: [
+      {
+        title: "Website and landing page builds.",
+        body: "A site built to turn a click into a booked estimate — fast, mobile-first, and pointed at one action instead of ten.",
+      },
+      {
+        title: "SEO and local search strategy.",
+        body: "Show up when someone in your service area searches for the work you do. Local listings, reviews, and pages built to rank.",
+      },
+      {
+        title: "Google Ads.",
+        body: "Paid search in front of people already typing what you sell, measured in booked estimates rather than clicks.",
+      },
+      {
+        title: "Meta Ads.",
+        body: "Facebook and Instagram campaigns that put your work in front of homeowners in your service area before they start shopping.",
+      },
+      {
+        title: "Follow-up automations.",
+        body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
+      },
+      {
+        title: "A CRM that actually holds your pipeline.",
+        body: "Every lead, every estimate, every outcome, in one place instead of three phones and a notebook.",
+      },
+      {
+        title: "Reporting in dollars.",
+        body: "What you spent, what it produced, what\u2019s still open. One number you can trust.",
+      },
+    ],
+    // The order argument. Without it a flat list implies we switch
+    // everything on at once, which is not how any of this is sold.
+    closing:
+      "We don\u2019t switch all of it on at once. The follow-up goes in first, and traffic comes after the machine can hold what it catches.",
+    // The three steps live in the standalone section below on this page.
+    ownerCard: null,
+  },
 
   howItWorks: {
     eyebrow: "WHAT YOU ACTUALLY DO",
