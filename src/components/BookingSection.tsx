@@ -34,11 +34,14 @@ export function BookingSection({
 
         {booking.schedulingLink ? (
           <>
+            {/* 700px is Calendly's own minimum for the inline calendar —
+                below it the widget scrolls internally on mobile. Lazy because
+                the section sits well below the fold. */}
             <iframe
               src={booking.schedulingLink}
               title="Scheduling calendar"
               loading="lazy"
-              className="mt-10 min-h-[600px] w-full rounded-md border border-white/15 bg-paper"
+              className="mt-10 min-h-[700px] w-full rounded-md border border-white/15 bg-paper"
             />
             <div className="mt-12">
               <BookingForm form={booking.form} />

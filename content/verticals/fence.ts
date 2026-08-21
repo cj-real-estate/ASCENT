@@ -9,9 +9,9 @@ import type { Vertical } from "./types";
  * Set to 0 to switch the Founding Five section and booking headline to
  * the "filled / waitlist" framing.
  *
- * Currently set to the full 5 pending the client's confirmed count.
+ * Count confirmed by the client 2026-08-21.
  */
-export const foundingSpotsRemaining: number = 5;
+export const foundingSpotsRemaining: number = 2;
 
 const fence: Vertical = {
   slug: "fence",
@@ -140,8 +140,8 @@ const fence: Vertical = {
     h2: "Three things. That's your whole job.",
     steps: [
       {
-        title: "Answer the call we transfer.",
-        body: "We do the calling, the texting, and the chasing. You pick up when someone's ready to talk.",
+        title: "Call the ones who reply.",
+        body: "The follow-up keeps texting and emailing your old quotes until someone answers. When they do, you make the call.",
       },
       {
         title: "Run the estimate.",
@@ -211,7 +211,7 @@ const fence: Vertical = {
       },
     ],
     conditions:
-      "Guarantees carry conditions, and they're the same things that make the work succeed: at least 150 contactable past leads, scripts approved within 48 hours, your team answers the calls we transfer, outcomes logged in the CRM, and one 20-minute review a week. All of it is spelled out in the proposal before you sign anything.",
+      "Guarantees carry conditions, and they're the same things that make the work succeed: at least 150 contactable past leads, scripts approved within 48 hours, your team calls back the leads who reply, outcomes logged in the CRM, and one 20-minute review a week. All of it is spelled out in the proposal before you sign anything.",
   },
 
   foundingFive: {
@@ -227,9 +227,11 @@ const fence: Vertical = {
     h2: "Find out what's actually in your pipeline.",
     h2Waitlist: "Join the waitlist for the next opening.",
     body: "Thirty minutes. I'll go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire me or not.",
-    // DECISION #4 — Cal.com (recommended) or Calendly, plus the link.
-    // null renders the fallback form as the booking path.
-    schedulingLink: null,
+    // Calendly, supplied by the client 2026-08-21. The embed params drop
+    // Calendly's own page chrome and the GDPR banner so it sits inside the
+    // section rather than looking like a framed website.
+    schedulingLink:
+      "https://calendly.com/caleb-ascentcas/30min?hide_gdpr_banner=1&embed_domain=ascentcas.com&embed_type=Inline",
     form: {
       nameLabel: "Name",
       companyLabel: "Company",

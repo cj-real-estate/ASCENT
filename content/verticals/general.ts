@@ -120,7 +120,7 @@ const general: Vertical = {
       },
       {
         title: "Follow-up that doesn't depend on anyone remembering.",
-        body: "Automated calls, texts, and emails on a schedule, running on every quote until it closes or dies for a real reason.",
+        body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
       },
       {
         title: "Lead generation, once the follow-up works.",
@@ -135,8 +135,8 @@ const general: Vertical = {
       heading: "Three things. That's your whole job.",
       steps: [
         {
-          title: "Answer the call we transfer.",
-          body: "We do the calling, texting, and chasing. You pick up when someone's ready.",
+          title: "Call the ones who reply.",
+          body: "The follow-up keeps texting and emailing until someone answers. When they do, you make the call.",
         },
         {
           title: "Run the estimate.",
@@ -223,8 +223,10 @@ const general: Vertical = {
     h2: "Find out what's actually in your pipeline.",
     h2Waitlist: "Join the waitlist for the next opening.",
     body: "Thirty minutes. I'll go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire me or not.",
-    // DECISION #4 — Cal.com (recommended) or Calendly, plus the link.
-    schedulingLink: null,
+    // Calendly, supplied by the client 2026-08-21. See fence.ts for the
+    // reasoning behind the embed params.
+    schedulingLink:
+      "https://calendly.com/caleb-ascentcas/30min?hide_gdpr_banner=1&embed_domain=ascentcas.com&embed_type=Inline",
     form: {
       nameLabel: "Name",
       companyLabel: "Company",
