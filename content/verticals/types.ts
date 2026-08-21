@@ -60,6 +60,34 @@ export interface HowItWorksStep {
   body: string;
 }
 
+export interface InstallItem {
+  title: string;
+  body: string;
+}
+
+export interface InstallContent {
+  eyebrow: string;
+  h2: string;
+  /** Deliberately unnumbered — these run in parallel, not in sequence. */
+  items: InstallItem[];
+  ownerCard: {
+    heading: string;
+    /** Numbered 1-3 in the UI. */
+    steps: HowItWorksStep[];
+    closing: string;
+  };
+}
+
+/**
+ * Free-text trade input. Deliberately not a dropdown: a dropdown is always
+ * missing someone's trade, and what people type is useful market research.
+ * null omits the field on a vertical that already knows the trade.
+ */
+export interface TradeField {
+  label: string;
+  placeholder: string;
+}
+
 export interface FormContent {
   nameLabel: string;
   companyLabel: string;
@@ -67,12 +95,15 @@ export interface FormContent {
   emailLabel: string;
   estimatesSelectLabel: string;
   estimatesSelectOptions: string[];
+  tradeField: TradeField | null;
   submitLabel: string;
   submittingLabel: string;
 }
 
 export interface Vertical {
   slug: string;
+  /** Route this vertical is served at — used for canonicals and the sitemap. */
+  path: string;
 
   business: {
     /** Full legal-ish display name — "Ascent Client Acquisition Systems" */
@@ -117,6 +148,13 @@ export interface Vertical {
   proof: {
     /** visually hidden heading for the document outline */
     srHeading: string;
+    /**
+     * Ink semibold line above the stats. On a trade-agnostic page this
+     * names the trade the results actually came from — never genericise a
+     * real case into "a client", which reads as fabrication.
+     * null renders no line (a vertical whose own trade matches the case).
+     */
+    framingLine: string | null;
     stats: Stat[];
     /**
      * DECISION #1 — exact attribution wording owed by the client.
@@ -131,26 +169,52 @@ export interface Vertical {
     screenshots: { src: string; alt: string }[];
   };
 
+  /**
+   * "What gets installed" — the four things we run, beside a dark card
+   * listing the three things the owner does. Verticals that instead use the
+   * standalone three-step `howItWorks` section set this to null.
+   */
+  install: InstallContent | null;
+
+  /**
+   * Standalone three-step section. null on verticals that carry the same
+   * three steps inside `install.ownerCard` instead.
+   */
   howItWorks: {
     eyebrow: string;
     h2: string;
     steps: HowItWorksStep[];
     closing: string;
-  };
+  } | null;
 
   pricing: {
+    /** Mono eyebrow. Only rendered on a `paper` background — Orange Deep
+     *  measures 4.43:1 on Surface, under the 4.5 floor. */
+    eyebrow: string | null;
     h2: string;
     cards: PricingCard[];
+    /** Rendered beneath the dark card, mono and prominent. Used where the
+     *  page carries a single guarantee instead of a `guarantees` section. */
+    guaranteeLine: string | null;
     note: string;
+    /** Section background. `surface` requires `eyebrow: null` (contrast). */
+    background: "paper" | "surface";
+    /** Render the manually-maintained founding-spots line in this section. */
+    showFoundingSpots: boolean;
+    /** e.g. "of 5 founding spots remaining" */
+    foundingSpotsSuffix: string;
   };
 
+  /** Full three-guarantee section. null where the page carries the single
+   *  `pricing.guaranteeLine` instead. */
   guarantees: {
     eyebrow: string;
     h2: string;
     items: GuaranteeItem[];
     conditions: string;
-  };
+  } | null;
 
+  /** Standalone Founding Five section. null omits it entirely. */
   foundingFive: {
     h2: string;
     body: string;
@@ -158,7 +222,7 @@ export interface Vertical {
     counterSuffix: string;
     /** Shown instead of the counter when spots hit 0 */
     filledLine: string;
-  };
+  } | null;
 
   booking: {
     eyebrow: string;

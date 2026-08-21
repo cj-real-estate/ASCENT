@@ -7,6 +7,8 @@ import type { Vertical } from "@content/verticals/types";
  */
 export function GuaranteesSection({ vertical }: { vertical: Vertical }) {
   const { guarantees } = vertical;
+  // Verticals carrying a single pricing.guaranteeLine omit this section.
+  if (guarantees === null) return null;
 
   return (
     <section data-dark="" className="cv-auto bg-ink py-16 md:py-28">

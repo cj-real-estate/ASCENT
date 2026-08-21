@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import vertical from "@content/verticals/fence";
+import vertical from "@content/verticals/general";
 
 export default function robots(): MetadataRoute.Robots {
   return {

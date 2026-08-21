@@ -1,28 +1,20 @@
 import type { Metadata } from "next";
 import { archivo, plexSans, plexMono } from "./fonts";
-import vertical from "@content/verticals/fence";
+import general from "@content/verticals/general";
 import "./globals.css";
 
+/*
+ * Site-wide metadata only. Title, description, canonical, and OG/Twitter
+ * are set per route (see src/lib/metadata.ts) so "/" and "/fence" don't
+ * compete for the same canonical.
+ */
 export const metadata: Metadata = {
-  metadataBase: new URL(vertical.business.url),
-  title: vertical.seo.title,
-  description: vertical.seo.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: vertical.seo.title,
-    description: vertical.seo.description,
-    url: "/",
-    siteName: vertical.business.name,
-    type: "website",
-    locale: "en_US",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: vertical.business.name }],
+  metadataBase: new URL(general.business.url),
+  title: {
+    default: general.seo.title,
+    template: `%s | ${general.business.shortName}`,
   },
-  twitter: {
-    card: "summary_large_image",
-    title: vertical.seo.title,
-    description: vertical.seo.description,
-    images: ["/og-image.png"],
-  },
+  description: general.seo.description,
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },

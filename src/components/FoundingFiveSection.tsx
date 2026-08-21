@@ -14,6 +14,7 @@ export function FoundingFiveSection({
   spotsRemaining: number;
 }) {
   const { foundingFive } = vertical;
+  if (foundingFive === null) return null;
 
   return (
     <section className="cv-auto bg-paper py-16 md:py-28">

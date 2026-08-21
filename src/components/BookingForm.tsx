@@ -11,13 +11,14 @@ import type { FormContent } from "@content/verticals/types";
  * routes to /thanks on success. No other data is collected.
  */
 
-type FieldName = "name" | "company" | "phone" | "email" | "estimates";
+type FieldName = "name" | "company" | "phone" | "email" | "trade" | "estimates";
 
 const FIELD_ORDER: FieldName[] = [
   "name",
   "company",
   "phone",
   "email",
+  "trade",
   "estimates",
 ];
 
@@ -43,6 +44,9 @@ function validateField(field: FieldName, raw: string): string | null {
         return "Enter an email address like name@company.com.";
       }
       return null;
+    // Optional: it's market research, not a qualifier. Never block on it.
+    case "trade":
+      return null;
     case "estimates":
       return value ? null : "Choose an option.";
   }
@@ -58,6 +62,7 @@ export function BookingForm({ form }: { form: FormContent }) {
     company: "",
     phone: "",
     email: "",
+    trade: "",
     estimates: "",
   });
   const [website, setWebsite] = useState(""); // honeypot
@@ -72,6 +77,7 @@ export function BookingForm({ form }: { form: FormContent }) {
     company: null,
     phone: null,
     email: null,
+    trade: null,
     estimates: null,
   });
 
@@ -112,6 +118,7 @@ export function BookingForm({ form }: { form: FormContent }) {
           company: values.company.trim(),
           phone: values.phone.trim(),
           email: values.email.trim(),
+          trade: values.trade.trim(),
           estimates: values.estimates,
           website,
         }),
@@ -211,6 +218,32 @@ export function BookingForm({ form }: { form: FormContent }) {
         {textField("phone", form.phoneLabel, "tel", "tel")}
         {textField("email", form.emailLabel, "email", "email")}
       </div>
+
+      {/* Free text, not a dropdown — a dropdown is always missing someone's
+          trade, and what they type is useful market research. Omitted on a
+          vertical that already knows the answer. */}
+      {form.tradeField && (
+        <div>
+          <label
+            htmlFor="book-trade"
+            className="eyebrow block text-[12px] text-on-dark"
+          >
+            {form.tradeField.label}
+          </label>
+          <input
+            ref={(el) => {
+              fieldRefs.current.trade = el;
+            }}
+            id="book-trade"
+            name="trade"
+            type="text"
+            placeholder={form.tradeField.placeholder}
+            value={values.trade}
+            onChange={(e) => handleChange("trade", e.target.value)}
+            className={`${inputBase} border-white/15 placeholder:text-fog`}
+          />
+        </div>
+      )}
 
       <div>
         <label

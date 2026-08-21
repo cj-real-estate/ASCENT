@@ -10,6 +10,8 @@ import type { Vertical } from "@content/verticals/types";
  */
 export function HowItWorksSection({ vertical }: { vertical: Vertical }) {
   const { howItWorks } = vertical;
+  // Verticals that fold these steps into the install owner-card omit it.
+  if (howItWorks === null) return null;
 
   return (
     <section className="cv-auto bg-paper py-16 md:py-28">

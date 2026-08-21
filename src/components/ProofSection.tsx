@@ -2,7 +2,12 @@ import Image from "next/image";
 import type { Vertical } from "@content/verticals/types";
 
 /*
- * Proof section — light (bg-paper). Server component.
+ * Proof section — light. Server component.
+ *
+ * Background is Surface here: this section has no eyebrow, so it is the one
+ * light section where the gray band costs no contrast (Orange Deep is
+ * 4.43:1 on Surface). Stat numbers are ≥34px, where plain Orange clears the
+ * 3:1 large-text floor on Surface.
  * Three stats on hairline rules (instrument panel, not cards), an
  * attribution line beneath, and — once supplied — ad-account screenshots.
  * attributionLine === null renders a VISIBLE placeholder on purpose
@@ -12,9 +17,17 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
   const { proof } = vertical;
 
   return (
-    <section className="cv-auto bg-paper py-16 md:py-28">
+    <section className="cv-auto bg-surface py-16 md:py-28">
       <div className="section-shell">
         <h2 className="sr-only">{proof.srHeading}</h2>
+
+        {/* Names the trade the case came from, on pages whose reader is in
+            some other trade. Never genericised into "a client". */}
+        {proof.framingLine && (
+          <p className="mb-10 max-w-[60ch] text-[20px] font-semibold text-ink md:text-[26px]">
+            {proof.framingLine}
+          </p>
+        )}
 
         <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
           {proof.stats.map((stat) => (

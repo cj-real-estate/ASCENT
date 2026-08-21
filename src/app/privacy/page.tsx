@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import fence from "@content/verticals/fence";
+import general from "@content/verticals/general";
 
 /*
  * Privacy policy — short, plain-English, and scoped to exactly what the site
@@ -10,14 +10,14 @@ import fence from "@content/verticals/fence";
  */
 
 export const metadata: Metadata = {
-  title: `Privacy | ${fence.business.name}`,
+  title: `Privacy | ${general.business.name}`,
 };
 
 const h2Class = "display mt-10 text-[20px] text-ink md:text-[26px]";
 const pClass = "mt-4 text-[17px] text-ink";
 
 export default function PrivacyPage() {
-  const { business } = fence;
+  const { business } = general;
   const contact = business.email ?? null;
 
   return (

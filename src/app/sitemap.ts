@@ -1,22 +1,25 @@
 import type { MetadataRoute } from "next";
-import vertical from "@content/verticals/fence";
+import { verticals } from "@content/verticals";
 
 /*
- * Only "/" and "/privacy" are listed. "/thanks" is a post-submit
- * confirmation page and is deliberately excluded (noindexed).
+ * Every vertical plus "/privacy". "/thanks" is a post-submit confirmation
+ * page and is deliberately excluded (noindexed). New verticals appear here
+ * automatically by registering in content/verticals/index.ts.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = vertical.business.url;
+  const base = verticals[0].business.url;
+  const lastModified = new Date();
   return [
-    {
-      url: `${base}/`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
+    ...verticals.map((v) => ({
+      url: `${base}${v.path}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      // The brand page is the canonical entry point; verticals just under.
+      priority: v.path === "/" ? 1 : 0.9,
+    })),
     {
       url: `${base}/privacy`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "yearly",
       priority: 0.3,
     },

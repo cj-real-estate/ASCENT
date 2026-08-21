@@ -1,38 +1,19 @@
-import vertical, { foundingSpotsRemaining } from "@content/verticals/fence";
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import ProblemSection from "@/components/ProblemSection";
-import ProofSection from "@/components/ProofSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import PricingSection from "@/components/PricingSection";
-import GuaranteesSection from "@/components/GuaranteesSection";
-import FoundingFiveSection from "@/components/FoundingFiveSection";
-import BookingSection from "@/components/BookingSection";
-import Footer from "@/components/Footer";
-import JsonLd from "@/components/JsonLd";
+import type { Metadata } from "next";
+import general from "@content/verticals/general";
+import { foundingSpotsRemaining } from "@content/verticals/fence";
+import VerticalPage from "@/components/VerticalPage";
+import { verticalMetadata } from "@/lib/metadata";
+
+/*
+ * The brand page. Broad and institutional: it exists so someone who already
+ * heard the name believes Ascent is a real firm and books the audit.
+ * Outbound traffic should go to /fence instead — a one-trade pitch converts
+ * better than a trade-agnostic one.
+ */
+export const metadata: Metadata = verticalMetadata(general);
 
 export default function Home() {
   return (
-    <>
-      <JsonLd vertical={vertical} />
-      <Header vertical={vertical} />
-      <main>
-        <Hero vertical={vertical} />
-        <ProblemSection vertical={vertical} />
-        <ProofSection vertical={vertical} />
-        <HowItWorksSection vertical={vertical} />
-        <PricingSection vertical={vertical} />
-        <GuaranteesSection vertical={vertical} />
-        <FoundingFiveSection
-          vertical={vertical}
-          spotsRemaining={foundingSpotsRemaining}
-        />
-        <BookingSection
-          vertical={vertical}
-          spotsRemaining={foundingSpotsRemaining}
-        />
-      </main>
-      <Footer vertical={vertical} />
-    </>
+    <VerticalPage vertical={general} spotsRemaining={foundingSpotsRemaining} />
   );
 }

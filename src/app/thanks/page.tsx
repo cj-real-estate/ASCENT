@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import fence from "@content/verticals/fence";
+import general from "@content/verticals/general";
 
 /*
  * Post-submission confirmation. Dark full-height page, noindex — it only
@@ -8,12 +8,12 @@ import fence from "@content/verticals/fence";
  */
 
 export const metadata: Metadata = {
-  title: `Request received | ${fence.business.name}`,
+  title: `Request received | ${general.business.name}`,
   robots: { index: false },
 };
 
 export default function ThanksPage() {
-  const { thanks } = fence;
+  const { thanks } = general;
 
   return (
     <main

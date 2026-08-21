@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import fence from "@content/verticals/fence";
+import general from "@content/verticals/general";
 
 /*
  * Booking form endpoint. Validates the five known fields (same rules as the
@@ -58,6 +59,7 @@ export async function POST(request: Request) {
   const phone = readString(body, "phone");
   const email = readString(body, "email");
   const estimates = readString(body, "estimates");
+  const trade = readString(body, "trade");
   const honeypot = readString(body, "website");
 
   // Honeypot filled: pretend success, send nothing.
@@ -70,6 +72,7 @@ export async function POST(request: Request) {
     ["Company", company],
     ["Phone", phone],
     ["Email", email],
+    ["Trade", trade],
   ] as const) {
     if (value.length > MAX_FIELD_LENGTH) {
       return bad(`${label} must be ${MAX_FIELD_LENGTH} characters or fewer.`);
@@ -86,8 +89,13 @@ export async function POST(request: Request) {
   if (!EMAIL_RE.test(email)) {
     return bad("Enter an email address like name@company.com.");
   }
-  const knownOptions = fence.booking.form.estimatesSelectOptions;
-  if (!knownOptions.includes(estimates)) {
+  // Accept the options offered by any vertical, so a page added later
+  // doesn't start silently rejecting its own form.
+  const knownOptions = new Set([
+    ...fence.booking.form.estimatesSelectOptions,
+    ...general.booking.form.estimatesSelectOptions,
+  ]);
+  if (!knownOptions.has(estimates)) {
     return bad("Choose one of the estimate-volume options.");
   }
 
@@ -102,6 +110,7 @@ export async function POST(request: Request) {
         company,
         phone,
         email,
+        trade,
         estimates,
       });
       return NextResponse.json({ ok: true });
@@ -114,6 +123,8 @@ export async function POST(request: Request) {
     `Company: ${company}`,
     `Phone: ${phone}`,
     `Email: ${email}`,
+    // Only present on trade-agnostic pages; useful market research.
+    ...(trade ? [`Trade: ${trade}`] : []),
     `${fence.booking.form.estimatesSelectLabel}: ${estimates}`,
   ].join("\n");
 

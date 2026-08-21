@@ -15,6 +15,7 @@ export const foundingSpotsRemaining: number = 5;
 
 const fence: Vertical = {
   slug: "fence",
+  path: "/fence",
 
   business: {
     name: "Ascent Client Acquisition Systems",
@@ -106,6 +107,8 @@ const fence: Vertical = {
 
   proof: {
     srHeading: "Results",
+    // Same trade as the reader's — no framing needed.
+    framingLine: null,
     stats: [
       {
         number: "$13.33",
@@ -129,6 +132,9 @@ const fence: Vertical = {
     screenshots: [],
   },
 
+  // Fence uses the standalone three-step section below.
+  install: null,
+
   howItWorks: {
     eyebrow: "WHAT YOU ACTUALLY DO",
     h2: "Three things. That's your whole job.",
@@ -151,6 +157,8 @@ const fence: Vertical = {
   },
 
   pricing: {
+    // No eyebrow: this section sits on Surface, where Orange Deep is 4.43:1.
+    eyebrow: null,
     h2: "What it costs",
     cards: [
       {
@@ -176,6 +184,12 @@ const fence: Vertical = {
         line: "Everything in Core, plus higher spend management, call review, and pipeline reporting.",
       },
     ],
+    // Fence carries the full three-guarantee section instead.
+    guaranteeLine: null,
+    background: "surface",
+    // Fence has its own Founding Five section further down.
+    showFoundingSpots: false,
+    foundingSpotsSuffix: "of 5 founding spots remaining",
     note: "Founding rates hold until the fifth spot fills. After that the Sprint is $2,500 and retainers go up — founding clients keep their rate for as long as they stay.",
   },
 
@@ -222,6 +236,7 @@ const fence: Vertical = {
       phoneLabel: "Phone",
       emailLabel: "Email",
       estimatesSelectLabel: "Roughly how many estimates do you write a month",
+      tradeField: null,
       estimatesSelectOptions: [
         "Fewer than 10",
         "10–25",
