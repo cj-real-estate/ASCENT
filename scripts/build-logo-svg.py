@@ -40,11 +40,11 @@ _vb = re.search(r"viewBox:\s*\{\s*w:\s*(\d+),\s*h:\s*(\d+)", _assets)
 MARK_W, MARK_H = int(_vb.group(1)), int(_vb.group(2))
 
 # --- lockup metrics, proportional to the mark -------------------------------
-GAP = 68           # mark -> wordmark
-WORD_CAP = 144     # ASCENT cap height
-WORD_BASE = 197    # ASCENT baseline
-TAG_CAP = 22       # tagline cap height
-TAG_BASE = 248     # tagline baseline
+GAP = 70           # mark -> wordmark
+WORD_CAP = 149     # ASCENT cap height
+WORD_BASE = 204    # ASCENT baseline
+TAG_CAP = 23       # tagline cap height
+TAG_BASE = 257     # tagline baseline
 
 
 def glyph_run(font_path, text):
@@ -89,7 +89,7 @@ def mark_svg(outer_fill, inner_fill):
         f'<mask id="gap" maskUnits="userSpaceOnUse" x="0" y="0" '
         f'width="{MARK_W}" height="{MARK_H}">'
         f'<rect x="0" y="0" width="{MARK_W}" height="{MARK_H}" fill="#fff"/>'
-        f'<path d="{MARK_INNER}" fill="#000" stroke="#000" stroke-width="16" '
+        f'<path d="{MARK_INNER}" fill="#000" stroke="#000" stroke-width="19" '
         f'stroke-linejoin="round"/></mask>'
         f'<path fill="{outer_fill}" d="{MARK_OUTER}" mask="url(#gap)"/>'
         f'<path fill="{inner_fill}" d="{MARK_INNER}"/>'

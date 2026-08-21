@@ -33,14 +33,14 @@ const WHITE = "#FFFFFF";
 
 /*
  * The two-chevron mark, copied EXACTLY from src/components/Logo.tsx.
- * viewBox 0 0 277 260 — outer chevron up-left, inner chevron offset
+ * viewBox 0 0 285 269 — outer chevron up-left, inner chevron offset
  * down-right with its apex tucked into the outer's notch.
  * Future vector swap: edit these two path strings (and Logo.tsx) only.
  */
 const CHEVRONS = {
-  viewBox: { w: 277, h: 260 },
-  outer: "M138.5,0 L277,205 L200,205 L138.5,114 L77,205 L0,205 Z",
-  inner: "M169.5,108 L272,260 L215,260 L169.5,192.5 L124,260 L67,260 Z",
+  viewBox: { w: 285, h: 269 },
+  outer: "M0,210 L131.92,14.91 Q142,0 152.08,14.91 L284,210 L206,210 L149.56,126.54 Q142,115.35 134.44,126.54 L78,210 Z",
+  inner: "M30,269 L146.04,97.26 Q155,84 163.96,97.26 L280,269 L205,269 L161.72,204.94 Q155,195 148.28,204.94 L105,269 Z",
 };
 
 /**
@@ -57,7 +57,7 @@ function markPaths(outerFill, innerFill, idSuffix = "m") {
   const { w, h } = CHEVRONS.viewBox;
   return `<mask id="gap-${idSuffix}" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}">
       <rect x="0" y="0" width="${w}" height="${h}" fill="#fff"/>
-      <path d="${CHEVRONS.inner}" fill="#000" stroke="#000" stroke-width="16" stroke-linejoin="round"/>
+      <path d="${CHEVRONS.inner}" fill="#000" stroke="#000" stroke-width="19" stroke-linejoin="round"/>
     </mask>
     <path d="${CHEVRONS.outer}" fill="${outerFill}" mask="url(#gap-${idSuffix})"/>
     <path d="${CHEVRONS.inner}" fill="${innerFill}"/>`;

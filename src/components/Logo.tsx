@@ -15,8 +15,8 @@ import { useId } from "react";
 
 /** Mark geometry — mirrored in scripts/generate-assets.mjs and
  *  scripts/build-logo-svg.py. Change all three together. */
-const OUTER = "M138.5,0 L277,205 L200,205 L138.5,114 L77,205 L0,205 Z";
-const INNER = "M169.5,108 L272,260 L215,260 L169.5,192.5 L124,260 L67,260 Z";
+const OUTER = "M0,210 L131.92,14.91 Q142,0 152.08,14.91 L284,210 L206,210 L149.56,126.54 Q142,115.35 134.44,126.54 L78,210 Z";
+const INNER = "M30,269 L146.04,97.26 Q155,84 163.96,97.26 L280,269 L205,269 L161.72,204.94 Q155,195 148.28,204.94 L105,269 Z";
 
 export function AscentMark({
   variant = "onLight",
@@ -32,7 +32,7 @@ export function AscentMark({
   const maskId = useId();
   return (
     <svg
-      viewBox="0 0 277 260"
+      viewBox="0 0 285 269"
       className={className}
       role={title ? "img" : undefined}
       aria-hidden={title ? undefined : true}
@@ -43,9 +43,9 @@ export function AscentMark({
           into a single blob — the exact failure the brand guide calls out
           ("the inner chevron disappears"). Transparent, not painted, so it
           works on Ink, Graphite, or a photo alike. */}
-      <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="277" height="260">
-        <rect x="0" y="0" width="277" height="260" fill="#fff" />
-        <path d={INNER} fill="#000" stroke="#000" strokeWidth="16" strokeLinejoin="round" />
+      <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="285" height="269">
+        <rect x="0" y="0" width="285" height="269" fill="#fff" />
+        <path d={INNER} fill="#000" stroke="#000" strokeWidth="19" strokeLinejoin="round" />
       </mask>
       {/* outer chevron — orange, upper-left */}
       <path d={OUTER} fill={outer} mask={`url(#${maskId})`} />
