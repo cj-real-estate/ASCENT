@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { archivo, plexSans, plexMono } from "./fonts";
 import general from "@content/verticals/general";
+import GoogleTag from "@/components/GoogleTag";
 import "./globals.css";
 
 /*
@@ -33,6 +34,7 @@ export default function RootLayout({
         className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} bg-paper text-ink antialiased`}
       >
         {children}
+        <GoogleTag />
       </body>
     </html>
   );

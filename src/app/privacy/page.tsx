@@ -3,7 +3,7 @@ import general from "@content/verticals/general";
 
 /*
  * Privacy policy — short, plain-English, and scoped to exactly what the site
- * actually does: cookieless Vercel Web Analytics plus one booking form that
+ * actually does: Vercel Web Analytics, the Google Ads tag, and one booking form that
  * turns into an email. No boilerplate for things that don't happen here.
  * The contact email is DECISION #3 (null today) and renders as a visible
  * placeholder per build-notes convention.
@@ -29,13 +29,12 @@ export default function PrivacyPage() {
           </h1>
           <p className="mt-4 text-[14px] text-slate">
             {business.name} · {business.city}, {business.region} · Effective
-            August 20, 2026
+            August 21, 2026
           </p>
 
           <p className={pClass}>
-            This is a static marketing site. It doesn&apos;t use accounts,
-            logins, or tracking cookies, and this page describes everything it
-            collects.
+            This is a static marketing site. It doesn&apos;t use accounts or
+            logins, and this page describes everything it collects.
           </p>
 
           <h2 className={h2Class}>Visit analytics</h2>
@@ -44,6 +43,23 @@ export default function PrivacyPage() {
             cookieless visit metrics — things like page views, referrers, and
             country. It doesn&apos;t identify you, and it doesn&apos;t follow
             you across other sites.
+          </p>
+
+          <h2 className={h2Class}>Advertising</h2>
+          <p className={pClass}>
+            {business.shortName} advertises on Google. The site loads
+            Google&apos;s advertising tag (gtag.js), which sets cookies in your
+            browser so Google can tell whether someone who clicked an ad went
+            on to request an audit. That is what the tag is for — measuring ads
+            we paid for. You can opt out of personalized Google advertising at{" "}
+            <a
+              href="https://myadcenter.google.com"
+              className="text-orange-deep underline"
+              rel="noreferrer"
+            >
+              myadcenter.google.com
+            </a>
+            , and most browsers let you block or clear these cookies outright.
           </p>
 
           <h2 className={h2Class}>The booking form</h2>
@@ -59,8 +75,9 @@ export default function PrivacyPage() {
 
           <h2 className={h2Class}>What we don&apos;t do</h2>
           <p className={pClass}>
-            We don&apos;t sell your data. We don&apos;t use advertising
-            cookies. We don&apos;t use tracking cookies of any kind.
+            We don&apos;t sell your data. Beyond the Google advertising tag
+            described above, we don&apos;t set tracking cookies, and nothing on
+            this site follows you around the web on our behalf.
           </p>
 
           <h2 className={h2Class}>Questions or deletion</h2>

@@ -136,6 +136,26 @@ off to the ink chevron; and the gap between the chevrons is **part of the
 outline**, not a mask, which is what keeps the all-white reverse legible
 instead of merging into one blob.
 
+## Analytics and the Google Ads tag
+
+`src/components/GoogleTag.tsx` loads the Google Ads global site tag
+(`AW-18403357820`) via `next/script` with `afterInteractive`, so it stays off
+the critical path the hero calculator and LCP depend on. It is skipped when
+`NODE_ENV === "development"`, so `npm run dev` never fires conversions.
+
+**It does load on Vercel preview deployments.** If you would rather it fired
+only on ascentcas.com, change the guard to
+`process.env.VERCEL_ENV !== "production"` — at the cost that the tag then
+silently stops firing anywhere that variable isn't set.
+
+The tag sets advertising cookies, which is why `/privacy` names Google Ads and
+links to Google's opt-out. **If the tag is ever removed, correct that page
+too** — it currently states that these cookies exist.
+
+Vercel Web Analytics is described on `/privacy` but the `@vercel/analytics`
+package is not installed, so it is not actually collecting anything. Either
+install it or drop that paragraph.
+
 ## Deploying and connecting the domain
 
 See `DEPLOY.md` for the Vercel import + GoDaddy DNS runbook for
