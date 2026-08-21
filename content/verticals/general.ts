@@ -196,7 +196,7 @@ const general: Vertical = {
     // the named company, market, and dates are what make the three stats
     // above verifiable rather than assertions.
     attributionLine:
-      "Results from Prestige Fence, Oklahoma City — August 1–19, 2026.",
+      "Results from Prestige Fence, Oklahoma City — August 1–30, 2026.",
     // DECISION #2 — ad-account screenshots, once cleared for publication.
     screenshots: [],
   },
