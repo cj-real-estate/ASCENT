@@ -181,7 +181,7 @@ const fence: Vertical = {
       {
         name: "Full Revenue System",
         price: "$4,000/mo + ad spend",
-        line: "Everything in Core, plus higher spend management, call review, and pipeline reporting.",
+        line: "Everything in Core, plus higher spend management and pipeline reporting.",
       },
     ],
     // Fence carries the full three-guarantee section instead.
