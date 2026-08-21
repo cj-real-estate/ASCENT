@@ -107,18 +107,34 @@ geometry and everything else is generated from it. Downloadable files live in
 The wordmark in these files is **outlined, not live text**, so a print shop,
 Illustrator, or a shirt vendor renders them correctly with no font installed.
 
-**The mark geometry lives in three places and they must change together:**
-`src/components/Logo.tsx`, `scripts/generate-assets.mjs`, and
-`scripts/build-logo-svg.py`. After any change:
+### Where the mark comes from
+
+The delivered artwork is raster only — even the Canva `.svg` export wraps a
+308×297 PNG in a luminance mask rather than carrying real paths. So the vector
+mark is **traced from the raster**, not redrawn by eye:
 
 ```bash
-npm run generate:assets                 # favicons + OG image
-python3 scripts/build-logo-svg.py       # brand/*.svg  (pip install fonttools brotli)
+python3 scripts/trace-mark.py      # brand/source/*.png -> brand/mark-paths.json
+npm run generate:assets            # favicons + OG image
+python3 scripts/build-logo-svg.py  # brand/*.svg
+# both python scripts need: pip install numpy pillow fonttools brotli
 ```
 
-A transparent channel is knocked out of the outer chevron wherever the inner
-one crosses it. Without it the all-white reverse merges into a single blob and
-the inner chevron disappears — the failure the brand guide calls out in §2.
+`scripts/trace-mark.py` classifies the orange and ink pixels, traces each
+region's boundary, least-squares fits a line to every straight edge, intersects
+consecutive lines for the ideal corners, fits a circle at each rounded corner
+for its true fillet radius, and emits lines plus exact circular arcs. The
+result matches the source raster to within antialiasing.
+
+**`brand/mark-paths.json` is the single source of truth.** `Logo.tsx`,
+`generate-assets.mjs`, and `build-logo-svg.py` all read it — never hand-edit
+path data, re-run the tracer.
+
+Two things about the artwork worth knowing, because both look like bugs:
+the orange chevron's **right arm stops short** by design, handing the diagonal
+off to the ink chevron; and the gap between the chevrons is **part of the
+outline**, not a mask, which is what keeps the all-white reverse legible
+instead of merging into one blob.
 
 ## Deploying and connecting the domain
 

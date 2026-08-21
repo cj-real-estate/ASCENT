@@ -1,22 +1,21 @@
-import { useId } from "react";
-
 /*
- * Ascent mark + lockup, rebuilt as vector.
+ * Ascent mark + lockup.
  *
- * The delivered brand assets are raster-only (see docs/ascent-brand-style-guide.md
- * §2 — "Still needed: vector"). The mark here is an SVG recreation of the two
- * stacked chevrons: outer orange, inner ink, offset and rising. When the client
- * supplies the official .svg lockup, swap it in here and regenerate the icons
- * (npm run generate:assets).
+ * The mark geometry is GENERATED from the delivered raster artwork by
+ * scripts/trace-mark.py and lives in brand/mark-paths.json — the single
+ * source of truth shared with scripts/generate-assets.mjs and
+ * scripts/build-logo-svg.py. Never hand-edit the path data; re-run the
+ * tracer instead.
+ *
+ * The transparent channel between the two chevrons is part of the traced
+ * outline, so two plain filled paths reproduce the artwork exactly and the
+ * all-white reverse keeps both chevrons legible with no mask involved.
  *
  * variant "onLight" → orange + ink (use on Paper or Surface only)
  * variant "onDark"  → all white reverse (use on Ink or Graphite)
  */
 
-/** Mark geometry — mirrored in scripts/generate-assets.mjs and
- *  scripts/build-logo-svg.py. Change all three together. */
-const OUTER = "M0,210 L131.92,14.91 Q142,0 152.08,14.91 L284,210 L206,210 L149.56,126.54 Q142,115.35 134.44,126.54 L78,210 Z";
-const INNER = "M30,269 L146.04,97.26 Q155,84 163.96,97.26 L280,269 L205,269 L161.72,204.94 Q155,195 148.28,204.94 L105,269 Z";
+import markPaths from "@/../brand/mark-paths.json";
 
 export function AscentMark({
   variant = "onLight",
@@ -29,29 +28,18 @@ export function AscentMark({
 }) {
   const outer = variant === "onDark" ? "#FFFFFF" : "var(--orange, #F05E23)";
   const inner = variant === "onDark" ? "#FFFFFF" : "var(--ink, #1F1F1F)";
-  const maskId = useId();
   return (
     <svg
-      viewBox="0 0 285 269"
+      viewBox={`0 0 ${markPaths.width} ${markPaths.height}`}
       className={className}
       role={title ? "img" : undefined}
       aria-hidden={title ? undefined : true}
       aria-label={title}
     >
-      {/* A transparent channel is knocked out of the outer chevron wherever
-          the inner one crosses it. Without it the all-white reverse merges
-          into a single blob — the exact failure the brand guide calls out
-          ("the inner chevron disappears"). Transparent, not painted, so it
-          works on Ink, Graphite, or a photo alike. */}
-      <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="285" height="269">
-        <rect x="0" y="0" width="285" height="269" fill="#fff" />
-        <path d={INNER} fill="#000" stroke="#000" strokeWidth="19" strokeLinejoin="round" />
-      </mask>
-      {/* outer chevron — orange, upper-left */}
-      <path d={OUTER} fill={outer} mask={`url(#${maskId})`} />
-      {/* inner chevron — ink, ~0.74x, offset down-right, apex tucked into
-          the orange notch and dropping below its baseline */}
-      <path d={INNER} fill={inner} />
+      {/* outer chevron — orange; its right arm stops short by design */}
+      <path d={markPaths.outer} fill={outer} />
+      {/* inner chevron — ink, offset down-right and dropping below */}
+      <path d={markPaths.inner} fill={inner} />
     </svg>
   );
 }

@@ -32,35 +32,28 @@ const INK = "#1F1F1F";
 const WHITE = "#FFFFFF";
 
 /*
- * The two-chevron mark, copied EXACTLY from src/components/Logo.tsx.
- * viewBox 0 0 285 269 — outer chevron up-left, inner chevron offset
- * down-right with its apex tucked into the outer's notch.
- * Future vector swap: edit these two path strings (and Logo.tsx) only.
+ * Mark geometry, GENERATED from the delivered raster by scripts/trace-mark.py.
+ * brand/mark-paths.json is the single source of truth, shared with
+ * src/components/Logo.tsx and scripts/build-logo-svg.py. Re-run the tracer
+ * rather than editing path data by hand.
  */
-const CHEVRONS = {
-  viewBox: { w: 285, h: 269 },
-  outer: "M0,210 L131.92,14.91 Q142,0 152.08,14.91 L284,210 L206,210 L149.56,126.54 Q142,115.35 134.44,126.54 L78,210 Z",
-  inner: "M30,269 L146.04,97.26 Q155,84 163.96,97.26 L280,269 L205,269 L161.72,204.94 Q155,195 148.28,204.94 L105,269 Z",
-};
+const CHEVRONS = JSON.parse(
+  readFileSync(path.join(ROOT, "brand", "mark-paths.json"), "utf8"),
+);
+CHEVRONS.viewBox = { w: CHEVRONS.width, h: CHEVRONS.height };
 
 /**
  * Square SVG with the mark centered, scaled to fit inside `size` minus
  * `padFrac` padding on each side. `bg` null → transparent.
  */
 /*
- * The mark, with a transparent channel knocked out of the outer chevron
- * wherever the inner one crosses it. Without it the all-white reverse merges
- * into a single blob and the inner chevron disappears (brand guide §2).
- * `idSuffix` keeps mask ids unique when several marks share one document.
+ * The mark: two plain filled paths. The gap between the chevrons is part of
+ * the traced outline, so no mask is needed and the all-white reverse keeps
+ * both chevrons legible.
  */
-function markPaths(outerFill, innerFill, idSuffix = "m") {
-  const { w, h } = CHEVRONS.viewBox;
-  return `<mask id="gap-${idSuffix}" maskUnits="userSpaceOnUse" x="0" y="0" width="${w}" height="${h}">
-      <rect x="0" y="0" width="${w}" height="${h}" fill="#fff"/>
-      <path d="${CHEVRONS.inner}" fill="#000" stroke="#000" stroke-width="19" stroke-linejoin="round"/>
-    </mask>
-    <path d="${CHEVRONS.outer}" fill="${outerFill}" mask="url(#gap-${idSuffix})"/>
-    <path d="${CHEVRONS.inner}" fill="${innerFill}"/>`;
+function markPaths(outerFill, innerFill) {
+  return `<path d="${CHEVRONS.outer}" fill="${outerFill}"/>` +
+    `<path d="${CHEVRONS.inner}" fill="${innerFill}"/>`;
 }
 
 function markSvg({ size, padFrac, outerFill, innerFill, bg = null }) {
@@ -73,7 +66,7 @@ function markSvg({ size, padFrac, outerFill, innerFill, bg = null }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   ${rect}
   <g transform="translate(${tx} ${ty}) scale(${scale})">
-    ${markPaths(outerFill, innerFill, "icon")}
+    ${markPaths(outerFill, innerFill)}
   </g>
 </svg>`;
 }
@@ -109,7 +102,7 @@ function ogHtml() {
   const archivo = pathToFileURL(path.join(FONTS, "archivo-800.woff2"));
   const plexMono = pathToFileURL(path.join(FONTS, "plex-mono-500.woff2"));
   const mark = `<svg width="176" height="150" viewBox="0 0 ${CHEVRONS.viewBox.w} ${CHEVRONS.viewBox.h}" xmlns="http://www.w3.org/2000/svg">
-    ${markPaths(WHITE, WHITE, "og")}
+    ${markPaths(WHITE, WHITE)}
   </svg>`;
   return `<!doctype html>
 <html>
