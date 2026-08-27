@@ -5,6 +5,7 @@ import general from "@content/verticals/general";
 import { AscentLockup } from "@/components/Logo";
 import QualifyFlow from "@/components/QualifyFlow";
 import { toQualifyFlowProps } from "@/lib/qualify";
+import TrustBanner from "@/components/TrustBanner";
 
 /*
  * /apply — the destination for paid and social traffic. Deliberately bare:
@@ -69,6 +70,8 @@ export default function ApplyPage() {
         <div className="mt-12 md:mt-16">
           <QualifyFlow flow={toQualifyFlowProps(general)} />
         </div>
+
+        <TrustBanner items={general.qualification.trustItems} />
 
         <div className="mt-16 flex flex-wrap items-center gap-x-6 border-t border-white/10 pt-4 text-[14px] text-fog">
           <p>

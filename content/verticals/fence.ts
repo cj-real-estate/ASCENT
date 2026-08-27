@@ -359,6 +359,11 @@ const fence: Vertical = {
     // this screen should be able to tell exactly what would change the answer.
     declineBody:
       "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work, and that’s where the money in it comes from. Your answers still landed in front of Caleb, and if he sees something worth flagging you’ll hear from him. In the meantime, the calculator at the top of this page shows where the numbers start to work.",
+    trustItems: [
+      "30 minutes. No cost. You keep the report either way.",
+      "5 booked estimate appointments from your dead list in 30 days, or a full refund — in writing.",
+      "65 fence leads in 19 days on $866 of ad spend — Prestige Fence, Oklahoma City.",
+    ],
   },
 
   // /apply is the brand page — it runs on general.ts, not on this vertical.

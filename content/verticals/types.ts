@@ -138,6 +138,12 @@ export interface QualificationContent {
   /** Shown instead of the scheduler after a non-qualifying submit. */
   declineHeading: string;
   declineBody: string;
+  /**
+   * The trust strip under the gate — short, checkable claims only (the
+   * no-cost promise, the written guarantee, a real attributed result).
+   * Never badges, logos, or anything the site can't back.
+   */
+  trustItems: string[];
 }
 
 export interface ApplyPageContent {

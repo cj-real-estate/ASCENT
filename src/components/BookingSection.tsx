@@ -1,6 +1,7 @@
 import type { Vertical } from "@content/verticals/types";
 import QualifyFlow from "./QualifyFlow";
 import { toQualifyFlowProps } from "@/lib/qualify";
+import TrustBanner from "./TrustBanner";
 
 /*
  * Booking section (§9) — dark (bg-ink), `data-dark` so the global focus ring
@@ -40,6 +41,8 @@ export function BookingSection({
         <div className="mt-10">
           <QualifyFlow flow={toQualifyFlowProps(vertical)} />
         </div>
+
+        <TrustBanner items={vertical.qualification.trustItems} />
       </div>
     </section>
   );

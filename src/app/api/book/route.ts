@@ -5,7 +5,9 @@ import { fence, general, verticals } from "@content/verticals";
  * Booking endpoint. Validates the contact fields (same rules as the client),
  * drops honeypot submissions silently, and forwards the lead as a plain-text
  * email via the Resend HTTP API — no SDK, no persistence, no cookies. In
- * production, PII is never logged; it only travels in the email.
+ * production, PII reaches the function log only in one case: the email leg
+ * failed on a gate submission, and logging the lead is the only way not to
+ * lose it (see recoverLead below).
  *
  * Two payload shapes arrive here:
  *
@@ -205,22 +207,35 @@ export async function POST(request: Request) {
   const toEmail = process.env.BOOKING_TO_EMAIL;
   const fromEmail = process.env.BOOKING_FROM_EMAIL ?? "onboarding@resend.dev";
 
+  /* The email is the lead RECORD, not the product. For gate submissions a
+   * failed email leg must never block a qualified prospect from the
+   * calendar: the lead is written to the function log for recovery (the one
+   * deliberate exception to the no-PII-in-logs rule — losing the lead is
+   * worse), the visitor proceeds on the server's verdict, and a qualified
+   * lead who books is caught by Calendly's own booking notification anyway.
+   * Legacy form posts keep the honest failure: the email IS their only
+   * outcome, so pretending success would silently drop the lead. */
+  const recoverLead = () => {
+    console.error("[LEAD_EMAIL_FAILED] recover from this log entry:", {
+      subject,
+      text,
+    });
+    return NextResponse.json({ ok: true, ...gate });
+  };
+
   if (!apiKey || !toEmail) {
     if (process.env.NODE_ENV !== "production") {
       console.log("[/api/book] email not configured — payload:", {
-        name,
-        company,
-        phone,
-        email,
-        trade,
-        estimates,
+        subject,
+        text,
       });
       return NextResponse.json({ ok: true, ...gate });
     }
+    if (isQualification) return recoverLead();
     return bad("Booking isn't wired up yet — call or email us instead.", 503);
   }
 
-  let sendResponse: Response;
+  let sendResponse: Response | null = null;
   try {
     sendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -236,13 +251,11 @@ export async function POST(request: Request) {
       }),
     });
   } catch {
-    return bad(
-      "Sending failed on our end. Try again in a minute, or call or email us instead.",
-      502,
-    );
+    sendResponse = null;
   }
 
-  if (!sendResponse.ok) {
+  if (!sendResponse || !sendResponse.ok) {
+    if (isQualification) return recoverLead();
     return bad(
       "Sending failed on our end. Try again in a minute, or call or email us instead.",
       502,
