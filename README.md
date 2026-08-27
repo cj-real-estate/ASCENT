@@ -56,10 +56,29 @@ and the booking headline switch to the "filled / waitlist" framing.
 > below). If that's wrong, fix it before launch — an inaccurate scarcity
 > counter torches the site's credibility.
 
-## Booking form email
+## The qualification gate and /apply
 
-The fallback booking form posts to `/api/book`, which emails the lead via
-Resend. Configure in Vercel (see `.env.example`):
+Nobody reaches the Calendly scheduler without answering the ICP questions
+first. `QualifyFlow` (the client island inside every booking section, and the
+whole of `/apply` — the bare landing page for social/paid CTAs) posts contact
+info + answers to `/api/book`. The lead is emailed in BOTH cases — subject
+"Qualified lead — …" or "Lead (below ICP) — …" — and only a qualifying
+verdict gets the calendar.
+
+Two things are deliberate about the wiring:
+
+- **Which answers qualify lives in `content/verticals/*.ts`** (the
+  `qualifies` flag per option). Tune thresholds there; a prospect passes only
+  if every chosen option qualifies.
+- **The flags and the Calendly URL never reach the browser.** Client props
+  are serialized into view-source, so `src/lib/qualify.ts` strips both, and
+  `/api/book` recomputes the verdict server-side and returns the scheduling
+  link only on a pass. Don't hand a client component the whole `Vertical` —
+  that's how they'd leak.
+
+## Booking email
+
+`/api/book` emails leads via Resend. Configure in Vercel (see `.env.example`):
 
 - `RESEND_API_KEY`
 - `BOOKING_TO_EMAIL` — where leads land
@@ -88,6 +107,8 @@ content module for `DECISION`:
    page, and JSON-LD pick them up automatically.
    *(Supplied 2026-08-21: 580-304-8470 / caleb@ascentcas.com.)*
 4. **Cal.com vs Calendly + scheduling link** (`booking.schedulingLink`).
+   *(Resolved: Calendly, wired 2026-08-22 — now revealed only after
+   qualification.)*
 5. **Current founding-spots count** (`foundingSpotsRemaining`).
 6. Whether founding pricing stays published at launch (currently: yes).
 

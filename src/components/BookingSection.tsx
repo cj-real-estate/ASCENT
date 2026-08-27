@@ -1,16 +1,20 @@
 import type { Vertical } from "@content/verticals/types";
-import BookingForm from "./BookingForm";
-import CalendlyConversion from "./CalendlyConversion";
+import QualifyFlow from "./QualifyFlow";
+import { toQualifyFlowProps } from "@/lib/qualify";
 
 /*
  * Booking section (§9) — dark (bg-ink), `data-dark` so the global focus ring
- * stays visible. Server component; the form itself is the client island.
+ * stays visible. Server component; QualifyFlow is the client island.
  *
- * Copy comes from the vertical content module verbatim. When
- * `spotsRemaining` is 0 the waitlist headline is used. When the vertical has
- * a scheduling link, the embed is the primary path and the form renders
- * beneath it; while the link is null (DECISION #4 pending) a visible mono
- * placeholder marks the gap and the form is the only path.
+ * There is no ungated calendar on this page any more. The ICP questions come
+ * first: QualifyFlow renders the qualification form, and the scheduler is
+ * revealed only after a submit where every chosen option carries
+ * `qualifies: true`. A non-qualifying submit gets the decline copy instead of
+ * a calendar — the lead still reaches the inbox, it just doesn't get a call.
+ * Which answers pass is tuned in `vertical.qualification`, never here.
+ *
+ * Copy comes from the vertical content module verbatim. When `spotsRemaining`
+ * is 0 the waitlist headline is used.
  */
 export function BookingSection({
   vertical,
@@ -33,32 +37,9 @@ export function BookingSection({
           {booking.body}
         </p>
 
-        {booking.schedulingLink ? (
-          <>
-            <CalendlyConversion />
-            {/* 700px is Calendly's own minimum for the inline calendar —
-                below it the widget scrolls internally on mobile. Lazy because
-                the section sits well below the fold. */}
-            <iframe
-              src={booking.schedulingLink}
-              title="Scheduling calendar"
-              loading="lazy"
-              className="mt-10 min-h-[700px] w-full rounded-md border border-white/15 bg-paper"
-            />
-            <div className="mt-12">
-              <BookingForm form={booking.form} />
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="mt-10 font-mono text-[12px] text-fog">
-              [SCHEDULING EMBED — Cal.com vs Calendly + link pending]
-            </p>
-            <div className="mt-6">
-              <BookingForm form={booking.form} />
-            </div>
-          </>
-        )}
+        <div className="mt-10">
+          <QualifyFlow flow={toQualifyFlowProps(vertical)} />
+        </div>
       </div>
     </section>
   );

@@ -109,6 +109,45 @@ export interface FormContent {
   submittingLabel: string;
 }
 
+export interface QualifyOption {
+  label: string;
+  /** Choosing this option keeps the prospect inside the ICP. */
+  qualifies: boolean;
+}
+
+export interface QualifyQuestion {
+  /** Stable key used in the lead email, e.g. "estimatesPerMonth". */
+  key: string;
+  label: string;
+  options: QualifyOption[];
+}
+
+export interface QualificationContent {
+  nameLabel: string;
+  companyLabel: string;
+  phoneLabel: string;
+  emailLabel: string;
+  questions: QualifyQuestion[];
+  submitLabel: string;
+  submittingLabel: string;
+  /** Shown above the scheduler after a qualifying submit. */
+  passHeading: string;
+  passBody: string;
+  /** Pass state when booking.schedulingLink is null — no scheduler to show. */
+  passFallbackBody: string;
+  /** Shown instead of the scheduler after a non-qualifying submit. */
+  declineHeading: string;
+  declineBody: string;
+}
+
+export interface ApplyPageContent {
+  seoTitle: string;
+  seoDescription: string;
+  eyebrow: string;
+  h1: string;
+  sub: string;
+}
+
 export interface Vertical {
   slug: string;
   /** Route this vertical is served at — used for canonicals and the sitemap. */
@@ -247,6 +286,14 @@ export interface Vertical {
     form: FormContent;
   };
 
+  /** ICP gate in front of the scheduler. A prospect qualifies only when every
+   *  chosen option has qualifies: true. Thresholds are tuned here, in content,
+   *  never in components. */
+  qualification: QualificationContent;
+
+  /** The standalone social-CTA page at /apply. null on verticals without one. */
+  applyPage: ApplyPageContent | null;
+
   thanks: {
     h1: string;
     body: string[];
@@ -256,5 +303,7 @@ export interface Vertical {
   footer: {
     tagline: string;
     locationLine: string;
+    /** Label of the /privacy link — rendered in the Footer and on /apply. */
+    privacyLabel: string;
   };
 }

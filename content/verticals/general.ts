@@ -269,6 +269,103 @@ const general: Vertical = {
     },
   },
 
+  // The ICP gate that sits in front of the scheduler on /apply.
+  //
+  // A prospect qualifies only when EVERY option they choose carries
+  // `qualifies: true` — one false answer anywhere routes them to the decline
+  // copy instead of the calendar. Every threshold in here (the estimate
+  // floor, the list size, the investment level) is tuned in this file and
+  // nowhere else; the component only reads flags and counts them.
+  qualification: {
+    nameLabel: "Name",
+    companyLabel: "Company",
+    phoneLabel: "Phone",
+    emailLabel: "Email",
+    questions: [
+      {
+        key: "businessType",
+        label: "What kind of business do you run?",
+        options: [
+          {
+            label:
+              "A service business that quotes jobs before doing them — fencing, roofing, HVAC, concrete, remodeling, that world",
+            qualifies: true,
+          },
+          {
+            label: "A service business with set prices — no quotes or estimates",
+            qualifies: false,
+          },
+          {
+            label: "Something else",
+            qualifies: false,
+          },
+        ],
+      },
+      {
+        key: "estimatesPerMonth",
+        label: "Roughly how many estimates do you write a month?",
+        options: [
+          { label: "Fewer than 10", qualifies: false },
+          { label: "10–25", qualifies: true },
+          { label: "25–50", qualifies: true },
+          { label: "50–100", qualifies: true },
+          { label: "More than 100", qualifies: true },
+        ],
+      },
+      {
+        key: "leadHistory",
+        label: "How many past leads and old estimates do you have on record?",
+        options: [
+          { label: "Under 50", qualifies: false },
+          { label: "50–150", qualifies: true },
+          { label: "150–500", qualifies: true },
+          { label: "More than 500", qualifies: true },
+        ],
+      },
+      {
+        key: "investment",
+        label:
+          "The Sprint is $1,500 and ongoing systems run $2,500–$4,000 a month. If your audit shows the numbers work, is that something you could invest in?",
+        options: [
+          { label: "Yes — if the numbers make sense", qualifies: true },
+          { label: "Not at that level right now", qualifies: false },
+        ],
+      },
+      {
+        key: "decisionMaker",
+        label: "Are you the owner?",
+        options: [
+          { label: "Yes", qualifies: true },
+          { label: "No — I work for the owner", qualifies: false },
+        ],
+      },
+    ],
+    submitLabel: "See if we’re a fit",
+    submittingLabel: "Sending…",
+    passHeading: "You’re a fit.",
+    passBody:
+      "Grab a time below — thirty minutes, your real numbers, and you keep the report either way.",
+    // Used when booking.schedulingLink is null and there is no calendar to
+    // put under the pass state.
+    passFallbackBody:
+      "Your request is in. You’ll get a call or a text within one business day to set a time.",
+    declineHeading: "A call isn’t the right next step yet.",
+    // Honest, not discouraging, and no fake encouragement. Someone who gets
+    // this screen should be able to tell exactly what would change the answer.
+    declineBody:
+      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work, and that’s where the money in it comes from. Your answers still landed in front of Caleb, and if he sees something worth flagging you’ll hear from him. In the meantime, the pipeline calculator at the top of ascentcas.com shows where the numbers start to work.",
+  },
+
+  applyPage: {
+    seoTitle:
+      "Apply for the Free Pipeline Audit | Ascent Client Acquisition Systems",
+    seoDescription:
+      "Answer a few questions, and if we’re a fit, book a free 30-minute pipeline audit that finds the revenue sitting in your old estimates.",
+    eyebrow: "THE FREE PIPELINE AUDIT",
+    h1: "Find out how much revenue is sitting in your old estimates.",
+    sub: "Answer five quick questions. If we’re a fit you’ll book your 30-minute audit on the next screen — and you keep the report either way.",
+  },
+
   thanks: {
     h1: "Your request is in.",
     body: [
@@ -281,6 +378,7 @@ const general: Vertical = {
   footer: {
     tagline: "Ascent Client Acquisition Systems",
     locationLine: "Oklahoma City, OK",
+    privacyLabel: "Privacy",
   },
 };
 

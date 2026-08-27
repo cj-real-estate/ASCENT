@@ -1,12 +1,25 @@
 import { NextResponse } from "next/server";
-import fence from "@content/verticals/fence";
-import general from "@content/verticals/general";
+import { fence, general, verticals } from "@content/verticals";
 
 /*
- * Booking form endpoint. Validates the five known fields (same rules as the
- * client), drops honeypot submissions silently, and forwards the lead as a
- * plain-text email via the Resend HTTP API — no SDK, no persistence, no
- * cookies. In production, PII is never logged; it only travels in the email.
+ * Booking endpoint. Validates the contact fields (same rules as the client),
+ * drops honeypot submissions silently, and forwards the lead as a plain-text
+ * email via the Resend HTTP API — no SDK, no persistence, no cookies. In
+ * production, PII is never logged; it only travels in the email.
+ *
+ * Two payload shapes arrive here:
+ *
+ *   current — { name, company, phone, email, vertical, answers } from the
+ *   qualification gate. Every question the named vertical asks must be
+ *   answered with one of the option labels that vertical actually offers,
+ *   and the ICP verdict is recomputed here from the content module's
+ *   `qualifies` flags. The client never sends a verdict and would not be
+ *   believed if it did — the flags are the thresholds, and they live in
+ *   content.
+ *
+ *   legacy — { name, company, phone, email, trade, estimates } from the old
+ *   booking form, still posted by cached copies of pages that shipped before
+ *   the gate. Validated and emailed exactly as it always was.
  */
 
 export const runtime = "nodejs";
@@ -16,6 +29,16 @@ const MAX_FIELD_LENGTH = 200;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_CHARS_RE = /^\+?[\d\s()\-.]+$/;
+
+/* One message for every way the answer set can come back unusable — missing,
+ * blank, or not a label this vertical offers. It says the one thing the
+ * person can act on and nothing about which question failed. */
+const INCOMPLETE_ANSWERS = "Answer every question.";
+
+/* Slug → vertical, built from the registry so a vertical added later is
+ * gated by its own questions without this route being edited. An unknown or
+ * missing slug falls back to the brand page's question set. */
+const VERTICALS_BY_SLUG = new Map(verticals.map((entry) => [entry.slug, entry]));
 
 function bad(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
@@ -60,11 +83,13 @@ export async function POST(request: Request) {
   const email = readString(body, "email");
   const estimates = readString(body, "estimates");
   const trade = readString(body, "trade");
+  const verticalSlug = readString(body, "vertical");
   const honeypot = readString(body, "website");
 
-  // Honeypot filled: pretend success, send nothing.
+  // Honeypot filled: pretend success, send nothing. The fake verdict is
+  // "below ICP" so a bot never sees a scheduling link.
   if (honeypot) {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, qualified: false });
   }
 
   for (const [label, value] of [
@@ -89,14 +114,91 @@ export async function POST(request: Request) {
   if (!EMAIL_RE.test(email)) {
     return bad("Enter an email address like name@company.com.");
   }
-  // Accept the options offered by any vertical, so a page added later
-  // doesn't start silently rejecting its own form.
-  const knownOptions = new Set([
-    ...fence.booking.form.estimatesSelectOptions,
-    ...general.booking.form.estimatesSelectOptions,
-  ]);
-  if (!knownOptions.has(estimates)) {
-    return bad("Choose one of the estimate-volume options.");
+
+  // `answers` present at all means the qualification payload. A malformed
+  // value there is a failed submission, never a reason to fall back to the
+  // legacy shape.
+  const isQualification = "answers" in body;
+
+  let subject: string;
+  let text: string;
+  /* Echoed to the client so the gate can branch without ever holding the
+   * `qualifies` flags. The scheduling link rides along ONLY on a qualifying
+   * verdict — a declined response never contains it, so a declined visitor's
+   * page never does either. */
+  let gate: { qualified: boolean; schedulingLink?: string } | null = null;
+
+  if (isQualification) {
+    const config = VERTICALS_BY_SLUG.get(verticalSlug) ?? general;
+    const answers = body.answers;
+    if (
+      typeof answers !== "object" ||
+      answers === null ||
+      Array.isArray(answers)
+    ) {
+      return bad(INCOMPLETE_ANSWERS);
+    }
+    const submitted = answers as Record<string, unknown>;
+
+    const answerLines: string[] = [];
+    let qualified = true;
+
+    for (const question of config.qualification.questions) {
+      const value = readString(submitted, question.key);
+      // Exact match against a label this vertical actually offers. Anything
+      // else — missing, blank, hand-edited, or copied from another vertical
+      // — fails the submission rather than being scored as a miss.
+      const option = question.options.find((item) => item.label === value);
+      if (!option) return bad(INCOMPLETE_ANSWERS);
+      answerLines.push(`${question.label}: ${option.label}`);
+      // AND across every question: one false flag is below ICP.
+      if (!option.qualifies) qualified = false;
+    }
+
+    gate = qualified
+      ? {
+          qualified,
+          ...(config.booking.schedulingLink
+            ? { schedulingLink: config.booking.schedulingLink }
+            : {}),
+        }
+      : { qualified };
+
+    subject = qualified
+      ? `Qualified lead — ${name}`
+      : `Lead (below ICP) — ${name}`;
+    text = [
+      `Name: ${name}`,
+      `Company: ${company}`,
+      `Phone: ${phone}`,
+      `Email: ${email}`,
+      "",
+      ...answerLines,
+      "",
+      qualified
+        ? "Verdict: QUALIFIED — send the calendar"
+        : "Verdict: BELOW ICP — no call booked",
+    ].join("\n");
+  } else {
+    // Accept the options offered by any vertical, so a page added later
+    // doesn't start silently rejecting its own form.
+    const knownOptions = new Set(
+      verticals.flatMap((entry) => entry.booking.form.estimatesSelectOptions),
+    );
+    if (!knownOptions.has(estimates)) {
+      return bad("Choose one of the estimate-volume options.");
+    }
+
+    subject = `Pipeline audit request — ${name}, ${company}`;
+    text = [
+      `Name: ${name}`,
+      `Company: ${company}`,
+      `Phone: ${phone}`,
+      `Email: ${email}`,
+      // Only present on trade-agnostic pages; useful market research.
+      ...(trade ? [`Trade: ${trade}`] : []),
+      `${fence.booking.form.estimatesSelectLabel}: ${estimates}`,
+    ].join("\n");
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -113,20 +215,10 @@ export async function POST(request: Request) {
         trade,
         estimates,
       });
-      return NextResponse.json({ ok: true });
+      return NextResponse.json({ ok: true, ...gate });
     }
     return bad("Booking isn't wired up yet — call or email us instead.", 503);
   }
-
-  const text = [
-    `Name: ${name}`,
-    `Company: ${company}`,
-    `Phone: ${phone}`,
-    `Email: ${email}`,
-    // Only present on trade-agnostic pages; useful market research.
-    ...(trade ? [`Trade: ${trade}`] : []),
-    `${fence.booking.form.estimatesSelectLabel}: ${estimates}`,
-  ].join("\n");
 
   let sendResponse: Response;
   try {
@@ -139,7 +231,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         from: fromEmail,
         to: toEmail,
-        subject: `Pipeline audit request — ${name}, ${company}`,
+        subject,
         text,
       }),
     });
@@ -157,5 +249,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, ...gate });
 }

@@ -19,7 +19,11 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
         </div>
 
         <div className="lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:row-start-1">
-          <Calculator vertical={vertical} />
+          <Calculator
+            calculator={vertical.calculator}
+            ctaLabel={vertical.hero.cta}
+            ctaMicrocopy={vertical.hero.microcopy}
+          />
         </div>
 
         {/* Standalone CTA lives in the left column on desktop only — on

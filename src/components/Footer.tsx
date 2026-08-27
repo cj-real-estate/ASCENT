@@ -51,7 +51,7 @@ export function Footer({ vertical }: { vertical: Vertical }) {
             href="/privacy"
             className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
           >
-            Privacy
+            {footer.privacyLabel}
           </a>
         </p>
 

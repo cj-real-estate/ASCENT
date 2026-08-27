@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import type { CalculatorField, Vertical } from "@content/verticals/types";
+import type { CalculatorContent, CalculatorField } from "@content/verticals/types";
 import { computePipeline } from "@/lib/calculator";
 import { formatUSD, interpolate } from "@/lib/format";
 
@@ -131,9 +131,22 @@ function FieldRow({
   );
 }
 
-export default function Calculator({ vertical }: { vertical: Vertical }) {
-  const { fields, outputLabel, secondaryLine, assumptionLine } =
-    vertical.calculator;
+/*
+ * Client props are serialized into the page source, so this component takes
+ * only the slices it renders — never the whole Vertical, which would ship
+ * the qualification gate's `qualifies` flags and the scheduling link to
+ * every visitor in view-source.
+ */
+export default function Calculator({
+  calculator,
+  ctaLabel,
+  ctaMicrocopy,
+}: {
+  calculator: CalculatorContent;
+  ctaLabel: string;
+  ctaMicrocopy: string;
+}) {
+  const { fields, outputLabel, secondaryLine, assumptionLine } = calculator;
 
   const [estimatesPerMonth, setEstimatesPerMonth] = useState(
     fields.estimatesPerMonth.defaultValue,
@@ -234,12 +247,12 @@ export default function Calculator({ vertical }: { vertical: Vertical }) {
           href="#book"
           className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center rounded-md bg-orange px-6 font-semibold text-ink hover:bg-orange-deep hover:text-paper md:w-auto"
         >
-          {vertical.hero.cta}
+          {ctaLabel}
         </a>
         {/* On mobile this card's CTA is the hero CTA, so the microcopy
             rides under it; on desktop it sits under the left-column CTA. */}
         <p className="eyebrow mt-4 !text-[12px] text-fog lg:hidden">
-          {vertical.hero.microcopy}
+          {ctaMicrocopy}
         </p>
       </div>
     </div>
