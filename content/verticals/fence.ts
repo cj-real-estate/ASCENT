@@ -297,7 +297,7 @@ const fence: Vertical = {
   // floor, the list size, the investment level) is tuned in this file and
   // nowhere else; the component only reads flags and counts them.
   //
-  // Four questions, not five: general.ts opens with "what kind of business do
+  // One fewer question than general.ts, which opens with "what kind of business do
   // you run?" and this page cannot. Anyone reading a page addressed to fence
   // companies has already answered it, and asking again reads as broken.
   qualification: {
@@ -325,6 +325,19 @@ const fence: Vertical = {
           { label: "50–150", qualifies: true },
           { label: "150–500", qualifies: true },
           { label: "More than 500", qualifies: true },
+        ],
+      },
+      {
+        key: "monthlyRevenue",
+        label: "Roughly how much revenue do you do a month?",
+        // Under $20K/mo, a $2,500/mo system is more than a tenth of top-line
+        // revenue — the audit wouldn’t pay for itself yet. Everything
+        // above that passes; the investment question below does the rest.
+        options: [
+          { label: "Under $20K", qualifies: false },
+          { label: "$20K–$50K", qualifies: true },
+          { label: "$50K–$100K", qualifies: true },
+          { label: "More than $100K", qualifies: true },
         ],
       },
       {

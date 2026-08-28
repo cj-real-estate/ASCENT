@@ -323,6 +323,19 @@ const general: Vertical = {
         ],
       },
       {
+        key: "monthlyRevenue",
+        label: "Roughly how much revenue do you do a month?",
+        // Under $20K/mo, a $2,500/mo system is more than a tenth of top-line
+        // revenue — the audit wouldn’t pay for itself yet. Everything
+        // above that passes; the investment question below does the rest.
+        options: [
+          { label: "Under $20K", qualifies: false },
+          { label: "$20K–$50K", qualifies: true },
+          { label: "$50K–$100K", qualifies: true },
+          { label: "More than $100K", qualifies: true },
+        ],
+      },
+      {
         key: "investment",
         label:
           "The Sprint is $1,500 and ongoing systems run $2,500–$4,000 a month. If your audit shows the numbers work, is that something you could invest in?",
@@ -368,7 +381,7 @@ const general: Vertical = {
       "Answer a few questions, and if we’re a fit, book a free 30-minute pipeline audit that finds the revenue sitting in your old estimates.",
     eyebrow: "THE FREE PIPELINE AUDIT",
     h1: "Find out how much revenue is sitting in your old estimates.",
-    sub: "Answer five quick questions. If we’re a fit you’ll book your 30-minute audit on the next screen — and you keep the report either way.",
+    sub: "Answer six quick questions. If we’re a fit you’ll book your 30-minute audit on the next screen — and you keep the report either way.",
   },
 
   thanks: {
