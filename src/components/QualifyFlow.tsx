@@ -70,6 +70,24 @@ function formatPhone(raw: string): string {
   return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
 }
 
+/*
+ * Calendly prefills its "Enter Details" step from `name` and `email` query
+ * params, so a lead who already typed both into the gate never types them
+ * twice. Appended client-side after the verdict comes back — the link still
+ * only ever arrives via the /api/book response, never in page source.
+ */
+function withCalendlyPrefill(
+  link: string,
+  name: string,
+  email: string,
+): string {
+  const parts: string[] = [];
+  if (name) parts.push(`name=${encodeURIComponent(name)}`);
+  if (email) parts.push(`email=${encodeURIComponent(email)}`);
+  if (parts.length === 0) return link;
+  return `${link}${link.includes("?") ? "&" : "?"}${parts.join("&")}`;
+}
+
 const inputBase =
   "mt-2 w-full min-h-[44px] rounded-md border bg-graphite px-4 py-2 text-[17px] text-paper";
 
@@ -248,7 +266,11 @@ export function QualifyFlow({
           // keep the defaults
         }
         cancelConversion.current = trackLeadConversion("form");
-        setSchedulingLink(qualified ? link : null);
+        setSchedulingLink(
+          qualified && link
+            ? withCalendlyPrefill(link, values.name.trim(), values.email.trim())
+            : null,
+        );
         setStage(qualified ? "pass" : "declined");
         return;
       }
