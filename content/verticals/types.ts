@@ -204,6 +204,17 @@ export interface Vertical {
 
   calculator: CalculatorContent;
 
+  /**
+   * The section that hosts the calculator now that it no longer lives in
+   * the hero — the hero sells the system, this section quantifies the
+   * problem right after it's described.
+   */
+  calculatorSection: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+  };
+
   problem: {
     eyebrow: string;
     h2: string;

@@ -44,7 +44,9 @@ const fence: Vertical = {
     eyebrow: "GROWTH SYSTEMS FOR FENCE COMPANIES · OKLAHOMA CITY",
     h1: "You don't have a lead problem. You have a lead-handling problem.",
     h1Highlight: "lead-handling problem.",
-    sub: "Most fence companies in Oklahoma are sitting on six figures of quoted work that never got a second call. Put your numbers in and see what yours looks like.",
+    // Outcome-led: the hero sells the installed system; the audit and the
+    // calculator make their case further down the page.
+    sub: "Ascent installs the whole machine for fence companies — the website, the ads, the CRM, and follow-up that runs on every quote until it closes or dies for a real reason. You run the estimates. We run everything else.",
     cta: "Book the free pipeline audit",
     microcopy: "30 minutes. No cost. You keep the report either way.",
   },
@@ -93,6 +95,13 @@ const fence: Vertical = {
       "That's {valueUnclosed} of work you already quoted and never closed. The number above assumes you re-close it at half your normal rate.",
     assumptionLine:
       "Conservative by design. Half your close rate, applied only to work you already quoted. Your audit uses your real records, not these sliders.",
+  },
+
+  calculatorSection: {
+    eyebrow: "RUN YOUR OWN NUMBERS",
+    h2: "What’s sitting in your dead estimate list?",
+    // Relocated hero copy — it was written for the calculator.
+    sub: "Most fence companies in Oklahoma are sitting on six figures of quoted work that never got a second call. Put your numbers in and see what yours looks like.",
   },
 
   problem: {

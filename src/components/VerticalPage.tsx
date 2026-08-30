@@ -8,6 +8,7 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import PricingSection from "@/components/PricingSection";
 import GuaranteesSection from "@/components/GuaranteesSection";
 import FoundingFiveSection from "@/components/FoundingFiveSection";
+import CalculatorSection from "@/components/CalculatorSection";
 import CtaBand from "@/components/CtaBand";
 import FaqSection from "@/components/FaqSection";
 import BookingSection from "@/components/BookingSection";
@@ -34,6 +35,8 @@ export function VerticalPage({
       <main>
         <Hero vertical={vertical} />
         <ProblemSection vertical={vertical} />
+        {/* Quantify the problem the moment it's been described */}
+        <CalculatorSection vertical={vertical} />
         {/* Everything we sell; carries the owner card where the page
             has no standalone three-step section */}
         <ServicesSection vertical={vertical} />
