@@ -260,6 +260,40 @@ const fence: Vertical = {
     filledLine: "All five founding spots are filled",
   },
 
+
+  /*
+   * Every answer below restates facts already published on this page —
+   * the four pricing tiers, the three written guarantees, the Founding
+   * Five cap. Nothing new is claimed here; if a fact changes above,
+   * change it here too.
+   */
+  faq: {
+    eyebrow: "QUESTIONS OWNERS ACTUALLY ASK",
+    h2: "Before you book.",
+    items: [
+      {
+        q: "What actually happens on the audit call?",
+        a: "Thirty minutes. We go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire us or not.",
+      },
+      {
+        q: "What does it cost?",
+        a: "The audit is free. The 30-Day Dead-Estimate Revival Sprint is $1,500 at the founding rate ($2,500 after). The Core Growth System runs $2,500 a month and the Full Revenue System $4,000 a month plus ad spend — month to month, and founding rates hold until the fifth spot fills.",
+      },
+      {
+        q: "What if it doesn’t work?",
+        a: "Three guarantees, in writing: at least 5 booked estimate appointments from your dead list in 30 days or a full refund; live within 14 days of getting access and assets or your next month of management is free; and a qualified-opportunities number for your first 60 days, set from your own records, or we manage your campaigns free until you hit it. The conditions are spelled out in the proposal before you sign anything.",
+      },
+      {
+        q: "How much of my time does this take?",
+        a: "Three things: call the leads who reply, run the estimate, and tap the outcome in the CRM. Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
+      },
+      {
+        q: "Why only five clients?",
+        a: "One person runs the delivery, so five is the cap — not a marketing device. Founding clients get the discounted Sprint, a rate locked for as long as they stay, and more attention than anyone who signs later will get.",
+      },
+    ],
+  },
+
   booking: {
     eyebrow: "THE FREE PIPELINE AUDIT",
     h2: "Find out what's actually in your pipeline.",
@@ -358,6 +392,11 @@ const fence: Vertical = {
         ],
       },
     ],
+    stepLabel: "Step {n} of {total}",
+    backLabel: "Back",
+    continueLabel: "Continue",
+    contactHeading: "Last step — where does the report go?",
+    contactSub: "Your audit report and, if we’re a fit, your booking link.",
     submitLabel: "See if we’re a fit",
     submittingLabel: "Sending…",
     passHeading: "You’re a fit.",

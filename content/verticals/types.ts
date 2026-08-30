@@ -128,6 +128,14 @@ export interface QualificationContent {
   phoneLabel: string;
   emailLabel: string;
   questions: QualifyQuestion[];
+  /** Progress line above the card — "{n}" and "{total}" are replaced. */
+  stepLabel: string;
+  backLabel: string;
+  continueLabel: string;
+  /** Heading + line on the final (contact) card. Contact comes last on
+   *  purpose: painless multiple-choice first, details once invested. */
+  contactHeading: string;
+  contactSub: string;
   submitLabel: string;
   submittingLabel: string;
   /** Shown above the scheduler after a qualifying submit. */
@@ -299,6 +307,17 @@ export interface Vertical {
 
   /** The standalone social-CTA page at /apply. null on verticals without one. */
   applyPage: ApplyPageContent | null;
+
+  /**
+   * Accordion FAQ, rendered before the booking section. Answers must be
+   * assembled from facts already published on the page — pricing,
+   * guarantees, the owner's three jobs — never new claims. null omits it.
+   */
+  faq: {
+    eyebrow: string;
+    h2: string;
+    items: { q: string; a: string }[];
+  } | null;
 
   thanks: {
     h1: string;

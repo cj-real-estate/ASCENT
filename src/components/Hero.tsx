@@ -7,9 +7,20 @@ import Calculator from "@/components/Calculator";
  * Desktop: 12-col grid, copy left (~5 cols), calculator card right (~7 cols).
  */
 export default function Hero({ vertical }: { vertical: Vertical }) {
+  const stats = vertical.proof.stats;
   return (
-    <section id="top" data-dark className="bg-ink py-16 md:py-24">
-      <div className="section-shell grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-10">
+    <section id="top" data-dark className="relative overflow-hidden bg-ink py-16 md:py-24">
+      {/* One quiet orange glow behind the calculator card. Decorative,
+          brand-palette only, and cheap — a radial gradient, no images. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 -top-40 h-[560px] w-[560px] rounded-full opacity-[0.14]"
+        style={{
+          background:
+            "radial-gradient(closest-side, var(--orange), transparent 70%)",
+        }}
+      />
+      <div className="section-shell relative grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-10">
         <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
           <p className="eyebrow text-orange">{vertical.hero.eyebrow}</p>
           <h1 className="display mt-5 text-[34px] text-paper min-[380px]:text-[40px] md:text-[54px] xl:text-[62px]">
@@ -38,6 +49,24 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
           </a>
           <p className="eyebrow mt-4 !text-[12px] text-fog">{vertical.hero.microcopy}</p>
         </div>
+      </div>
+
+      {/* Numbers strip — the proof section's own stats, compressed to a
+          single row so there's a real result above the fold. The full
+          presentation (framing + attribution) still lives in ProofSection. */}
+      <div className="section-shell relative mt-12 md:mt-16">
+        <ul className="grid gap-6 border-t border-white/10 pt-8 sm:grid-cols-3 sm:gap-8">
+          {stats.map((stat) => (
+            <li key={stat.number}>
+              <p className="readout text-[22px] text-orange md:text-[26px]">
+                {stat.number}
+              </p>
+              <p className="mt-1 max-w-[30ch] text-[13px] leading-snug text-fog">
+                {stat.label}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

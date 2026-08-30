@@ -177,3 +177,15 @@ html {
   content-visibility: auto;
   contain-intrinsic-size: auto 700px;
 }
+
+/* Wizard card entrance — gated behind motion-safe: in the component. */
+@keyframes qualify-card {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

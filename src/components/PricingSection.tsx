@@ -53,8 +53,8 @@ export function PricingSection({
                 key={card.name}
                 className={
                   dark
-                    ? "rounded-lg border border-ink bg-ink p-6"
-                    : "rounded-lg border border-line bg-paper p-6"
+                    ? "rounded-lg border border-ink bg-ink p-6 motion-safe:transition-transform motion-safe:hover:-translate-y-1"
+                    : "rounded-lg border border-line bg-paper p-6 motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-slate"
                 }
               >
                 <h3

@@ -76,6 +76,14 @@ Two things are deliberate about the wiring:
   link only on a pass. Don't hand a client component the whole `Vertical` —
   that's how they'd leak.
 
+## Leads → Google Sheet + email
+
+Every submission can also be appended to the **Ascent Leads** Google Sheet
+and trigger a Gmail notification, via a small Apps Script webhook —
+`docs/GOOGLE-SHEET-SETUP.md` has the 5-minute setup (script, deploy steps,
+`LEADS_WEBHOOK_URL` / `LEADS_WEBHOOK_SECRET` env vars). The site never
+blocks on it; failures log as `[LEAD_WEBHOOK_FAILED]`.
+
 ## Booking email
 
 `/api/book` emails leads via Resend. Configure in Vercel (see `.env.example`):

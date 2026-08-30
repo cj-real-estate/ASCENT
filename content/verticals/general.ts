@@ -236,6 +236,40 @@ const general: Vertical = {
   // The scarcity line lives in the pricing section on this page.
   foundingFive: null,
 
+
+  /*
+   * Every answer below restates facts already published on this page —
+   * pricing cards, the guarantee line, the owner-card steps, the proof
+   * attribution. Nothing new is claimed here; if a fact changes above,
+   * change it here too.
+   */
+  faq: {
+    eyebrow: "QUESTIONS OWNERS ACTUALLY ASK",
+    h2: "Before you book.",
+    items: [
+      {
+        q: "What actually happens on the audit call?",
+        a: "Thirty minutes. We go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire us or not.",
+      },
+      {
+        q: "What does it cost?",
+        a: "The audit is free. The 30-Day Revival Sprint is $1,500 at the founding rate ($2,500 after), and ongoing systems run from $2,500 a month, month to month. You get a number in writing after the audit — not before.",
+      },
+      {
+        q: "What if the Sprint doesn’t work?",
+        a: "If it doesn’t book at least 5 estimate appointments from your old list in 30 days, you get a full refund. That’s in writing.",
+      },
+      {
+        q: "How much of my time does this take?",
+        a: "Three things: call the leads who reply, run the estimate, and tap the outcome in the CRM. Everything else is installed and operated by us.",
+      },
+      {
+        q: "Do you only work with fence companies?",
+        a: "No. The published results came from Prestige Fence in Oklahoma City, and the same mechanism runs for any business that quotes jobs before doing them — fencing, roofing, HVAC, concrete, remodeling, that world.",
+      },
+    ],
+  },
+
   booking: {
     eyebrow: "THE FREE PIPELINE AUDIT",
     h2: "Find out what's actually in your pipeline.",
@@ -358,6 +392,11 @@ const general: Vertical = {
         ],
       },
     ],
+    stepLabel: "Step {n} of {total}",
+    backLabel: "Back",
+    continueLabel: "Continue",
+    contactHeading: "Last step — where does the report go?",
+    contactSub: "Your audit report and, if we’re a fit, your booking link.",
     submitLabel: "See if we’re a fit",
     submittingLabel: "Sending…",
     passHeading: "You’re a fit.",

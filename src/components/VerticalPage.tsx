@@ -8,6 +8,7 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import PricingSection from "@/components/PricingSection";
 import GuaranteesSection from "@/components/GuaranteesSection";
 import FoundingFiveSection from "@/components/FoundingFiveSection";
+import FaqSection from "@/components/FaqSection";
 import BookingSection from "@/components/BookingSection";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -44,6 +45,8 @@ export function VerticalPage({
           vertical={vertical}
           spotsRemaining={spotsRemaining}
         />
+        {/* Objections answered right before the ask */}
+        <FaqSection vertical={vertical} />
         <BookingSection vertical={vertical} spotsRemaining={spotsRemaining} />
       </main>
       <Footer vertical={vertical} />

@@ -46,6 +46,46 @@ function bad(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
 }
 
+/*
+ * Second, independent lead sink: a Google Apps Script web app that appends
+ * the lead to the "Ascent Leads" sheet and sends the owner a Gmail
+ * notification (see docs/GOOGLE-SHEET-SETUP.md). Fire-and-forget with a
+ * hard timeout — a slow or broken sheet must never block a prospect, so a
+ * failure only logs. The shared secret is checked by the script; this is
+ * routing, not authentication.
+ */
+async function postLeadWebhook(record: {
+  verdict: string;
+  name: string;
+  company: string;
+  phone: string;
+  email: string;
+  page: string;
+  answers: Record<string, string>;
+}): Promise<void> {
+  const url = process.env.LEADS_WEBHOOK_URL;
+  if (!url) return;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        secret: process.env.LEADS_WEBHOOK_SECRET ?? "",
+        ...record,
+      }),
+      signal: AbortSignal.timeout(4000),
+      // Apps Script answers through a redirect; follow it or the POST
+      // reports failure even when the row landed.
+      redirect: "follow",
+    });
+    if (!res.ok) {
+      console.error("[LEAD_WEBHOOK_FAILED] status", res.status);
+    }
+  } catch (error) {
+    console.error("[LEAD_WEBHOOK_FAILED]", error);
+  }
+}
+
 function readString(source: Record<string, unknown>, key: string): string {
   const value = source[key];
   return typeof value === "string" ? value.trim() : "";
@@ -129,6 +169,7 @@ export async function POST(request: Request) {
    * verdict — a declined response never contains it, so a declined visitor's
    * page never does either. */
   let gate: { qualified: boolean; schedulingLink?: string } | null = null;
+  let gateAnswers: Record<string, string> = {};
 
   if (isQualification) {
     const config = VERTICALS_BY_SLUG.get(verticalSlug) ?? general;
@@ -143,6 +184,7 @@ export async function POST(request: Request) {
     const submitted = answers as Record<string, unknown>;
 
     const answerLines: string[] = [];
+    const answersByKey: Record<string, string> = {};
     let qualified = true;
 
     for (const question of config.qualification.questions) {
@@ -153,10 +195,12 @@ export async function POST(request: Request) {
       const option = question.options.find((item) => item.label === value);
       if (!option) return bad(INCOMPLETE_ANSWERS);
       answerLines.push(`${question.label}: ${option.label}`);
+      answersByKey[question.key] = option.label;
       // AND across every question: one false flag is below ICP.
       if (!option.qualifies) qualified = false;
     }
 
+    gateAnswers = answersByKey;
     gate = qualified
       ? {
           qualified,
@@ -202,6 +246,18 @@ export async function POST(request: Request) {
       `${fence.booking.form.estimatesSelectLabel}: ${estimates}`,
     ].join("\n");
   }
+
+  // Sheet + Gmail notification. Awaited so the serverless runtime cannot
+  // freeze it mid-flight, but bounded and non-blocking on failure.
+  await postLeadWebhook({
+    verdict: gate ? (gate.qualified ? "QUALIFIED" : "BELOW ICP") : "LEGACY FORM",
+    name,
+    company,
+    phone,
+    email,
+    page: verticalSlug || "general",
+    answers: gateAnswers,
+  });
 
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.BOOKING_TO_EMAIL;

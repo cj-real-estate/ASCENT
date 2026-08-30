@@ -32,6 +32,11 @@ export interface QualifyFlowProps {
   phoneLabel: string;
   emailLabel: string;
   questions: QualifyFlowQuestion[];
+  stepLabel: string;
+  backLabel: string;
+  continueLabel: string;
+  contactHeading: string;
+  contactSub: string;
   submitLabel: string;
   submittingLabel: string;
   passHeading: string;
@@ -54,6 +59,11 @@ export function toQualifyFlowProps(vertical: Vertical): QualifyFlowProps {
       label: question.label,
       options: question.options.map((option) => option.label),
     })),
+    stepLabel: q.stepLabel,
+    backLabel: q.backLabel,
+    continueLabel: q.continueLabel,
+    contactHeading: q.contactHeading,
+    contactSub: q.contactSub,
     submitLabel: q.submitLabel,
     submittingLabel: q.submittingLabel,
     passHeading: q.passHeading,
