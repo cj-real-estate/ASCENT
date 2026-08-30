@@ -46,7 +46,7 @@ const fence: Vertical = {
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the audit and the
     // calculator make their case further down the page.
-    sub: "Ascent installs the whole machine for fence companies — the website, the ads, the CRM, and follow-up that runs on every quote until it closes or dies for a real reason. You run the estimates. We run everything else.",
+    sub: "Ascent installs the whole machine for fence companies — website, ads, CRM, and follow-up that works every quote until it closes. You run the estimates. We run everything else.",
     cta: "Book the free pipeline audit",
     secondaryCta: "Book a strategy call",
     microcopy: "30 minutes. No cost. You keep the report either way.",
@@ -102,7 +102,7 @@ const fence: Vertical = {
     eyebrow: "RUN YOUR OWN NUMBERS",
     h2: "What’s sitting in your dead estimate list?",
     // Relocated hero copy — it was written for the calculator.
-    sub: "Most fence companies in Oklahoma are sitting on six figures of quoted work that never got a second call. Put your numbers in and see what yours looks like.",
+    sub: "Most fence companies in Oklahoma are sitting on six figures of quoted work that never got a second call. See what yours looks like.",
   },
 
   problem: {
@@ -110,9 +110,9 @@ const fence: Vertical = {
     h2: "Your leads aren't the issue. What happens after them is.",
     paragraphs: [
       "You quote the job. He says he'll think about it. You call once, maybe twice, then the next job starts and he's gone.",
-      "Nobody calls him at week two. Nobody calls at month three when he finally has the money. The estimate sits in a folder or a text thread and quietly stops existing.",
-      "That's not a marketing problem — you already paid to get that person. It's a follow-up problem, and it's the cheapest revenue in your business because the cost of acquiring it is already sunk.",
-      "Ascent installs the system that does the following up, then adds new leads on top of it once the machine is running. In that order, deliberately: fuel the engine after you've proven it runs.",
+      "Nobody calls at week two. Nobody calls at month three when he finally has the money. The estimate quietly stops existing.",
+      "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
+      "Ascent installs the system that does the following up, then adds new leads once the machine is running. In that order, deliberately.",
     ],
   },
 
@@ -162,22 +162,22 @@ const fence: Vertical = {
       {
         icon: "browser",
         title: "Website and landing page builds.",
-        body: "A site built to turn a click into a booked estimate — fast, mobile-first, and pointed at one action instead of ten.",
+        body: "Fast, mobile-first, and pointed at one action: a booked estimate.",
       },
       {
         icon: "pin",
         title: "SEO and local search strategy.",
-        body: "Show up when someone in your service area searches for the work you do. Local listings, reviews, and pages built to rank.",
+        body: "Show up when your service area searches for what you do — listings, reviews, and pages built to rank.",
       },
       {
         icon: "cursor",
         title: "Google Ads.",
-        body: "Paid search in front of people already typing what you sell, measured in booked estimates rather than clicks.",
+        body: "Paid search for people already typing what you sell, measured in booked estimates.",
       },
       {
         icon: "megaphone",
         title: "Meta Ads.",
-        body: "Facebook and Instagram campaigns that put your work in front of homeowners in your service area before they start shopping.",
+        body: "Facebook and Instagram campaigns that reach homeowners before they start shopping.",
       },
       {
         icon: "loop",
@@ -232,13 +232,13 @@ const fence: Vertical = {
       {
         name: "Pipeline Audit",
         price: "Free",
-        line: "We go through your records and tell you exactly how much recoverable revenue is in there, and how to get it — whether or not you hire us.",
+        line: "We go through your records and tell you, in dollars, what's recoverable and how to get it — whether or not you hire us.",
       },
       {
         name: "30-Day Dead-Estimate Revival Sprint",
         price: "$1,500",
         priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up automations, then run a 30-day reactivation of every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
+        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
         dark: true,
       },
       {
@@ -303,7 +303,7 @@ const fence: Vertical = {
     items: [
       {
         q: "What actually happens on the audit call?",
-        a: "Thirty minutes. We go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire us or not.",
+        a: "Thirty minutes: your leads and estimates, a dollar figure on what’s recoverable, and exactly how to go get it. The report is yours either way.",
       },
       {
         q: "What does it cost?",
@@ -328,7 +328,7 @@ const fence: Vertical = {
     eyebrow: "THE FREE PIPELINE AUDIT",
     h2: "Find out what's actually in your pipeline.",
     h2Waitlist: "Join the waitlist for the next opening.",
-    body: "Thirty minutes. I'll go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire me or not.",
+    body: "Thirty minutes. You'll see, in dollars, what's recoverable in your pipeline and exactly how to go get it. The report is yours either way.",
     // Calendly, supplied by the client 2026-08-21. The embed params drop
     // Calendly's own page chrome and the GDPR banner so it sits inside the
     // section rather than looking like a framed website.
@@ -440,7 +440,7 @@ const fence: Vertical = {
     // Honest, not discouraging, and no fake encouragement. Someone who gets
     // this screen should be able to tell exactly what would change the answer.
     declineBody:
-      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work, and that’s where the money in it comes from. Your answers still landed in front of Caleb, and if he sees something worth flagging you’ll hear from him. In the meantime, the calculator at the top of this page shows where the numbers start to work.",
+      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator at the top of this page shows where the numbers start to work.",
     trustItems: [
       "30 minutes. No cost. You keep the report either way.",
       "5 booked estimate appointments from your dead list in 30 days, or a full refund — in writing.",
@@ -455,7 +455,7 @@ const fence: Vertical = {
     h1: "Your request is in.",
     body: [
       "You'll get a call or a text within one business day to set a time for your 30-minute pipeline audit.",
-      "Before the call, round up whatever holds your estimates — a spreadsheet, a CRM export, even a text thread. That's the record the audit runs on, and it's where the number comes from.",
+      "Before the call, round up whatever holds your estimates — spreadsheet, CRM export, even a text thread. That's what the audit runs on.",
     ],
     backLabel: "Back to the site",
   },

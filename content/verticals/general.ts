@@ -51,7 +51,7 @@ const general: Vertical = {
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the audit and the
     // calculator make their case further down the page.
-    sub: "Ascent installs the whole machine — the website, the ads, the CRM, and follow-up that runs on every quote until it closes or dies for a real reason. You run the estimates. We run everything else.",
+    sub: "Ascent installs the whole machine — website, ads, CRM, and follow-up that works every quote until it closes. You run the estimates. We run everything else.",
     cta: "Book the free pipeline audit",
     secondaryCta: "Book a strategy call",
     microcopy: "30 minutes. No cost. You keep the report either way.",
@@ -107,7 +107,7 @@ const general: Vertical = {
     eyebrow: "RUN YOUR OWN NUMBERS",
     h2: "What’s sitting in your old estimates?",
     // Relocated hero copy — it was written for the calculator.
-    sub: "Most service businesses are sitting on six figures of quoted work that never got a second call. Put your numbers in and see what yours looks like.",
+    sub: "Most service businesses are sitting on six figures of quoted work that never got a second call. See what yours looks like.",
   },
 
   problem: {
@@ -115,9 +115,9 @@ const general: Vertical = {
     h2: "Your leads aren't the issue. What happens after them is.",
     paragraphs: [
       "You quote the job. He says he'll think about it. You follow up once, maybe twice, then the next job starts and he's gone.",
-      "Nobody calls him at week two. Nobody calls at month three when he finally has the money. The estimate sits in a folder or a text thread and quietly stops existing.",
-      "That's not a marketing problem — you already paid to get that person. It's a follow-up problem, and it's the cheapest revenue in your business, because the cost of acquiring it is already spent.",
-      "Ascent installs the system that does the following up. Then, once it's provably working, we add new leads on top of it. In that order, deliberately.",
+      "Nobody calls at week two. Nobody calls at month three when he finally has the money. The estimate quietly stops existing.",
+      "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
+      "Ascent installs the system that does the following up. Once it's provably working, we add new leads on top. In that order, deliberately.",
     ],
   },
 
@@ -128,22 +128,22 @@ const general: Vertical = {
       {
         icon: "browser",
         title: "Website and landing page builds.",
-        body: "A site built to turn a click into a booked estimate — fast, mobile-first, and pointed at one action instead of ten.",
+        body: "Fast, mobile-first, and pointed at one action: a booked estimate.",
       },
       {
         icon: "pin",
         title: "SEO and local search strategy.",
-        body: "Show up when someone in your service area searches for the work you do. Local listings, reviews, and pages built to rank.",
+        body: "Show up when your service area searches for what you do — listings, reviews, and pages built to rank.",
       },
       {
         icon: "cursor",
         title: "Google Ads.",
-        body: "Paid search in front of people already typing what you sell, measured in booked estimates rather than clicks.",
+        body: "Paid search for people already typing what you sell, measured in booked estimates.",
       },
       {
         icon: "megaphone",
         title: "Meta Ads.",
-        body: "Facebook and Instagram campaigns that put your work in front of homeowners in your service area before they start shopping.",
+        body: "Facebook and Instagram campaigns that reach homeowners before they start shopping.",
       },
       {
         icon: "loop",
@@ -195,7 +195,7 @@ const general: Vertical = {
     // specific case an owner can picture persuades; hedging reads as
     // fabrication to exactly the skeptical reader this page is written for.
     framingLine:
-      "These came from a fence company in the Oklahoma City metro. Different trade than yours, most likely — the mechanism doesn't change.",
+      "From a fence company in the Oklahoma City metro. Different trade than yours, most likely — the mechanism doesn't change.",
     stats: [
       {
         number: "$13.33",
@@ -239,13 +239,13 @@ const general: Vertical = {
       {
         name: "Pipeline Audit",
         price: "Free",
-        line: "We go through your leads and estimates and tell you exactly how much recoverable revenue is sitting in there, and how to go get it — whether or not you hire us.",
+        line: "We go through your records and tell you, in dollars, what’s recoverable and how to get it — whether or not you hire us.",
       },
       {
         name: "30-Day Revival Sprint",
         price: "$1,500",
         priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up automations, then run a 30-day reactivation of every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
+        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
         dark: true,
       },
     ],
@@ -280,7 +280,7 @@ const general: Vertical = {
     items: [
       {
         q: "What actually happens on the audit call?",
-        a: "Thirty minutes. We go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire us or not.",
+        a: "Thirty minutes: your leads and estimates, a dollar figure on what’s recoverable, and exactly how to go get it. The report is yours either way.",
       },
       {
         q: "What does it cost?",
@@ -296,7 +296,7 @@ const general: Vertical = {
       },
       {
         q: "Do you only work with fence companies?",
-        a: "No. The published results came from Prestige Fence in Oklahoma City, and the same mechanism runs for any business that quotes jobs before doing them — fencing, roofing, HVAC, concrete, remodeling, that world.",
+        a: "No — the published results are from Prestige Fence in Oklahoma City, but the mechanism runs for any business that quotes jobs before doing them.",
       },
     ],
   },
@@ -305,7 +305,7 @@ const general: Vertical = {
     eyebrow: "THE FREE PIPELINE AUDIT",
     h2: "Find out what's actually in your pipeline.",
     h2Waitlist: "Join the waitlist for the next opening.",
-    body: "Thirty minutes. I'll go through your leads and estimates and tell you, in dollars, how much recoverable work is sitting in there and exactly how to go get it. You keep the report whether you hire me or not.",
+    body: "Thirty minutes. You'll see, in dollars, what's recoverable in your pipeline and exactly how to go get it. The report is yours either way.",
     // Calendly, supplied by the client 2026-08-21. See fence.ts for the
     // reasoning behind the embed params.
     schedulingLink:
@@ -441,7 +441,7 @@ const general: Vertical = {
     // Honest, not discouraging, and no fake encouragement. Someone who gets
     // this screen should be able to tell exactly what would change the answer.
     declineBody:
-      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work, and that’s where the money in it comes from. Your answers still landed in front of Caleb, and if he sees something worth flagging you’ll hear from him. In the meantime, the pipeline calculator at the top of ascentcas.com shows where the numbers start to work.",
+      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on ascentcas.com shows where the numbers start to work.",
     trustItems: [
       "30 minutes. No cost. You keep the report either way.",
       "5 booked estimate appointments from your old list in 30 days, or a full refund — in writing.",
@@ -456,14 +456,14 @@ const general: Vertical = {
       "Answer a few questions, and if we’re a fit, book a free 30-minute pipeline audit that finds the revenue sitting in your old estimates.",
     eyebrow: "THE FREE PIPELINE AUDIT",
     h1: "Find out how much revenue is sitting in your old estimates.",
-    sub: "Answer six quick questions. If we’re a fit you’ll book your 30-minute audit on the next screen — and you keep the report either way.",
+    sub: "Six quick questions. If we’re a fit, you book your 30-minute audit on the next screen. You keep the report either way.",
   },
 
   thanks: {
     h1: "Your request is in.",
     body: [
       "You'll get a call or a text within one business day to set a time for your 30-minute pipeline audit.",
-      "Before the call, round up whatever holds your estimates — a spreadsheet, a CRM export, even a text thread. That's the record the audit runs on, and it's where the number comes from.",
+      "Before the call, round up whatever holds your estimates — spreadsheet, CRM export, even a text thread. That's what the audit runs on.",
     ],
     backLabel: "Back to the site",
   },
