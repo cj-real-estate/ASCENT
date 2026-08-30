@@ -285,6 +285,11 @@ const general: Vertical = {
       {
         key: "businessType",
         label: "What kind of business do you run?",
+        // Asked but never gated: every option qualifies. It is here for the
+        // answer in the lead email, not to sort anyone out — the size and
+        // commitment questions below do the sorting. Do not set any of these
+        // to false without deciding you want that whole category declined
+        // outright, sight unseen.
         options: [
           {
             label:
@@ -293,11 +298,11 @@ const general: Vertical = {
           },
           {
             label: "A service business with set prices — no quotes or estimates",
-            qualifies: false,
+            qualifies: true,
           },
           {
             label: "Something else",
-            qualifies: false,
+            qualifies: true,
           },
         ],
       },
