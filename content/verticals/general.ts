@@ -48,6 +48,7 @@ const general: Vertical = {
   hero: {
     eyebrow: "CLIENT ACQUISITION SYSTEMS · OKLAHOMA",
     h1: "You don't have a lead problem. You have a lead-handling problem.",
+    h1Highlight: "lead-handling problem.",
     sub: "Most service businesses are sitting on six figures of quoted work that never got a second call. Put your numbers in and see what yours looks like.",
     cta: "Book the free pipeline audit",
     microcopy: "30 minutes. No cost. You keep the report either way.",

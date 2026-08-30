@@ -194,6 +194,9 @@ export interface Vertical {
   hero: {
     eyebrow: string;
     h1: string;
+    /** Substring of h1 rendered in orange — the one load-bearing phrase.
+     *  null renders the h1 in plain paper. Large text only (3:1 on ink). */
+    h1Highlight: string | null;
     sub: string;
     cta: string;
     microcopy: string;

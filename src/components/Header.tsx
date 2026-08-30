@@ -18,7 +18,7 @@ export default function Header({ vertical }: { vertical: Vertical }) {
         </Link>
         <a
           href="#book"
-          className="inline-flex min-h-[44px] shrink-0 items-center justify-center rounded-md bg-orange px-5 text-[14px] font-semibold text-ink hover:bg-orange-deep hover:text-paper"
+          className="btn-primary shrink-0 !min-h-[44px] !px-5 text-[14px]"
         >
           {vertical.header.cta}
         </a>

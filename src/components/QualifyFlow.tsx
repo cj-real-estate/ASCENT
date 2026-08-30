@@ -427,7 +427,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
         key={step}
         ref={cardRef}
         tabIndex={-1}
-        className="mt-6 rounded-lg border border-white/15 bg-graphite p-6 outline-none motion-safe:animate-[qualify-card_240ms_ease-out] md:p-8"
+        className="mt-6 rounded-xl border border-white/15 bg-graphite p-6 outline-none motion-safe:animate-[qualify-card_240ms_ease-out] md:p-8"
       >
         {onContact ? (
           <>
@@ -520,7 +520,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
             <button
               type="button"
               onClick={() => goTo(step - 1)}
-              className="inline-flex min-h-[44px] items-center rounded-md border border-white/20 px-5 text-[15px] font-medium text-on-dark hover:border-white/45 hover:text-paper"
+              className="inline-flex min-h-[44px] items-center rounded-full border border-white/20 px-6 text-[15px] font-medium text-on-dark hover:border-white/45 hover:text-paper"
             >
               {flow.backLabel}
             </button>
@@ -528,7 +528,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex min-h-[44px] flex-1 items-center justify-center rounded-md bg-orange px-8 py-2 text-[17px] font-semibold text-ink hover:bg-orange-deep hover:text-paper disabled:opacity-70 md:flex-none"
+            className="btn-primary flex-1 text-[17px] disabled:opacity-70 md:flex-none"
           >
             {onContact
               ? submitting

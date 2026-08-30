@@ -1,5 +1,6 @@
 import type { Vertical } from "@content/verticals/types";
 import Calculator from "@/components/Calculator";
+import ArrowRight from "@/components/ArrowRight";
 
 /*
  * Hero — the one dark opening section and the only <h1> on the page.
@@ -8,6 +9,7 @@ import Calculator from "@/components/Calculator";
  */
 export default function Hero({ vertical }: { vertical: Vertical }) {
   const stats = vertical.proof.stats;
+  const highlight = vertical.hero.h1Highlight;
   return (
     <section id="top" data-dark className="relative overflow-hidden bg-ink py-16 md:py-24">
       {/* One quiet orange glow behind the calculator card. Decorative,
@@ -24,7 +26,17 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
         <div className="lg:col-span-5 lg:col-start-1 lg:row-start-1">
           <p className="eyebrow text-orange">{vertical.hero.eyebrow}</p>
           <h1 className="display mt-5 text-[34px] text-paper min-[380px]:text-[40px] md:text-[54px] xl:text-[62px]">
-            {vertical.hero.h1}
+            {highlight && vertical.hero.h1.includes(highlight) ? (
+              <>
+                {vertical.hero.h1.slice(0, vertical.hero.h1.indexOf(highlight))}
+                <span className="text-orange">{highlight}</span>
+                {vertical.hero.h1.slice(
+                  vertical.hero.h1.indexOf(highlight) + highlight.length,
+                )}
+              </>
+            ) : (
+              vertical.hero.h1
+            )}
           </h1>
           <p className="mt-6 text-[17px] text-on-dark">{vertical.hero.sub}</p>
         </div>
@@ -41,11 +53,9 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
             mobile the calculator card's own CTA is directly above this
             spot, and two identical stacked buttons read as a bug. */}
         <div className="hidden lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:block lg:self-start">
-          <a
-            href="#book"
-            className="inline-flex min-h-[44px] w-full items-center justify-center rounded-md bg-orange px-6 font-semibold text-ink hover:bg-orange-deep hover:text-paper sm:w-auto"
-          >
+          <a href="#book" className="btn-primary w-full sm:w-auto">
             {vertical.hero.cta}
+            <ArrowRight />
           </a>
           <p className="eyebrow mt-4 !text-[12px] text-fog">{vertical.hero.microcopy}</p>
         </div>

@@ -8,6 +8,7 @@ import HowItWorksSection from "@/components/HowItWorksSection";
 import PricingSection from "@/components/PricingSection";
 import GuaranteesSection from "@/components/GuaranteesSection";
 import FoundingFiveSection from "@/components/FoundingFiveSection";
+import CtaBand from "@/components/CtaBand";
 import FaqSection from "@/components/FaqSection";
 import BookingSection from "@/components/BookingSection";
 import Footer from "@/components/Footer";
@@ -37,6 +38,8 @@ export function VerticalPage({
             has no standalone three-step section */}
         <ServicesSection vertical={vertical} />
         <ProofSection vertical={vertical} />
+        {/* Re-ask right after the proof beat, reference-site style */}
+        <CtaBand vertical={vertical} />
         {/* Vertical page: the standalone three-step section */}
         <HowItWorksSection vertical={vertical} />
         <PricingSection vertical={vertical} spotsRemaining={spotsRemaining} />

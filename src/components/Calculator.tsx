@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ArrowRight from "./ArrowRight";
 import type { CSSProperties } from "react";
 import type { CalculatorContent, CalculatorField } from "@content/verticals/types";
 import { computePipeline } from "@/lib/calculator";
@@ -243,11 +244,9 @@ export default function Calculator({
           })}
         </p>
         <p className="mt-3 font-mono text-[12px] text-fog">{assumptionLine}</p>
-        <a
-          href="#book"
-          className="mt-6 inline-flex min-h-[44px] w-full items-center justify-center rounded-md bg-orange px-6 font-semibold text-ink hover:bg-orange-deep hover:text-paper md:w-auto"
-        >
+        <a href="#book" className="btn-primary mt-6 w-full md:w-auto">
           {ctaLabel}
+          <ArrowRight />
         </a>
         {/* On mobile this card's CTA is the hero CTA, so the microcopy
             rides under it; on desktop it sits under the left-column CTA. */}

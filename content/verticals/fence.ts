@@ -43,6 +43,7 @@ const fence: Vertical = {
   hero: {
     eyebrow: "GROWTH SYSTEMS FOR FENCE COMPANIES · OKLAHOMA CITY",
     h1: "You don't have a lead problem. You have a lead-handling problem.",
+    h1Highlight: "lead-handling problem.",
     sub: "Most fence companies in Oklahoma are sitting on six figures of quoted work that never got a second call. Put your numbers in and see what yours looks like.",
     cta: "Book the free pipeline audit",
     microcopy: "30 minutes. No cost. You keep the report either way.",
