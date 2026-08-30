@@ -11,7 +11,10 @@ https://docs.google.com/spreadsheets/d/1UI0fPH1ePR5hLGCco24o5AaS0_y0CgNcS8MQEFkk
 ## 1. Attach the script
 
 1. Open the sheet → **Extensions → Apps Script**.
-2. Delete whatever is in the editor and paste the script below.
+2. In the sheet itself, add **Interest** as the header of the next empty
+   column (N1) — the script writes which CTA the lead clicked (pipeline
+   audit vs strategy call) there.
+3. Delete whatever is in the editor and paste the script below.
 3. Replace `PASTE-A-LONG-RANDOM-STRING-HERE` with a random string
    (e.g. run `openssl rand -hex 24` or mash the keyboard — just make it long).
    Keep a copy; Vercel needs the same value in step 3.
@@ -42,6 +45,7 @@ function doPost(e) {
     a.monthlyRevenue || "",
     a.investment || "",
     a.decisionMaker || "",
+    data.interest || "",
   ]);
   const subject =
     (data.verdict === "QUALIFIED"
@@ -55,6 +59,7 @@ function doPost(e) {
     "Phone: " + (data.phone || ""),
     "Email: " + (data.email || ""),
     "Page: " + (data.page || ""),
+    "Wants: " + (data.interest || ""),
     "",
   ];
   for (const k in a) lines.push(k + ": " + a[k]);

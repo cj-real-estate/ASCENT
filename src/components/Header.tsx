@@ -18,6 +18,7 @@ export default function Header({ vertical }: { vertical: Vertical }) {
         </Link>
         <a
           href="#book"
+          data-open-lead-modal
           className="btn-primary shrink-0 !min-h-[44px] !px-5 text-[14px]"
         >
           {vertical.header.cta}

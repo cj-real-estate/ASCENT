@@ -244,7 +244,7 @@ export default function Calculator({
           })}
         </p>
         <p className="mt-3 font-mono text-[12px] text-fog">{assumptionLine}</p>
-        <a href="#book" className="btn-primary mt-6 w-full md:w-auto">
+        <a href="#book" data-open-lead-modal className="btn-primary mt-6 w-full md:w-auto">
           {ctaLabel}
           <ArrowRight />
         </a>

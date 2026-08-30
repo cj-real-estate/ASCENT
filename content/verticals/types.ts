@@ -63,6 +63,15 @@ export interface HowItWorksStep {
 export interface ServiceItem {
   title: string;
   body: string;
+  /** Line-icon key rendered beside the title (see ServiceIcon.tsx). */
+  icon:
+    | "browser"
+    | "pin"
+    | "cursor"
+    | "megaphone"
+    | "loop"
+    | "stack"
+    | "chart";
 }
 
 export interface ServicesContent {
@@ -199,6 +208,9 @@ export interface Vertical {
     h1Highlight: string | null;
     sub: string;
     cta: string;
+    /** Lower-friction second path — same gate, tagged as its own interest.
+     *  null renders only the primary CTA. */
+    secondaryCta: string | null;
     microcopy: string;
   };
 
@@ -238,6 +250,17 @@ export interface Vertical {
      * Do NOT fill with a vague line like "results from a recent client".
      */
     attributionLine: string | null;
+    /**
+     * The campaign-report card — a dashboard-styled graphic built ONLY from
+     * the published, attributed numbers. Never invent a value to fill a
+     * tile; null omits the card.
+     */
+    reportCard: {
+      title: string;
+      rows: { label: string; value: string }[];
+      footerLabel: string;
+      footerValue: string;
+    } | null;
     /**
      * DECISION #2 — ad-account screenshots, if cleared for publication.
      * Paths under /public. Empty until supplied.

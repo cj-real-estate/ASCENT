@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import { toQualifyFlowProps } from "@/lib/qualify";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProblemSection from "@/components/ProblemSection";
@@ -11,6 +12,7 @@ import FoundingFiveSection from "@/components/FoundingFiveSection";
 import CalculatorSection from "@/components/CalculatorSection";
 import CtaBand from "@/components/CtaBand";
 import FaqSection from "@/components/FaqSection";
+import LeadModal from "@/components/LeadModal";
 import BookingSection from "@/components/BookingSection";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -54,6 +56,7 @@ export function VerticalPage({
         {/* Objections answered right before the ask */}
         <FaqSection vertical={vertical} />
         <BookingSection vertical={vertical} spotsRemaining={spotsRemaining} />
+        <LeadModal flow={toQualifyFlowProps(vertical)} />
       </main>
       <Footer vertical={vertical} />
     </>

@@ -61,6 +61,7 @@ async function postLeadWebhook(record: {
   phone: string;
   email: string;
   page: string;
+  interest: string;
   answers: Record<string, string>;
 }): Promise<void> {
   const url = process.env.LEADS_WEBHOOK_URL;
@@ -127,6 +128,12 @@ export async function POST(request: Request) {
   const trade = readString(body, "trade");
   const verticalSlug = readString(body, "vertical");
   const honeypot = readString(body, "website");
+  // Which CTA the visitor clicked. Unknown values collapse to the default
+  // rather than erroring — it's routing metadata, not a gate input.
+  const interest =
+    readString(body, "interest") === "strategy-call"
+      ? "Strategy call"
+      : "Pipeline audit";
 
   // Honeypot filled: pretend success, send nothing. The fake verdict is
   // "below ICP" so a bot never sees a scheduling link.
@@ -218,6 +225,7 @@ export async function POST(request: Request) {
       `Company: ${company}`,
       `Phone: ${phone}`,
       `Email: ${email}`,
+      `Wants: ${interest}`,
       "",
       ...answerLines,
       "",
@@ -256,6 +264,7 @@ export async function POST(request: Request) {
     phone,
     email,
     page: verticalSlug || "general",
+    interest,
     answers: gateAnswers,
   });
 

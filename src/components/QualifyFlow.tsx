@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { QualifyFlowProps } from "@/lib/qualify";
 import { trackLeadConversion } from "@/lib/conversion";
 import CalendlyConversion from "./CalendlyConversion";
@@ -73,7 +73,17 @@ function formatPhone(raw: string): string {
 const inputBase =
   "mt-2 w-full min-h-[44px] rounded-md border bg-graphite px-4 py-2 text-[17px] text-paper";
 
-export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
+export function QualifyFlow({
+  flow,
+  intent = "audit",
+}: {
+  flow: QualifyFlowProps;
+  /** Which offer the visitor clicked — rides into the lead email/sheet. */
+  intent?: "audit" | "strategy-call";
+}) {
+  // The flow renders twice per page (booking section + modal); ids must
+  // not collide or labels bind to the wrong instance.
+  const uid = useId();
   const questions = flow.questions;
   // Steps: one per question, then the contact card.
   const totalSteps = questions.length + 1;
@@ -217,6 +227,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
           email: values.email.trim(),
           vertical: flow.slug,
           website,
+          interest: intent,
           answers,
         }),
       });
@@ -289,7 +300,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
     extra?: { inputMode?: "tel"; placeholder?: string; onBlur?: () => void },
   ) {
     const error = errors[field];
-    const id = `qualify-${field}`;
+    const id = `${uid}-${field}`;
     return (
       <div>
         <label htmlFor={id} className="eyebrow block text-[12px] text-on-dark">
@@ -389,9 +400,9 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
         aria-hidden="true"
         className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
       >
-        <label htmlFor="qualify-website">Website</label>
+        <label htmlFor={`${uid}-website`}>Website</label>
         <input
-          id="qualify-website"
+          id={`${uid}-website`}
           name="website"
           type="text"
           tabIndex={-1}
@@ -451,15 +462,15 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
         ) : question ? (
           <fieldset
             role="radiogroup"
-            aria-labelledby={`qualify-${question.key}-label`}
+            aria-labelledby={`${uid}-${question.key}-label`}
             aria-invalid={stepError ? true : undefined}
             aria-describedby={
-              stepError ? `qualify-${question.key}-error` : undefined
+              stepError ? `${uid}-${question.key}-error` : undefined
             }
             className="min-w-0 border-0 p-0"
           >
             <legend
-              id={`qualify-${question.key}-label`}
+              id={`${uid}-${question.key}-label`}
               className="block max-w-[62ch] font-mono text-[16px] font-medium leading-[1.55] text-paper md:text-[18px]"
             >
               {question.label}
@@ -470,7 +481,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
               }`}
             >
               {question.options.map((option, optionIndex) => {
-                const id = `qualify-${question.key}-${optionIndex}`;
+                const id = `${uid}-${question.key}-${optionIndex}`;
                 const checked = answers[question.key] === option;
                 return (
                   <label
@@ -500,7 +511,7 @@ export function QualifyFlow({ flow }: { flow: QualifyFlowProps }) {
             </div>
             {stepError ? (
               <p
-                id={`qualify-${question.key}-error`}
+                id={`${uid}-${question.key}-error`}
                 className="mt-3 text-[14px] text-orange"
               >
                 {stepError}

@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import { AscentMark } from "./Logo";
 
 /*
  * Founding Five section — light (bg-paper). Server component.
@@ -17,7 +18,14 @@ export function FoundingFiveSection({
   if (foundingFive === null) return null;
 
   return (
-    <section className="cv-auto bg-paper py-16 md:py-28">
+    <section className="relative overflow-hidden cv-auto bg-paper py-16 md:py-28">
+      {/* The brand mark as quiet texture — ours, not stock. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-16 top-8 opacity-[0.05]"
+      >
+        <AscentMark variant="onLight" className="h-[340px] w-auto" />
+      </div>
       <div className="section-shell">
         <h2 className="display max-w-[20ch] text-[26px] text-ink md:text-[46px]">
           {foundingFive.h2}

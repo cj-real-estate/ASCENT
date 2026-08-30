@@ -10,7 +10,7 @@ export function CtaBand({ vertical }: { vertical: Vertical }) {
   return (
     <section data-dark className="cv-auto border-y border-white/10 bg-ink py-10 md:py-12">
       <div className="section-shell flex flex-col items-center gap-4 text-center">
-        <a href="#book" className="btn-primary px-8 text-[17px]">
+        <a href="#book" data-open-lead-modal className="btn-primary px-8 text-[17px]">
           {vertical.hero.cta}
           <ArrowRight />
         </a>

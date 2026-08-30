@@ -48,6 +48,7 @@ const fence: Vertical = {
     // calculator make their case further down the page.
     sub: "Ascent installs the whole machine for fence companies — the website, the ads, the CRM, and follow-up that runs on every quote until it closes or dies for a real reason. You run the estimates. We run everything else.",
     cta: "Book the free pipeline audit",
+    secondaryCta: "Book a strategy call",
     microcopy: "30 minutes. No cost. You keep the report either way.",
   },
 
@@ -138,6 +139,18 @@ const fence: Vertical = {
     // above verifiable rather than assertions.
     attributionLine:
       "Results from Prestige Fence, Oklahoma City — August 1–30, 2026.",
+    // Every value here is one of the attributed Prestige Fence numbers.
+    reportCard: {
+      title: "Campaign report — Prestige Fence, OKC",
+      rows: [
+        { label: "Ad spend", value: "$866" },
+        { label: "Fence leads", value: "65" },
+        { label: "Cost per lead", value: "$13.33" },
+        { label: "Days running", value: "19" },
+      ],
+      footerLabel: "Quoted → signed inside 30 days",
+      footerValue: "$275K → $85K",
+    },
     // DECISION #2 — ad-account screenshots, once cleared for publication.
     screenshots: [],
   },
@@ -147,30 +160,37 @@ const fence: Vertical = {
     h2: "Everything that brings you work, in one system.",
     items: [
       {
+        icon: "browser",
         title: "Website and landing page builds.",
         body: "A site built to turn a click into a booked estimate — fast, mobile-first, and pointed at one action instead of ten.",
       },
       {
+        icon: "pin",
         title: "SEO and local search strategy.",
         body: "Show up when someone in your service area searches for the work you do. Local listings, reviews, and pages built to rank.",
       },
       {
+        icon: "cursor",
         title: "Google Ads.",
         body: "Paid search in front of people already typing what you sell, measured in booked estimates rather than clicks.",
       },
       {
+        icon: "megaphone",
         title: "Meta Ads.",
         body: "Facebook and Instagram campaigns that put your work in front of homeowners in your service area before they start shopping.",
       },
       {
+        icon: "loop",
         title: "Follow-up automations.",
         body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
       },
       {
+        icon: "stack",
         title: "A CRM that actually holds your pipeline.",
         body: "Every lead, every estimate, every outcome, in one place instead of three phones and a notebook.",
       },
       {
+        icon: "chart",
         title: "Reporting in dollars.",
         body: "What you spent, what it produced, what\u2019s still open. One number you can trust.",
       },

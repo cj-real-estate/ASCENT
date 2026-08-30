@@ -43,10 +43,26 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
         <p className="mt-7 max-w-[62ch] text-[17px] leading-relaxed text-on-dark md:text-[19px]">
           {vertical.hero.sub}
         </p>
-        <a href="#book" className="btn-primary mt-9 w-full px-9 text-[17px] sm:w-auto">
-          {vertical.hero.cta}
-          <ArrowRight />
-        </a>
+        <div className="mt-9 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
+          <a
+            href="#book"
+            data-open-lead-modal
+            className="btn-primary w-full px-9 text-[17px] sm:w-auto"
+          >
+            {vertical.hero.cta}
+            <ArrowRight />
+          </a>
+          {vertical.hero.secondaryCta ? (
+            <a
+              href="#book"
+              data-open-lead-modal
+              data-intent="strategy-call"
+              className="btn-secondary w-full px-8 text-[16px] sm:w-auto"
+            >
+              {vertical.hero.secondaryCta}
+            </a>
+          ) : null}
+        </div>
         <p className="eyebrow mt-4 !text-[12px] text-fog">
           {vertical.hero.microcopy}
         </p>

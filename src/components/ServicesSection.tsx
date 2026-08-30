@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import ServiceIcon from "./ServiceIcon";
 
 /*
  * Services — light (bg-paper). Server component.
@@ -30,7 +31,10 @@ export function ServicesSection({ vertical }: { vertical: Vertical }) {
         <ul className="mt-10 grid gap-x-8 md:mt-14 md:grid-cols-2 lg:grid-cols-3">
           {services.items.map((item) => (
             <li key={item.title} className="border-t border-line py-6">
-              <h3 className="text-[20px] font-semibold text-ink">
+              <span className="text-orange-deep">
+                <ServiceIcon name={item.icon} />
+              </span>
+              <h3 className="mt-3 text-[20px] font-semibold text-ink">
                 {item.title}
               </h3>
               <p className="mt-2 max-w-[46ch] text-[17px] text-slate">

@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import { AscentMark } from "./Logo";
 
 /*
  * Problem section — light (bg-paper). Server component, no interactivity.
@@ -10,7 +11,14 @@ export function ProblemSection({ vertical }: { vertical: Vertical }) {
   const lastIndex = problem.paragraphs.length - 1;
 
   return (
-    <section className="cv-auto bg-paper py-16 md:py-28">
+    <section className="relative overflow-hidden cv-auto bg-paper py-16 md:py-28">
+      {/* The brand mark as quiet texture — ours, not stock. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-16 top-8 opacity-[0.05]"
+      >
+        <AscentMark variant="onLight" className="h-[340px] w-auto" />
+      </div>
       <div className="section-shell">
         <p className="eyebrow text-orange-deep">{problem.eyebrow}</p>
         <h2 className="display mt-4 max-w-[20ch] text-[26px] text-ink md:text-[46px]">
