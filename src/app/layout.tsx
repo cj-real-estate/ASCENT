@@ -29,10 +29,16 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable} bg-paper text-ink antialiased`}
-      >
+    // The font variable classes MUST live on <html>, not <body>: the theme
+    // maps --font-sans etc. via var(--font-plex-sans) on :root, and a var()
+    // that is undefined where it's referenced invalidates the whole chain —
+    // every font-family then silently falls back to the metric-matched
+    // system faces.
+    <html
+      lang="en"
+      className={`${archivo.variable} ${plexSans.variable} ${plexMono.variable}`}
+    >
+      <body className="bg-paper text-ink antialiased">
         {children}
         <GoogleTag />
       </body>
