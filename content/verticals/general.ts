@@ -46,7 +46,7 @@ const general: Vertical = {
   },
 
   hero: {
-    eyebrow: "CLIENT ACQUISITION SYSTEMS · OKLAHOMA",
+    eyebrow: "CLIENT ACQUISITION SYSTEMS",
     h1: "You don't have a lead problem. You have a lead-handling problem.",
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the audit and the
