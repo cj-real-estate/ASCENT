@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import SectionIndex from "./SectionIndex";
 
 /*
  * Pricing / "where to start" section. Server component.
@@ -15,9 +16,11 @@ import type { Vertical } from "@content/verticals/types";
 export function PricingSection({
   vertical,
   spotsRemaining,
+  index,
 }: {
   vertical: Vertical;
   spotsRemaining: number;
+  index?: number;
 }) {
   const { pricing } = vertical;
   const wide = pricing.cards.length > 2;
@@ -31,7 +34,10 @@ export function PricingSection({
     >
       <div className="section-shell">
         {pricing.eyebrow && (
-          <p className="eyebrow text-orange-deep">{pricing.eyebrow}</p>
+          <p className="eyebrow text-orange-deep">
+            <SectionIndex n={index} />
+            {pricing.eyebrow}
+          </p>
         )}
         <h2
           className={`display max-w-[20ch] text-[26px] text-ink md:text-[46px] ${

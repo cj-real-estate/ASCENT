@@ -2,6 +2,7 @@ import type { Vertical } from "@content/verticals/types";
 import QualifyFlow from "./QualifyFlow";
 import { toQualifyFlowProps } from "@/lib/qualify";
 import TrustBanner from "./TrustBanner";
+import SectionIndex from "./SectionIndex";
 
 /*
  * Booking section (§9) — dark (bg-ink), `data-dark` so the global focus ring
@@ -20,9 +21,11 @@ import TrustBanner from "./TrustBanner";
 export function BookingSection({
   vertical,
   spotsRemaining,
+  index,
 }: {
   vertical: Vertical;
   spotsRemaining: number;
+  index?: number;
 }) {
   const { booking } = vertical;
   const heading = spotsRemaining === 0 ? booking.h2Waitlist : booking.h2;
@@ -30,7 +33,10 @@ export function BookingSection({
   return (
     <section id="book" data-dark className="cv-auto bg-ink py-16 md:py-28">
       <div className="section-shell">
-        <p className="eyebrow text-orange">{booking.eyebrow}</p>
+        <p className="eyebrow text-orange">
+          <SectionIndex n={index} dark />
+          {booking.eyebrow}
+        </p>
         <h2 className="display mt-4 max-w-[20ch] text-[26px] text-paper md:text-[46px]">
           {heading}
         </h2>

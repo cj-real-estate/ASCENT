@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import SectionIndex from "./SectionIndex";
 
 /*
  * How-it-works section — light (bg-paper). Server component.
@@ -8,7 +9,13 @@ import type { Vertical } from "@content/verticals/types";
  * Three numbered steps; the numbering echoes the chevron/step idea but
  * stays typographic (mono numerals, no decoration).
  */
-export function HowItWorksSection({ vertical }: { vertical: Vertical }) {
+export function HowItWorksSection({
+  vertical,
+  index,
+}: {
+  vertical: Vertical;
+  index?: number;
+}) {
   const { howItWorks } = vertical;
   // Verticals that fold these steps into the install owner-card omit it.
   if (howItWorks === null) return null;
@@ -16,7 +23,10 @@ export function HowItWorksSection({ vertical }: { vertical: Vertical }) {
   return (
     <section className="cv-auto bg-paper py-16 md:py-28">
       <div className="section-shell">
-        <p className="eyebrow text-orange-deep">{howItWorks.eyebrow}</p>
+        <p className="eyebrow text-orange-deep">
+          <SectionIndex n={index} />
+          {howItWorks.eyebrow}
+        </p>
         <h2 className="display mt-4 max-w-[20ch] text-[26px] text-ink md:text-[46px]">
           {howItWorks.h2}
         </h2>

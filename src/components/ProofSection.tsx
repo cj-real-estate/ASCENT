@@ -32,7 +32,7 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
         <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
           {proof.stats.map((stat) => (
             <div key={stat.number} className="py-8 md:px-8 md:first:pl-0 md:last:pr-0">
-              <p className="readout text-[34px] text-orange md:text-[46px]">
+              <p className="readout text-[40px] leading-none text-orange md:text-[56px]">
                 {stat.number}
               </p>
               <p className="mt-2 max-w-[40ch] text-[15px] text-slate">
@@ -45,7 +45,7 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
         {proof.reportCard ? (
           /* Dashboard-styled, but every value is an attributed number from
              the stats above — presentation, not new data. */
-          <div className="mt-12 max-w-[720px] rounded-xl border border-ink bg-ink p-6 md:p-8">
+          <div className="mt-12 max-w-[720px] rounded-2xl border border-ink bg-ink p-6 shadow-card md:p-8">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
               <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-on-dark">
                 {proof.reportCard.title}

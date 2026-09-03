@@ -30,32 +30,56 @@ export function VerticalPage({
   vertical: Vertical;
   spotsRemaining: number;
 }) {
+  // Section indexes for the "(01) / EYEBROW" markers, assigned in render
+  // order and only to sections that render an eyebrow on this vertical.
+  // Explicit (not CSS counters): cv-auto's style containment scopes
+  // counters per-section and breaks the sequence.
+  let n = 0;
+  const idx = {
+    problem: ++n,
+    calculator: ++n,
+    services: vertical.services ? ++n : undefined,
+    howItWorks: vertical.howItWorks ? ++n : undefined,
+    pricing: vertical.pricing.eyebrow ? ++n : undefined,
+    guarantees: vertical.guarantees ? ++n : undefined,
+    faq: vertical.faq ? ++n : undefined,
+    booking: ++n,
+  };
+
   return (
     <>
       <JsonLd vertical={vertical} />
       <Header vertical={vertical} />
       <main>
         <Hero vertical={vertical} />
-        <ProblemSection vertical={vertical} />
+        <ProblemSection vertical={vertical} index={idx.problem} />
         {/* Quantify the problem the moment it's been described */}
-        <CalculatorSection vertical={vertical} />
+        <CalculatorSection vertical={vertical} index={idx.calculator} />
         {/* Everything we sell; carries the owner card where the page
             has no standalone three-step section */}
-        <ServicesSection vertical={vertical} />
+        <ServicesSection vertical={vertical} index={idx.services} />
         <ProofSection vertical={vertical} />
         {/* Re-ask right after the proof beat, reference-site style */}
         <CtaBand vertical={vertical} />
         {/* Vertical page: the standalone three-step section */}
-        <HowItWorksSection vertical={vertical} />
-        <PricingSection vertical={vertical} spotsRemaining={spotsRemaining} />
-        <GuaranteesSection vertical={vertical} />
+        <HowItWorksSection vertical={vertical} index={idx.howItWorks} />
+        <PricingSection
+          vertical={vertical}
+          spotsRemaining={spotsRemaining}
+          index={idx.pricing}
+        />
+        <GuaranteesSection vertical={vertical} index={idx.guarantees} />
         <FoundingFiveSection
           vertical={vertical}
           spotsRemaining={spotsRemaining}
         />
         {/* Objections answered right before the ask */}
-        <FaqSection vertical={vertical} />
-        <BookingSection vertical={vertical} spotsRemaining={spotsRemaining} />
+        <FaqSection vertical={vertical} index={idx.faq} />
+        <BookingSection
+          vertical={vertical}
+          spotsRemaining={spotsRemaining}
+          index={idx.booking}
+        />
         <LeadModal flow={toQualifyFlowProps(vertical)} />
       </main>
       <Footer vertical={vertical} />

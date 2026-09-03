@@ -36,9 +36,9 @@ const general: Vertical = {
 
   seo: {
     title:
-      "Ascent Client Acquisition Systems | Lead Follow-Up Systems for Service Businesses",
+      "Ascent Client Acquisition Systems | CRM, Follow-Up, and Lead Generation",
     description:
-      "Ascent installs CRM, follow-up, and lead generation systems for service businesses in Oklahoma. Free pipeline audit — find the quoted work sitting unclosed in your records.",
+      "Ascent installs CRM, follow-up, and lead generation systems for businesses in Oklahoma. Free pipeline audit — find the quoted work sitting unclosed in your records.",
   },
 
   header: {
@@ -51,7 +51,7 @@ const general: Vertical = {
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the audit and the
     // calculator make their case further down the page.
-    sub: "Ascent installs the whole machine — website, ads, CRM, and follow-up that works every quote until it closes. You run the estimates. We run everything else.",
+    sub: "Ascent installs the whole machine — website, ads, CRM, and follow-up that works every quote until it closes. You close the deals. We run everything else.",
     cta: "Book the free pipeline audit",
     secondaryCta: "Book a strategy call",
     microcopy: "30 minutes. No cost. You keep the report either way.",
@@ -60,7 +60,7 @@ const general: Vertical = {
   calculator: {
     fields: {
       estimatesPerMonth: {
-        label: "Estimates you write per month",
+        label: "Quotes or proposals you send per month",
         min: 5,
         max: 300,
         step: 1,
@@ -69,7 +69,7 @@ const general: Vertical = {
         numberInput: true,
       },
       averageTicket: {
-        label: "Average job ticket",
+        label: "Average deal size",
         min: 500,
         max: 50000,
         step: 100,
@@ -96,7 +96,7 @@ const general: Vertical = {
         numberInput: false,
       },
     },
-    outputLabel: "SITTING IN YOUR OLD ESTIMATES",
+    outputLabel: "SITTING IN YOUR OLD QUOTES",
     secondaryLine:
       "That's {valueUnclosed} of work you already quoted and never closed. The number above assumes you re-close it at half your normal rate.",
     assumptionLine:
@@ -105,17 +105,17 @@ const general: Vertical = {
 
   calculatorSection: {
     eyebrow: "RUN YOUR OWN NUMBERS",
-    h2: "What’s sitting in your old estimates?",
+    h2: "What’s sitting in your old quotes?",
     // Relocated hero copy — it was written for the calculator.
-    sub: "Most service businesses are sitting on six figures of quoted work that never got a second call. See what yours looks like.",
+    sub: "Most businesses that quote work are sitting on six figures of proposals that never got a second call. See what yours looks like.",
   },
 
   problem: {
     eyebrow: "THE ACTUAL PROBLEM",
     h2: "Your leads aren't the issue. What happens after them is.",
     paragraphs: [
-      "You quote the job. He says he'll think about it. You follow up once, maybe twice, then the next job starts and he's gone.",
-      "Nobody calls at week two. Nobody calls at month three when he finally has the money. The estimate quietly stops existing.",
+      "You send the quote. They say they'll think about it. You follow up once, maybe twice, then the next deal takes over and they're gone.",
+      "Nobody calls at week two. Nobody calls at month three when the budget finally clears. The quote quietly stops existing.",
       "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
       "Ascent installs the system that does the following up. Once it's provably working, we add new leads on top. In that order, deliberately.",
     ],
@@ -128,22 +128,22 @@ const general: Vertical = {
       {
         icon: "browser",
         title: "Website and landing page builds.",
-        body: "Fast, mobile-first, and pointed at one action: a booked estimate.",
+        body: "Fast, mobile-first, and pointed at one action: a booked appointment.",
       },
       {
         icon: "pin",
         title: "SEO and local search strategy.",
-        body: "Show up when your service area searches for what you do — listings, reviews, and pages built to rank.",
+        body: "Show up when your market searches for what you do — listings, reviews, and pages built to rank.",
       },
       {
         icon: "cursor",
         title: "Google Ads.",
-        body: "Paid search for people already typing what you sell, measured in booked estimates.",
+        body: "Paid search for people already typing what you sell, measured in booked appointments.",
       },
       {
         icon: "megaphone",
         title: "Meta Ads.",
-        body: "Facebook and Instagram campaigns that reach homeowners before they start shopping.",
+        body: "Facebook and Instagram campaigns that reach your buyers before they start shopping.",
       },
       {
         icon: "loop",
@@ -153,7 +153,7 @@ const general: Vertical = {
       {
         icon: "stack",
         title: "A CRM that actually holds your pipeline.",
-        body: "Every lead, every estimate, every outcome, in one place instead of three phones and a notebook.",
+        body: "Every lead, every quote, every outcome, in one place instead of three inboxes and a spreadsheet.",
       },
       {
         icon: "chart",
@@ -173,7 +173,7 @@ const general: Vertical = {
           body: "The follow-up keeps texting and emailing until someone answers. When they do, you make the call.",
         },
         {
-          title: "Run the estimate.",
+          title: "Run the sales conversation.",
           body: "The part you're already good at, and the only part that needs you.",
         },
         {
@@ -195,7 +195,7 @@ const general: Vertical = {
     // specific case an owner can picture persuades; hedging reads as
     // fabrication to exactly the skeptical reader this page is written for.
     framingLine:
-      "From a fence company in the Oklahoma City metro. Different trade than yours, most likely — the mechanism doesn't change.",
+      "From a fence company in the Oklahoma City metro. Different industry than yours, most likely — the mechanism doesn't change.",
     stats: [
       {
         number: "$13.33",
@@ -245,12 +245,12 @@ const general: Vertical = {
         name: "30-Day Revival Sprint",
         price: "$1,500",
         priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
+        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed quote you have. Booked appointments in week one, from money you already spent.",
         dark: true,
       },
     ],
     guaranteeLine:
-      "If the Sprint doesn't book at least 5 estimate appointments from your old list in 30 days, you get a full refund.",
+      "If the Sprint doesn't book at least 5 sales appointments from your old list in 30 days, you get a full refund.",
     note: "Ongoing systems run from $2,500/month, month to month, priced off your market and ad budget. We'll put a number in writing after the audit — not before. Founding rates hold until the fifth spot fills.",
     background: "paper",
     // DECISION #5 — whether the founding-spots line belongs on this page or
@@ -280,7 +280,7 @@ const general: Vertical = {
     items: [
       {
         q: "What actually happens on the audit call?",
-        a: "Thirty minutes: your leads and estimates, a dollar figure on what’s recoverable, and exactly how to go get it. The report is yours either way.",
+        a: "Thirty minutes: your leads and quotes, a dollar figure on what’s recoverable, and exactly how to go get it. The report is yours either way.",
       },
       {
         q: "What does it cost?",
@@ -288,15 +288,15 @@ const general: Vertical = {
       },
       {
         q: "What if the Sprint doesn’t work?",
-        a: "If it doesn’t book at least 5 estimate appointments from your old list in 30 days, you get a full refund. That’s in writing.",
+        a: "If it doesn’t book at least 5 sales appointments from your old list in 30 days, you get a full refund. That’s in writing.",
       },
       {
         q: "How much of my time does this take?",
-        a: "Three things: call the leads who reply, run the estimate, and tap the outcome in the CRM. Everything else is installed and operated by us.",
+        a: "Three things: call the leads who reply, run the sales conversation, and tap the outcome in the CRM. Everything else is installed and operated by us.",
       },
       {
         q: "Do you only work with fence companies?",
-        a: "No — the published results are from Prestige Fence in Oklahoma City, but the mechanism runs for any business that quotes jobs before doing them.",
+        a: "No — the published results are from Prestige Fence in Oklahoma City, but the mechanism runs for any business that quotes work before doing it.",
       },
     ],
   },
@@ -318,10 +318,10 @@ const general: Vertical = {
       // Free text, not a dropdown — a dropdown is always missing someone's
       // trade, and what they type is useful market research.
       tradeField: {
-        label: "What trade are you in",
-        placeholder: "Fencing, roofing, HVAC, concrete…",
+        label: "What industry are you in",
+        placeholder: "Construction, manufacturing, professional services…",
       },
-      estimatesSelectLabel: "Roughly how many estimates do you write a month",
+      estimatesSelectLabel: "Roughly how many quotes do you send a month",
       estimatesSelectOptions: [
         "Fewer than 10",
         "10–25",
@@ -358,11 +358,11 @@ const general: Vertical = {
         options: [
           {
             label:
-              "A service business that quotes jobs before doing them — fencing, roofing, HVAC, concrete, remodeling, that world",
+              "A business that quotes or bids work before doing it — construction, industrial, commercial services, that world",
             qualifies: true,
           },
           {
-            label: "A service business with set prices — no quotes or estimates",
+            label: "A business with set prices — no quotes or proposals",
             qualifies: true,
           },
           {
@@ -373,7 +373,7 @@ const general: Vertical = {
       },
       {
         key: "estimatesPerMonth",
-        label: "Roughly how many estimates do you write a month?",
+        label: "Roughly how many quotes or proposals do you send a month?",
         options: [
           { label: "Fewer than 10", qualifies: false },
           { label: "10–25", qualifies: true },
@@ -384,7 +384,7 @@ const general: Vertical = {
       },
       {
         key: "leadHistory",
-        label: "How many past leads and old estimates do you have on record?",
+        label: "How many past leads and old quotes do you have on record?",
         options: [
           { label: "Under 50", qualifies: false },
           { label: "50–150", qualifies: true },
@@ -441,10 +441,10 @@ const general: Vertical = {
     // Honest, not discouraging, and no fake encouragement. Someone who gets
     // this screen should be able to tell exactly what would change the answer.
     declineBody:
-      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on ascentcas.com shows where the numbers start to work.",
+      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old leads to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on ascentcas.com shows where the numbers start to work.",
     trustItems: [
       "30 minutes. No cost. You keep the report either way.",
-      "5 booked estimate appointments from your old list in 30 days, or a full refund — in writing.",
+      "5 booked sales appointments from your old list in 30 days, or a full refund — in writing.",
       "65 leads in 19 days on $866 of ad spend — Prestige Fence, Oklahoma City.",
     ],
   },
@@ -453,9 +453,9 @@ const general: Vertical = {
     seoTitle:
       "Apply for the Free Pipeline Audit | Ascent Client Acquisition Systems",
     seoDescription:
-      "Answer a few questions, and if we’re a fit, book a free 30-minute pipeline audit that finds the revenue sitting in your old estimates.",
+      "Answer a few questions, and if we’re a fit, book a free 30-minute pipeline audit that finds the revenue sitting in your old quotes.",
     eyebrow: "THE FREE PIPELINE AUDIT",
-    h1: "Find out how much revenue is sitting in your old estimates.",
+    h1: "Find out how much revenue is sitting in your old quotes.",
     sub: "Six quick questions. If we’re a fit, you book your 30-minute audit on the next screen. You keep the report either way.",
   },
 
@@ -463,7 +463,7 @@ const general: Vertical = {
     h1: "Your request is in.",
     body: [
       "You'll get a call or a text within one business day to set a time for your 30-minute pipeline audit.",
-      "Before the call, round up whatever holds your estimates — spreadsheet, CRM export, even a text thread. That's what the audit runs on.",
+      "Before the call, round up whatever holds your leads and quotes — spreadsheet, CRM export, even an email thread. That's what the audit runs on.",
     ],
     backLabel: "Back to the site",
   },

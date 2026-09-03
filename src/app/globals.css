@@ -38,6 +38,11 @@
   /* Type scale from the brand guide: 12/14/16/20/26/34/46/62, body 17 */
   --text-body: 17px;
 
+  /* Soft resting shadow for cards and inset panels on light sections —
+     ink-tinted, never gray-blue. */
+  --shadow-card: 0 1px 2px rgb(31 31 31 / 0.05),
+    0 16px 40px -12px rgb(31 31 31 / 0.14);
+
   --breakpoint-xs: 23.75rem; /* 380px — lets the calculator readout step up early */
 }
 
@@ -71,6 +76,9 @@ body {
     font-size: 14px;
     line-height: 1.4;
   }
+  /* Indexed section markers ("(01) / EYEBROW") are numbered explicitly in
+     VerticalPage, NOT with CSS counters: cv-auto applies style containment,
+     which scopes counters per-section and breaks the sequence. */
   /* Display headings — Archivo 800, tight tracking, tight leading */
   .display {
     font-family: var(--font-display);
@@ -221,8 +229,8 @@ html {
   .btn-primary svg, .btn-primary { transition: none; }
 }
 
-/* Secondary CTA — outline pill for the lower-friction ask. Dark sections
-   only (border/text tuned for ink). */
+/* Secondary CTA — outline pill for the lower-friction ask. Ink outline on
+   light surfaces; dark sections override to the white treatment. */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -230,16 +238,57 @@ html {
   gap: 0.5rem;
   min-height: 48px;
   border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(31, 31, 31, 0.3);
   padding: 0.5rem 1.75rem;
   font-weight: 600;
-  color: var(--on-dark);
+  color: var(--ink);
   transition: border-color 150ms ease, color 150ms ease;
 }
 .btn-secondary:hover {
+  border-color: var(--ink);
+}
+[data-dark] .btn-secondary {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: var(--on-dark);
+}
+[data-dark] .btn-secondary:hover {
   border-color: rgba(255, 255, 255, 0.55);
   color: var(--paper);
 }
 @media (prefers-reduced-motion: reduce) {
   .btn-secondary { transition: none; }
+}
+
+/* Dark CTA — ink pill for the orange band, where orange-on-orange can't
+   work. Paper on ink is 14.9:1; hover lifts to graphite. */
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  border-radius: 9999px;
+  background: var(--ink);
+  padding: 0.5rem 1.75rem;
+  font-weight: 600;
+  color: var(--paper);
+  transition: background-color 150ms ease;
+}
+.btn-dark:hover {
+  background: var(--graphite);
+}
+.btn-dark svg {
+  transition: transform 150ms ease;
+}
+.btn-dark:hover svg {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-dark, .btn-dark svg { transition: none; }
+}
+
+/* The global focus ring is orange — invisible on the orange band, so
+   focusables there ring in ink instead. */
+.bg-orange :focus-visible {
+  outline-color: var(--ink);
 }

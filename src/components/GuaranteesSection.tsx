@@ -1,11 +1,18 @@
 import type { Vertical } from "@content/verticals/types";
+import SectionIndex from "./SectionIndex";
 
 /*
  * Guarantees section — dark (bg-ink, data-dark so the focus ring stays
  * visible). Server component. Orange titles pass contrast on ink at any
  * size; body copy in on-dark.
  */
-export function GuaranteesSection({ vertical }: { vertical: Vertical }) {
+export function GuaranteesSection({
+  vertical,
+  index,
+}: {
+  vertical: Vertical;
+  index?: number;
+}) {
   const { guarantees } = vertical;
   // Verticals carrying a single pricing.guaranteeLine omit this section.
   if (guarantees === null) return null;
@@ -13,7 +20,10 @@ export function GuaranteesSection({ vertical }: { vertical: Vertical }) {
   return (
     <section data-dark="" className="cv-auto bg-ink py-16 md:py-28">
       <div className="section-shell">
-        <p className="eyebrow text-orange">{guarantees.eyebrow}</p>
+        <p className="eyebrow text-orange">
+          <SectionIndex n={index} dark />
+          {guarantees.eyebrow}
+        </p>
         <h2 className="display mt-4 max-w-[20ch] text-[26px] text-paper md:text-[46px]">
           {guarantees.h2}
         </h2>

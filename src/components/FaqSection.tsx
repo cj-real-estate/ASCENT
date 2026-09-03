@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import SectionIndex from "./SectionIndex";
 
 /*
  * FAQ — light (bg-paper), accordion via native <details>/<summary>: correct
@@ -9,14 +10,23 @@ import type { Vertical } from "@content/verticals/types";
  * Content rule inherited from the module: answers restate facts already
  * published on the page — never new claims.
  */
-export function FaqSection({ vertical }: { vertical: Vertical }) {
+export function FaqSection({
+  vertical,
+  index,
+}: {
+  vertical: Vertical;
+  index?: number;
+}) {
   const { faq } = vertical;
   if (faq === null) return null;
 
   return (
     <section className="cv-auto bg-paper py-16 md:py-28">
       <div className="section-shell">
-        <p className="eyebrow text-orange-deep">{faq.eyebrow}</p>
+        <p className="eyebrow text-orange-deep">
+          <SectionIndex n={index} />
+          {faq.eyebrow}
+        </p>
         <h2 className="display mt-4 max-w-[20ch] text-[26px] text-ink md:text-[46px]">
           {faq.h2}
         </h2>
