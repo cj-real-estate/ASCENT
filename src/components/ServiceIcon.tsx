@@ -33,6 +33,11 @@ const PATHS: Record<string, React.ReactNode> = {
       <path d="M18.5 3.5v3.8h-3.8M5.5 20.5v-3.8h3.8" />
     </>
   ),
+  phone: (
+    <>
+      <path d="M5.2 4h3l1.5 3.8-1.9 1.5a12.5 12.5 0 0 0 5.9 5.9l1.5-1.9L19 14.8v3a1.8 1.8 0 0 1-2 1.8C10 18.9 5.1 14 4.4 7a1.8 1.8 0 0 1 .8-3Z" />
+    </>
+  ),
   stack: (
     <>
       <rect x="4" y="4" width="16" height="5" rx="1.4" />

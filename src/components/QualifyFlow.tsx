@@ -93,7 +93,7 @@ const inputBase =
 
 export function QualifyFlow({
   flow,
-  intent = "audit",
+  intent = "strategy-call",
 }: {
   flow: QualifyFlowProps;
   /** Which offer the visitor clicked — rides into the lead email/sheet. */

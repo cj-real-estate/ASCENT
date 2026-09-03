@@ -7,9 +7,10 @@ import QualifyFlow from "./QualifyFlow";
 /*
  * The qualification flow in a native <dialog>, opened by any element
  * carrying data-open-lead-modal (server components just render the
- * attribute — no handler plumbing). data-intent="strategy-call" tags the
- * lead's interest; default is the audit. Triggers keep href="#book" so a
- * no-JS visitor still lands on the inline form at the bottom of the page.
+ * attribute — no handler plumbing). data-intent can tag a different
+ * interest if a second offer ever returns; today everything is the
+ * strategy call. Triggers keep href="#book" so a no-JS visitor still
+ * lands on the inline form at the bottom of the page.
  *
  * <dialog> gives focus containment, Esc-to-close, and ::backdrop for free.
  * The flow instance is remounted per open so a half-finished wizard from a
@@ -17,7 +18,9 @@ import QualifyFlow from "./QualifyFlow";
  */
 export function LeadModal({ flow }: { flow: QualifyFlowProps }) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const [intent, setIntent] = useState<"audit" | "strategy-call">("audit");
+  const [intent, setIntent] = useState<"audit" | "strategy-call">(
+    "strategy-call",
+  );
   const [openCount, setOpenCount] = useState(0);
 
   useEffect(() => {
@@ -28,9 +31,9 @@ export function LeadModal({ flow }: { flow: QualifyFlowProps }) {
       if (!target) return;
       event.preventDefault();
       const wanted =
-        target.getAttribute("data-intent") === "strategy-call"
-          ? "strategy-call"
-          : "audit";
+        target.getAttribute("data-intent") === "audit"
+          ? "audit"
+          : "strategy-call";
       setIntent(wanted);
       setOpenCount((n) => n + 1);
       dialogRef.current?.showModal();

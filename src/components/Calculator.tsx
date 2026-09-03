@@ -1,19 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import ArrowRight from "./ArrowRight";
-import type { CSSProperties } from "react";
-import type { CalculatorContent, CalculatorField } from "@content/verticals/types";
-import { computePipeline } from "@/lib/calculator";
-import { formatUSD, interpolate } from "@/lib/format";
+import type {
+  CalculatorContent,
+  CalculatorField,
+} from "@content/verticals/types";
+import { computeRoi } from "@/lib/calculator";
+import { formatUSD, formatUSDCompact, formatPercent } from "@/lib/format";
 
 /*
- * The pipeline calculator — the signature element of the page.
- * All math lives in src/lib/calculator.ts; all copy comes from the
- * vertical content module. Nothing is persisted or sent anywhere.
+ * The ROI calculator, reference-site style: inputs in a card on the left,
+ * four per-year output tiles on the right (appointments, deals, revenue,
+ * ROI). Light surfaces. All math lives in src/lib/calculator.ts — straight
+ * arithmetic on the visitor's inputs, stated openly in the assumption line.
+ * Nothing is persisted or sent anywhere.
  */
-
-const TRACK_DARK = { "--track": "rgba(255,255,255,0.2)" } as CSSProperties;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -48,17 +50,18 @@ function NumberBox({
 
   const commit = () => {
     const parsed = Number(draft);
-    const next = Number.isFinite(parsed) && draft.trim() !== ""
-      ? clamp(parsed, field.min, field.max)
-      : value;
+    const next =
+      Number.isFinite(parsed) && draft.trim() !== ""
+        ? clamp(parsed, field.min, field.max)
+        : value;
     onChange(next);
     setDraft(String(next));
   };
 
   return (
-    <span className="flex min-h-[44px] items-center gap-1 rounded-md border border-white/15 bg-ink px-3">
+    <span className="flex min-h-[44px] items-center gap-1 rounded-md border border-line bg-paper px-3">
       {field.unit === "$" ? (
-        <span aria-hidden="true" className="font-mono text-[14px] text-fog">
+        <span aria-hidden="true" className="font-mono text-[14px] text-slate">
           $
         </span>
       ) : null}
@@ -87,7 +90,7 @@ function NumberBox({
         onKeyDown={(e) => {
           if (e.key === "Enter") commit();
         }}
-        className="w-[7ch] bg-transparent text-right font-mono text-[14px] text-paper"
+        className="w-[7ch] bg-transparent text-right font-mono text-[14px] text-ink"
       />
     </span>
   );
@@ -105,11 +108,11 @@ function FieldRow({
   return (
     <div>
       <div className="flex items-center justify-between gap-3">
-        <span className="eyebrow !text-[12px] text-on-dark">{field.label}</span>
+        <span className="eyebrow !text-[12px] text-slate">{field.label}</span>
         {field.numberInput ? (
           <NumberBox field={field} value={value} onChange={onChange} />
         ) : (
-          <span className="readout text-[16px] text-paper">
+          <span className="readout text-[16px] text-ink">
             {formatFieldValue(field, value)}
           </span>
         )}
@@ -125,7 +128,6 @@ function FieldRow({
         step={field.step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        style={TRACK_DARK}
         className="mt-1 block w-full"
       />
     </div>
@@ -147,112 +149,101 @@ export default function Calculator({
   ctaLabel: string;
   ctaMicrocopy: string;
 }) {
-  const { fields, outputLabel, secondaryLine, assumptionLine } = calculator;
+  const { fields, outputs, assumptionLine } = calculator;
 
-  const [estimatesPerMonth, setEstimatesPerMonth] = useState(
-    fields.estimatesPerMonth.defaultValue,
+  const [monthlyBudget, setMonthlyBudget] = useState(
+    fields.monthlyBudget.defaultValue,
   );
-  const [averageTicket, setAverageTicket] = useState(
-    fields.averageTicket.defaultValue,
+  const [costPerAppointment, setCostPerAppointment] = useState(
+    fields.costPerAppointment.defaultValue,
+  );
+  const [averageDealSize, setAverageDealSize] = useState(
+    fields.averageDealSize.defaultValue,
   );
   // Stored as a percentage number (30) — converted to a fraction for the math.
   const [closeRatePct, setCloseRatePct] = useState(
     fields.closeRate.defaultValue,
   );
-  const [months, setMonths] = useState(fields.months.defaultValue);
 
-  const results = computePipeline({
-    estimatesPerMonth,
-    averageTicket,
+  const r = computeRoi({
+    monthlyBudget,
+    costPerAppointment,
+    averageDealSize,
     closeRate: closeRatePct / 100,
-    months,
   });
-  const target = results.recoverableValue;
 
-  // Count-up: visual only. Initialized from the same defaults the server
-  // rendered, so there is no hydration mismatch; matchMedia is read only
-  // inside the effect.
-  const [displayValue, setDisplayValue] = useState(target);
-  const displayRef = useRef(target);
-
-  useEffect(() => {
-    const from = displayRef.current;
-    const to = target;
-    if (from === to) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      // Snap straight to the final value — scheduled through rAF so the
-      // effect never sets state synchronously.
-      const raf = requestAnimationFrame(() => {
-        displayRef.current = to;
-        setDisplayValue(to);
-      });
-      return () => cancelAnimationFrame(raf);
-    }
-
-    const duration = 500;
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3); // ease-out
-      const next = t >= 1 ? to : from + (to - from) * eased;
-      displayRef.current = next;
-      setDisplayValue(next);
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target]);
+  const tiles = [
+    { label: outputs.appointments, value: String(r.appointments), accent: false },
+    { label: outputs.revenue, value: formatUSDCompact(r.revenue), accent: true },
+    { label: outputs.deals, value: String(r.deals), accent: false },
+    { label: outputs.roi, value: formatPercent(r.roi), accent: true },
+  ];
 
   return (
-    <div className="rounded-lg border border-white/10 bg-graphite p-6 md:p-8">
-      <div className="flex flex-col gap-6">
+    <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start">
+      <div className="flex flex-col gap-6 rounded-2xl border border-line bg-paper p-6 shadow-card md:p-7">
         <FieldRow
-          field={fields.estimatesPerMonth}
-          value={estimatesPerMonth}
-          onChange={setEstimatesPerMonth}
+          field={fields.monthlyBudget}
+          value={monthlyBudget}
+          onChange={setMonthlyBudget}
         />
         <FieldRow
-          field={fields.averageTicket}
-          value={averageTicket}
-          onChange={setAverageTicket}
+          field={fields.costPerAppointment}
+          value={costPerAppointment}
+          onChange={setCostPerAppointment}
+        />
+        <FieldRow
+          field={fields.averageDealSize}
+          value={averageDealSize}
+          onChange={setAverageDealSize}
         />
         <FieldRow
           field={fields.closeRate}
           value={closeRatePct}
           onChange={setCloseRatePct}
         />
-        <FieldRow field={fields.months} value={months} onChange={setMonths} />
       </div>
 
-      <div className="mt-8 border-t border-white/10 pt-6">
-        <div aria-live="polite" aria-atomic="true">
-          <p className="eyebrow !text-[12px] text-on-dark">{outputLabel}</p>
-          {/* Screen readers announce the final value, not animation frames */}
-          <span className="sr-only">{formatUSD(target)}</span>
-          <p
-            aria-hidden="true"
-            className="readout mt-2 text-[40px] leading-none text-orange min-[380px]:text-[46px] md:text-[62px]"
+      <div>
+        <dl
+          aria-live="polite"
+          aria-atomic="true"
+          className="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-paper shadow-card"
+        >
+          {tiles.map((tile, i) => (
+            <div
+              key={tile.label}
+              className={`p-6 md:p-8 ${i % 2 === 1 ? "border-l border-line" : ""} ${
+                i >= 2 ? "border-t border-line" : ""
+              }`}
+            >
+              <dt className="text-[15px] font-semibold leading-snug text-ink md:text-[17px]">
+                {tile.label}
+              </dt>
+              <dd
+                className={`readout mt-3 text-[30px] leading-none md:text-[44px] ${
+                  tile.accent ? "text-orange" : "text-ink"
+                }`}
+              >
+                {tile.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-4 font-mono text-[12px] leading-relaxed text-slate">
+          {assumptionLine}
+        </p>
+        <div className="mt-6 flex flex-col items-start gap-3">
+          <a
+            href="#book"
+            data-open-lead-modal
+            className="btn-primary w-full md:w-auto"
           >
-            {formatUSD(displayValue)}
-          </p>
+            {ctaLabel}
+            <ArrowRight />
+          </a>
+          <p className="eyebrow !text-[12px] text-slate">{ctaMicrocopy}</p>
         </div>
-        <p className="mt-4 text-[16px] text-on-dark">
-          {interpolate(secondaryLine, {
-            valueUnclosed: formatUSD(results.valueUnclosed),
-          })}
-        </p>
-        <p className="mt-3 font-mono text-[12px] text-fog">{assumptionLine}</p>
-        <a href="#book" data-open-lead-modal className="btn-primary mt-6 w-full md:w-auto">
-          {ctaLabel}
-          <ArrowRight />
-        </a>
-        {/* On mobile this card's CTA is the hero CTA, so the microcopy
-            rides under it; on desktop it sits under the left-column CTA. */}
-        <p className="eyebrow mt-4 !text-[12px] text-fog lg:hidden">
-          {ctaMicrocopy}
-        </p>
       </div>
     </div>
   );

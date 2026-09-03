@@ -130,10 +130,10 @@ export async function POST(request: Request) {
   const honeypot = readString(body, "website");
   // Which CTA the visitor clicked. Unknown values collapse to the default
   // rather than erroring — it's routing metadata, not a gate input.
-  const interest =
-    readString(body, "interest") === "strategy-call"
-      ? "Strategy call"
-      : "Pipeline audit";
+  // One offer today: everything is a strategy call. Old deployed pages may
+  // still send interest: "audit" mid-deploy — same call, same label. The
+  // field stays in the payload so a second offer can be tagged later.
+  const interest = "Strategy call";
 
   // Honeypot filled: pretend success, send nothing. The fake verdict is
   // "below ICP" so a bot never sees a scheduling link.
@@ -243,7 +243,7 @@ export async function POST(request: Request) {
       return bad("Choose one of the estimate-volume options.");
     }
 
-    subject = `Pipeline audit request — ${name}, ${company}`;
+    subject = `Call request — ${name}, ${company}`;
     text = [
       `Name: ${name}`,
       `Company: ${company}`,

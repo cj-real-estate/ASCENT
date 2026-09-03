@@ -33,37 +33,47 @@ const fence: Vertical = {
     title:
       "Ascent Client Acquisition Systems | Growth Systems for Fence Companies in Oklahoma City",
     description:
-      "Ascent installs lead follow-up and client acquisition systems for fence companies in Oklahoma City. Free pipeline audit — find the quoted work sitting unclosed in your records.",
+      "Ascent installs lead follow-up, appointment setting, and client acquisition systems for fence companies in Oklahoma City. Book a free 30-minute strategy call.",
   },
 
   header: {
-    cta: "Book the free audit",
+    cta: "Book a call",
   },
 
   hero: {
     eyebrow: "GROWTH SYSTEMS FOR FENCE COMPANIES · OKLAHOMA CITY",
     h1: "You don't have a lead problem. You have a lead-handling problem.",
     h1Highlight: "lead-handling problem.",
-    // Outcome-led: the hero sells the installed system; the audit and the
-    // calculator make their case further down the page.
-    sub: "Ascent installs the whole machine for fence companies — website, ads, CRM, and follow-up that works every quote until it closes. You run the estimates. We run everything else.",
-    cta: "Book the free pipeline audit",
-    secondaryCta: "Book a strategy call",
-    microcopy: "30 minutes. No cost. You keep the report either way.",
+    // Outcome-led: the hero sells the installed system; the calculator
+    // makes its case further down the page.
+    sub: "Ascent installs the whole machine for fence companies — website, ads, CRM, follow-up, and a setter who books estimate appointments on your calendar. You run the estimates. We run everything else.",
+    cta: "Book a strategy call",
+    // One offer now — the strategy call IS the primary path.
+    secondaryCta: null,
+    microcopy: "30 minutes. No cost. No obligation.",
   },
 
   calculator: {
     fields: {
-      estimatesPerMonth: {
-        label: "Estimates you write per month",
-        min: 5,
-        max: 300,
-        step: 1,
-        defaultValue: 40,
-        unit: "none",
+      monthlyBudget: {
+        label: "Monthly lead gen budget",
+        min: 1000,
+        max: 15000,
+        step: 250,
+        defaultValue: 3000,
+        unit: "$",
         numberInput: true,
       },
-      averageTicket: {
+      costPerAppointment: {
+        label: "Cost per estimate appointment held",
+        min: 50,
+        max: 1000,
+        step: 25,
+        defaultValue: 200,
+        unit: "$",
+        numberInput: true,
+      },
+      averageDealSize: {
         label: "Average job ticket",
         min: 500,
         max: 50000,
@@ -81,28 +91,21 @@ const fence: Vertical = {
         unit: "%",
         numberInput: false,
       },
-      months: {
-        label: "Months of history in your system",
-        min: 3,
-        max: 36,
-        step: 1,
-        defaultValue: 12,
-        unit: "none",
-        numberInput: false,
-      },
     },
-    outputLabel: "SITTING IN YOUR DEAD ESTIMATE LIST",
-    secondaryLine:
-      "That's {valueUnclosed} of work you already quoted and never closed. The number above assumes you re-close it at half your normal rate.",
+    outputs: {
+      appointments: "Estimate appointments / year",
+      deals: "Jobs signed / year",
+      revenue: "Projected revenue / year",
+      roi: "ROI / year",
+    },
     assumptionLine:
-      "Conservative by design. Half your close rate, applied only to work you already quoted. Your audit uses your real records, not these sliders.",
+      "Straight arithmetic on your inputs: budget ÷ cost per appointment held, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
   },
 
   calculatorSection: {
     eyebrow: "RUN YOUR OWN NUMBERS",
-    h2: "What’s sitting in your dead estimate list?",
-    // Relocated hero copy — it was written for the calculator.
-    sub: "Most fence companies in Oklahoma are sitting on six figures of quoted work that never got a second call. See what yours looks like.",
+    h2: "What would held estimate appointments return?",
+    sub: "Set your budget and what a kept estimate appointment costs — the number we actually manage to — and see the year in appointments, signed jobs, and ROI.",
   },
 
   problem: {
@@ -185,6 +188,11 @@ const fence: Vertical = {
         body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
       },
       {
+        icon: "phone",
+        title: "Appointment setting.",
+        body: "A trained setter works every reply, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
+      },
+      {
         icon: "stack",
         title: "A CRM that actually holds your pipeline.",
         body: "Every lead, every estimate, every outcome, in one place instead of three phones and a notebook.",
@@ -208,8 +216,8 @@ const fence: Vertical = {
     h2: "Three things. That's your whole job.",
     steps: [
       {
-        title: "Call the ones who reply.",
-        body: "The follow-up keeps texting and emailing your old quotes until someone answers. When they do, you make the call.",
+        title: "Show up to booked estimates.",
+        body: "The follow-up warms up your old quotes and the setter books them — estimate appointments land on your calendar.",
       },
       {
         title: "Run the estimate.",
@@ -230,9 +238,9 @@ const fence: Vertical = {
     h2: "What it costs",
     cards: [
       {
-        name: "Pipeline Audit",
+        name: "Strategy Call",
         price: "Free",
-        line: "We go through your records and tell you, in dollars, what's recoverable and how to get it — whether or not you hire us.",
+        line: "Thirty minutes on your numbers: where your leads stall, what an estimate appointment should cost you, and exactly what we'd install — whether or not you hire us.",
       },
       {
         name: "30-Day Dead-Estimate Revival Sprint",
@@ -282,6 +290,30 @@ const fence: Vertical = {
       "Guarantees carry conditions, and they're the same things that make the work succeed: at least 150 contactable past leads, scripts approved within 48 hours, your team calls back the leads who reply, outcomes logged in the CRM, and one 20-minute review a week. All of it is spelled out in the proposal before you sign anything.",
   },
 
+  /*
+   * Practice claims only — things a client can check (listen to a call, read
+   * the report), never performance numbers. Numbers live in `proof`,
+   * attributed.
+   */
+  transparency: {
+    eyebrow: "HOW WE REPORT",
+    h2: "Transparent, down to the call recordings.",
+    items: [
+      {
+        title: "Every setter call, recorded and monitored.",
+        body: "Any call a setter makes on your behalf is recorded and reviewed. Ask for any recording, any time — quality isn't asserted, it's auditable.",
+      },
+      {
+        title: "Cost per appointment held, not cost per lead.",
+        body: "Cheap leads that never answer aren't cheap. The number we optimize and report is what a kept estimate appointment actually costs.",
+      },
+      {
+        title: "Your numbers, in dollars.",
+        body: "Spend, appointments held, jobs signed. You see the same report we look at — nothing summarized away.",
+      },
+    ],
+  },
+
   foundingFive: {
     h2: "We take five clients.",
     body: "One person runs the delivery, so five is the cap — not a marketing device. Founding clients get the discounted Sprint, a rate locked for as long as they stay, and more of my week than anyone who signs later will get.",
@@ -302,20 +334,24 @@ const fence: Vertical = {
     h2: "Before you book.",
     items: [
       {
-        q: "What actually happens on the audit call?",
-        a: "Thirty minutes: your leads and estimates, a dollar figure on what’s recoverable, and exactly how to go get it. The report is yours either way.",
+        q: "What actually happens on the strategy call?",
+        a: "Thirty minutes on your real numbers: where your leads stall, what an estimate appointment should cost you, and exactly what we’d install. No obligation either way.",
       },
       {
         q: "What does it cost?",
-        a: "The audit is free. The 30-Day Dead-Estimate Revival Sprint is $1,500 at the founding rate ($2,500 after). The Core Growth System runs $2,500 a month and the Full Revenue System $4,000 a month plus ad spend — month to month, and founding rates hold until the fifth spot fills.",
+        a: "The strategy call is free. The 30-Day Dead-Estimate Revival Sprint is $1,500 at the founding rate ($2,500 after). The Core Growth System runs $2,500 a month and the Full Revenue System $4,000 a month plus ad spend — month to month, and founding rates hold until the fifth spot fills.",
       },
       {
         q: "What if it doesn’t work?",
         a: "Three guarantees, in writing: at least 5 booked estimate appointments from your dead list in 30 days or a full refund; live within 14 days of getting access and assets or your next month of management is free; and a qualified-opportunities number for your first 60 days, set from your own records, or we manage your campaigns free until you hit it. The conditions are spelled out in the proposal before you sign anything.",
       },
       {
+        q: "How do I know the setter calls are any good?",
+        a: "Every call a setter makes on your behalf is recorded and monitored, and you can ask for any recording. We also report cost per appointment held — not cost per lead — so the number you see is estimates that actually happened.",
+      },
+      {
         q: "How much of my time does this take?",
-        a: "Three things: call the leads who reply, run the estimate, and tap the outcome in the CRM. Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
+        a: "Three things: show up to the estimate appointments the setter books, run the estimate, and tap the outcome in the CRM. Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
       },
       {
         q: "Why only five clients?",
@@ -325,10 +361,10 @@ const fence: Vertical = {
   },
 
   booking: {
-    eyebrow: "THE FREE PIPELINE AUDIT",
-    h2: "Find out what's actually in your pipeline.",
+    eyebrow: "BOOK YOUR STRATEGY CALL",
+    h2: "Let's look at your numbers.",
     h2Waitlist: "Join the waitlist for the next opening.",
-    body: "Thirty minutes. You'll see, in dollars, what's recoverable in your pipeline and exactly how to go get it. The report is yours either way.",
+    body: "Thirty minutes: where your leads stall, what an estimate appointment should cost you, and what we'd install to fix it. No cost, no obligation.",
     // Calendly, supplied by the client 2026-08-21. The embed params drop
     // Calendly's own page chrome and the GDPR banner so it sits inside the
     // section rather than looking like a framed website.
@@ -348,7 +384,7 @@ const fence: Vertical = {
         "50–100",
         "More than 100",
       ],
-      submitLabel: "Request the free audit",
+      submitLabel: "Request a call",
       submittingLabel: "Sending…",
     },
   },
@@ -407,7 +443,7 @@ const fence: Vertical = {
       {
         key: "investment",
         label:
-          "The Sprint is $1,500 and ongoing systems run $2,500–$4,000 a month. If your audit shows the numbers work, is that something you could invest in?",
+          "The Sprint is $1,500 and ongoing systems run $2,500–$4,000 a month. If the numbers work, is that something you could invest in?",
         options: [
           { label: "Yes — if the numbers make sense", qualifies: true },
           { label: "Not at that level right now", qualifies: false },
@@ -425,13 +461,13 @@ const fence: Vertical = {
     stepLabel: "Step {n} of {total}",
     backLabel: "Back",
     continueLabel: "Continue",
-    contactHeading: "Last step — where does the report go?",
-    contactSub: "Your audit report and, if we’re a fit, your booking link.",
+    contactHeading: "Last step — how do we reach you?",
+    contactSub: "If we’re a fit, your booking link is on the next screen.",
     submitLabel: "See if we’re a fit",
     submittingLabel: "Sending…",
     passHeading: "You’re a fit.",
     passBody:
-      "Grab a time below — thirty minutes, your real numbers, and you keep the report either way.",
+      "Grab a time below — thirty minutes on your real numbers, no obligation.",
     // Used when booking.schedulingLink is null and there is no calendar to
     // put under the pass state.
     passFallbackBody:
@@ -440,9 +476,9 @@ const fence: Vertical = {
     // Honest, not discouraging, and no fake encouragement. Someone who gets
     // this screen should be able to tell exactly what would change the answer.
     declineBody:
-      "Based on your answers, the audit wouldn’t pay for itself yet — the system runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator at the top of this page shows where the numbers start to work.",
+      "Based on your answers, the system wouldn’t pay for itself yet — it runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on this page shows where the numbers start to work.",
     trustItems: [
-      "30 minutes. No cost. You keep the report either way.",
+      "30 minutes. No cost. No obligation.",
       "5 booked estimate appointments from your dead list in 30 days, or a full refund — in writing.",
       "65 fence leads in 19 days on $866 of ad spend — Prestige Fence, Oklahoma City.",
     ],
@@ -454,8 +490,8 @@ const fence: Vertical = {
   thanks: {
     h1: "Your request is in.",
     body: [
-      "You'll get a call or a text within one business day to set a time for your 30-minute pipeline audit.",
-      "Before the call, round up whatever holds your estimates — spreadsheet, CRM export, even a text thread. That's what the audit runs on.",
+      "You'll get a call or a text within one business day to set a time for your 30-minute strategy call.",
+      "Before the call, round up whatever holds your estimates — spreadsheet, CRM export, even a text thread. Real numbers make it a better call.",
     ],
     backLabel: "Back to the site",
   },

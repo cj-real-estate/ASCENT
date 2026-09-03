@@ -22,16 +22,20 @@ export interface CalculatorField {
 
 export interface CalculatorContent {
   fields: {
-    estimatesPerMonth: CalculatorField;
-    averageTicket: CalculatorField;
+    monthlyBudget: CalculatorField;
+    costPerAppointment: CalculatorField;
+    averageDealSize: CalculatorField;
     closeRate: CalculatorField;
-    months: CalculatorField;
   };
-  /** Mono label above the primary output */
-  outputLabel: string;
-  /** Template — "{valueUnclosed}" is replaced with the formatted dollar figure */
-  secondaryLine: string;
-  /** Permanent assumption line. Never hidden behind a toggle. */
+  /** Labels over the four output tiles (per-year figures). */
+  outputs: {
+    appointments: string;
+    deals: string;
+    revenue: string;
+    roi: string;
+  };
+  /** Permanent line stating the arithmetic openly. Never hidden behind a
+   *  toggle — transparency about the math IS the positioning. */
   assumptionLine: string;
 }
 
@@ -70,6 +74,7 @@ export interface ServiceItem {
     | "cursor"
     | "megaphone"
     | "loop"
+    | "phone"
     | "stack"
     | "chart";
 }
@@ -336,6 +341,18 @@ export interface Vertical {
     schedulingLink: string | null;
     form: FormContent;
   };
+
+  /**
+   * How the firm reports — recorded and monitored setter calls, cost per
+   * appointment held over cost per lead, plain-dollar reporting. Practice
+   * claims only (things the firm does), never performance claims (numbers
+   * belong in `proof`, attributed). null omits the section.
+   */
+  transparency: {
+    eyebrow: string;
+    h2: string;
+    items: { title: string; body: string }[];
+  } | null;
 
   /** ICP gate in front of the scheduler. A prospect qualifies only when every
    *  chosen option has qualifies: true. Thresholds are tuned here, in content,

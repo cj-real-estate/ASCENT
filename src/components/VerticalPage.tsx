@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import ProblemSection from "@/components/ProblemSection";
 import ServicesSection from "@/components/ServicesSection";
 import ProofSection from "@/components/ProofSection";
+import TransparencySection from "@/components/TransparencySection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import PricingSection from "@/components/PricingSection";
 import GuaranteesSection from "@/components/GuaranteesSection";
@@ -39,6 +40,7 @@ export function VerticalPage({
     problem: ++n,
     calculator: ++n,
     services: vertical.services ? ++n : undefined,
+    transparency: vertical.transparency ? ++n : undefined,
     howItWorks: vertical.howItWorks ? ++n : undefined,
     pricing: vertical.pricing.eyebrow ? ++n : undefined,
     guarantees: vertical.guarantees ? ++n : undefined,
@@ -59,7 +61,9 @@ export function VerticalPage({
             has no standalone three-step section */}
         <ServicesSection vertical={vertical} index={idx.services} />
         <ProofSection vertical={vertical} />
-        {/* Re-ask right after the proof beat, reference-site style */}
+        {/* The numbers, then how we report them */}
+        <TransparencySection vertical={vertical} index={idx.transparency} />
+        {/* Re-ask right after the proof + transparency beat */}
         <CtaBand vertical={vertical} />
         {/* Vertical page: the standalone three-step section */}
         <HowItWorksSection vertical={vertical} index={idx.howItWorks} />

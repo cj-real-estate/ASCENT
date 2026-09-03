@@ -50,7 +50,7 @@ export default function PrivacyPage() {
             {business.shortName} advertises on Google. The site loads
             Google&apos;s advertising tag (gtag.js), which sets cookies in your
             browser so Google can tell whether someone who clicked an ad went
-            on to request an audit. That is what the tag is for — measuring ads
+            on to request a call. That is what the tag is for — measuring ads
             we paid for. You can opt out of personalized Google advertising at{" "}
             <a
               href="https://myadcenter.google.com"
@@ -64,11 +64,12 @@ export default function PrivacyPage() {
 
           <h2 className={h2Class}>The booking form</h2>
           <p className={pClass}>
-            If you request the free pipeline audit, the form collects five
-            things: your name, company, phone number, email address, and
-            roughly how many estimates you write a month. That information is
-            sent to {business.shortName} by email and used solely to schedule
-            and run your audit. Because it travels by email, it lives in the
+            If you request a strategy call, the form collects your name,
+            company, phone number, email address, and your answers to a few
+            short questions about your business — quote volume, list size,
+            revenue range, and similar. That information is sent to{" "}
+            {business.shortName} by email and used solely to schedule and
+            prepare for your call. Because it travels by email, it lives in the
             recipient&apos;s email provider once it&apos;s sent — the site
             itself stores nothing.
           </p>
