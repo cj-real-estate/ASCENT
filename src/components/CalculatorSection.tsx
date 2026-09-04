@@ -17,7 +17,7 @@ export function CalculatorSection({
 }) {
   const { calculatorSection } = vertical;
   return (
-    <section className="cv-auto bg-paper py-16 md:py-28">
+    <section className="cv-auto bg-surface py-16 md:py-28">
       <div className="section-shell">
         <p className="eyebrow text-orange-deep">
           <SectionIndex n={index} />

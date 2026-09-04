@@ -36,9 +36,9 @@ const general: Vertical = {
 
   seo: {
     title:
-      "Ascent Client Acquisition Systems | CRM, Follow-Up, and Appointment Setting",
+      "Ascent Client Acquisition Systems | Turn Leads Into Revenue",
     description:
-      "Ascent installs CRM, follow-up, appointment setting, and lead generation systems for businesses in Oklahoma. Book a free 30-minute strategy call on your numbers.",
+      "Ascent connects paid acquisition, CRM, and text and email follow-up for high-ticket businesses. See where your pipeline leaks and what to fix first.",
   },
 
   header: {
@@ -46,16 +46,16 @@ const general: Vertical = {
   },
 
   hero: {
-    eyebrow: "CLIENT ACQUISITION SYSTEMS",
-    h1: "You don't have a lead problem. You have a lead-handling problem.",
-    h1Highlight: "lead-handling problem.",
+    eyebrow: "REVENUE SYSTEMS FOR HIGH-TICKET SALES",
+    h1: "More leads won't fix a broken follow-up system.",
+    h1Highlight: "broken follow-up system.",
     // Outcome-led: the hero sells the installed system; the calculator
     // makes its case further down the page.
-    sub: "Ascent installs the whole machine — website, ads, CRM, follow-up, and a trained appointment setter who books qualified meetings on your calendar. You close the deals. We run everything else.",
-    cta: "Book a strategy call",
+    sub: "Ascent connects paid acquisition, CRM, and text and email follow-up so every inquiry gets a fast response, every open opportunity stays visible, and every reply reaches your team.",
+    cta: "Audit my acquisition system",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
-    microcopy: "30 minutes. No cost. No obligation.",
+    microcopy: "30 minutes. Your numbers. A clear next move.",
   },
 
   calculator: {
@@ -70,7 +70,7 @@ const general: Vertical = {
         numberInput: true,
       },
       costPerAppointment: {
-        label: "Cost per appointment held",
+        label: "Cost per qualified lead",
         min: 50,
         max: 1000,
         step: 25,
@@ -98,98 +98,98 @@ const general: Vertical = {
       },
     },
     outputs: {
-      appointments: "Appointments held / year",
+      appointments: "Qualified leads / year",
       deals: "Deals closed / year",
       revenue: "Projected revenue / year",
       roi: "ROI / year",
     },
     assumptionLine:
-      "Straight arithmetic on your inputs: budget ÷ cost per appointment held, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
+      "Straight arithmetic on your inputs: budget ÷ cost per qualified lead, closed at your rate, with ROI calculated after ad spend. No multipliers and no “up to.”",
   },
 
   calculatorSection: {
     eyebrow: "RUN YOUR OWN NUMBERS",
-    h2: "What would held appointments return?",
-    sub: "Set your budget and what a kept appointment costs — the number we actually manage to — and see the year in appointments, closed deals, and ROI.",
+    h2: "What should your lead flow produce?",
+    sub: "Use your real acquisition cost, average sale, and close rate. The math shows what the funnel should produce — and how expensive weak follow-up becomes.",
   },
 
   problem: {
-    eyebrow: "THE ACTUAL PROBLEM",
-    h2: "Your leads aren't the issue. What happens after them is.",
+    eyebrow: "THE REVENUE LEAK",
+    h2: "Revenue gets lost between the click and the close.",
     paragraphs: [
-      "You send the quote. They say they'll think about it. You follow up once, maybe twice, then the next deal takes over and they're gone.",
-      "Nobody calls at week two. Nobody calls at month three when the budget finally clears. The quote quietly stops existing.",
-      "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
-      "Ascent installs the system that does the following up. Once it's provably working, we add new leads on top. In that order, deliberately.",
+      "A lead comes in. The first response takes an hour. A proposal goes out. Follow-up stops after day three. Marketing reports clicks while sales works from memory.",
+      "The opportunity never clearly dies — it simply disappears into an inbox, a spreadsheet, or the bottom of somebody's week.",
+      "That is not just a lead problem. It is an operating-system problem, and it wastes the money you already spent to create demand.",
+      "Ascent fixes the handoff first: one pipeline, fast text and email follow-up, clear ownership, and reporting tied to revenue. Then we add traffic to a system that can hold it.",
     ],
   },
 
   services: {
-    eyebrow: "WHAT WE DO",
-    h2: "Everything that brings you work, in one system.",
+    eyebrow: "THE SYSTEM",
+    h2: "One connected system from first click to closed revenue.",
     items: [
       {
         icon: "browser",
-        title: "Website and landing page builds.",
-        body: "Fast, mobile-first, and pointed at one action: a booked appointment.",
+        title: "Conversion pages.",
+        body: "Fast, mobile-first pages built around one clear next step — not a brochure with nowhere to go.",
       },
       {
         icon: "pin",
-        title: "SEO and local search strategy.",
-        body: "Show up when your market searches for what you do — listings, reviews, and pages built to rank.",
+        title: "Search visibility.",
+        body: "Local listings, reviews, and search pages that help qualified buyers find you when intent is already high.",
       },
       {
         icon: "cursor",
-        title: "Google Ads.",
-        body: "Paid search for people already typing what you sell, measured in booked appointments.",
+        title: "Google demand capture.",
+        body: "Paid search for buyers already looking for what you sell, measured beyond the click.",
       },
       {
         icon: "megaphone",
-        title: "Meta Ads.",
-        body: "Facebook and Instagram campaigns that reach your buyers before they start shopping.",
+        title: "Meta demand generation.",
+        body: "Campaigns that put a clear offer in front of the right market before they start comparing vendors.",
       },
       {
         icon: "loop",
-        title: "Follow-up automations.",
-        body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
+        title: "Speed-to-lead and follow-up.",
+        body: "Texts and emails on a schedule, from your name and number, with every reply routed straight to your team.",
       },
       {
         icon: "phone",
-        title: "Appointment setting.",
-        body: "A trained setter works every reply, vets them on the phone, and books the meeting straight onto your calendar. Every call recorded and monitored.",
+        title: "Reply routing and ownership.",
+        body: "The moment a prospect responds, the right person on your team knows who replied, what they saw, and what happens next.",
       },
       {
         icon: "stack",
-        title: "A CRM that actually holds your pipeline.",
-        body: "Every lead, every quote, every outcome, in one place instead of three inboxes and a spreadsheet.",
+        title: "A CRM your team will use.",
+        body: "Every lead, proposal, reply, and outcome in one operating view instead of scattered inboxes and spreadsheets.",
       },
       {
         icon: "chart",
-        title: "Reporting in dollars.",
-        body: "What you spent, what it produced, what\u2019s still open. One number you can trust.",
+        title: "Revenue reporting.",
+        body: "What you spent, what moved, what closed, and what is still open — without hiding behind vanity metrics.",
       },
     ],
     // The order argument. Without it a flat list implies we switch
     // everything on at once, which is not how any of this is sold.
     closing:
-      "We don\u2019t switch all of it on at once. The follow-up goes in first, and traffic comes after the machine can hold what it catches.",
+      "We install in the order that protects your money: pipeline and follow-up first, then more traffic once the system can hold what it catches.",
     ownerCard: {
-      heading: "Three things. That's your whole job.",
+      heading: "Your team owns three moments. We operate the system around them.",
       steps: [
         {
-          title: "Show up to booked appointments.",
-          body: "The follow-up warms them up and the setter books them. Qualified meetings land on your calendar.",
+          title: "Take the conversation.",
+          body: "When a reply routes in, your team responds while the intent is still warm.",
         },
         {
-          title: "Run the sales conversation.",
-          body: "The part you're already good at, and the only part that needs you.",
+          title: "Run the sale.",
+          body: "Hold the consultation, estimate, or proposal conversation — the part that needs your expertise.",
         },
         {
           title: "Tap the outcome in the CRM.",
           body: "Won, lost, or thinking about it. Two seconds, and it's what makes the follow-up smart.",
         },
       ],
-      closing: "Everything else is installed and operated by us.",
+      closing: "We never call your customers. Every automated touch goes out from your company, and every human conversation stays with your team.",
     },
   },
 
@@ -203,10 +203,9 @@ const general: Vertical = {
     // specific case an owner can picture persuades; hedging reads as
     // fabrication to exactly the skeptical reader this page is written for.
     framingLine:
-      "From a fence company in the Oklahoma City metro. Different industry than yours, most likely — the mechanism doesn't change.",
-    // Cost per lead runs LAST on purpose: the site's stated position is
-    // that cost per appointment held is the metric that matters, so the
-    // lead-cost number is supporting evidence, not the headline.
+      "Real numbers from Prestige Fence in the Oklahoma City metro. The industry is specific. The operating system is transferable.",
+    // Cost per lead runs last so the revenue result remains the commercial
+    // proof point instead of a disconnected media metric.
     stats: [
       {
         number: "65 in 19 days",
@@ -214,7 +213,7 @@ const general: Vertical = {
       },
       {
         number: "$275K → $85K",
-        label: "Quoted, then signed inside 30 days — from follow-up alone",
+        label: "Quoted → signed inside the same 30-day window",
       },
       {
         number: "$13.33",
@@ -250,19 +249,19 @@ const general: Vertical = {
    */
   transparency: {
     eyebrow: "HOW WE REPORT",
-    h2: "Transparent, down to the call recordings.",
+    h2: "You see the same funnel we see.",
     items: [
       {
-        title: "Every setter call, recorded and monitored.",
-        body: "Any call a setter makes on your behalf is recorded and reviewed. Ask for any recording, any time — quality isn't asserted, it's auditable.",
+        title: "Speed-to-lead, measured.",
+        body: "See how quickly each inquiry received a response, which sequence it entered, and where the conversation moved next.",
       },
       {
-        title: "Cost per appointment held, not cost per lead.",
-        body: "Cheap leads that never answer aren't cheap. The number we optimize and report is what a kept appointment on your calendar actually costs.",
+        title: "Pipeline movement, not vanity metrics.",
+        body: "Leads, replies, consultations, proposals, and wins. The report follows the sale instead of stopping at form fills.",
       },
       {
-        title: "Your numbers, in dollars.",
-        body: "Spend, appointments held, deals closed. You see the same report we look at — nothing summarized away.",
+        title: "Revenue attribution you can inspect.",
+        body: "Spend, open pipeline, and closed revenue stay connected so you can make the next decision from evidence.",
       },
     ],
   },
@@ -274,18 +273,18 @@ const general: Vertical = {
       {
         name: "Strategy Call",
         price: "Free",
-        line: "Thirty minutes on your numbers: where your leads stall, what a held appointment should cost you, and exactly what we’d install — whether or not you hire us.",
+        line: "Thirty minutes on your numbers: where the handoff breaks, what the leak is costing, and what to fix first — whether or not you hire us.",
       },
       {
         name: "30-Day Revival Sprint",
         price: "$1,500",
         priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed quote you have. Booked appointments in week one, from money you already spent.",
+        line: "We install the CRM and follow-up, then reactivate your old leads and open proposals with scheduled text and email. Replies route directly to your team.",
         dark: true,
       },
     ],
     guaranteeLine:
-      "If the Sprint doesn't book at least 5 sales appointments from your old list in 30 days, you get a full refund.",
+      "If the Sprint doesn't produce at least 5 qualified sales opportunities from your old list in 30 days, you get a full refund.",
     note: "Ongoing systems run from $2,500/month, month to month, priced off your market and ad budget. We'll put a number in writing after the strategy call — not before. Founding rates hold until the fifth spot fills.",
     background: "paper",
     // DECISION #5 — whether the founding-spots line belongs on this page or
@@ -315,7 +314,7 @@ const general: Vertical = {
     items: [
       {
         q: "What actually happens on the strategy call?",
-        a: "Thirty minutes on your real numbers: where your leads stall, what a held appointment should cost you, and exactly what we’d install. No obligation either way.",
+        a: "Thirty minutes on your real numbers: where the handoff breaks, what the leak is costing, and what we would fix first. No obligation either way.",
       },
       {
         q: "What does it cost?",
@@ -323,15 +322,15 @@ const general: Vertical = {
       },
       {
         q: "What if the Sprint doesn’t work?",
-        a: "If it doesn’t book at least 5 sales appointments from your old list in 30 days, you get a full refund. That’s in writing.",
+        a: "If it doesn’t produce at least 5 qualified sales opportunities from your old list in 30 days, you get a full refund. That’s in writing.",
       },
       {
-        q: "How do I know the setter calls are any good?",
-        a: "Every call a setter makes on your behalf is recorded and monitored, and you can ask for any recording. We also report cost per appointment held — not cost per lead — so the number you see is meetings that actually happened.",
+        q: "Do you call my leads or customers?",
+        a: "No. Ascent runs text and email follow-up from your company’s name and number. When someone replies, the conversation routes directly to your team.",
       },
       {
         q: "How much of my time does this take?",
-        a: "Three things: show up to the appointments the setter books, run the sales conversation, and tap the outcome in the CRM. Everything else is installed and operated by us.",
+        a: "Three things: take the conversation when a reply routes in, run the consultation or estimate, and tap the outcome in the CRM. Everything around those actions is installed and operated by us.",
       },
       {
         q: "Do you only work with fence companies?",
@@ -344,7 +343,7 @@ const general: Vertical = {
     eyebrow: "BOOK YOUR STRATEGY CALL",
     h2: "Let's look at your numbers.",
     h2Waitlist: "Join the waitlist for the next opening.",
-    body: "Thirty minutes: where your leads stall, what a held appointment should cost you, and what we'd install to fix it. No cost, no obligation.",
+    body: "Thirty minutes on where your acquisition system leaks, what that costs, and the clearest next fix. No cost and no obligation.",
     // Calendly, supplied by the client 2026-08-21. See fence.ts for the
     // reasoning behind the embed params.
     schedulingLink:
@@ -482,8 +481,8 @@ const general: Vertical = {
     declineBody:
       "Based on your answers, the system wouldn’t pay for itself yet — it runs on quote volume and a list of past leads to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on ascentcas.com shows where the numbers start to work.",
     trustItems: [
-      "30 minutes. No cost. No obligation.",
-      "5 booked sales appointments from your old list in 30 days, or a full refund — in writing.",
+      "30 minutes. Your numbers. A clear next move.",
+      "5 qualified sales opportunities from your old list in 30 days, or a full refund — in writing.",
       "65 leads in 19 days on $866 of ad spend — Prestige Fence, Oklahoma City.",
     ],
   },
@@ -492,7 +491,7 @@ const general: Vertical = {
     seoTitle:
       "Book a Free Strategy Call | Ascent Client Acquisition Systems",
     seoDescription:
-      "Answer a few questions, and if we’re a fit, book a free 30-minute strategy call on your numbers — where leads stall, what an appointment should cost, and what to install.",
+      "Answer a few questions, then book a free 30-minute acquisition-system audit on where leads stall, what the leak costs, and what to fix first.",
     eyebrow: "THE FREE STRATEGY CALL",
     h1: "Find out what your pipeline should be producing.",
     sub: "Six quick questions. If we’re a fit, you book your 30-minute strategy call on the next screen. No obligation.",

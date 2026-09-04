@@ -17,25 +17,25 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
   const { proof } = vertical;
 
   return (
-    <section className="cv-auto bg-surface py-16 md:py-28">
+    <section data-dark="" className="cv-auto bg-ink py-16 md:py-28">
       <div className="section-shell">
         <h2 className="sr-only">{proof.srHeading}</h2>
 
         {/* Names the trade the case came from, on pages whose reader is in
             some other trade. Never genericised into "a client". */}
         {proof.framingLine && (
-          <p className="mb-10 max-w-[60ch] text-[20px] font-semibold text-ink md:text-[26px]">
+          <p className="mb-10 max-w-[60ch] text-[20px] font-semibold text-paper md:text-[30px]">
             {proof.framingLine}
           </p>
         )}
 
-        <div className="grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
+        <div className="grid divide-y divide-white/10 border-y border-white/10 md:grid-cols-3 md:divide-x md:divide-y-0">
           {proof.stats.map((stat) => (
             <div key={stat.number} className="py-8 md:px-8 md:first:pl-0 md:last:pr-0">
               <p className="readout text-[40px] leading-none text-orange md:text-[56px]">
                 {stat.number}
               </p>
-              <p className="mt-2 max-w-[40ch] text-[15px] text-slate">
+              <p className="mt-2 max-w-[40ch] text-[15px] text-on-dark">
                 {stat.label}
               </p>
             </div>
@@ -45,7 +45,7 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
         {proof.reportCard ? (
           /* Dashboard-styled, but every value is an attributed number from
              the stats above — presentation, not new data. */
-          <div className="mt-12 max-w-[720px] rounded-2xl border border-ink bg-ink p-6 shadow-card md:p-8">
+          <div className="mt-12 rounded-2xl border border-white/10 bg-graphite p-6 shadow-card md:p-8">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
               <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-on-dark">
                 {proof.reportCard.title}
@@ -82,7 +82,7 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
           </div>
         ) : null}
 
-        <p className="mt-6 font-mono text-[12px] tracking-[0.02em] text-slate">
+        <p className="mt-6 font-mono text-[12px] tracking-[0.02em] text-on-dark">
           {proof.attributionLine ??
             "[NEEDS ATTRIBUTION LINE — whose results, which market, what period]"}
         </p>

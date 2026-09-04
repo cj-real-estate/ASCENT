@@ -33,25 +33,26 @@ export function ServicesSection({
           {services.h2}
         </h2>
 
-        <ul className="mt-10 border-b border-line md:mt-14">
+        <ul className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2">
           {services.items.map((item, i) => (
             <li
               key={item.title}
-              className="grid gap-2 border-t border-line py-6 md:grid-cols-[72px_1.1fr_1.3fr] md:gap-8 md:py-7"
+              className={`group rounded-xl border border-line bg-surface p-6 motion-safe:transition-[transform,border-color,box-shadow] motion-safe:hover:-translate-y-1 hover:border-slate hover:shadow-card md:p-7 ${
+                i === 4 || i === 6 ? "md:col-span-2" : ""
+              }`}
             >
-              <p
-                aria-hidden="true"
-                className="readout text-[15px] text-slate md:pt-1"
-              >
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="flex items-start gap-3 text-[20px] font-semibold leading-snug text-ink">
-                <span className="mt-0.5 shrink-0 text-orange-deep">
+              <div className="flex items-start justify-between gap-4">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-tint text-orange-deep">
                   <ServiceIcon name={item.icon} />
                 </span>
+                <p aria-hidden="true" className="readout text-[12px] text-fog">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+              </div>
+              <h3 className="mt-8 text-[20px] font-semibold leading-snug text-ink">
                 {item.title}
               </h3>
-              <p className="max-w-[56ch] text-[17px] text-slate">{item.body}</p>
+              <p className="mt-2 max-w-[58ch] text-[16px] text-slate">{item.body}</p>
             </li>
           ))}
         </ul>
@@ -63,8 +64,9 @@ export function ServicesSection({
         {services.ownerCard && (
           <div
             data-dark=""
-            className="mt-12 rounded-2xl bg-ink p-7 shadow-card md:mt-16 md:p-10"
+            className="relative mt-12 overflow-hidden rounded-2xl bg-ink p-7 shadow-card md:mt-16 md:p-10"
           >
+            <div className="owner-card-glow" aria-hidden="true" />
             <h3 className="display text-[26px] text-paper md:text-[34px]">
               {services.ownerCard.heading}
             </h3>

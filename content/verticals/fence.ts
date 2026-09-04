@@ -33,7 +33,7 @@ const fence: Vertical = {
     title:
       "Ascent Client Acquisition Systems | Growth Systems for Fence Companies in Oklahoma City",
     description:
-      "Ascent installs lead follow-up, appointment setting, and client acquisition systems for fence companies in Oklahoma City. Book a free 30-minute strategy call.",
+      "Ascent installs CRM, text and email follow-up, and lead generation systems for fence companies in Oklahoma City. Book a free 30-minute strategy call.",
   },
 
   header: {
@@ -46,7 +46,7 @@ const fence: Vertical = {
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the calculator
     // makes its case further down the page.
-    sub: "Ascent installs the whole machine for fence companies — website, ads, CRM, follow-up, and a setter who books estimate appointments on your calendar. You run the estimates. We run everything else.",
+    sub: "Ascent connects your website, ads, CRM, and text and email follow-up so every fence lead gets a fast response, every open estimate stays visible, and every reply reaches your team.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
@@ -65,7 +65,7 @@ const fence: Vertical = {
         numberInput: true,
       },
       costPerAppointment: {
-        label: "Cost per estimate appointment held",
+        label: "Cost per qualified fence lead",
         min: 50,
         max: 1000,
         step: 25,
@@ -93,19 +93,19 @@ const fence: Vertical = {
       },
     },
     outputs: {
-      appointments: "Estimate appointments / year",
+      appointments: "Qualified leads / year",
       deals: "Jobs signed / year",
       revenue: "Projected revenue / year",
       roi: "ROI / year",
     },
     assumptionLine:
-      "Straight arithmetic on your inputs: budget ÷ cost per appointment held, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
+      "Straight arithmetic on your inputs: budget ÷ cost per qualified lead, closed at your rate, with ROI calculated after ad spend. No multipliers and no “up to.”",
   },
 
   calculatorSection: {
     eyebrow: "RUN YOUR OWN NUMBERS",
-    h2: "What would held estimate appointments return?",
-    sub: "Set your budget and what a kept estimate appointment costs — the number we actually manage to — and see the year in appointments, signed jobs, and ROI.",
+    h2: "What should your fence lead flow produce?",
+    sub: "Use your real lead cost, average job, and close rate. The math shows what the funnel should produce — and how expensive weak follow-up becomes.",
   },
 
   problem: {
@@ -113,7 +113,7 @@ const fence: Vertical = {
     h2: "Your leads aren't the issue. What happens after them is.",
     paragraphs: [
       "You quote the job. He says he'll think about it. You call once, maybe twice, then the next job starts and he's gone.",
-      "Nobody calls at week two. Nobody calls at month three when he finally has the money. The estimate quietly stops existing.",
+      "Nobody follows up at week two. Nobody checks back at month three when the budget finally clears. The estimate quietly stops existing.",
       "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
       "Ascent installs the system that does the following up, then adds new leads once the machine is running. In that order, deliberately.",
     ],
@@ -134,7 +134,7 @@ const fence: Vertical = {
       },
       {
         number: "$275K → $85K",
-        label: "Quoted, then signed inside 30 days — from follow-up alone",
+        label: "Quoted → signed inside the same 30-day window",
       },
     ],
     // Supplied by the client 2026-08-21. Keep it specific and checkable —
@@ -165,7 +165,7 @@ const fence: Vertical = {
       {
         icon: "browser",
         title: "Website and landing page builds.",
-        body: "Fast, mobile-first, and pointed at one action: a booked estimate.",
+        body: "Fast, mobile-first, and pointed at one action: requesting an estimate.",
       },
       {
         icon: "pin",
@@ -175,7 +175,7 @@ const fence: Vertical = {
       {
         icon: "cursor",
         title: "Google Ads.",
-        body: "Paid search for people already typing what you sell, measured in booked estimates.",
+        body: "Paid search for homeowners already looking for a fence contractor, measured beyond the click.",
       },
       {
         icon: "megaphone",
@@ -189,8 +189,8 @@ const fence: Vertical = {
       },
       {
         icon: "phone",
-        title: "Appointment setting.",
-        body: "A trained setter works every reply, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
+        title: "Reply routing and ownership.",
+        body: "The moment a homeowner responds, the right person on your team knows who replied, what they saw, and what happens next.",
       },
       {
         icon: "stack",
@@ -216,8 +216,8 @@ const fence: Vertical = {
     h2: "Three things. That's your whole job.",
     steps: [
       {
-        title: "Show up to booked estimates.",
-        body: "The follow-up warms up your old quotes and the setter books them — estimate appointments land on your calendar.",
+        title: "Take the conversation.",
+        body: "When a homeowner replies, the conversation routes straight to your team while the intent is still warm.",
       },
       {
         title: "Run the estimate.",
@@ -229,7 +229,7 @@ const fence: Vertical = {
       },
     ],
     closing:
-      "Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
+      "Everything around those three actions — the CRM, text and email follow-up, ad accounts, and reporting — is installed and operated by us. We never call your customers.",
   },
 
   pricing: {
@@ -240,13 +240,13 @@ const fence: Vertical = {
       {
         name: "Strategy Call",
         price: "Free",
-        line: "Thirty minutes on your numbers: where your leads stall, what an estimate appointment should cost you, and exactly what we'd install — whether or not you hire us.",
+        line: "Thirty minutes on your numbers: where leads stall, what the leak is costing, and exactly what we would fix first — whether or not you hire us.",
       },
       {
         name: "30-Day Dead-Estimate Revival Sprint",
         price: "$1,500",
         priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
+        line: "We install the CRM and follow-up, then reactivate your old leads and unclosed estimates with scheduled text and email. Replies route directly to your team.",
         dark: true,
       },
       {
@@ -275,7 +275,7 @@ const fence: Vertical = {
     items: [
       {
         title: "Win your money back.",
-        body: "If the Sprint doesn't book at least 5 estimate appointments from your dead list in 30 days, you get a full refund.",
+        body: "If the Sprint doesn't produce at least 5 qualified estimate opportunities from your old list in 30 days, you get a full refund.",
       },
       {
         title: "14-day launch.",
@@ -297,19 +297,19 @@ const fence: Vertical = {
    */
   transparency: {
     eyebrow: "HOW WE REPORT",
-    h2: "Transparent, down to the call recordings.",
+    h2: "You see the same funnel we see.",
     items: [
       {
-        title: "Every setter call, recorded and monitored.",
-        body: "Any call a setter makes on your behalf is recorded and reviewed. Ask for any recording, any time — quality isn't asserted, it's auditable.",
+        title: "Speed-to-lead, measured.",
+        body: "See how quickly each fence inquiry received a response, which sequence it entered, and where the conversation moved next.",
       },
       {
-        title: "Cost per appointment held, not cost per lead.",
-        body: "Cheap leads that never answer aren't cheap. The number we optimize and report is what a kept estimate appointment actually costs.",
+        title: "Pipeline movement, not vanity metrics.",
+        body: "Leads, replies, estimates, quotes, and signed jobs. The report follows the sale instead of stopping at form fills.",
       },
       {
-        title: "Your numbers, in dollars.",
-        body: "Spend, appointments held, jobs signed. You see the same report we look at — nothing summarized away.",
+        title: "Revenue attribution you can inspect.",
+        body: "Spend, open estimates, and signed revenue stay connected so you can make the next decision from evidence.",
       },
     ],
   },
@@ -335,7 +335,7 @@ const fence: Vertical = {
     items: [
       {
         q: "What actually happens on the strategy call?",
-        a: "Thirty minutes on your real numbers: where your leads stall, what an estimate appointment should cost you, and exactly what we’d install. No obligation either way.",
+        a: "Thirty minutes on your real numbers: where leads stall, what the leak is costing, and exactly what we would fix first. No obligation either way.",
       },
       {
         q: "What does it cost?",
@@ -343,15 +343,15 @@ const fence: Vertical = {
       },
       {
         q: "What if it doesn’t work?",
-        a: "Three guarantees, in writing: at least 5 booked estimate appointments from your dead list in 30 days or a full refund; live within 14 days of getting access and assets or your next month of management is free; and a qualified-opportunities number for your first 60 days, set from your own records, or we manage your campaigns free until you hit it. The conditions are spelled out in the proposal before you sign anything.",
+        a: "Three guarantees, in writing: at least 5 qualified estimate opportunities from your old list in 30 days or a full refund; live within 14 days of getting access and assets or your next month of management is free; and a qualified-opportunities number for your first 60 days, set from your own records, or we manage your campaigns free until you hit it. The conditions are spelled out in the proposal before you sign anything.",
       },
       {
-        q: "How do I know the setter calls are any good?",
-        a: "Every call a setter makes on your behalf is recorded and monitored, and you can ask for any recording. We also report cost per appointment held — not cost per lead — so the number you see is estimates that actually happened.",
+        q: "Do you call my leads or customers?",
+        a: "No. Ascent runs text and email follow-up from your company’s name and number. When someone replies, the conversation routes directly to your team.",
       },
       {
         q: "How much of my time does this take?",
-        a: "Three things: show up to the estimate appointments the setter books, run the estimate, and tap the outcome in the CRM. Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
+        a: "Three things: take the conversation when a reply routes in, run the estimate, and tap the outcome in the CRM. Everything around those actions is installed and operated by us.",
       },
       {
         q: "Why only five clients?",
@@ -479,7 +479,7 @@ const fence: Vertical = {
       "Based on your answers, the system wouldn’t pay for itself yet — it runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on this page shows where the numbers start to work.",
     trustItems: [
       "30 minutes. No cost. No obligation.",
-      "5 booked estimate appointments from your dead list in 30 days, or a full refund — in writing.",
+      "5 qualified estimate opportunities from your old list in 30 days, or a full refund — in writing.",
       "65 fence leads in 19 days on $866 of ad spend — Prestige Fence, Oklahoma City.",
     ],
   },
