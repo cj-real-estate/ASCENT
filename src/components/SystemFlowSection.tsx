@@ -29,7 +29,7 @@ export function SystemFlowSection({
       <div className="section-shell">
         <div
           data-dark
-          className="panel relative overflow-hidden bg-ink shadow-card"
+          className="panel grid-texture relative overflow-hidden bg-ink shadow-card"
         >
           <div
             aria-hidden="true"
@@ -51,11 +51,17 @@ export function SystemFlowSection({
               {systemFlow.sub}
             </p>
 
-            <ol className="mt-12 grid gap-x-8 gap-y-12 md:mt-14 lg:grid-cols-4 lg:gap-y-0">
+            <ol className="relative mt-12 grid gap-x-8 gap-y-12 md:mt-14 lg:grid-cols-4 lg:gap-y-0">
+              {/* The track the stages sit on. Only visible in the gutters —
+                  the cards are opaque and paint over it. */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-1/2 hidden h-px -translate-y-1/2 bg-white/10 lg:block"
+              />
               {systemFlow.stages.map((stage, i) => (
                 <li
                   key={stage.title}
-                  className="relative rounded-xl border border-white/10 bg-graphite p-5 md:p-6"
+                  className="relative flex flex-col rounded-xl border border-white/10 bg-graphite p-5 md:p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="icon-tile">
@@ -71,9 +77,33 @@ export function SystemFlowSection({
                   <h3 className="mt-5 text-[18px] font-semibold leading-snug text-paper">
                     {stage.title}
                   </h3>
-                  <p className="mt-2 text-[15px] leading-relaxed text-on-dark">
+                  {stage.badge ? (
+                    <p className="mt-3 inline-flex w-fit items-center rounded-full bg-orange px-3 py-1 font-mono text-[12px] font-medium tracking-[0.04em] text-ink">
+                      {stage.badge}
+                    </p>
+                  ) : null}
+                  {/* grow so the detail block below sits on the card's
+                      bottom edge, aligned across the row */}
+                  <p className="mt-3 grow text-[15px] leading-relaxed text-on-dark">
                     {stage.body}
                   </p>
+                  {stage.detail ? (
+                    <div className="mt-5 border-t border-white/10 pt-4">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-fog">
+                        {stage.detail.label}
+                      </p>
+                      {/* Two chip rows' worth of height, so the divider
+                          rules line up across the row even when one stage
+                          has fewer chips than the others. */}
+                      <ul className="mt-2 flex min-h-[52px] flex-wrap content-start gap-1.5">
+                        {stage.detail.items.map((item) => (
+                          <li key={item} className="chip">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
 
                   {/* Flow arrow, drawn in the gutter after every card but
                       the last. Points right across columns, down when the

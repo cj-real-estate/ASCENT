@@ -34,7 +34,7 @@ const fence: Vertical = {
     h1: "Booked estimates, not just more leads.",
     // The orange lands on the promise, never on the problem.
     h1Highlight: "Booked estimates",
-    sub: "Get estimate appointments on your calendar — from the quotes you already paid to generate and the new leads we bring in. Our proprietary system works every lead, our setters call and vet the ones who respond, and the estimate gets booked for you.",
+    sub: "Get estimate appointments on your calendar — from the quotes you already paid to generate and the new leads we bring in. Our proprietary system works every lead, a trained setter calls new ones within 10 minutes during business hours, and the estimate gets booked for you.",
     closingLine: "You run the estimates. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
@@ -60,7 +60,11 @@ const fence: Vertical = {
         { day: 3, row: 0, label: "Estimate", time: "9:00", kind: "booked" },
         { day: 3, row: 2, label: "Estimate", time: "1:30", kind: "booked" },
       ],
-      caption: "Estimate appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
+      legend: [
+        { kind: "booked", label: "Estimate set by your setter" },
+        { kind: "call", label: "Setter call — recorded" },
+      ],
+      caption: "New leads called within 10 minutes during business hours, then booked straight onto your calendar.",
     },
     // Firm voice, never a personal name — the site speaks as "we".
     microcopy: "30 minutes. No cost, no obligation.",
@@ -216,7 +220,7 @@ const fence: Vertical = {
       {
         icon: "phone",
         title: "Appointment setting.",
-        body: "A trained setter works every reply from our scripts, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
+        body: "A trained setter calls new leads within 10 minutes during business hours, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
       },
       {
         icon: "stack",
@@ -250,21 +254,29 @@ const fence: Vertical = {
         icon: "megaphone",
         title: "Leads land in one place",
         body: "Ads, search, your website, and every old estimate you have — captured into one CRM instead of three phones and a notebook.",
-      },
-      {
-        icon: "loop",
-        title: "Our sequences go to work",
-        body: "Texts and emails on a schedule, working every quote until they answer or genuinely close the door.",
+        badge: null,
+        detail: { label: "Sources", items: ["Meta", "Google", "Website", "Your list"] },
       },
       {
         icon: "phone",
-        title: "A setter calls and vets",
-        body: "Every reply gets a human call, from our scripts. Recorded and monitored, so you can listen to any of them.",
+        title: "A setter calls, fast",
+        body: "A trained setter calls every new lead within 10 minutes during business hours, working from our scripts, and vets them on the phone.",
+        badge: "Under 10 min",
+        detail: { label: "Every call", items: ["Recorded", "Monitored"] },
+      },
+      {
+        icon: "loop",
+        title: "Our sequences keep working",
+        body: "Texts and emails on a schedule pick up everyone who didn't answer, and keep going until they do or genuinely close the door.",
+        badge: null,
+        detail: { label: "Runs until", items: ["They answer", "Or they say no"] },
       },
       {
         icon: "calendar",
         title: "The estimate is booked",
         body: "A vetted lead lands on your calendar with the context you need to show up and quote.",
+        badge: null,
+        detail: { label: "You get", items: ["Time", "Contact", "Context"] },
       },
     ],
     closing: "Four steps — and you're only in the last one.",
@@ -276,7 +288,7 @@ const fence: Vertical = {
     steps: [
       {
         title: "Show up to booked estimates.",
-        body: "The follow-up warms up your old quotes and the setter books them — estimate appointments land on your calendar.",
+        body: "The setter calls and books them; the sequences keep working everyone who didn't answer. Estimate appointments land on your calendar.",
       },
       {
         title: "Run the estimate.",

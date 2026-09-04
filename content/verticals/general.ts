@@ -60,7 +60,7 @@ const general: Vertical = {
     // Reader-first ("Get…"), then the motion in a verb rhythm — the system
     // works, the setters call and vet, the appointment lands. No service
     // inventory: the services section does breadth, the hero sells outcome.
-    sub: "Get qualified appointments on your calendar — from the leads you already paid for and the new ones we bring in. Our proprietary system works every lead, our setters call and vet the ones who respond, and the meeting gets booked for you.",
+    sub: "Get qualified appointments on your calendar — from the leads you already paid for and the new ones we bring in. Our proprietary system works every lead, a trained setter calls new ones within 10 minutes during business hours, and the meeting gets booked for you.",
     closingLine: "You close the deals. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
@@ -86,7 +86,11 @@ const general: Vertical = {
         { day: 3, row: 0, label: "Appointment", time: "9:00", kind: "booked" },
         { day: 3, row: 2, label: "Appointment", time: "1:30", kind: "booked" },
       ],
-      caption: "Appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
+      legend: [
+        { kind: "booked", label: "Appointment set by your setter" },
+        { kind: "call", label: "Setter call — recorded" },
+      ],
+      caption: "New leads called within 10 minutes during business hours, then booked straight onto your calendar.",
     },
     // Firm voice, never a personal name — the site speaks as "we".
     microcopy: "30 minutes. No cost, no obligation.",
@@ -224,7 +228,7 @@ const general: Vertical = {
       {
         icon: "phone",
         title: "Appointment setting.",
-        body: "A trained setter works every reply from our scripts, vets them on the phone, and books the meeting straight onto your calendar. Every call recorded and monitored.",
+        body: "A trained setter calls new leads within 10 minutes during business hours, vets them on the phone, and books the meeting straight onto your calendar. Every call recorded and monitored.",
       },
       {
         icon: "stack",
@@ -246,7 +250,7 @@ const general: Vertical = {
       steps: [
         {
           title: "Show up to booked appointments.",
-          body: "The follow-up warms them up and the setter books them. Qualified meetings land on your calendar.",
+          body: "The setter calls and books them; the sequences keep working everyone who didn't answer. Qualified meetings land on your calendar.",
         },
         {
           title: "Run the sales conversation.",
@@ -275,21 +279,29 @@ const general: Vertical = {
         icon: "megaphone",
         title: "Leads land in one place",
         body: "Ads, search, your website, and the list you already have — captured into one CRM instead of three inboxes and a spreadsheet.",
-      },
-      {
-        icon: "loop",
-        title: "Our sequences go to work",
-        body: "Texts and emails on a schedule, working every lead until they answer or genuinely close the door.",
+        badge: null,
+        detail: { label: "Sources", items: ["Meta", "Google", "Website", "Your list"] },
       },
       {
         icon: "phone",
-        title: "A setter calls and vets",
-        body: "Every reply gets a human call, from our scripts. Recorded and monitored, so you can listen to any of them.",
+        title: "A setter calls, fast",
+        body: "A trained setter calls every new lead within 10 minutes during business hours, working from our scripts, and vets them on the phone.",
+        badge: "Under 10 min",
+        detail: { label: "Every call", items: ["Recorded", "Monitored"] },
+      },
+      {
+        icon: "loop",
+        title: "Our sequences keep working",
+        body: "Texts and emails on a schedule pick up everyone who didn't answer, and keep going until they do or genuinely close the door.",
+        badge: null,
+        detail: { label: "Runs until", items: ["They answer", "Or they say no"] },
       },
       {
         icon: "calendar",
         title: "The appointment is booked",
         body: "A vetted buyer lands on your calendar with the context you need to walk in and sell.",
+        badge: null,
+        detail: { label: "You get", items: ["Time", "Contact", "Context"] },
       },
     ],
     closing: "Four steps — and you're only in the last one.",

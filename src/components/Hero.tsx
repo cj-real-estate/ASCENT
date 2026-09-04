@@ -207,7 +207,29 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
                 ))}
               </div>
 
-              <p className="mt-4 border-t border-line pt-3 font-mono text-[11px] leading-relaxed tracking-[0.02em] text-slate">
+              {/* Key for the two block colors, so the graphic explains
+                  itself instead of relying on the caption. */}
+              <ul
+                aria-hidden="true"
+                className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-3"
+              >
+                {cal.legend.map((entry) => (
+                  <li
+                    key={entry.label}
+                    className="flex items-center gap-2 font-mono text-[11px] text-slate"
+                  >
+                    <span
+                      className={
+                        entry.kind === "call"
+                          ? "h-3 w-3 shrink-0 rounded-[3px] bg-ink"
+                          : "h-3 w-3 shrink-0 rounded-[3px] border-l-2 border-orange bg-orange-tint"
+                      }
+                    />
+                    {entry.label}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-[0.02em] text-slate">
                 {cal.caption}
               </p>
             </div>
