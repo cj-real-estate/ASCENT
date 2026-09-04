@@ -38,7 +38,7 @@ const general: Vertical = {
     title:
       "Ascent Client Acquisition Systems | CRM, Follow-Up, and Appointment Setting",
     description:
-      "Ascent installs CRM, follow-up, appointment setting, and lead generation systems for businesses in Oklahoma. Book a free 30-minute strategy call on your numbers.",
+      "Ascent installs its proprietary client acquisition system — CRM, follow-up, appointment setting, and lead generation — for businesses in Oklahoma. Book a free 30-minute strategy call on your numbers.",
   },
 
   header: {
@@ -51,7 +51,7 @@ const general: Vertical = {
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the calculator
     // makes its case further down the page.
-    sub: "Ascent installs the whole machine — website, ads, CRM, follow-up, and a trained appointment setter who books qualified meetings on your calendar. You close the deals. We run everything else.",
+    sub: "Ascent installs our proprietary client acquisition system — website, ads, CRM, follow-up sequences, and a trained appointment setter booking qualified meetings on your calendar. You close the deals. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
@@ -177,13 +177,13 @@ const general: Vertical = {
       "You send the quote. They say they'll think about it. You follow up once, maybe twice, then the next deal takes over and they're gone.",
       "Nobody calls at week two. Nobody calls at month three when the budget finally clears. The quote quietly stops existing.",
       "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
-      "Ascent installs the system that does the following up. Once it's provably working, we add new leads on top. In that order, deliberately.",
+      "Ascent installs our own follow-up system — the sequences, the scripts, the CRM underneath them — and runs it for you. Once it's provably working, we add new leads on top. In that order, deliberately.",
     ],
   },
 
   services: {
     eyebrow: "WHAT WE DO",
-    h2: "Everything that brings you work, in one system.",
+    h2: "Everything that brings you work, in one system we build and run.",
     items: [
       {
         icon: "browser",
@@ -208,17 +208,17 @@ const general: Vertical = {
       {
         icon: "loop",
         title: "Follow-up automations.",
-        body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
+        body: "Our sequences — texts and emails on a schedule, refined across every campaign we run — working every quote until it closes or dies for a real reason.",
       },
       {
         icon: "phone",
         title: "Appointment setting.",
-        body: "A trained setter works every reply, vets them on the phone, and books the meeting straight onto your calendar. Every call recorded and monitored.",
+        body: "A trained setter works every reply from our scripts, vets them on the phone, and books the meeting straight onto your calendar. Every call recorded and monitored.",
       },
       {
         icon: "stack",
         title: "A CRM that actually holds your pipeline.",
-        body: "Every lead, every quote, every outcome, in one place instead of three inboxes and a spreadsheet.",
+        body: "Our build, configured to your pipeline: every lead, every quote, every outcome in one place instead of three inboxes and a spreadsheet.",
       },
       {
         icon: "chart",
@@ -229,7 +229,7 @@ const general: Vertical = {
     // The order argument. Without it a flat list implies we switch
     // everything on at once, which is not how any of this is sold.
     closing:
-      "We don\u2019t switch all of it on at once. The follow-up goes in first, and traffic comes after the machine can hold what it catches.",
+      "We don\u2019t switch all of it on at once. Our follow-up system goes in first, and traffic comes after the machine can hold what it catches.",
     ownerCard: {
       heading: "Three things. That's your whole job.",
       steps: [
@@ -246,7 +246,8 @@ const general: Vertical = {
           body: "Won, lost, or thinking about it. Two seconds, and it's what makes the follow-up smart.",
         },
       ],
-      closing: "Everything else is installed and operated by us.",
+      closing:
+        "Everything else — the system, the sequences, the setter, the reporting — is installed and operated by us.",
     },
   },
 
@@ -260,7 +261,7 @@ const general: Vertical = {
     // specific case an owner can picture persuades; hedging reads as
     // fabrication to exactly the skeptical reader this page is written for.
     framingLine:
-      "From a fence company in the Oklahoma City metro. Different industry than yours, most likely — the mechanism doesn't change.",
+      "From a fence company in the Oklahoma City metro. Different industry than yours, most likely — the system doesn't change.",
     // Cost per lead runs LAST on purpose: the site's stated position is
     // that cost per appointment held is the metric that matters, so the
     // lead-cost number is supporting evidence, not the headline.
@@ -332,33 +333,25 @@ const general: Vertical = {
       {
         name: "Strategy Call",
         price: "Free",
-        line: "Thirty minutes on your numbers: where your leads stall, what a held appointment should cost you, and exactly what we’d install — whether or not you hire us.",
+        line: "Thirty minutes on your numbers: where your leads stall, what a held appointment should cost you, and exactly which parts of our system we’d install — whether or not you hire us.",
       },
       {
         name: "30-Day Revival Sprint",
-        price: "$1,500",
-        priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed quote you have. Booked appointments in week one, from money you already spent.",
+        price: "$2,500",
+        priceNote: "one-time · billed at kickoff",
+        line: "We install our CRM build and follow-up sequences, then put them to work on every old lead and unclosed quote you have. Booked appointments in week one, from money you already spent.",
         dark: true,
       },
     ],
     guaranteeLine:
       "If the Sprint doesn't book at least 5 sales appointments from your old list in 30 days, you get a full refund.",
-    note: "Ongoing systems run from $2,500/month, month to month, priced off your market and ad budget. We'll put a number in writing after the strategy call — not before. Founding rates hold until the fifth spot fills.",
+    note: "Ongoing management runs from $2,500/month, month to month, priced off your market and ad budget. We'll put a number in writing after the strategy call — not before.",
     background: "paper",
-    // DECISION #5 — whether the founding-spots line belongs on this page or
-    // only on /fence. Shown here for now; the count is the same manually
-    // maintained number, and it is omitted entirely at 0.
-    showFoundingSpots: true,
-    foundingSpotsSuffix: "of 5 founding spots remaining",
   },
 
   // This page carries the single guarantee line under the Sprint card
   // instead of the full three-guarantee section.
   guarantees: null,
-
-  // The scarcity line lives in the pricing section on this page.
-  foundingFive: null,
 
 
   /*
@@ -373,11 +366,11 @@ const general: Vertical = {
     items: [
       {
         q: "What actually happens on the strategy call?",
-        a: "Thirty minutes on your real numbers: where your leads stall, what a held appointment should cost you, and exactly what we’d install. No obligation either way.",
+        a: "Thirty minutes on your real numbers: where your leads stall, what a held appointment should cost you, and exactly which parts of our system we’d install. No obligation either way.",
       },
       {
         q: "What does it cost?",
-        a: "The strategy call is free. The 30-Day Revival Sprint is $1,500 at the founding rate ($2,500 after), and ongoing systems run from $2,500 a month, month to month. You get a number in writing after the call — not before.",
+        a: "The strategy call is free. The 30-Day Revival Sprint is $2,500, one time, and ongoing management runs from $2,500 a month, month to month. You get a number in writing after the call — not before.",
       },
       {
         q: "What if the Sprint doesn’t work?",
@@ -389,11 +382,11 @@ const general: Vertical = {
       },
       {
         q: "How much of my time does this take?",
-        a: "Three things: show up to the appointments the setter books, run the sales conversation, and tap the outcome in the CRM. Everything else is installed and operated by us.",
+        a: "Three things: show up to the appointments the setter books, run the sales conversation, and tap the outcome in the CRM. Everything else — the system, the sequences, the setter, the reporting — is installed and operated by us.",
       },
       {
         q: "Do you only work with fence companies?",
-        a: "No — the published results are from Prestige Fence in Oklahoma City, but the mechanism runs for any business that quotes work before doing it.",
+        a: "No — the published results are from Prestige Fence in Oklahoma City, but our system runs for any business that quotes work before doing it.",
       },
     ],
   },
@@ -401,8 +394,7 @@ const general: Vertical = {
   booking: {
     eyebrow: "BOOK YOUR STRATEGY CALL",
     h2: "Let's look at your numbers.",
-    h2Waitlist: "Join the waitlist for the next opening.",
-    body: "Thirty minutes: where your leads stall, what a held appointment should cost you, and what we'd install to fix it. No cost, no obligation.",
+    body: "Thirty minutes: where your leads stall, what a held appointment should cost you, and exactly which parts of our system we'd install. No cost, no obligation.",
     // Calendly, supplied by the client 2026-08-21. See fence.ts for the
     // reasoning behind the embed params.
     schedulingLink:
@@ -505,7 +497,7 @@ const general: Vertical = {
       {
         key: "investment",
         label:
-          "The Sprint is $1,500 and ongoing systems run $2,500–$4,000 a month. If the numbers work, is that something you could invest in?",
+          "The Sprint is $2,500 and ongoing management runs $2,500–$4,000 a month. If the numbers work, is that something you could invest in?",
         options: [
           { label: "Yes — if the numbers make sense", qualifies: true },
           { label: "Not at that level right now", qualifies: false },

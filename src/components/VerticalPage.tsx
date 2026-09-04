@@ -9,7 +9,6 @@ import TransparencySection from "@/components/TransparencySection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import PricingSection from "@/components/PricingSection";
 import GuaranteesSection from "@/components/GuaranteesSection";
-import FoundingFiveSection from "@/components/FoundingFiveSection";
 import CalculatorSection from "@/components/CalculatorSection";
 import CtaBand from "@/components/CtaBand";
 import FaqSection from "@/components/FaqSection";
@@ -24,13 +23,7 @@ import JsonLd from "@/components/JsonLd";
  * renders nothing when its content is null. Adding a vertical is a content
  * file plus a route, never a new page component.
  */
-export function VerticalPage({
-  vertical,
-  spotsRemaining,
-}: {
-  vertical: Vertical;
-  spotsRemaining: number;
-}) {
+export function VerticalPage({ vertical }: { vertical: Vertical }) {
   // Section indexes for the "(01) / EYEBROW" markers, assigned in render
   // order and only to sections that render an eyebrow on this vertical.
   // Explicit (not CSS counters): cv-auto's style containment scopes
@@ -67,23 +60,11 @@ export function VerticalPage({
         <CtaBand vertical={vertical} />
         {/* Vertical page: the standalone three-step section */}
         <HowItWorksSection vertical={vertical} index={idx.howItWorks} />
-        <PricingSection
-          vertical={vertical}
-          spotsRemaining={spotsRemaining}
-          index={idx.pricing}
-        />
+        <PricingSection vertical={vertical} index={idx.pricing} />
         <GuaranteesSection vertical={vertical} index={idx.guarantees} />
-        <FoundingFiveSection
-          vertical={vertical}
-          spotsRemaining={spotsRemaining}
-        />
         {/* Objections answered right before the ask */}
         <FaqSection vertical={vertical} index={idx.faq} />
-        <BookingSection
-          vertical={vertical}
-          spotsRemaining={spotsRemaining}
-          index={idx.booking}
-        />
+        <BookingSection vertical={vertical} index={idx.booking} />
         <LeadModal flow={toQualifyFlowProps(vertical)} />
       </main>
       <Footer vertical={vertical} />

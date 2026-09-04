@@ -70,7 +70,7 @@ export interface Stat {
 export interface PricingCard {
   name: string;
   price: string;
-  /** e.g. "founding rate · $2,500 after" */
+  /** e.g. "one-time · billed at kickoff" */
   priceNote?: string;
   line: string;
   /** exactly one card per vertical may set this — the single dark card */
@@ -356,10 +356,6 @@ export interface Vertical {
     note: string;
     /** Section background. `surface` requires `eyebrow: null` (contrast). */
     background: "paper" | "surface";
-    /** Render the manually-maintained founding-spots line in this section. */
-    showFoundingSpots: boolean;
-    /** e.g. "of 5 founding spots remaining" */
-    foundingSpotsSuffix: string;
   };
 
   /** Full three-guarantee section. null where the page carries the single
@@ -371,21 +367,9 @@ export interface Vertical {
     conditions: string;
   } | null;
 
-  /** Standalone Founding Five section. null omits it entirely. */
-  foundingFive: {
-    h2: string;
-    body: string;
-    capTotal: number;
-    counterSuffix: string;
-    /** Shown instead of the counter when spots hit 0 */
-    filledLine: string;
-  } | null;
-
   booking: {
     eyebrow: string;
     h2: string;
-    /** Waitlist framing used when foundingSpotsRemaining === 0 */
-    h2Waitlist: string;
     body: string;
     /**
      * DECISION #4 — Cal.com (recommended) or Calendly embed link.

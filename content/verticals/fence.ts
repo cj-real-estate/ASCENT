@@ -1,18 +1,5 @@
 import type { Vertical } from "./types";
 
-/*
- * DECISION #5 — the live count of founding spots remaining, out of 5.
- *
- * MANUALLY MAINTAINED. Edit this number by hand when a founding client
- * signs; there is no timer, no randomization, no auto-decrement, on
- * purpose. If this number is wrong the whole site loses its credibility.
- * Set to 0 to switch the Founding Five section and booking headline to
- * the "filled / waitlist" framing.
- *
- * Count confirmed by the client 2026-08-21.
- */
-export const foundingSpotsRemaining: number = 2;
-
 const fence: Vertical = {
   slug: "fence",
   path: "/fence",
@@ -33,7 +20,7 @@ const fence: Vertical = {
     title:
       "Ascent Client Acquisition Systems | Growth Systems for Fence Companies in Oklahoma City",
     description:
-      "Ascent installs lead follow-up, appointment setting, and client acquisition systems for fence companies in Oklahoma City. Book a free 30-minute strategy call.",
+      "Ascent installs its proprietary client acquisition system — lead follow-up, appointment setting, ads, and CRM — for fence companies in Oklahoma City. Book a free 30-minute strategy call.",
   },
 
   header: {
@@ -46,7 +33,7 @@ const fence: Vertical = {
     h1Highlight: "lead-handling problem.",
     // Outcome-led: the hero sells the installed system; the calculator
     // makes its case further down the page.
-    sub: "Ascent installs the whole machine for fence companies — website, ads, CRM, follow-up, and a setter who books estimate appointments on your calendar. You run the estimates. We run everything else.",
+    sub: "Ascent installs our proprietary client acquisition system for fence companies — website, ads, CRM, follow-up sequences, and a setter booking estimate appointments on your calendar. You run the estimates. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
@@ -149,7 +136,7 @@ const fence: Vertical = {
       "You quote the job. He says he'll think about it. You call once, maybe twice, then the next job starts and he's gone.",
       "Nobody calls at week two. Nobody calls at month three when he finally has the money. The estimate quietly stops existing.",
       "That's not a marketing problem — it's a follow-up problem, and it's the cheapest revenue in your business, because you already paid for it.",
-      "Ascent installs the system that does the following up, then adds new leads once the machine is running. In that order, deliberately.",
+      "Ascent installs our own follow-up system — the sequences, the scripts, the CRM underneath them — and runs it for you. New leads come once the machine is running. In that order, deliberately.",
     ],
   },
 
@@ -196,7 +183,7 @@ const fence: Vertical = {
 
   services: {
     eyebrow: "WHAT WE DO",
-    h2: "Everything that brings you work, in one system.",
+    h2: "Everything that brings you work, in one system we build and run.",
     items: [
       {
         icon: "browser",
@@ -221,17 +208,17 @@ const fence: Vertical = {
       {
         icon: "loop",
         title: "Follow-up automations.",
-        body: "Texts and emails on a schedule, running on every quote until it closes or dies for a real reason.",
+        body: "Our sequences — texts and emails on a schedule, refined across every campaign we run — working every quote until it closes or dies for a real reason.",
       },
       {
         icon: "phone",
         title: "Appointment setting.",
-        body: "A trained setter works every reply, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
+        body: "A trained setter works every reply from our scripts, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
       },
       {
         icon: "stack",
         title: "A CRM that actually holds your pipeline.",
-        body: "Every lead, every estimate, every outcome, in one place instead of three phones and a notebook.",
+        body: "Our build, configured to your pipeline: every lead, every estimate, every outcome in one place instead of three phones and a notebook.",
       },
       {
         icon: "chart",
@@ -242,7 +229,7 @@ const fence: Vertical = {
     // The order argument. Without it a flat list implies we switch
     // everything on at once, which is not how any of this is sold.
     closing:
-      "We don\u2019t switch all of it on at once. The follow-up goes in first, and traffic comes after the machine can hold what it catches.",
+      "We don\u2019t switch all of it on at once. Our follow-up system goes in first, and traffic comes after the machine can hold what it catches.",
     // The three steps live in the standalone section below on this page.
     ownerCard: null,
   },
@@ -265,7 +252,7 @@ const fence: Vertical = {
       },
     ],
     closing:
-      "Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
+      "Everything else — the system, the sequences, the setter, the ad accounts, the reporting — is installed and operated by us.",
   },
 
   pricing: {
@@ -276,19 +263,19 @@ const fence: Vertical = {
       {
         name: "Strategy Call",
         price: "Free",
-        line: "Thirty minutes on your numbers: where your leads stall, what an estimate appointment should cost you, and exactly what we'd install — whether or not you hire us.",
+        line: "Thirty minutes on your numbers: where your leads stall, what an estimate appointment should cost you, and exactly which parts of our system we'd install — whether or not you hire us.",
       },
       {
         name: "30-Day Dead-Estimate Revival Sprint",
-        price: "$1,500",
-        priceNote: "founding rate · $2,500 after",
-        line: "We install the CRM and follow-up, then reactivate every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
+        price: "$2,500",
+        priceNote: "one-time · billed at kickoff",
+        line: "We install our CRM build and follow-up sequences, then put them to work on every old lead and unclosed estimate you have. Booked estimates in week one, from money you already spent.",
         dark: true,
       },
       {
         name: "Core Growth System",
         price: "$2,500/mo",
-        line: "Ads, lead capture, follow-up, and reporting, run monthly. Month to month.",
+        line: "Our ads, lead capture, follow-up, and reporting, run monthly. Month to month.",
       },
       {
         name: "Full Revenue System",
@@ -299,10 +286,7 @@ const fence: Vertical = {
     // Fence carries the full three-guarantee section instead.
     guaranteeLine: null,
     background: "surface",
-    // Fence has its own Founding Five section further down.
-    showFoundingSpots: false,
-    foundingSpotsSuffix: "of 5 founding spots remaining",
-    note: "Founding rates hold until the fifth spot fills. After that the Sprint is $2,500 and retainers go up — founding clients keep their rate for as long as they stay.",
+    note: "Month to month, both retainers. Your number is priced off your market and ad budget, and you get it in writing after the strategy call — not before.",
   },
 
   guarantees: {
@@ -350,20 +334,10 @@ const fence: Vertical = {
     ],
   },
 
-  foundingFive: {
-    h2: "We take five clients.",
-    body: "One person runs the delivery, so five is the cap — not a marketing device. Founding clients get the discounted Sprint, a rate locked for as long as they stay, and more of my week than anyone who signs later will get.",
-    capTotal: 5,
-    counterSuffix: "of 5 spots remaining",
-    filledLine: "All five founding spots are filled",
-  },
-
-
   /*
    * Every answer below restates facts already published on this page —
-   * the four pricing tiers, the three written guarantees, the Founding
-   * Five cap. Nothing new is claimed here; if a fact changes above,
-   * change it here too.
+   * the four pricing tiers and the three written guarantees. Nothing new
+   * is claimed here; if a fact changes above, change it here too.
    */
   faq: {
     eyebrow: "QUESTIONS OWNERS ACTUALLY ASK",
@@ -371,11 +345,11 @@ const fence: Vertical = {
     items: [
       {
         q: "What actually happens on the strategy call?",
-        a: "Thirty minutes on your real numbers: where your leads stall, what an estimate appointment should cost you, and exactly what we’d install. No obligation either way.",
+        a: "Thirty minutes on your real numbers: where your leads stall, what an estimate appointment should cost you, and exactly which parts of our system we’d install. No obligation either way.",
       },
       {
         q: "What does it cost?",
-        a: "The strategy call is free. The 30-Day Dead-Estimate Revival Sprint is $1,500 at the founding rate ($2,500 after). The Core Growth System runs $2,500 a month and the Full Revenue System $4,000 a month plus ad spend — month to month, and founding rates hold until the fifth spot fills.",
+        a: "The strategy call is free. The 30-Day Dead-Estimate Revival Sprint is $2,500, one time. The Core Growth System runs $2,500 a month and the Full Revenue System $4,000 a month plus ad spend — month to month either way.",
       },
       {
         q: "What if it doesn’t work?",
@@ -387,11 +361,7 @@ const fence: Vertical = {
       },
       {
         q: "How much of my time does this take?",
-        a: "Three things: show up to the estimate appointments the setter books, run the estimate, and tap the outcome in the CRM. Everything else — the CRM, the automations, the ad accounts, the reporting — is installed and operated by us.",
-      },
-      {
-        q: "Why only five clients?",
-        a: "One person runs the delivery, so five is the cap — not a marketing device. Founding clients get the discounted Sprint, a rate locked for as long as they stay, and more attention than anyone who signs later will get.",
+        a: "Three things: show up to the estimate appointments the setter books, run the estimate, and tap the outcome in the CRM. Everything else — the system, the sequences, the setter, the ad accounts, the reporting — is installed and operated by us.",
       },
     ],
   },
@@ -399,8 +369,7 @@ const fence: Vertical = {
   booking: {
     eyebrow: "BOOK YOUR STRATEGY CALL",
     h2: "Let's look at your numbers.",
-    h2Waitlist: "Join the waitlist for the next opening.",
-    body: "Thirty minutes: where your leads stall, what an estimate appointment should cost you, and what we'd install to fix it. No cost, no obligation.",
+    body: "Thirty minutes: where your leads stall, what an estimate appointment should cost you, and exactly which parts of our system we'd install. No cost, no obligation.",
     // Calendly, supplied by the client 2026-08-21. The embed params drop
     // Calendly's own page chrome and the GDPR banner so it sits inside the
     // section rather than looking like a framed website.
@@ -479,7 +448,7 @@ const fence: Vertical = {
       {
         key: "investment",
         label:
-          "The Sprint is $1,500 and ongoing systems run $2,500–$4,000 a month. If the numbers work, is that something you could invest in?",
+          "The Sprint is $2,500 and ongoing management runs $2,500–$4,000 a month. If the numbers work, is that something you could invest in?",
         options: [
           { label: "Yes — if the numbers make sense", qualifies: true },
           { label: "Not at that level right now", qualifies: false },

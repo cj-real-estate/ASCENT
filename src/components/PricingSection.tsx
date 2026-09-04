@@ -15,16 +15,13 @@ import SectionIndex from "./SectionIndex";
  */
 export function PricingSection({
   vertical,
-  spotsRemaining,
   index,
 }: {
   vertical: Vertical;
-  spotsRemaining: number;
   index?: number;
 }) {
   const { pricing } = vertical;
   const wide = pricing.cards.length > 2;
-  const showSpots = pricing.showFoundingSpots && spotsRemaining > 0;
 
   return (
     <section
@@ -101,19 +98,6 @@ export function PricingSection({
         {pricing.guaranteeLine && (
           <p className="readout mt-8 max-w-[68ch] text-[17px] text-orange-deep">
             {pricing.guaranteeLine}
-          </p>
-        )}
-
-        {/* Manually maintained count. No timer, no auto-decrement; omitted
-            entirely at 0 rather than showing a stale or fake number. */}
-        {showSpots && (
-          <p className="mt-8 flex items-baseline gap-3">
-            <span className="readout text-[26px] text-orange-deep">
-              {spotsRemaining}
-            </span>
-            <span className="font-mono text-[14px] font-medium uppercase tracking-[0.12em] text-slate">
-              {pricing.foundingSpotsSuffix}
-            </span>
           </p>
         )}
 

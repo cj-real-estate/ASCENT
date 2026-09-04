@@ -15,20 +15,16 @@ import SectionIndex from "./SectionIndex";
  * a calendar — the lead still reaches the inbox, it just doesn't get a call.
  * Which answers pass is tuned in `vertical.qualification`, never here.
  *
- * Copy comes from the vertical content module verbatim. When `spotsRemaining`
- * is 0 the waitlist headline is used.
+ * Copy comes from the vertical content module verbatim.
  */
 export function BookingSection({
   vertical,
-  spotsRemaining,
   index,
 }: {
   vertical: Vertical;
-  spotsRemaining: number;
   index?: number;
 }) {
   const { booking } = vertical;
-  const heading = spotsRemaining === 0 ? booking.h2Waitlist : booking.h2;
 
   return (
     <section id="book" data-dark className="cv-auto bg-ink py-16 md:py-28">
@@ -38,7 +34,7 @@ export function BookingSection({
           {booking.eyebrow}
         </p>
         <h2 className="display mt-4 max-w-[20ch] text-[26px] text-paper md:text-[46px]">
-          {heading}
+          {booking.h2}
         </h2>
         <p className="mt-8 max-w-[68ch] text-[17px] text-on-dark">
           {booking.body}

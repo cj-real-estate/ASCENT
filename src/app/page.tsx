@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import general from "@content/verticals/general";
-import { foundingSpotsRemaining } from "@content/verticals/fence";
 import VerticalPage from "@/components/VerticalPage";
 import { verticalMetadata } from "@/lib/metadata";
 
@@ -13,7 +12,5 @@ import { verticalMetadata } from "@/lib/metadata";
 export const metadata: Metadata = verticalMetadata(general);
 
 export default function Home() {
-  return (
-    <VerticalPage vertical={general} spotsRemaining={foundingSpotsRemaining} />
-  );
+  return <VerticalPage vertical={general} />;
 }
