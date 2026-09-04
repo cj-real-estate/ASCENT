@@ -88,7 +88,12 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
           <p className="mt-7 max-w-[56ch] text-[17px] leading-relaxed text-slate md:text-[19px]">
             {hero.sub}
           </p>
-          <div className="mt-9 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:gap-4 lg:items-start">
+          {hero.closingLine ? (
+            <p className="mt-5 max-w-[40ch] text-[18px] font-semibold leading-snug text-ink md:text-[20px]">
+              {hero.closingLine}
+            </p>
+          ) : null}
+          <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row sm:gap-4 lg:items-start">
             <a
               href="#book"
               data-open-lead-modal

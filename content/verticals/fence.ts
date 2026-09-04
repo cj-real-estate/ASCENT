@@ -28,12 +28,14 @@ const fence: Vertical = {
   },
 
   hero: {
-    eyebrow: "GROWTH SYSTEMS FOR FENCE COMPANIES · OKLAHOMA CITY",
-    h1: "You don't have a lead problem. You have a lead-handling problem.",
-    h1Highlight: "lead-handling problem.",
-    // Outcome-led: the hero sells the installed system; the calculator
-    // makes its case further down the page.
-    sub: "Ascent installs our proprietary client acquisition system for fence companies — website, ads, CRM, follow-up sequences, and a setter booking estimate appointments on your calendar. You run the estimates. We run the system.",
+    eyebrow: "APPOINTMENT SETTING FOR FENCE COMPANIES · OKLAHOMA CITY",
+    // Outcome first, in the trade's own word — estimates, not appointments.
+    // The diagnosis stays in the problem section one screen down.
+    h1: "Booked estimates, not just more leads.",
+    // The orange lands on the promise, never on the problem.
+    h1Highlight: "Booked estimates",
+    sub: "Get estimate appointments on your calendar — from the quotes you already paid to generate and the new leads we bring in. Our proprietary system works every lead, our setters call and vet the ones who respond, and the estimate gets booked for you.",
+    closingLine: "You run the estimates. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
@@ -60,7 +62,9 @@ const fence: Vertical = {
       ],
       caption: "Estimate appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
     },
-    microcopy: "30 minutes. No cost. No obligation.",
+    // Names who you actually get on the call. At an agency you get an SDR;
+    // here you get the owner, and that is worth saying out loud.
+    microcopy: "30 minutes with Caleb. No cost, no obligation.",
   },
 
   calculator: {

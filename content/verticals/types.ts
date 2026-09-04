@@ -235,6 +235,11 @@ export interface Vertical {
      *  null renders the h1 in plain paper. Large text only (3:1 on ink). */
     h1Highlight: string | null;
     sub: string;
+    /** The division-of-labor line, set on its own in ink under the sub so
+     *  it lands as a beat instead of dying at the end of a paragraph.
+     *  Short and parallel ("You close the deals. We run the system.").
+     *  null renders nothing. */
+    closingLine: string | null;
     cta: string;
     /** Lower-friction second path — same gate, tagged as its own interest.
      *  null renders only the primary CTA. */

@@ -46,12 +46,22 @@ const general: Vertical = {
   },
 
   hero: {
-    eyebrow: "CLIENT ACQUISITION SYSTEMS",
-    h1: "You don't have a lead problem. You have a lead-handling problem.",
-    h1Highlight: "lead-handling problem.",
-    // Outcome-led: the hero sells the installed system; the calculator
-    // makes its case further down the page.
-    sub: "Ascent installs our proprietary client acquisition system — website, ads, CRM, follow-up sequences, and a trained appointment setter booking qualified meetings on your calendar. You close the deals. We run the system.",
+    // The eyebrow names the category the buyer is shopping for. It does NOT
+    // repeat "Client Acquisition Systems" — the header lockup already says
+    // that two inches above, and the slot is worth more than an echo.
+    eyebrow: "APPOINTMENT SETTING & LEAD GENERATION",
+    // Outcome first, in the reader's terms, and the one line that separates
+    // Ascent from every agency that just sells leads. The diagnosis
+    // ("you don't have a lead problem…") stays where it belongs — the
+    // problem section, one screen down. Don't spend both headlines on it.
+    h1: "Booked appointments, not just more leads.",
+    // The orange lands on the promise, never on the problem.
+    h1Highlight: "Booked appointments",
+    // Reader-first ("Get…"), then the motion in a verb rhythm — the system
+    // works, the setters call and vet, the appointment lands. No service
+    // inventory: the services section does breadth, the hero sells outcome.
+    sub: "Get qualified appointments on your calendar — from the leads you already paid for and the new ones we bring in. Our proprietary system works every lead, our setters call and vet the ones who respond, and the meeting gets booked for you.",
+    closingLine: "You close the deals. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
@@ -78,7 +88,9 @@ const general: Vertical = {
       ],
       caption: "Appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
     },
-    microcopy: "30 minutes. No cost. No obligation.",
+    // Names who you actually get on the call. At an agency you get an SDR;
+    // here you get the owner, and that is worth saying out loud.
+    microcopy: "30 minutes with Caleb. No cost, no obligation.",
   },
 
   calculator: {
