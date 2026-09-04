@@ -13,7 +13,7 @@ const fence: Vertical = {
     areaServed: "Oklahoma City metro",
     // Supplied by the client 2026-08-21.
     phone: "580-304-8470",
-    email: "caleb@ascentcas.com",
+    email: "info@ascentcas.com",
   },
 
   seo: {
@@ -62,9 +62,8 @@ const fence: Vertical = {
       ],
       caption: "Estimate appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
     },
-    // Names who you actually get on the call. At an agency you get an SDR;
-    // here you get the owner, and that is worth saying out loud.
-    microcopy: "30 minutes with Caleb. No cost, no obligation.",
+    // Firm voice, never a personal name — the site speaks as "we".
+    microcopy: "30 minutes. No cost, no obligation.",
   },
 
   calculator: {
@@ -485,7 +484,7 @@ const fence: Vertical = {
     // Honest, not discouraging, and no fake encouragement. Someone who gets
     // this screen should be able to tell exactly what would change the answer.
     declineBody:
-      "Based on your answers, the system wouldn’t pay for itself yet — it runs on quote volume and a list of old estimates to work. Your answers still landed in front of Caleb; if he sees something worth flagging, you’ll hear from him. The calculator on this page shows where the numbers start to work.",
+      "Based on your answers, the system wouldn’t pay for itself yet — it runs on quote volume and a list of old estimates to work. Your answers still landed in front of our team; if we see something worth flagging, you’ll hear from us. The calculator on this page shows where the numbers start to work.",
     trustItems: [
       "30 minutes. No cost. No obligation.",
       "5 booked estimate appointments from your dead list in 30 days, or a full refund — in writing.",
