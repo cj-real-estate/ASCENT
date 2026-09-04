@@ -87,19 +87,25 @@ export interface HowItWorksStep {
   body: string;
 }
 
+/** Line-icon keys drawn in ServiceIcon.tsx. Shared by every section that
+ *  renders an icon so the set stays one closed list. */
+export type IconName =
+  | "browser"
+  | "pin"
+  | "cursor"
+  | "megaphone"
+  | "loop"
+  | "phone"
+  | "stack"
+  | "chart"
+  | "calendar"
+  | "target"
+  | "shield";
+
 export interface ServiceItem {
   title: string;
   body: string;
-  /** Line-icon key rendered beside the title (see ServiceIcon.tsx). */
-  icon:
-    | "browser"
-    | "pin"
-    | "cursor"
-    | "megaphone"
-    | "loop"
-    | "phone"
-    | "stack"
-    | "chart";
+  icon: IconName;
 }
 
 export interface ServicesContent {
@@ -339,6 +345,21 @@ export interface Vertical {
   services: ServicesContent | null;
 
   /**
+   * The mechanism, drawn — the page's one real diagram. Four stages from a
+   * raw lead to an appointment on the calendar, so "our system" is shown
+   * rather than asserted. Stage copy describes what the system DOES; never
+   * put counts, rates, or dollars in here — those belong in `proof`,
+   * attributed. null omits the section.
+   */
+  systemFlow: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    stages: { icon: IconName; title: string; body: string }[];
+    closing: string;
+  } | null;
+
+  /**
    * Standalone three-step section. null on verticals that carry the same
    * three steps inside `install.ownerCard` instead.
    */
@@ -393,7 +414,7 @@ export interface Vertical {
   transparency: {
     eyebrow: string;
     h2: string;
-    items: { title: string; body: string }[];
+    items: { icon: IconName; title: string; body: string }[];
   } | null;
 
   /** ICP gate in front of the scheduler. A prospect qualifies only when every

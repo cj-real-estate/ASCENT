@@ -33,25 +33,21 @@ export function ServicesSection({
           {services.h2}
         </h2>
 
-        <ul className="mt-10 border-b border-line md:mt-14">
-          {services.items.map((item, i) => (
+        <ul className="mt-10 grid gap-4 md:mt-14 sm:grid-cols-2 lg:grid-cols-4">
+          {services.items.map((item) => (
             <li
               key={item.title}
-              className="grid gap-2 border-t border-line py-6 md:grid-cols-[72px_1.1fr_1.3fr] md:gap-8 md:py-7"
+              className="rounded-2xl border border-line bg-paper p-6 motion-safe:transition-[transform,box-shadow] motion-safe:hover:-translate-y-1 hover:shadow-card"
             >
-              <p
-                aria-hidden="true"
-                className="readout text-[15px] text-slate md:pt-1"
-              >
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="flex items-start gap-3 text-[20px] font-semibold leading-snug text-ink">
-                <span className="mt-0.5 shrink-0 text-orange-deep">
-                  <ServiceIcon name={item.icon} />
-                </span>
+              <span className="icon-tile">
+                <ServiceIcon name={item.icon} />
+              </span>
+              <h3 className="mt-5 text-[18px] font-semibold leading-snug text-ink">
                 {item.title}
               </h3>
-              <p className="max-w-[56ch] text-[17px] text-slate">{item.body}</p>
+              <p className="mt-2 text-[16px] leading-relaxed text-slate">
+                {item.body}
+              </p>
             </li>
           ))}
         </ul>

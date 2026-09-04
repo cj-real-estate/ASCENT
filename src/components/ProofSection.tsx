@@ -17,8 +17,9 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
   const { proof } = vertical;
 
   return (
-    <section className="cv-auto bg-surface py-16 md:py-28">
+    <section className="cv-auto bg-paper py-8 md:py-14">
       <div className="section-shell">
+        <div className="panel bg-surface">
         <h2 className="sr-only">{proof.srHeading}</h2>
 
         {/* Names the trade the case came from, on pages whose reader is in
@@ -105,6 +106,7 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
             ))}
           </div>
         )}
+        </div>
       </div>
     </section>
   );

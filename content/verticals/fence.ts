@@ -237,6 +237,39 @@ const fence: Vertical = {
     ownerCard: null,
   },
 
+  /*
+   * The diagram. Stage copy describes what the system DOES — never counts,
+   * rates, or dollars, which belong in `proof` with the attribution.
+   */
+  systemFlow: {
+    eyebrow: "HOW THE SYSTEM WORKS",
+    h2: "One machine, four moving parts.",
+    sub: "Every lead runs the same path — the form fill that came in this morning and the quote that went cold two years ago. Nothing sits in a notebook waiting for somebody to remember it.",
+    stages: [
+      {
+        icon: "megaphone",
+        title: "Leads land in one place",
+        body: "Ads, search, your website, and every old estimate you have — captured into one CRM instead of three phones and a notebook.",
+      },
+      {
+        icon: "loop",
+        title: "Our sequences go to work",
+        body: "Texts and emails on a schedule, working every quote until they answer or genuinely close the door.",
+      },
+      {
+        icon: "phone",
+        title: "A setter calls and vets",
+        body: "Every reply gets a human call, from our scripts. Recorded and monitored, so you can listen to any of them.",
+      },
+      {
+        icon: "calendar",
+        title: "The estimate is booked",
+        body: "A vetted lead lands on your calendar with the context you need to show up and quote.",
+      },
+    ],
+    closing: "Four steps — and you're only in the last one.",
+  },
+
   howItWorks: {
     eyebrow: "WHAT YOU ACTUALLY DO",
     h2: "Three things. That's your whole job.",
@@ -323,14 +356,17 @@ const fence: Vertical = {
     h2: "Transparent, down to the call recordings.",
     items: [
       {
+        icon: "shield",
         title: "Every setter call, recorded and monitored.",
         body: "Any call a setter makes on your behalf is recorded and reviewed. Ask for any recording, any time — quality isn't asserted, it's auditable.",
       },
       {
+        icon: "target",
         title: "Cost per appointment held, not cost per lead.",
         body: "Cheap leads that never answer aren't cheap. The number we optimize and report is what a kept estimate appointment actually costs.",
       },
       {
+        icon: "chart",
         title: "Your numbers, in dollars.",
         body: "Spend, appointments held, jobs signed. You see the same report we look at — nothing summarized away.",
       },

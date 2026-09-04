@@ -44,7 +44,7 @@ function FieldBox({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-lg border border-line bg-paper px-4 pb-2 pt-3">
+    <div className="rounded-lg border border-line bg-surface px-4 pb-2 pt-3">
       <label htmlFor={htmlFor} className="block text-[13px] text-slate">
         {label}
       </label>
@@ -280,7 +280,7 @@ export default function Calculator({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start">
-      <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card md:p-5">
+      <div className="flex flex-col gap-3 rounded-2xl border border-line bg-paper p-4 shadow-card md:p-5">
         {industries ? (
           <FieldBox
             label={industries.label}

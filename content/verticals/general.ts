@@ -262,6 +262,39 @@ const general: Vertical = {
     },
   },
 
+  /*
+   * The diagram. Stage copy describes what the system DOES — never counts,
+   * rates, or dollars, which belong in `proof` with the attribution.
+   */
+  systemFlow: {
+    eyebrow: "HOW THE SYSTEM WORKS",
+    h2: "One machine, four moving parts.",
+    sub: "Every lead runs the same path — the one that came in this morning and the one that went cold two years ago. Nothing sits in an inbox waiting for somebody to remember it.",
+    stages: [
+      {
+        icon: "megaphone",
+        title: "Leads land in one place",
+        body: "Ads, search, your website, and the list you already have — captured into one CRM instead of three inboxes and a spreadsheet.",
+      },
+      {
+        icon: "loop",
+        title: "Our sequences go to work",
+        body: "Texts and emails on a schedule, working every lead until they answer or genuinely close the door.",
+      },
+      {
+        icon: "phone",
+        title: "A setter calls and vets",
+        body: "Every reply gets a human call, from our scripts. Recorded and monitored, so you can listen to any of them.",
+      },
+      {
+        icon: "calendar",
+        title: "The appointment is booked",
+        body: "A vetted buyer lands on your calendar with the context you need to walk in and sell.",
+      },
+    ],
+    closing: "Four steps — and you're only in the last one.",
+  },
+
   // Folded into services.ownerCard on this page.
   howItWorks: null,
 
@@ -323,14 +356,17 @@ const general: Vertical = {
     h2: "Transparent, down to the call recordings.",
     items: [
       {
+        icon: "shield",
         title: "Every setter call, recorded and monitored.",
         body: "Any call a setter makes on your behalf is recorded and reviewed. Ask for any recording, any time — quality isn't asserted, it's auditable.",
       },
       {
+        icon: "target",
         title: "Cost per appointment held, not cost per lead.",
         body: "Cheap leads that never answer aren't cheap. The number we optimize and report is what a kept appointment on your calendar actually costs.",
       },
       {
+        icon: "chart",
         title: "Your numbers, in dollars.",
         body: "Spend, appointments held, deals closed. You see the same report we look at — nothing summarized away.",
       },

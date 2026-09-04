@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProblemSection from "@/components/ProblemSection";
 import ServicesSection from "@/components/ServicesSection";
+import SystemFlowSection from "@/components/SystemFlowSection";
 import ProofSection from "@/components/ProofSection";
 import TransparencySection from "@/components/TransparencySection";
 import HowItWorksSection from "@/components/HowItWorksSection";
@@ -31,6 +32,7 @@ export function VerticalPage({ vertical }: { vertical: Vertical }) {
   let n = 0;
   const idx = {
     problem: ++n,
+    systemFlow: vertical.systemFlow ? ++n : undefined,
     calculator: ++n,
     services: vertical.services ? ++n : undefined,
     transparency: vertical.transparency ? ++n : undefined,
@@ -48,7 +50,10 @@ export function VerticalPage({ vertical }: { vertical: Vertical }) {
       <main>
         <Hero vertical={vertical} />
         <ProblemSection vertical={vertical} index={idx.problem} />
-        {/* Quantify the problem the moment it's been described */}
+        {/* Answer "so how?" the moment the problem lands — the diagram is
+            what makes "our system" concrete before anything is claimed */}
+        <SystemFlowSection vertical={vertical} index={idx.systemFlow} />
+        {/* Then quantify what the machine returns */}
         <CalculatorSection vertical={vertical} index={idx.calculator} />
         {/* Everything we sell; carries the owner card where the page
             has no standalone three-step section */}
