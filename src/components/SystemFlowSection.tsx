@@ -52,7 +52,7 @@ export function SystemFlowSection({
               {systemFlow.sub}
             </p>
 
-            <ol className="relative mt-12 grid gap-x-8 gap-y-12 md:mt-14 lg:grid-cols-4 lg:gap-y-0">
+            <ol className="relative mt-10 grid gap-x-8 gap-y-10 md:mt-14 lg:grid-cols-4 lg:gap-y-0">
               {/* The track the stages sit on. Only visible in the gutters —
                   the cards are opaque and paint over it. */}
               <span

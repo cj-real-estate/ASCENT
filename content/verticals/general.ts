@@ -49,7 +49,9 @@ const general: Vertical = {
     // The eyebrow names the category the buyer is shopping for. It does NOT
     // repeat "Client Acquisition Systems" — the header lockup already says
     // that two inches above, and the slot is worth more than an echo.
-    eyebrow: "APPOINTMENT SETTING & LEAD GENERATION",
+    // Short enough to hold one line at 375px — a two-line eyebrow reads as
+    // a sentence, not a label.
+    eyebrow: "APPOINTMENT SETTING & LEAD GEN",
     // Outcome first, in the reader's terms, and the one line that separates
     // Ascent from every agency that just sells leads. The diagnosis
     // ("you don't have a lead problem…") stays where it belongs — the
@@ -57,10 +59,10 @@ const general: Vertical = {
     h1: "Booked appointments, not just more leads.",
     // The orange lands on the promise, never on the problem.
     h1Highlight: "Booked appointments",
-    // Reader-first ("Get…"), then the motion in a verb rhythm — the system
-    // works, the setters call and vet, the appointment lands. No service
-    // inventory: the services section does breadth, the hero sells outcome.
-    sub: "Get qualified appointments on your calendar — from the leads you already paid for and the new ones we bring in. Our proprietary system works every lead, a trained setter calls new ones within 10 minutes during business hours, and the meeting gets booked for you.",
+    // ONE sentence: where the appointments come from. The mechanism is
+    // carried by the calendar caption directly below it and the diagram one
+    // section down — repeating it here cost six dense lines on a phone.
+    sub: "Qualified appointments on your calendar — from the leads you already paid for and the new ones we bring in.",
     closingLine: "You close the deals. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
@@ -204,32 +206,32 @@ const general: Vertical = {
       {
         icon: "pin",
         title: "SEO and local search strategy.",
-        body: "Show up when your market searches for what you do — listings, reviews, and pages built to rank.",
+        body: "Listings, reviews, and pages built to rank where your market searches.",
       },
       {
         icon: "cursor",
         title: "Google Ads.",
-        body: "Paid search for people already typing what you sell, measured in booked appointments.",
+        body: "Paid search for people already typing what you sell.",
       },
       {
         icon: "megaphone",
         title: "Meta Ads.",
-        body: "Facebook and Instagram campaigns that reach your buyers before they start shopping.",
+        body: "Facebook and Instagram, reaching buyers before they start shopping.",
       },
       {
         icon: "loop",
         title: "Follow-up automations.",
-        body: "Our sequences — texts and emails on a schedule, refined across every campaign we run — working every quote until it closes or dies for a real reason.",
+        body: "Our texts and emails work every lead until it closes or dies for a real reason.",
       },
       {
         icon: "phone",
         title: "Appointment setting.",
-        body: "A trained setter calls new leads within 10 minutes during business hours, vets them on the phone, and books the meeting straight onto your calendar. Every call recorded and monitored.",
+        body: "New leads called within 10 minutes during business hours, vetted on the phone, booked onto your calendar. Every call recorded.",
       },
       {
         icon: "stack",
         title: "A CRM that actually holds your pipeline.",
-        body: "Our build, configured to your pipeline: every lead, every quote, every outcome in one place instead of three inboxes and a spreadsheet.",
+        body: "Every lead, quote, and outcome in one place — not three inboxes and a spreadsheet.",
       },
       {
         icon: "chart",

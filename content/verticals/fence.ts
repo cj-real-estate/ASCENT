@@ -28,13 +28,13 @@ const fence: Vertical = {
   },
 
   hero: {
-    eyebrow: "APPOINTMENT SETTING FOR FENCE COMPANIES · OKLAHOMA CITY",
+    eyebrow: "APPOINTMENT SETTING FOR FENCE COMPANIES",
     // Outcome first, in the trade's own word — estimates, not appointments.
     // The diagnosis stays in the problem section one screen down.
     h1: "Booked estimates, not just more leads.",
     // The orange lands on the promise, never on the problem.
     h1Highlight: "Booked estimates",
-    sub: "Get estimate appointments on your calendar — from the quotes you already paid to generate and the new leads we bring in. Our proprietary system works every lead, a trained setter calls new ones within 10 minutes during business hours, and the estimate gets booked for you.",
+    sub: "Estimate appointments on your calendar — from the quotes you already paid to generate and the new leads we bring in.",
     closingLine: "You run the estimates. We run the system.",
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
@@ -196,32 +196,32 @@ const fence: Vertical = {
       {
         icon: "pin",
         title: "SEO and local search strategy.",
-        body: "Show up when your service area searches for what you do — listings, reviews, and pages built to rank.",
+        body: "Listings, reviews, and pages built to rank in your service area.",
       },
       {
         icon: "cursor",
         title: "Google Ads.",
-        body: "Paid search for people already typing what you sell, measured in booked estimates.",
+        body: "Paid search for people already typing what you sell.",
       },
       {
         icon: "megaphone",
         title: "Meta Ads.",
-        body: "Facebook and Instagram campaigns that reach homeowners before they start shopping.",
+        body: "Facebook and Instagram, reaching homeowners before they start shopping.",
       },
       {
         icon: "loop",
         title: "Follow-up automations.",
-        body: "Our sequences — texts and emails on a schedule, refined across every campaign we run — working every quote until it closes or dies for a real reason.",
+        body: "Our texts and emails work every quote until it closes or dies for a real reason.",
       },
       {
         icon: "phone",
         title: "Appointment setting.",
-        body: "A trained setter calls new leads within 10 minutes during business hours, vets them on the phone, and books the estimate appointment straight onto your calendar. Every call recorded and monitored.",
+        body: "New leads called within 10 minutes during business hours, vetted on the phone, booked onto your calendar. Every call recorded.",
       },
       {
         icon: "stack",
         title: "A CRM that actually holds your pipeline.",
-        body: "Our build, configured to your pipeline: every lead, every estimate, every outcome in one place instead of three phones and a notebook.",
+        body: "Every lead, estimate, and outcome in one place — not three phones and a notebook.",
       },
       {
         icon: "chart",

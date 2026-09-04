@@ -157,7 +157,7 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
                       return (
                         <div
                           key={`${day}-${time}`}
-                          className={`min-h-[54px] border-l border-t border-line p-1 ${
+                          className={`min-h-[46px] border-l border-t border-line p-1 sm:min-h-[54px] ${
                             col >= 3 ? "max-sm:hidden" : ""
                           }`}
                         >
@@ -197,8 +197,11 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
               </p>
             </div>
 
+            {/* Desktop only. Stacked under the card on a phone they became
+                132px of pills restating what the transparency section says
+                in full a few screens down. */}
             {hero.chips.length > 0 ? (
-              <ul className="mt-5 flex flex-wrap justify-center gap-2 lg:contents">
+              <ul className="hidden lg:contents">
                 {hero.chips.slice(0, CHIP_POSITIONS.length).map((chip, i) => (
                   <li
                     key={chip}

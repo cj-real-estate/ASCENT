@@ -37,17 +37,23 @@ export function ServicesSection({
           {services.items.map((item) => (
             <li
               key={item.title}
-              className="rounded-2xl border border-line bg-paper p-6 motion-safe:transition-[transform,box-shadow] motion-safe:hover:-translate-y-1 hover:shadow-card"
+              className="rounded-2xl border border-line bg-paper p-5 motion-safe:transition-[transform,box-shadow] motion-safe:hover:-translate-y-1 hover:shadow-card md:p-6"
             >
-              <span className="icon-tile">
-                <ServiceIcon name={item.icon} />
-              </span>
-              <h3 className="mt-5 text-[18px] font-semibold leading-snug text-ink">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-[16px] leading-relaxed text-slate">
-                {item.body}
-              </p>
+              {/* Icon sits beside the text on a phone and above it from md
+                  up — eight stacked cards cost four screens otherwise. */}
+              <div className="flex gap-4 md:block">
+                <span className="icon-tile shrink-0 max-md:h-10 max-md:w-10 max-md:rounded-xl">
+                  <ServiceIcon name={item.icon} />
+                </span>
+                <div className="min-w-0 md:mt-5">
+                  <h3 className="text-[17px] font-semibold leading-snug text-ink md:text-[18px]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1.5 text-[15px] leading-relaxed text-slate md:mt-2 md:text-[16px]">
+                    {item.body}
+                  </p>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
