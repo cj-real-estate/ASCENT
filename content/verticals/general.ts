@@ -55,6 +55,12 @@ const general: Vertical = {
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
+    // Floated around the hero's report card. Practice claims only.
+    chips: [
+      "Every setter call recorded",
+      "Cost per appointment held",
+      "Reporting in dollars",
+    ],
     microcopy: "30 minutes. No cost. No obligation.",
   },
 
@@ -70,7 +76,7 @@ const general: Vertical = {
         numberInput: true,
       },
       costPerAppointment: {
-        label: "Cost per appointment held",
+        label: "Cost per booked appointment",
         min: 50,
         max: 1000,
         step: 25,
@@ -98,13 +104,30 @@ const general: Vertical = {
       },
     },
     outputs: {
-      appointments: "Appointments held / year",
+      appointments: "Appointments / year",
       deals: "Deals closed / year",
       revenue: "Projected revenue / year",
       roi: "ROI / year",
     },
+    // Planning defaults, not published benchmarks — the note says so and
+    // the visitor can overwrite the number. Tune these to real numbers as
+    // client data comes in; the first option is what everyone sees first.
+    industries: {
+      label: "Your industry",
+      note: "Sets a starting cost per booked appointment from our planning numbers. Adjust it to yours.",
+      options: [
+        { label: "Construction and commercial contractors", costPerAppointment: 250 },
+        { label: "Home services (roofing, HVAC, fencing)", costPerAppointment: 150 },
+        { label: "Industrial and manufacturing", costPerAppointment: 400 },
+        { label: "Professional services", costPerAppointment: 300 },
+        { label: "Real estate and property", costPerAppointment: 200 },
+        { label: "B2B services and agencies", costPerAppointment: 350 },
+        { label: "Healthcare and wellness", costPerAppointment: 250 },
+        { label: "Something else", costPerAppointment: 250 },
+      ],
+    },
     assumptionLine:
-      "Straight arithmetic on your inputs: budget ÷ cost per appointment held, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
+      "Straight arithmetic on your inputs: budget ÷ cost per booked appointment, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
   },
 
   calculatorSection: {
@@ -230,11 +253,12 @@ const general: Vertical = {
     // the dashboard styling is presentation, not new data.
     reportCard: {
       title: "Campaign report — Prestige Fence, OKC",
+      // Cost per lead runs last here too (see the stats note above).
       rows: [
-        { label: "Ad spend", value: "$866" },
         { label: "Leads", value: "65" },
-        { label: "Cost per lead", value: "$13.33" },
         { label: "Days running", value: "19" },
+        { label: "Ad spend", value: "$866" },
+        { label: "Cost per lead", value: "$13.33" },
       ],
       footerLabel: "Quoted → signed inside 30 days",
       footerValue: "$275K → $85K",

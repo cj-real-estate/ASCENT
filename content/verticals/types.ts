@@ -27,6 +27,18 @@ export interface CalculatorContent {
     averageDealSize: CalculatorField;
     closeRate: CalculatorField;
   };
+  /**
+   * Industry picker that seeds costPerAppointment with a planning default —
+   * the visitor can still adjust the number afterwards. The defaults are
+   * Ascent's own planning assumptions, not published benchmarks, and the
+   * `note` under the field says so. null omits the picker (a vertical page
+   * already knows the industry).
+   */
+  industries: {
+    label: string;
+    note: string;
+    options: { label: string; costPerAppointment: number }[];
+  } | null;
   /** Labels over the four output tiles (per-year figures). */
   outputs: {
     appointments: string;
@@ -216,6 +228,10 @@ export interface Vertical {
     /** Lower-friction second path — same gate, tagged as its own interest.
      *  null renders only the primary CTA. */
     secondaryCta: string | null;
+    /** Practice-claim chips floated around the hero graphic — short, true,
+     *  checkable ("Every setter call recorded"). Never numbers. An empty
+     *  array renders none. */
+    chips: string[];
     microcopy: string;
   };
 

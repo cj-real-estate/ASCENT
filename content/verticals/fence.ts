@@ -50,6 +50,12 @@ const fence: Vertical = {
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
+    // Floated around the hero's report card. Practice claims only.
+    chips: [
+      "Every setter call recorded",
+      "Cost per estimate appointment held",
+      "Reporting in dollars",
+    ],
     microcopy: "30 minutes. No cost. No obligation.",
   },
 
@@ -65,7 +71,7 @@ const fence: Vertical = {
         numberInput: true,
       },
       costPerAppointment: {
-        label: "Cost per estimate appointment held",
+        label: "Cost per booked estimate appointment",
         min: 50,
         max: 1000,
         step: 25,
@@ -98,8 +104,10 @@ const fence: Vertical = {
       revenue: "Projected revenue / year",
       roi: "ROI / year",
     },
+    // A page addressed to fence companies already knows the industry.
+    industries: null,
     assumptionLine:
-      "Straight arithmetic on your inputs: budget ÷ cost per appointment held, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
+      "Straight arithmetic on your inputs: budget ÷ cost per booked appointment, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
   },
 
   calculatorSection: {
@@ -145,11 +153,13 @@ const fence: Vertical = {
     // Every value here is one of the attributed Prestige Fence numbers.
     reportCard: {
       title: "Campaign report — Prestige Fence, OKC",
+      // Cost per lead runs last: the stated position is that cost per
+      // appointment held is the metric that matters.
       rows: [
-        { label: "Ad spend", value: "$866" },
         { label: "Fence leads", value: "65" },
-        { label: "Cost per lead", value: "$13.33" },
         { label: "Days running", value: "19" },
+        { label: "Ad spend", value: "$866" },
+        { label: "Cost per lead", value: "$13.33" },
       ],
       footerLabel: "Quoted → signed inside 30 days",
       footerValue: "$275K → $85K",

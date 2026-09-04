@@ -198,6 +198,19 @@ html {
   }
 }
 
+/* Hero object entrance (the report card and its chips) — gated behind
+   motion-safe: in the component; chips stagger via animation-delay. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Primary CTA — pill-shaped per the reference sites, brand palette only.
    Ink text on orange rests at 4.97:1; hover flips to paper on orange-deep
    (5.05:1). The arrow is an inline SVG (the latin font subsets carry no
