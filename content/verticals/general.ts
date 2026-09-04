@@ -55,12 +55,29 @@ const general: Vertical = {
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
-    // Floated around the hero's report card. Practice claims only.
+    // Floated around the hero's calendar card. Practice claims only.
     chips: [
       "Every setter call recorded",
       "Cost per appointment held",
       "Reporting in dollars",
     ],
+    // Illustrative week — generic labels only, never names, companies,
+    // dollar figures, or counts presented as results.
+    calendar: {
+      title: "Your calendar — this week",
+      days: ["Mon", "Tue", "Wed", "Thu"],
+      times: ["9:00", "11:00", "1:00", "3:00"],
+      blocks: [
+        { day: 0, row: 1, label: "Appointment", time: "11:00", kind: "booked" },
+        { day: 1, row: 0, label: "Setter call", time: "9:30 · REC", kind: "call" },
+        { day: 1, row: 2, label: "Appointment", time: "1:00", kind: "booked" },
+        { day: 2, row: 1, label: "Appointment", time: "11:30", kind: "booked" },
+        { day: 2, row: 3, label: "Setter call", time: "3:15 · REC", kind: "call" },
+        { day: 3, row: 0, label: "Appointment", time: "9:00", kind: "booked" },
+        { day: 3, row: 2, label: "Appointment", time: "1:30", kind: "booked" },
+      ],
+      caption: "Appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
+    },
     microcopy: "30 minutes. No cost. No obligation.",
   },
 
@@ -102,6 +119,15 @@ const general: Vertical = {
         unit: "%",
         numberInput: false,
       },
+      salesCycleMonths: {
+        label: "Average sales cycle",
+        min: 1,
+        max: 12,
+        step: 1,
+        defaultValue: 2,
+        unit: "months",
+        numberInput: false,
+      },
     },
     outputs: {
       appointments: "Appointments / year",
@@ -110,24 +136,32 @@ const general: Vertical = {
       roi: "ROI / year",
     },
     // Planning defaults, not published benchmarks — the note says so and
-    // the visitor can overwrite the number. Tune these to real numbers as
+    // every seeded value stays editable. Tune these to real numbers as
     // client data comes in; the first option is what everyone sees first.
+    // Columns: cost per booked appointment, average deal size, close rate
+    // (percent of booked appointments), sales cycle in months.
     industries: {
       label: "Your industry",
-      note: "Sets a starting cost per booked appointment from our planning numbers. Adjust it to yours.",
+      note: "Sets starting numbers for cost per booked appointment, deal size, close rate, and sales cycle from our planning assumptions. Adjust any of them to yours.",
       options: [
-        { label: "Construction and commercial contractors", costPerAppointment: 250 },
-        { label: "Home services (roofing, HVAC, fencing)", costPerAppointment: 150 },
-        { label: "Industrial and manufacturing", costPerAppointment: 400 },
-        { label: "Professional services", costPerAppointment: 300 },
-        { label: "Real estate and property", costPerAppointment: 200 },
-        { label: "B2B services and agencies", costPerAppointment: 350 },
-        { label: "Healthcare and wellness", costPerAppointment: 250 },
-        { label: "Something else", costPerAppointment: 250 },
+        { label: "Construction and commercial contractors", costPerAppointment: 450, averageDealSize: 25000, closeRate: 15, salesCycleMonths: 3 },
+        { label: "Home services (roofing, HVAC, fencing)", costPerAppointment: 150, averageDealSize: 8000, closeRate: 30, salesCycleMonths: 1 },
+        { label: "Industrial and manufacturing", costPerAppointment: 600, averageDealSize: 60000, closeRate: 12, salesCycleMonths: 6 },
+        { label: "Professional services (legal, accounting, consulting)", costPerAppointment: 350, averageDealSize: 12000, closeRate: 25, salesCycleMonths: 2 },
+        { label: "Real estate and property", costPerAppointment: 250, averageDealSize: 9000, closeRate: 15, salesCycleMonths: 3 },
+        { label: "B2B services and agencies", costPerAppointment: 400, averageDealSize: 15000, closeRate: 20, salesCycleMonths: 2 },
+        { label: "Healthcare and wellness", costPerAppointment: 250, averageDealSize: 3000, closeRate: 35, salesCycleMonths: 1 },
+        { label: "SaaS and software", costPerAppointment: 500, averageDealSize: 20000, closeRate: 12, salesCycleMonths: 4 },
+        { label: "Financial services and insurance", costPerAppointment: 350, averageDealSize: 6000, closeRate: 20, salesCycleMonths: 2 },
+        { label: "Logistics and transportation", costPerAppointment: 400, averageDealSize: 30000, closeRate: 15, salesCycleMonths: 3 },
+        { label: "Energy and utilities", costPerAppointment: 650, averageDealSize: 75000, closeRate: 10, salesCycleMonths: 6 },
+        { label: "Automotive and equipment", costPerAppointment: 250, averageDealSize: 15000, closeRate: 25, salesCycleMonths: 1 },
+        { label: "Education and training", costPerAppointment: 200, averageDealSize: 4000, closeRate: 25, salesCycleMonths: 1 },
+        { label: "Something else", costPerAppointment: 300, averageDealSize: 10000, closeRate: 20, salesCycleMonths: 2 },
       ],
     },
     assumptionLine:
-      "Straight arithmetic on your inputs: budget ÷ cost per booked appointment, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
+      "Straight arithmetic on your inputs: budget ÷ cost per booked appointment, closed at your rate, counting only deals that close inside the year given your sales cycle. ROI after the budget. No multipliers, no “up to.”",
   },
 
   calculatorSection: {

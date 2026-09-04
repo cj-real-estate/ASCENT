@@ -50,12 +50,29 @@ const fence: Vertical = {
     cta: "Book a strategy call",
     // One offer now — the strategy call IS the primary path.
     secondaryCta: null,
-    // Floated around the hero's report card. Practice claims only.
+    // Floated around the hero's calendar card. Practice claims only.
     chips: [
       "Every setter call recorded",
       "Cost per estimate appointment held",
       "Reporting in dollars",
     ],
+    // Illustrative week — generic labels only, never names, addresses,
+    // dollar figures, or counts presented as results.
+    calendar: {
+      title: "Your calendar — this week",
+      days: ["Mon", "Tue", "Wed", "Thu"],
+      times: ["9:00", "11:00", "1:00", "3:00"],
+      blocks: [
+        { day: 0, row: 1, label: "Estimate", time: "11:00", kind: "booked" },
+        { day: 1, row: 0, label: "Setter call", time: "9:30 · REC", kind: "call" },
+        { day: 1, row: 2, label: "Estimate", time: "1:00", kind: "booked" },
+        { day: 2, row: 1, label: "Estimate", time: "11:30", kind: "booked" },
+        { day: 2, row: 3, label: "Setter call", time: "3:15 · REC", kind: "call" },
+        { day: 3, row: 0, label: "Estimate", time: "9:00", kind: "booked" },
+        { day: 3, row: 2, label: "Estimate", time: "1:30", kind: "booked" },
+      ],
+      caption: "Estimate appointments set by your setter, on your calendar. Every setter call recorded and monitored.",
+    },
     microcopy: "30 minutes. No cost. No obligation.",
   },
 
@@ -97,6 +114,15 @@ const fence: Vertical = {
         unit: "%",
         numberInput: false,
       },
+      salesCycleMonths: {
+        label: "Average time from estimate to signed job",
+        min: 1,
+        max: 12,
+        step: 1,
+        defaultValue: 1,
+        unit: "months",
+        numberInput: false,
+      },
     },
     outputs: {
       appointments: "Estimate appointments / year",
@@ -107,7 +133,7 @@ const fence: Vertical = {
     // A page addressed to fence companies already knows the industry.
     industries: null,
     assumptionLine:
-      "Straight arithmetic on your inputs: budget ÷ cost per booked appointment, closed at your rate, ROI after the budget. No multipliers, no “up to.”",
+      "Straight arithmetic on your inputs: budget ÷ cost per booked appointment, closed at your rate, counting only jobs that sign inside the year given your estimate-to-signed time. ROI after the budget. No multipliers, no “up to.”",
   },
 
   calculatorSection: {

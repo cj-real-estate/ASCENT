@@ -11,21 +11,23 @@ import { formatUSD, formatUSDCompact, formatPercent } from "@/lib/format";
 
 /*
  * The ROI calculator, reference-site style: boxed fields in a card on the
- * left (industry picker first — it seeds the cost per booked appointment,
- * which stays editable), four per-year output tiles on the right. All math
- * lives in src/lib/calculator.ts — straight arithmetic on the visitor's
- * inputs, stated openly in the assumption line. Nothing is persisted or
- * sent anywhere.
+ * left (industry picker first — it seeds cost per booked appointment, deal
+ * size, close rate, and sales cycle, all of which stay editable), four
+ * per-year output tiles on the right. All math lives in
+ * src/lib/calculator.ts — straight arithmetic on the visitor's inputs,
+ * stated openly in the assumption line. Nothing is persisted or sent
+ * anywhere.
  */
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-/** "$4,500" / "30%" / "12" per the field's unit */
+/** "$4,500" / "30%" / "3 months" / "12" per the field's unit */
 function formatFieldValue(field: CalculatorField, value: number): string {
   if (field.unit === "$") return formatUSD(value);
   if (field.unit === "%") return `${value}%`;
+  if (field.unit === "months") return `${value} ${value === 1 ? "month" : "months"}`;
   return String(value);
 }
 
@@ -47,7 +49,9 @@ function FieldBox({
         {label}
       </label>
       {children}
-      {hint ? <p className="mt-1 pb-1 text-[12px] leading-snug text-slate">{hint}</p> : null}
+      {hint ? (
+        <p className="mt-1 pb-1 text-[12px] leading-snug text-slate">{hint}</p>
+      ) : null}
     </div>
   );
 }
@@ -76,13 +80,11 @@ function NumberField({
   id,
   field,
   value,
-  hint,
   onChange,
 }: {
   id: string;
   field: CalculatorField;
   value: number;
-  hint?: string;
   onChange: (v: number) => void;
 }) {
   // Shown with thousands separators ("4,000"); typed digits stay raw until
@@ -113,7 +115,7 @@ function NumberField({
   };
 
   return (
-    <FieldBox label={field.label} htmlFor={id} hint={hint}>
+    <FieldBox label={field.label} htmlFor={id}>
       <div className="flex items-center gap-1">
         {field.unit === "$" ? (
           <span aria-hidden="true" className="text-[17px] font-semibold text-slate">
@@ -208,33 +210,55 @@ export default function Calculator({
 }) {
   const { fields, industries, outputs, assumptionLine } = calculator;
   const uid = useId();
+  const preset = industries?.options[0];
 
   const [industryIndex, setIndustryIndex] = useState(0);
   const [monthlyBudget, setMonthlyBudget] = useState(
     fields.monthlyBudget.defaultValue,
   );
-  // Seeded by the industry picker when there is one; always editable.
+  // The four industry-seeded values. Seeded from the first option when
+  // there is a picker; always editable afterwards.
   const [costPerAppointment, setCostPerAppointment] = useState(
-    industries
-      ? industries.options[0].costPerAppointment
-      : fields.costPerAppointment.defaultValue,
+    preset?.costPerAppointment ?? fields.costPerAppointment.defaultValue,
   );
   const [averageDealSize, setAverageDealSize] = useState(
-    fields.averageDealSize.defaultValue,
+    preset?.averageDealSize ?? fields.averageDealSize.defaultValue,
   );
   // Stored as a percentage number (30) — converted to a fraction for the math.
   const [closeRatePct, setCloseRatePct] = useState(
-    fields.closeRate.defaultValue,
+    preset?.closeRate ?? fields.closeRate.defaultValue,
+  );
+  const [salesCycleMonths, setSalesCycleMonths] = useState(
+    preset?.salesCycleMonths ?? fields.salesCycleMonths.defaultValue,
   );
 
   function chooseIndustry(index: number) {
     if (!industries) return;
+    const option = industries.options[index];
+    if (!option) return;
     setIndustryIndex(index);
     setCostPerAppointment(
       clamp(
-        industries.options[index].costPerAppointment,
+        option.costPerAppointment,
         fields.costPerAppointment.min,
         fields.costPerAppointment.max,
+      ),
+    );
+    setAverageDealSize(
+      clamp(
+        option.averageDealSize,
+        fields.averageDealSize.min,
+        fields.averageDealSize.max,
+      ),
+    );
+    setCloseRatePct(
+      clamp(option.closeRate, fields.closeRate.min, fields.closeRate.max),
+    );
+    setSalesCycleMonths(
+      clamp(
+        option.salesCycleMonths,
+        fields.salesCycleMonths.min,
+        fields.salesCycleMonths.max,
       ),
     );
   }
@@ -244,6 +268,7 @@ export default function Calculator({
     costPerAppointment,
     averageDealSize,
     closeRate: closeRatePct / 100,
+    salesCycleMonths,
   });
 
   const tiles = [
@@ -257,7 +282,11 @@ export default function Calculator({
     <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start">
       <div className="flex flex-col gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card md:p-5">
         {industries ? (
-          <FieldBox label={industries.label} htmlFor={`${uid}-industry`}>
+          <FieldBox
+            label={industries.label}
+            htmlFor={`${uid}-industry`}
+            hint={industries.note}
+          >
             <div className="relative">
               <select
                 id={`${uid}-industry`}
@@ -276,17 +305,16 @@ export default function Calculator({
           </FieldBox>
         ) : null}
         <NumberField
-          id={`${uid}-cpa`}
-          field={fields.costPerAppointment}
-          value={costPerAppointment}
-          hint={industries?.note}
-          onChange={setCostPerAppointment}
-        />
-        <NumberField
           id={`${uid}-budget`}
           field={fields.monthlyBudget}
           value={monthlyBudget}
           onChange={setMonthlyBudget}
+        />
+        <NumberField
+          id={`${uid}-cpa`}
+          field={fields.costPerAppointment}
+          value={costPerAppointment}
+          onChange={setCostPerAppointment}
         />
         <NumberField
           id={`${uid}-deal`}
@@ -299,6 +327,12 @@ export default function Calculator({
           field={fields.closeRate}
           value={closeRatePct}
           onChange={setCloseRatePct}
+        />
+        <RangeField
+          id={`${uid}-cycle`}
+          field={fields.salesCycleMonths}
+          value={salesCycleMonths}
+          onChange={setSalesCycleMonths}
         />
       </div>
 

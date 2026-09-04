@@ -42,8 +42,45 @@ export function ProofSection({ vertical }: { vertical: Vertical }) {
           ))}
         </div>
 
-        {/* The campaign-report card itself now leads the hero; this section
-            keeps the formal attribution beneath the three stats. */}
+        {proof.reportCard ? (
+          /* Dashboard-styled, but every value is an attributed number from
+             the stats above — presentation, not new data. */
+          <div className="mt-12 max-w-[720px] rounded-2xl border border-ink bg-ink p-6 shadow-card md:p-8">
+            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+              <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-on-dark">
+                {proof.reportCard.title}
+              </p>
+              <span aria-hidden="true" className="flex gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-orange" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/25" />
+              </span>
+            </div>
+            <dl className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+              {proof.reportCard.rows.map((row) => (
+                <div
+                  key={row.label}
+                  className="rounded-lg border border-white/10 bg-graphite p-4"
+                >
+                  <dt className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-fog">
+                    {row.label}
+                  </dt>
+                  <dd className="readout mt-2 text-[24px] text-orange md:text-[28px]">
+                    {row.value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2 rounded-lg border border-white/10 bg-graphite p-4">
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-fog">
+                {proof.reportCard.footerLabel}
+              </p>
+              <p className="readout text-[22px] text-paper md:text-[26px]">
+                {proof.reportCard.footerValue}
+              </p>
+            </div>
+          </div>
+        ) : null}
 
         <p className="mt-6 font-mono text-[12px] tracking-[0.02em] text-slate">
           {proof.attributionLine ??

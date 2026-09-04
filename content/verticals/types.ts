@@ -14,8 +14,8 @@ export interface CalculatorField {
   max: number;
   step: number;
   defaultValue: number;
-  /** "$" prefixes the number input; "%" suffixes the readout */
-  unit: "none" | "$" | "%";
+  /** "$" prefixes the number input; "%" and "months" suffix the readout */
+  unit: "none" | "$" | "%" | "months";
   /** whether a number input accompanies the slider */
   numberInput: boolean;
 }
@@ -26,18 +26,29 @@ export interface CalculatorContent {
     costPerAppointment: CalculatorField;
     averageDealSize: CalculatorField;
     closeRate: CalculatorField;
+    /** Months from appointment to close — only deals that close inside the
+     *  year count toward revenue / year. */
+    salesCycleMonths: CalculatorField;
   };
   /**
-   * Industry picker that seeds costPerAppointment with a planning default —
-   * the visitor can still adjust the number afterwards. The defaults are
-   * Ascent's own planning assumptions, not published benchmarks, and the
-   * `note` under the field says so. null omits the picker (a vertical page
-   * already knows the industry).
+   * Industry picker that seeds cost per booked appointment, deal size,
+   * close rate, and sales cycle with planning defaults — every one stays
+   * adjustable afterwards. The defaults are Ascent's own planning
+   * assumptions, not published benchmarks, and the `note` under the picker
+   * says so. null omits the picker (a vertical page already knows the
+   * industry).
    */
   industries: {
     label: string;
     note: string;
-    options: { label: string; costPerAppointment: number }[];
+    options: {
+      label: string;
+      costPerAppointment: number;
+      averageDealSize: number;
+      /** percent, e.g. 25 */
+      closeRate: number;
+      salesCycleMonths: number;
+    }[];
   } | null;
   /** Labels over the four output tiles (per-year figures). */
   outputs: {
@@ -232,6 +243,32 @@ export interface Vertical {
      *  checkable ("Every setter call recorded"). Never numbers. An empty
      *  array renders none. */
     chips: string[];
+    /**
+     * The hero object: an illustrative week of appointments landing on the
+     * owner's calendar. Generic labels only ("Booked", "Setter call") —
+     * never names, companies, dollar figures, or counts presented as
+     * results. null falls back to the three-stat strip.
+     */
+    calendar: {
+      /** Mono title on the card chrome */
+      title: string;
+      /** Column labels, in order */
+      days: string[];
+      /** Row labels, in order */
+      times: string[];
+      blocks: {
+        /** index into `days` */
+        day: number;
+        /** index into `times` */
+        row: number;
+        label: string;
+        time: string;
+        /** "booked" = an appointment block; "call" = a recorded setter call */
+        kind: "booked" | "call";
+      }[];
+      /** Practice-claim line under the grid */
+      caption: string;
+    } | null;
     microcopy: string;
   };
 
