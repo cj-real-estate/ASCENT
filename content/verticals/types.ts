@@ -343,8 +343,8 @@ export interface Vertical {
   };
 
   /**
-   * How the firm reports — speed-to-lead, pipeline movement, and revenue
-   * attribution. Practice
+   * How the firm reports — recorded and monitored setter calls, cost per
+   * appointment held over cost per lead, plain-dollar reporting. Practice
    * claims only (things the firm does), never performance claims (numbers
    * belong in `proof`, attributed). null omits the section.
    */
