@@ -277,8 +277,6 @@ export interface Vertical {
         /** "booked" = an appointment block; "call" = a recorded setter call */
         kind: "booked" | "call";
       }[];
-      /** Key for the two block colors, so the graphic explains itself. */
-      legend: { kind: "booked" | "call"; label: string }[];
       /** Practice-claim line under the grid */
       caption: string;
     } | null;
@@ -365,9 +363,6 @@ export interface Vertical {
        *  stage concrete ("Under 10 min"). A statement of how the firm
        *  operates, never a measured result. null renders none. */
       badge: string | null;
-      /** The stage's own micro-graphic: a caption over a row of chips
-       *  (sources, cadence, what you get). null renders none. */
-      detail: { label: string; items: string[] } | null;
     }[];
     closing: string;
   } | null;

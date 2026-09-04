@@ -53,21 +53,14 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
       id="top"
       className="relative overflow-hidden bg-paper pb-16 pt-14 md:pb-24 md:pt-20"
     >
-      {/* Two quiet warm glows, brand palette only. */}
+      {/* One warm wash off the top edge — atmosphere. Deliberately not
+          floating gradient orbs, which read as generic filler. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-40 top-[-220px] h-[560px] w-[560px] rounded-full opacity-70"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[340px] opacity-80"
         style={{
           background:
-            "radial-gradient(closest-side, var(--orange-tint), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-32 top-[-140px] h-[480px] w-[480px] rounded-full opacity-[0.16]"
-        style={{
-          background:
-            "radial-gradient(closest-side, var(--orange), transparent 70%)",
+            "linear-gradient(to bottom, var(--orange-tint), transparent)",
         }}
       />
 
@@ -118,16 +111,6 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
 
         {cal ? (
           <div className="relative mx-auto w-full max-w-[560px] lg:max-w-none">
-            {/* Glow behind the card so it reads as lifted off the page. */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-1/2 h-[120%] w-[120%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.2]"
-              style={{
-                background:
-                  "radial-gradient(closest-side, var(--orange), transparent 70%)",
-              }}
-            />
-
             <div
               className={`relative rounded-2xl border border-line bg-paper p-5 shadow-card md:p-6 ${RISE}`}
             >
@@ -207,29 +190,9 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
                 ))}
               </div>
 
-              {/* Key for the two block colors, so the graphic explains
-                  itself instead of relying on the caption. */}
-              <ul
-                aria-hidden="true"
-                className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-3"
-              >
-                {cal.legend.map((entry) => (
-                  <li
-                    key={entry.label}
-                    className="flex items-center gap-2 font-mono text-[11px] text-slate"
-                  >
-                    <span
-                      className={
-                        entry.kind === "call"
-                          ? "h-3 w-3 shrink-0 rounded-[3px] bg-ink"
-                          : "h-3 w-3 shrink-0 rounded-[3px] border-l-2 border-orange bg-orange-tint"
-                      }
-                    />
-                    {entry.label}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-[0.02em] text-slate">
+              {/* No legend: the blocks are labelled in place, so a key
+                  under them only repeats what they already say. */}
+              <p className="mt-4 border-t border-line pt-3 font-mono text-[11px] leading-relaxed tracking-[0.02em] text-slate">
                 {cal.caption}
               </p>
             </div>

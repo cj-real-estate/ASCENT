@@ -1,6 +1,7 @@
 import type { Vertical } from "@content/verticals/types";
 import Calculator from "@/components/Calculator";
 import SectionIndex from "@/components/SectionIndex";
+import { AscentMark } from "@/components/Logo";
 
 /*
  * The ROI calculator's own section — light, reference-site style: heading
@@ -22,14 +23,13 @@ export function CalculatorSection({
         {/* Tinted panel with the calculator's cards nested white inside it —
             the reference sites' panel/card device. */}
         <div className="panel relative overflow-hidden bg-surface">
+          {/* Brand geometry as watermark, not a gradient orb. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-20 -top-24 h-[300px] w-[300px] rounded-full opacity-[0.5]"
-            style={{
-              background:
-                "radial-gradient(closest-side, var(--orange-tint), transparent 70%)",
-            }}
-          />
+            className="pointer-events-none absolute -right-16 -top-12 opacity-[0.05]"
+          >
+            <AscentMark variant="onLight" className="h-[340px] w-auto" />
+          </div>
           <div className="relative">
             <p className="eyebrow text-orange-deep">
               <SectionIndex n={index} />

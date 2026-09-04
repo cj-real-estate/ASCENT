@@ -121,19 +121,6 @@ body {
     -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent 70%);
     mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000, transparent 70%);
   }
-  /* Chip — small labelled pill used inside the diagram's stage cards. */
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    border-radius: 9999px;
-    border: 1px solid rgb(255 255 255 / 0.14);
-    padding: 0.15rem 0.6rem;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    color: var(--on-dark);
-    white-space: nowrap;
-  }
   /* Icon tile — the icon set from ServiceIcon on a tinted rounded square.
      Orange Deep on Orange Tint is 4.6:1; the dark variant lifts the icon to
      plain Orange on a translucent wash. */

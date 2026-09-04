@@ -1,5 +1,6 @@
 import type { Vertical } from "@content/verticals/types";
 import ArrowRight from "./ArrowRight";
+import { AscentMark } from "./Logo";
 
 /*
  * The mid-page re-ask: an orange panel, not a full-bleed band, so it reads
@@ -14,15 +15,13 @@ export function CtaBand({ vertical }: { vertical: Vertical }) {
     <section className="cv-auto bg-paper py-8 md:py-14">
       <div className="section-shell">
         <div className="panel relative overflow-hidden bg-orange">
-          {/* Deepened corner wash so the flat orange has some depth. */}
+          {/* Brand geometry as watermark, not a gradient orb. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-32 -right-24 h-[420px] w-[420px] rounded-full opacity-30"
-            style={{
-              background:
-                "radial-gradient(closest-side, var(--orange-deep), transparent 70%)",
-            }}
-          />
+            className="pointer-events-none absolute -bottom-16 right-4 opacity-[0.13]"
+          >
+            <AscentMark variant="onDark" className="h-[300px] w-auto" />
+          </div>
           <div className="relative flex flex-col items-start gap-7 md:flex-row md:items-center md:justify-between md:gap-10">
             <h2 className="display max-w-[18ch] text-[30px] text-ink md:text-[46px]">
               {vertical.booking.h2}

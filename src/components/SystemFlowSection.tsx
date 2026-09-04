@@ -2,6 +2,7 @@ import type { Vertical } from "@content/verticals/types";
 import SectionIndex from "./SectionIndex";
 import ServiceIcon from "./ServiceIcon";
 import ArrowRight from "./ArrowRight";
+import { AscentMark } from "./Logo";
 
 /*
  * The mechanism, drawn — the page's one real diagram, and the reason the
@@ -31,14 +32,14 @@ export function SystemFlowSection({
           data-dark
           className="panel grid-texture relative overflow-hidden bg-ink shadow-card"
         >
+          {/* Our own mark as watermark, not a soft gradient orb — brand
+              geometry reads as a decision; a floating blur reads as filler. */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-28 -top-36 h-[440px] w-[440px] rounded-full opacity-[0.16]"
-            style={{
-              background:
-                "radial-gradient(closest-side, var(--orange), transparent 70%)",
-            }}
-          />
+            className="pointer-events-none absolute -right-20 -top-16 opacity-[0.05]"
+          >
+            <AscentMark variant="onDark" className="h-[420px] w-auto" />
+          </div>
           <div className="relative">
             <p className="eyebrow text-orange">
               <SectionIndex n={index} dark />
@@ -61,7 +62,7 @@ export function SystemFlowSection({
               {systemFlow.stages.map((stage, i) => (
                 <li
                   key={stage.title}
-                  className="relative flex flex-col rounded-xl border border-white/10 bg-graphite p-5 md:p-6"
+                  className="relative rounded-xl border border-white/10 bg-graphite p-5 md:p-6"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <span className="icon-tile">
@@ -82,28 +83,9 @@ export function SystemFlowSection({
                       {stage.badge}
                     </p>
                   ) : null}
-                  {/* grow so the detail block below sits on the card's
-                      bottom edge, aligned across the row */}
-                  <p className="mt-3 grow text-[15px] leading-relaxed text-on-dark">
+                  <p className="mt-3 text-[15px] leading-relaxed text-on-dark">
                     {stage.body}
                   </p>
-                  {stage.detail ? (
-                    <div className="mt-5 border-t border-white/10 pt-4">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-fog">
-                        {stage.detail.label}
-                      </p>
-                      {/* Two chip rows' worth of height, so the divider
-                          rules line up across the row even when one stage
-                          has fewer chips than the others. */}
-                      <ul className="mt-2 flex min-h-[52px] flex-wrap content-start gap-1.5">
-                        {stage.detail.items.map((item) => (
-                          <li key={item} className="chip">
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : null}
 
                   {/* Flow arrow, drawn in the gutter after every card but
                       the last. Points right across columns, down when the
