@@ -8,7 +8,7 @@ agent can't get through a login or 2FA prompt:
 1. **Vercel** — `vercel.com/dashboard`
 2. **GoDaddy DNS for ascentcas.com** — `dcc.godaddy.com/control/ascentcas.com/dns`
 
-**Skip the environment variables.** They include your Resend API key, and you
+**Skip the environment variables.** They include your GoHighLevel token, and you
 shouldn't paste a live secret into a chat with any agent. Add those yourself in
 Vercel → Settings → Environment Variables (they're listed in `DEPLOY.md`
 step 2) — before you send anyone to the site, or the booking form silently

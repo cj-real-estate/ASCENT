@@ -61,9 +61,8 @@ and the booking headline switch to the "filled / waitlist" framing.
 Nobody reaches the Calendly scheduler without answering the ICP questions
 first. `QualifyFlow` (the client island inside every booking section, and the
 whole of `/apply` — the bare landing page for social/paid CTAs) posts contact
-info + answers to `/api/book`. The lead is emailed in BOTH cases — subject
-"Qualified lead — …" or "Lead (below ICP) — …" — and only a qualifying
-verdict gets the calendar.
+info + answers to `/api/book`. The lead is delivered in BOTH cases — tagged
+`qualified` or `below icp` — and only a qualifying verdict gets the calendar.
 
 Two things are deliberate about the wiring:
 
@@ -76,7 +75,7 @@ Two things are deliberate about the wiring:
   link only on a pass. Don't hand a client component the whole `Vertical` —
   that's how they'd leak.
 
-## Leads → Google Sheet + email
+## Leads → Google Sheet (backstop)
 
 Every submission can also be appended to the **Ascent Leads** Google Sheet
 and trigger a Gmail notification, via a small Apps Script webhook —
@@ -84,17 +83,20 @@ and trigger a Gmail notification, via a small Apps Script webhook —
 `LEADS_WEBHOOK_URL` / `LEADS_WEBHOOK_SECRET` env vars). The site never
 blocks on it; failures log as `[LEAD_WEBHOOK_FAILED]`.
 
-## Booking email
+## Lead delivery and notification
 
-`/api/book` emails leads via Resend. Configure in Vercel (see `.env.example`):
+`/api/book` hands every lead to **GoHighLevel** — `docs/GOHIGHLEVEL-SETUP.md`
+has the setup (`GHL_API_TOKEN`, `GHL_LOCATION_ID`). The contact is created
+tagged `website lead` plus `qualified` or `below icp`, with the gate answers
+attached as a note, and a GHL workflow on that tag is what notifies you.
+There is no transactional email service in the path: a second provider with
+its own API key and domain verification bought nothing the CRM doesn't
+already do.
 
-- `RESEND_API_KEY`
-- `BOOKING_TO_EMAIL` — where leads land
-- `BOOKING_FROM_EMAIL` — verified sender
-
-Without these, the route logs in dev and returns an honest 503 in production.
-Set them before launch or wire the Cal.com link (`booking.schedulingLink` in
-the content module) so the page always has a live path to `/thanks`.
+The route reports whether a lead actually landed. If no sink takes it, the
+lead is written to the function log as `[LEAD_UNDELIVERED]` so it can be
+recovered — and a *qualified* prospect still receives the calendar anyway,
+because our plumbing is never their problem.
 
 ## Deploying on Vercel
 

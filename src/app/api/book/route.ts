@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
 import { deliverLeadToGhl, ghlConfigured, ghlEnvNamesSeen } from "@/lib/ghl";
-import { envNamesMatching, readEnv, readSecret } from "@/lib/env";
+import { readEnv } from "@/lib/env";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
- * drops honeypot submissions silently, and forwards the lead as a plain-text
- * email via the Resend HTTP API — no SDK, no persistence, no cookies. In
- * production, PII reaches the function log only in one case: the email leg
- * failed on a gate submission, and logging the lead is the only way not to
- * lose it (see recoverLead below).
+ * drops honeypot submissions silently, and hands the lead to GoHighLevel and
+ * the Google Sheet — no SDK, no persistence, no cookies. The owner is
+ * notified by a GHL workflow on the "website lead" tag, not by this route;
+ * there is no transactional email service in the path any more. In
+ * production, PII reaches the function log only in one case: no sink accepted
+ * the lead, and logging it is the only way not to lose it (LEAD_UNDELIVERED).
  *
  * Two payload shapes arrive here:
  *
@@ -23,7 +24,9 @@ import { envNamesMatching, readEnv, readSecret } from "@/lib/env";
  *
  *   legacy — { name, company, phone, email, trade, estimates } from the old
  *   booking form, still posted by cached copies of pages that shipped before
- *   the gate. Validated and emailed exactly as it always was.
+ *   the gate. Validated and delivered exactly as it always was — but since
+ *   delivery is its only outcome, it still fails honestly when nothing takes
+ *   it, where a gate submission proceeds to the calendar regardless.
  */
 
 export const runtime = "nodejs";
@@ -42,29 +45,22 @@ export const dynamic = "force-dynamic";
  */
 export async function GET() {
   const ghl = ghlConfigured();
-  const resendApiKey = Boolean(readSecret("RESEND_API_KEY"));
-  const bookingToEmail = Boolean(readEnv("BOOKING_TO_EMAIL"));
   return NextResponse.json({
     ok: true,
     commit: (process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7),
     leadDelivery: {
+      /* The primary sink, and what fires the owner's notification workflow.
+       * If this is false, nobody hears about a lead. */
       ghlContacts: ghl.contactApi,
       ghlApiToken: ghl.token,
       ghlLocationId: ghl.location,
       ghlWebhook: ghl.webhook,
-      email: resendApiKey && bookingToEmail,
-      resendApiKey,
-      bookingToEmail,
-      /* Unset means the send falls back to Resend's onboarding@resend.dev
-       * sandbox sender, which is only allowed to deliver to the Resend
-       * account owner's own address — a 403 that looks like nothing. */
-      bookingFromEmail: Boolean(readEnv("BOOKING_FROM_EMAIL")),
+      /* The independent backstop (docs/GOOGLE-SHEET-SETUP.md). */
       googleSheet: Boolean(readEnv("LEADS_WEBHOOK_URL")),
     },
     /* The exact variable names this deployment can see. A boolean can only
      * say "missing"; this says "you named it GHL_API_Token". */
     ghlEnvNamesSeen: ghlEnvNamesSeen(),
-    emailEnvNamesSeen: envNamesMatching(/^(resend|booking|email|mail|smtp)/i),
   });
 }
 
@@ -107,9 +103,9 @@ async function postLeadWebhook(record: {
   page: string;
   interest: string;
   answers: Record<string, string>;
-}): Promise<void> {
+}): Promise<boolean> {
   const url = readEnv("LEADS_WEBHOOK_URL");
-  if (!url) return;
+  if (!url) return false;
   try {
     const res = await fetch(url, {
       method: "POST",
@@ -125,9 +121,12 @@ async function postLeadWebhook(record: {
     });
     if (!res.ok) {
       console.error("[LEAD_WEBHOOK_FAILED] status", res.status);
+      return false;
     }
+    return true;
   } catch (error) {
     console.error("[LEAD_WEBHOOK_FAILED]", error);
+    return false;
   }
 }
 
@@ -310,22 +309,17 @@ export async function POST(request: Request) {
     : "LEGACY FORM";
   const page = verticalSlug || "general";
 
-  /* Both record sinks. Awaited so the serverless runtime cannot freeze them
-   * mid-flight, and run together because neither depends on the other. Each
-   * is bounded and swallows its own failures: the CRM and the sheet are
-   * where the lead is KEPT, never a gate on the prospect reaching the
-   * calendar. */
-  await Promise.allSettled([
-    postLeadWebhook({
-      verdict,
-      name,
-      company,
-      phone,
-      email,
-      page,
-      interest,
-      answers: gateAnswers,
-    }),
+  /* Every lead sink, awaited so the serverless runtime cannot freeze them
+   * mid-flight and run together because neither depends on the other. Each
+   * is bounded and swallows its own failures — they are where the lead is
+   * KEPT, never a gate on the prospect reaching the calendar.
+   *
+   * GoHighLevel is the primary record and, via a workflow on the "website
+   * lead" tag, what notifies the owner. The Google Sheet is the independent
+   * backstop. There is no transactional email leg: a second service with its
+   * own API key and domain verification bought nothing the CRM doesn't
+   * already do. */
+  const results = await Promise.allSettled([
     deliverLeadToGhl({
       name,
       company,
@@ -338,93 +332,41 @@ export async function POST(request: Request) {
       answers: gateAnswers,
       answerLines: gateAnswerLines,
     }),
+    postLeadWebhook({
+      verdict,
+      name,
+      company,
+      phone,
+      email,
+      page,
+      interest,
+      answers: gateAnswers,
+    }),
   ]);
+  const delivered = results.some(
+    (result) => result.status === "fulfilled" && result.value,
+  );
 
-  const apiKey = readSecret("RESEND_API_KEY");
-  const toEmail = readEnv("BOOKING_TO_EMAIL");
-  /* Resend's sandbox sender is only permitted to deliver to the Resend
-   * account owner's own address. Anything else comes back 403 — which is
-   * why an unset BOOKING_FROM_EMAIL is worth naming in the log below. */
-  const fromEmail = readEnv("BOOKING_FROM_EMAIL") || "onboarding@resend.dev";
-
-  /* The email is the lead RECORD, not the product. For gate submissions a
-   * failed email leg must never block a qualified prospect from the
-   * calendar: the lead is written to the function log for recovery (the one
-   * deliberate exception to the no-PII-in-logs rule — losing the lead is
-   * worse), the visitor proceeds on the server's verdict, and a qualified
-   * lead who books is caught by Calendly's own booking notification anyway.
-   * Legacy form posts keep the honest failure: the email IS their only
-   * outcome, so pretending success would silently drop the lead. */
-  const recoverLead = () => {
-    console.error("[LEAD_RECOVER] lead not emailed — recover it from here:", {
+  if (!delivered) {
+    /* Nothing took the lead — no CRM contact, no sheet row, and so no
+     * notification either. Writing it to the function log is the one
+     * deliberate exception to the no-PII-in-logs rule: losing the lead is
+     * worse than logging it, and this is the only remaining copy. */
+    console.error("[LEAD_UNDELIVERED] no sink accepted this lead:", {
       subject,
       text,
     });
-    return NextResponse.json({ ok: true, ...gate });
-  };
-
-  if (!apiKey || !toEmail) {
-    /* Name the missing variable. Without this the log is silent and an
-     * unconfigured deployment is indistinguishable from an undeployed one —
-     * the exact hole that made the GHL misconfiguration undiagnosable. */
-    console.error(
-      "[LEAD_EMAIL_SKIPPED] not configured — missing: " +
-        [!apiKey && "RESEND_API_KEY", !toEmail && "BOOKING_TO_EMAIL"]
-          .filter(Boolean)
-          .join(", ") +
-        `. Names this deployment can see: ${
-          envNamesMatching(/^(resend|booking|email|mail|smtp)/i).join(", ") ||
-          "(none)"
-        }`,
-    );
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[/api/book] email not configured — payload:", {
-        subject,
-        text,
-      });
-      return NextResponse.json({ ok: true, ...gate });
-    }
-    if (isQualification) return recoverLead();
-    return bad("Booking isn't wired up yet — call or email us instead.", 503);
-  }
-
-  let sendResponse: Response | null = null;
-  try {
-    sendResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: fromEmail,
-        to: toEmail,
-        subject,
-        text,
-      }),
-    });
-  } catch {
-    sendResponse = null;
-  }
-
-  if (!sendResponse || !sendResponse.ok) {
-    /* Resend explains its own rejections — a wrong key, an unverified
-     * sending domain, or the sandbox sender refusing a third-party
-     * recipient. Discarding that body left "no email arrived" with nothing
-     * behind it; print it verbatim, bounded. */
-    if (sendResponse) {
-      const reason = await sendResponse.text().catch(() => "");
-      console.error(
-        `[LEAD_EMAIL_FAILED] resend ${sendResponse.status} (from ${fromEmail}): ${reason.slice(0, 400)}`,
+    /* A gate submission still proceeds on the server's verdict — a qualified
+     * prospect must never be held back by our plumbing, and one who books is
+     * caught by the calendar's own booking notification. A legacy form post
+     * has no such second chance: delivery IS its only outcome, so failing
+     * quietly would drop the lead with the visitor none the wiser. */
+    if (!isQualification) {
+      return bad(
+        "Sending failed on our end. Try again in a minute, or call or email us instead.",
+        502,
       );
-    } else {
-      console.error("[LEAD_EMAIL_FAILED] resend unreachable");
     }
-    if (isQualification) return recoverLead();
-    return bad(
-      "Sending failed on our end. Try again in a minute, or call or email us instead.",
-      502,
-    );
   }
 
   return NextResponse.json({ ok: true, ...gate });

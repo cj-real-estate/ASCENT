@@ -111,6 +111,7 @@ curl -L -X POST 'YOUR-EXEC-URL' \
   failures only log (`[LEAD_WEBHOOK_FAILED]` in Vercel function logs) — a
   broken sheet can't block a prospect from booking.
 - Gmail's consumer quota is ~100 script emails/day — far above form volume.
-- This runs alongside the Resend email leg (`RESEND_API_KEY` etc.). With
-  both configured you'd get two emails per lead; if you set up the sheet
-  script, you can leave Resend unset and still get notified.
+- This runs alongside GoHighLevel, independently. GHL is the primary record
+  and the notification path; the sheet is the backstop, so a lead survives
+  either one being down. If neither takes it, `/api/book` logs
+  `[LEAD_UNDELIVERED]` with the lead so nothing is lost.

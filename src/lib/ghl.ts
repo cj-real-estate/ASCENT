@@ -17,6 +17,11 @@
  * calendar. Failures log status + response body so a misconfigured token or
  * location is diagnosable from the function log without guessing.
  *
+ * This is also the notification path. There is no transactional email
+ * service any more — a GHL workflow triggered on the "website lead" tag is
+ * what tells the owner a lead came in, which is why delivery reports back
+ * whether it succeeded.
+ *
  * See docs/GOHIGHLEVEL-SETUP.md.
  */
 
@@ -134,10 +139,10 @@ async function logFailure(label: string, res: Response): Promise<void> {
   console.error(`[${label}] status ${res.status}: ${detail}`);
 }
 
-async function upsertContact(lead: LeadRecord): Promise<void> {
+async function upsertContact(lead: LeadRecord): Promise<boolean> {
   const token = readSecret("GHL_API_TOKEN");
   const locationId = readEnv("GHL_LOCATION_ID");
-  if (!token || !locationId) return;
+  if (!token || !locationId) return false;
 
   const { firstName, lastName } = splitName(lead.name);
   let contactId: string | null = null;
@@ -156,7 +161,7 @@ async function upsertContact(lead: LeadRecord): Promise<void> {
     });
     if (!res.ok) {
       await logFailure("GHL_UPSERT_FAILED", res);
-      return;
+      return false;
     }
     const data: unknown = await res.json();
     const contact =
@@ -170,13 +175,13 @@ async function upsertContact(lead: LeadRecord): Promise<void> {
     console.log(`[GHL_UPSERT_OK] contact ${contactId ?? "(id missing)"}`);
   } catch (error) {
     console.error("[GHL_UPSERT_FAILED]", error);
-    return;
+    return false;
   }
 
   // The gate answers, attached to the contact the setter will actually open.
   // Best-effort: the contact already exists and is tagged, so a failed note
   // costs context, not the lead.
-  if (!contactId) return;
+  if (!contactId) return true;
   try {
     const res = await ghlFetch(`/contacts/${contactId}/notes`, token, {
       body: noteBody(lead),
@@ -185,11 +190,12 @@ async function upsertContact(lead: LeadRecord): Promise<void> {
   } catch (error) {
     console.error("[GHL_NOTE_FAILED]", error);
   }
+  return true;
 }
 
-async function postInboundWebhook(lead: LeadRecord): Promise<void> {
+async function postInboundWebhook(lead: LeadRecord): Promise<boolean> {
   const url = readEnv("GHL_WEBHOOK_URL");
-  if (!url) return;
+  if (!url) return false;
 
   const { firstName, lastName } = splitName(lead.name);
   // Answers flattened to `answer_<key>` so each one is mappable to its own
@@ -223,9 +229,14 @@ async function postInboundWebhook(lead: LeadRecord): Promise<void> {
       }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
-    if (!res.ok) await logFailure("GHL_WEBHOOK_FAILED", res);
+    if (!res.ok) {
+      await logFailure("GHL_WEBHOOK_FAILED", res);
+      return false;
+    }
+    return true;
   } catch (error) {
     console.error("[GHL_WEBHOOK_FAILED]", error);
+    return false;
   }
 }
 
@@ -233,8 +244,13 @@ async function postInboundWebhook(lead: LeadRecord): Promise<void> {
  * Deliver one lead to whichever GHL paths are configured. Runs them
  * concurrently and never rejects — the caller awaits this only so the
  * serverless runtime can't freeze the request mid-flight.
+ *
+ * Returns true when at least one path accepted the lead. GHL is now the
+ * primary record AND what notifies the owner (a workflow on the "website
+ * lead" tag), so the caller needs to know whether the lead actually landed
+ * somewhere — a lead nobody hears about is the failure worth logging.
  */
-export async function deliverLeadToGhl(lead: LeadRecord): Promise<void> {
+export async function deliverLeadToGhl(lead: LeadRecord): Promise<boolean> {
   const config = ghlConfigured();
   if (!config.contactApi && !config.webhook) {
     // Say so out loud: silence here used to be indistinguishable from a
@@ -243,7 +259,7 @@ export async function deliverLeadToGhl(lead: LeadRecord): Promise<void> {
       "[GHL_SKIPPED] no GoHighLevel configuration visible to this deployment" +
         ` (token: ${config.token}, location: ${config.location}, webhook: ${config.webhook})`,
     );
-    return;
+    return false;
   }
   if (!config.contactApi && (config.token || config.location)) {
     console.warn(
@@ -251,5 +267,11 @@ export async function deliverLeadToGhl(lead: LeadRecord): Promise<void> {
         ` (token: ${config.token}, location: ${config.location})`,
     );
   }
-  await Promise.allSettled([upsertContact(lead), postInboundWebhook(lead)]);
+  const results = await Promise.allSettled([
+    upsertContact(lead),
+    postInboundWebhook(lead),
+  ]);
+  return results.some(
+    (result) => result.status === "fulfilled" && result.value,
+  );
 }

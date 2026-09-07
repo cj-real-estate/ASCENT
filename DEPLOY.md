@@ -40,32 +40,30 @@ environments (Production, Preview, Development):
 | Key | Value |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | `https://ascentcas.com` |
-| `RESEND_API_KEY` | from resend.com → API Keys |
-| `BOOKING_TO_EMAIL` | the inbox that should receive leads |
-| `BOOKING_FROM_EMAIL` | a sender on a domain verified in Resend, e.g. `Ascent Website <hello@ascentcas.com>` |
+| `GHL_API_TOKEN` | GoHighLevel → Settings → Private Integrations (starts `pit-`) |
+| `GHL_LOCATION_ID` | GoHighLevel → Settings → Business Profile |
 
-> ⚠️ **Do this before you send anyone to the site.** Until `RESEND_API_KEY` and
-> `BOOKING_TO_EMAIL` exist, the booking form still says thank-you to the
-> visitor and a qualified prospect still reaches the calendar, but the lead
-> only reaches the Vercel function log (`[LEAD_EMAIL_SKIPPED]`, then
-> `[LEAD_RECOVER]` carrying the lead itself). Nothing reaches your inbox.
+`docs/GOHIGHLEVEL-SETUP.md` has the full walkthrough, including the workflow
+that emails you when a lead arrives.
 
-Redeploy after adding them (*Deployments* → ⋯ → *Redeploy*) — env vars are
-baked in at build time.
+Optionally also `LEADS_WEBHOOK_URL` / `LEADS_WEBHOOK_SECRET` for the Google
+Sheet backstop (`docs/GOOGLE-SHEET-SETUP.md`).
 
-### Two traps worth knowing
+> ⚠️ **Do this before you send anyone to the site.** Until GoHighLevel is
+> configured, the form still says thank-you and a qualified prospect still
+> reaches the calendar, but the lead only reaches the Vercel function log
+> (`[LEAD_UNDELIVERED]`, carrying the lead itself). Nothing notifies you.
 
-**Names are case-sensitive.** `Resend_API_Key` is a different variable from
-`RESEND_API_KEY` and reads as unset — nothing errors, the email leg simply
-never runs. The code accepts a case variant so leads keep flowing and logs
-`ENV_CASE` once asking for the rename, but type the exact upper-case name and
-there's nothing to think about.
+Redeploy after adding them (*Deployments* → ⋯ → *Redeploy*) — env vars only
+apply to builds made after they are saved.
 
-**`BOOKING_FROM_EMAIL` is not optional in practice.** Left unset, the send
-falls back to Resend's sandbox sender `onboarding@resend.dev`, which is only
-permitted to deliver to the email address on your own Resend account.
-Anything else — `info@ascentcas.com` included — comes back `403`. Set a
-sender on a domain you have verified in Resend.
+### One trap worth knowing
+
+**Names are case-sensitive.** `GHL_API_Token` is a different variable from
+`GHL_API_TOKEN` and reads as unset — nothing errors, the lead simply never
+reaches the CRM. The code accepts a case variant so leads keep flowing and
+logs `ENV_CASE` once asking for the rename, but type the exact upper-case
+name and there's nothing to think about.
 
 ### Checking it
 
@@ -74,26 +72,27 @@ serving your traffic can actually see — booleans and the deployed commit, no
 secrets:
 
 ```json
-{ "ok": true, "commit": "285076f",
-  "leadDelivery": { "email": true, "resendApiKey": true,
-                    "bookingToEmail": true, "bookingFromEmail": true,
-                    "googleSheet": true, "ghlContacts": true },
-  "emailEnvNamesSeen": ["BOOKING_FROM_EMAIL", "BOOKING_TO_EMAIL",
-                        "RESEND_API_KEY"] }
+{ "ok": true, "commit": "354bec1",
+  "leadDelivery": { "ghlContacts": true, "ghlApiToken": true,
+                    "ghlLocationId": true, "ghlWebhook": false,
+                    "googleSheet": true },
+  "ghlEnvNamesSeen": ["GHL_API_TOKEN", "GHL_LOCATION_ID"] }
 ```
 
-`emailEnvNamesSeen` is the fast diagnosis: it lists the mail-related variable
-names this deployment can see. If a variable reads `false` but you know you
-saved it, the name in that list is why.
+`ghlEnvNamesSeen` is the fast diagnosis: it lists the GHL variable names this
+deployment can see. If one reads `false` but you know you saved it, the name
+in that list is why — and a name that is present while the boolean is `false`
+means the variable exists with an empty value.
 
-If `email` is `true` and mail still doesn't arrive, Vercel → **Logs** →
+If `ghlContacts` is `true` and leads still don't arrive, Vercel → **Logs** →
 filter `/api/book`:
 
-| Log label             | Meaning                                                   |
-| --------------------- | --------------------------------------------------------- |
-| `LEAD_EMAIL_SKIPPED`  | not configured — the line names the missing variable       |
-| `LEAD_EMAIL_FAILED`   | Resend rejected the send; its status and reason are quoted verbatim |
-| `LEAD_RECOVER`        | the lead itself, so a failed send never loses it           |
+| Log label           | Meaning                                                     |
+| ------------------- | ----------------------------------------------------------- |
+| `GHL_UPSERT_OK`     | the contact was created — the problem is downstream (workflow, or you're looking at a different sub-account) |
+| `GHL_UPSERT_FAILED` | GHL rejected it; its status and reason are quoted verbatim   |
+| `GHL_SKIPPED`       | no credentials visible — names which are missing             |
+| `LEAD_UNDELIVERED`  | nothing took the lead; the line carries the lead itself      |
 
 ## 3. Add the domain in Vercel
 

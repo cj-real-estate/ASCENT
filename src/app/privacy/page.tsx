@@ -67,10 +67,9 @@ export default function PrivacyPage() {
             If you request a strategy call, the form collects your name,
             company, phone number, email address, and your answers to a few
             short questions about your business — quote volume, list size,
-            revenue range, and similar. That information is sent to{" "}
-            {business.shortName} by email and into our customer relationship
-            manager, GoHighLevel, and is used solely to schedule and prepare
-            for your call. It lives in that email account and that CRM once
+            revenue range, and similar. That information is sent into our
+            customer relationship manager, GoHighLevel, and is used solely to
+            schedule and prepare for your call. It lives in that CRM once
             it&apos;s sent — this site itself stores nothing.
           </p>
 
