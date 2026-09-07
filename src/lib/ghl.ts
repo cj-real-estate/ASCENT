@@ -20,6 +20,8 @@
  * See docs/GOHIGHLEVEL-SETUP.md.
  */
 
+import { envNamesMatching, readEnv, readSecret } from "./env";
+
 /* Overridable only so the integration can be exercised against a mock in
  * development. Leave GHL_API_BASE unset everywhere else — production
  * must talk to GoHighLevel. */
@@ -29,47 +31,11 @@ const GHL_API_BASE =
 const GHL_API_VERSION = "2021-07-28";
 const TIMEOUT_MS = 4000;
 
-/*
- * Environment values get pasted by hand into a dashboard, so they arrive with
- * stray whitespace or a newline more often than not — and a token with a
- * trailing "\n" fails auth in a way that looks exactly like a wrong token.
- * A pasted "Bearer pit-…" is the other common slip; strip the prefix rather
- * than sending "Bearer Bearer …".
- */
-function readEnv(name: string): string {
-  const exact = (process.env[name] ?? "").trim();
-  if (exact) return exact;
-  /*
-   * Fall back to a case-insensitive match. Environment names are
-   * case-sensitive, so a variable saved as "GHL_API_Token" is a DIFFERENT
-   * variable from GHL_API_TOKEN and silently reads as unset — a trap with
-   * no feedback and a real cost (leads that never reach the CRM). Accept it
-   * so the integration works, and say so loudly enough that it gets renamed.
-   */
-  const match = Object.keys(process.env).find(
-    (key) => key.toLowerCase() === name.toLowerCase(),
-  );
-  if (!match) return "";
-  const value = (process.env[match] ?? "").trim();
-  if (value) {
-    console.warn(
-      `[GHL_ENV_CASE] using "${match}" — rename it to "${name}" (names are case-sensitive)`,
-    );
-  }
-  return value;
-}
-
 /* Names only, never values: which GHL-ish variables this deployment can
  * actually see. A casing or spelling slip is invisible in a boolean and
  * obvious the moment the real name is printed back. */
 export function ghlEnvNamesSeen(): string[] {
-  return Object.keys(process.env)
-    .filter((key) => /^ghl[_-]/i.test(key))
-    .sort();
-}
-
-function readToken(name: string): string {
-  return readEnv(name).replace(/^Bearer\s+/i, "");
+  return envNamesMatching(/^ghl[_-]/i);
 }
 
 /** True when either GHL path has enough configuration to attempt a call. */
@@ -79,7 +45,7 @@ export function ghlConfigured(): {
   location: boolean;
   webhook: boolean;
 } {
-  const token = Boolean(readToken("GHL_API_TOKEN"));
+  const token = Boolean(readSecret("GHL_API_TOKEN"));
   const location = Boolean(readEnv("GHL_LOCATION_ID"));
   return {
     contactApi: token && location,
@@ -169,7 +135,7 @@ async function logFailure(label: string, res: Response): Promise<void> {
 }
 
 async function upsertContact(lead: LeadRecord): Promise<void> {
-  const token = readToken("GHL_API_TOKEN");
+  const token = readSecret("GHL_API_TOKEN");
   const locationId = readEnv("GHL_LOCATION_ID");
   if (!token || !locationId) return;
 

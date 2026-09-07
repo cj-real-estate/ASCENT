@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
-import {
-  deliverLeadToGhl,
-  ghlConfigured,
-  ghlEnvNamesSeen,
-} from "@/lib/ghl";
+import { deliverLeadToGhl, ghlConfigured, ghlEnvNamesSeen } from "@/lib/ghl";
+import { envNamesMatching, readEnv, readSecret } from "@/lib/env";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
@@ -44,8 +41,9 @@ export const dynamic = "force-dynamic";
  * Booleans and a short commit sha only — never a secret's value.
  */
 export async function GET() {
-  const present = (name: string) => Boolean((process.env[name] ?? "").trim());
   const ghl = ghlConfigured();
+  const resendApiKey = Boolean(readSecret("RESEND_API_KEY"));
+  const bookingToEmail = Boolean(readEnv("BOOKING_TO_EMAIL"));
   return NextResponse.json({
     ok: true,
     commit: (process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7),
@@ -54,13 +52,19 @@ export async function GET() {
       ghlApiToken: ghl.token,
       ghlLocationId: ghl.location,
       ghlWebhook: ghl.webhook,
-      resendApiKey: present("RESEND_API_KEY"),
-      bookingToEmail: present("BOOKING_TO_EMAIL"),
-      googleSheet: present("LEADS_WEBHOOK_URL"),
+      email: resendApiKey && bookingToEmail,
+      resendApiKey,
+      bookingToEmail,
+      /* Unset means the send falls back to Resend's onboarding@resend.dev
+       * sandbox sender, which is only allowed to deliver to the Resend
+       * account owner's own address — a 403 that looks like nothing. */
+      bookingFromEmail: Boolean(readEnv("BOOKING_FROM_EMAIL")),
+      googleSheet: Boolean(readEnv("LEADS_WEBHOOK_URL")),
     },
-    /* The exact GHL variable names this deployment can see. A boolean can
-     * only say "missing"; this says "you named it GHL_API_Token". */
+    /* The exact variable names this deployment can see. A boolean can only
+     * say "missing"; this says "you named it GHL_API_Token". */
     ghlEnvNamesSeen: ghlEnvNamesSeen(),
+    emailEnvNamesSeen: envNamesMatching(/^(resend|booking|email|mail|smtp)/i),
   });
 }
 
@@ -78,7 +82,9 @@ const INCOMPLETE_ANSWERS = "Answer every question.";
 /* Slug → vertical, built from the registry so a vertical added later is
  * gated by its own questions without this route being edited. An unknown or
  * missing slug falls back to the brand page's question set. */
-const VERTICALS_BY_SLUG = new Map(verticals.map((entry) => [entry.slug, entry]));
+const VERTICALS_BY_SLUG = new Map(
+  verticals.map((entry) => [entry.slug, entry]),
+);
 
 function bad(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
@@ -102,7 +108,7 @@ async function postLeadWebhook(record: {
   interest: string;
   answers: Record<string, string>;
 }): Promise<void> {
-  const url = process.env.LEADS_WEBHOOK_URL;
+  const url = readEnv("LEADS_WEBHOOK_URL");
   if (!url) return;
   try {
     const res = await fetch(url, {
@@ -334,9 +340,12 @@ export async function POST(request: Request) {
     }),
   ]);
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.BOOKING_TO_EMAIL;
-  const fromEmail = process.env.BOOKING_FROM_EMAIL ?? "onboarding@resend.dev";
+  const apiKey = readSecret("RESEND_API_KEY");
+  const toEmail = readEnv("BOOKING_TO_EMAIL");
+  /* Resend's sandbox sender is only permitted to deliver to the Resend
+   * account owner's own address. Anything else comes back 403 — which is
+   * why an unset BOOKING_FROM_EMAIL is worth naming in the log below. */
+  const fromEmail = readEnv("BOOKING_FROM_EMAIL") || "onboarding@resend.dev";
 
   /* The email is the lead RECORD, not the product. For gate submissions a
    * failed email leg must never block a qualified prospect from the
@@ -347,7 +356,7 @@ export async function POST(request: Request) {
    * Legacy form posts keep the honest failure: the email IS their only
    * outcome, so pretending success would silently drop the lead. */
   const recoverLead = () => {
-    console.error("[LEAD_EMAIL_FAILED] recover from this log entry:", {
+    console.error("[LEAD_RECOVER] lead not emailed — recover it from here:", {
       subject,
       text,
     });
@@ -355,6 +364,19 @@ export async function POST(request: Request) {
   };
 
   if (!apiKey || !toEmail) {
+    /* Name the missing variable. Without this the log is silent and an
+     * unconfigured deployment is indistinguishable from an undeployed one —
+     * the exact hole that made the GHL misconfiguration undiagnosable. */
+    console.error(
+      "[LEAD_EMAIL_SKIPPED] not configured — missing: " +
+        [!apiKey && "RESEND_API_KEY", !toEmail && "BOOKING_TO_EMAIL"]
+          .filter(Boolean)
+          .join(", ") +
+        `. Names this deployment can see: ${
+          envNamesMatching(/^(resend|booking|email|mail|smtp)/i).join(", ") ||
+          "(none)"
+        }`,
+    );
     if (process.env.NODE_ENV !== "production") {
       console.log("[/api/book] email not configured — payload:", {
         subject,
@@ -386,6 +408,18 @@ export async function POST(request: Request) {
   }
 
   if (!sendResponse || !sendResponse.ok) {
+    /* Resend explains its own rejections — a wrong key, an unverified
+     * sending domain, or the sandbox sender refusing a third-party
+     * recipient. Discarding that body left "no email arrived" with nothing
+     * behind it; print it verbatim, bounded. */
+    if (sendResponse) {
+      const reason = await sendResponse.text().catch(() => "");
+      console.error(
+        `[LEAD_EMAIL_FAILED] resend ${sendResponse.status} (from ${fromEmail}): ${reason.slice(0, 400)}`,
+      );
+    } else {
+      console.error("[LEAD_EMAIL_FAILED] resend unreachable");
+    }
     if (isQualification) return recoverLead();
     return bad(
       "Sending failed on our end. Try again in a minute, or call or email us instead.",

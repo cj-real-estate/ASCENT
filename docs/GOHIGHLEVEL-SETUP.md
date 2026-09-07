@@ -110,10 +110,14 @@ Open **https://ascentcas.com/api/book** in a browser. It reports what the
 deployment currently serving your traffic can actually see:
 
 ```json
-{ "ok": true, "commit": "e731410",
+{ "ok": true, "commit": "285076f",
   "leadDelivery": { "ghlContacts": true, "ghlApiToken": true,
                     "ghlLocationId": true, "ghlWebhook": false,
-                    "email": false, "googleSheet": false } }
+                    "email": false, "resendApiKey": false,
+                    "bookingToEmail": false, "bookingFromEmail": false,
+                    "googleSheet": true },
+  "ghlEnvNamesSeen": ["GHL_API_Token", "GHL_Location_ID"],
+  "emailEnvNamesSeen": [] }
 ```
 
 - **404 or no `leadDelivery` key** → the deployment is older than the GHL
@@ -127,8 +131,10 @@ deployment currently serving your traffic can actually see:
   **Deployments → ⋯ → Redeploy**.
 - **Names are case-sensitive.** `GHL_API_Token` is a different variable from
   `GHL_API_TOKEN`. The code accepts a case variant so leads keep flowing, and
-  logs `GHL_ENV_CASE` asking for the rename — but use the exact upper-case
-  names and there's nothing to think about.
+  logs `ENV_CASE` once per variable asking for the rename — but use the exact
+  upper-case names and there's nothing to think about. The same tolerance
+  covers the email and Google Sheet variables; `ghlEnvNamesSeen` and
+  `emailEnvNamesSeen` list the names each side can actually see.
 - **`ghlContacts: true` but contacts still don't appear** → the credentials
   are visible and the call is being rejected. The reason is in the logs
   below, verbatim from GHL.
