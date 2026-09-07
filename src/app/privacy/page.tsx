@@ -68,10 +68,10 @@ export default function PrivacyPage() {
             company, phone number, email address, and your answers to a few
             short questions about your business — quote volume, list size,
             revenue range, and similar. That information is sent to{" "}
-            {business.shortName} by email and used solely to schedule and
-            prepare for your call. Because it travels by email, it lives in the
-            recipient&apos;s email provider once it&apos;s sent — the site
-            itself stores nothing.
+            {business.shortName} by email and into our customer relationship
+            manager, GoHighLevel, and is used solely to schedule and prepare
+            for your call. It lives in that email account and that CRM once
+            it&apos;s sent — this site itself stores nothing.
           </p>
 
           <h2 className={h2Class}>What we don&apos;t do</h2>

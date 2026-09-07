@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
+import { deliverLeadToGhl } from "@/lib/ghl";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
@@ -177,6 +178,9 @@ export async function POST(request: Request) {
    * page never does either. */
   let gate: { qualified: boolean; schedulingLink?: string } | null = null;
   let gateAnswers: Record<string, string> = {};
+  /* Readable "Question: Answer" lines, hoisted so the CRM leg below can
+   * attach them to the contact. */
+  let gateAnswerLines: string[] = [];
 
   if (isQualification) {
     const config = VERTICALS_BY_SLUG.get(verticalSlug) ?? general;
@@ -208,6 +212,7 @@ export async function POST(request: Request) {
     }
 
     gateAnswers = answersByKey;
+    gateAnswerLines = answerLines;
     gate = qualified
       ? {
           qualified,
@@ -255,18 +260,42 @@ export async function POST(request: Request) {
     ].join("\n");
   }
 
-  // Sheet + Gmail notification. Awaited so the serverless runtime cannot
-  // freeze it mid-flight, but bounded and non-blocking on failure.
-  await postLeadWebhook({
-    verdict: gate ? (gate.qualified ? "QUALIFIED" : "BELOW ICP") : "LEGACY FORM",
-    name,
-    company,
-    phone,
-    email,
-    page: verticalSlug || "general",
-    interest,
-    answers: gateAnswers,
-  });
+  const verdict: "QUALIFIED" | "BELOW ICP" | "LEGACY FORM" = gate
+    ? gate.qualified
+      ? "QUALIFIED"
+      : "BELOW ICP"
+    : "LEGACY FORM";
+  const page = verticalSlug || "general";
+
+  /* Both record sinks. Awaited so the serverless runtime cannot freeze them
+   * mid-flight, and run together because neither depends on the other. Each
+   * is bounded and swallows its own failures: the CRM and the sheet are
+   * where the lead is KEPT, never a gate on the prospect reaching the
+   * calendar. */
+  await Promise.allSettled([
+    postLeadWebhook({
+      verdict,
+      name,
+      company,
+      phone,
+      email,
+      page,
+      interest,
+      answers: gateAnswers,
+    }),
+    deliverLeadToGhl({
+      name,
+      company,
+      phone,
+      email,
+      page,
+      interest,
+      verdict,
+      qualified: gate ? gate.qualified : null,
+      answers: gateAnswers,
+      answerLines: gateAnswerLines,
+    }),
+  ]);
 
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.BOOKING_TO_EMAIL;
