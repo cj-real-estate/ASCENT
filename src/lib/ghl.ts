@@ -29,6 +29,38 @@ const GHL_API_BASE =
 const GHL_API_VERSION = "2021-07-28";
 const TIMEOUT_MS = 4000;
 
+/*
+ * Environment values get pasted by hand into a dashboard, so they arrive with
+ * stray whitespace or a newline more often than not — and a token with a
+ * trailing "\n" fails auth in a way that looks exactly like a wrong token.
+ * A pasted "Bearer pit-…" is the other common slip; strip the prefix rather
+ * than sending "Bearer Bearer …".
+ */
+function readEnv(name: string): string {
+  return (process.env[name] ?? "").trim();
+}
+
+function readToken(name: string): string {
+  return readEnv(name).replace(/^Bearer\s+/i, "");
+}
+
+/** True when either GHL path has enough configuration to attempt a call. */
+export function ghlConfigured(): {
+  contactApi: boolean;
+  token: boolean;
+  location: boolean;
+  webhook: boolean;
+} {
+  const token = Boolean(readToken("GHL_API_TOKEN"));
+  const location = Boolean(readEnv("GHL_LOCATION_ID"));
+  return {
+    contactApi: token && location,
+    token,
+    location,
+    webhook: Boolean(readEnv("GHL_WEBHOOK_URL")),
+  };
+}
+
 export interface LeadRecord {
   name: string;
   company: string;
@@ -109,8 +141,8 @@ async function logFailure(label: string, res: Response): Promise<void> {
 }
 
 async function upsertContact(lead: LeadRecord): Promise<void> {
-  const token = process.env.GHL_API_TOKEN;
-  const locationId = process.env.GHL_LOCATION_ID;
+  const token = readToken("GHL_API_TOKEN");
+  const locationId = readEnv("GHL_LOCATION_ID");
   if (!token || !locationId) return;
 
   const { firstName, lastName } = splitName(lead.name);
@@ -138,6 +170,10 @@ async function upsertContact(lead: LeadRecord): Promise<void> {
         ? (data as { contact?: { id?: unknown } }).contact
         : undefined;
     if (contact && typeof contact.id === "string") contactId = contact.id;
+    // Positive confirmation. Without it a working integration and an
+    // unconfigured one look identical in the log — which is exactly the
+    // ambiguity that makes "no contact arrived" hard to diagnose.
+    console.log(`[GHL_UPSERT_OK] contact ${contactId ?? "(id missing)"}`);
   } catch (error) {
     console.error("[GHL_UPSERT_FAILED]", error);
     return;
@@ -158,7 +194,7 @@ async function upsertContact(lead: LeadRecord): Promise<void> {
 }
 
 async function postInboundWebhook(lead: LeadRecord): Promise<void> {
-  const url = process.env.GHL_WEBHOOK_URL;
+  const url = readEnv("GHL_WEBHOOK_URL");
   if (!url) return;
 
   const { firstName, lastName } = splitName(lead.name);
@@ -205,5 +241,21 @@ async function postInboundWebhook(lead: LeadRecord): Promise<void> {
  * serverless runtime can't freeze the request mid-flight.
  */
 export async function deliverLeadToGhl(lead: LeadRecord): Promise<void> {
+  const config = ghlConfigured();
+  if (!config.contactApi && !config.webhook) {
+    // Say so out loud: silence here used to be indistinguishable from a
+    // deploy that never picked the code up.
+    console.warn(
+      "[GHL_SKIPPED] no GoHighLevel configuration visible to this deployment" +
+        ` (token: ${config.token}, location: ${config.location}, webhook: ${config.webhook})`,
+    );
+    return;
+  }
+  if (!config.contactApi && (config.token || config.location)) {
+    console.warn(
+      "[GHL_SKIPPED] contact API needs BOTH GHL_API_TOKEN and GHL_LOCATION_ID" +
+        ` (token: ${config.token}, location: ${config.location})`,
+    );
+  }
   await Promise.allSettled([upsertContact(lead), postInboundWebhook(lead)]);
 }

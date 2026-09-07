@@ -104,6 +104,33 @@ doesn't ask it.
 
 ## If leads aren't arriving
 
+### Start here: the self-check
+
+Open **https://ascentcas.com/api/book** in a browser. It reports what the
+deployment currently serving your traffic can actually see:
+
+```json
+{ "ok": true, "commit": "e731410",
+  "leadDelivery": { "ghlContacts": true, "ghlApiToken": true,
+                    "ghlLocationId": true, "ghlWebhook": false,
+                    "email": false, "googleSheet": false } }
+```
+
+- **404 or no `leadDelivery` key** → the deployment is older than the GHL
+  work. Redeploy from the latest `main`.
+- **`ghlApiToken: false` or `ghlLocationId: false`** → that variable isn't
+  reaching the function. Either it wasn't saved for the **Production**
+  environment, or it was added *after* the current deployment was built —
+  env vars only apply to builds made after they're saved, so
+  **Deployments → ⋯ → Redeploy**.
+- **`ghlContacts: true` but contacts still don't appear** → the credentials
+  are visible and the call is being rejected. The reason is in the logs
+  below, verbatim from GHL.
+
+Nothing here reveals a secret — it's true/false plus the deployed commit.
+
+### Then: the logs
+
 Vercel → your project → **Logs**, filter to `/api/book`. The integration logs
 a labelled line with GHL's own reason on any failure:
 
@@ -113,8 +140,16 @@ a labelled line with GHL's own reason on any failure:
 | `GHL_NOTE_FAILED`    | contact WAS created, only the answers note failed              |
 | `GHL_WEBHOOK_FAILED` | Path B URL unreachable or rejected                             |
 
-No GHL lines at all means the env vars aren't set on the deployment that's
-serving traffic — check you redeployed after adding them.
+`GHL_UPSERT_OK` is the success line — if you see it, the contact was created
+and the problem is elsewhere (wrong sub-account, or you're looking at a
+different location than `GHL_LOCATION_ID` points to).
+
+`GHL_SKIPPED` means the deployment can't see the credentials at all; it names
+which of the three are missing. Fix that before reading anything else.
+
+Pasted values are normalised before use — surrounding whitespace, a trailing
+newline, and a leading `Bearer ` on the token are all tolerated, so a sloppy
+copy/paste is not the cause.
 
 Leads are never lost to a GHL problem: the email leg and the Google Sheet leg
 (`docs/GOOGLE-SHEET-SETUP.md`) run independently, and a qualified prospect

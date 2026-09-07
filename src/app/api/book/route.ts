@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
-import { deliverLeadToGhl } from "@/lib/ghl";
+import { deliverLeadToGhl, ghlConfigured } from "@/lib/ghl";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
@@ -26,6 +26,35 @@ import { deliverLeadToGhl } from "@/lib/ghl";
  */
 
 export const runtime = "nodejs";
+/* Never let this be evaluated at build time: the diagnostic below reads
+ * environment variables, and a statically-rendered answer would report the
+ * BUILD's view of them rather than the running deployment's. */
+export const dynamic = "force-dynamic";
+
+/*
+ * Diagnostic — GET /api/book.
+ *
+ * "The lead never arrived" always reduces to two questions: is the
+ * deployment serving traffic actually running the delivery code, and can
+ * that code see its credentials? This answers both without a log dive.
+ * Booleans and a short commit sha only — never a secret's value.
+ */
+export async function GET() {
+  const present = (name: string) => Boolean((process.env[name] ?? "").trim());
+  const ghl = ghlConfigured();
+  return NextResponse.json({
+    ok: true,
+    commit: (process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7),
+    leadDelivery: {
+      ghlContacts: ghl.contactApi,
+      ghlApiToken: ghl.token,
+      ghlLocationId: ghl.location,
+      ghlWebhook: ghl.webhook,
+      email: present("RESEND_API_KEY") && present("BOOKING_TO_EMAIL"),
+      googleSheet: present("LEADS_WEBHOOK_URL"),
+    },
+  });
+}
 
 const MAX_BODY_BYTES = 10_000;
 const MAX_FIELD_LENGTH = 200;
