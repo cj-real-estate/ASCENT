@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
-import { deliverLeadToGhl, ghlConfigured } from "@/lib/ghl";
+import {
+  deliverLeadToGhl,
+  ghlConfigured,
+  ghlEnvNamesSeen,
+} from "@/lib/ghl";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
@@ -50,9 +54,13 @@ export async function GET() {
       ghlApiToken: ghl.token,
       ghlLocationId: ghl.location,
       ghlWebhook: ghl.webhook,
-      email: present("RESEND_API_KEY") && present("BOOKING_TO_EMAIL"),
+      resendApiKey: present("RESEND_API_KEY"),
+      bookingToEmail: present("BOOKING_TO_EMAIL"),
       googleSheet: present("LEADS_WEBHOOK_URL"),
     },
+    /* The exact GHL variable names this deployment can see. A boolean can
+     * only say "missing"; this says "you named it GHL_API_Token". */
+    ghlEnvNamesSeen: ghlEnvNamesSeen(),
   });
 }
 

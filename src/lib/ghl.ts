@@ -37,7 +37,35 @@ const TIMEOUT_MS = 4000;
  * than sending "Bearer Bearer …".
  */
 function readEnv(name: string): string {
-  return (process.env[name] ?? "").trim();
+  const exact = (process.env[name] ?? "").trim();
+  if (exact) return exact;
+  /*
+   * Fall back to a case-insensitive match. Environment names are
+   * case-sensitive, so a variable saved as "GHL_API_Token" is a DIFFERENT
+   * variable from GHL_API_TOKEN and silently reads as unset — a trap with
+   * no feedback and a real cost (leads that never reach the CRM). Accept it
+   * so the integration works, and say so loudly enough that it gets renamed.
+   */
+  const match = Object.keys(process.env).find(
+    (key) => key.toLowerCase() === name.toLowerCase(),
+  );
+  if (!match) return "";
+  const value = (process.env[match] ?? "").trim();
+  if (value) {
+    console.warn(
+      `[GHL_ENV_CASE] using "${match}" — rename it to "${name}" (names are case-sensitive)`,
+    );
+  }
+  return value;
+}
+
+/* Names only, never values: which GHL-ish variables this deployment can
+ * actually see. A casing or spelling slip is invisible in a boolean and
+ * obvious the moment the real name is printed back. */
+export function ghlEnvNamesSeen(): string[] {
+  return Object.keys(process.env)
+    .filter((key) => /^ghl[_-]/i.test(key))
+    .sort();
 }
 
 function readToken(name: string): string {

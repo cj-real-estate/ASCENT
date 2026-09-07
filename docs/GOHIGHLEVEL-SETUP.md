@@ -119,10 +119,16 @@ deployment currently serving your traffic can actually see:
 - **404 or no `leadDelivery` key** → the deployment is older than the GHL
   work. Redeploy from the latest `main`.
 - **`ghlApiToken: false` or `ghlLocationId: false`** → that variable isn't
-  reaching the function. Either it wasn't saved for the **Production**
-  environment, or it was added *after* the current deployment was built —
-  env vars only apply to builds made after they're saved, so
+  reaching the function. Check `ghlEnvNamesSeen` in the same response: it
+  lists the GHL variable names this deployment can actually see, so a
+  misspelling is visible immediately. Otherwise it wasn't saved for the
+  **Production** environment, or it was added *after* the current deployment
+  was built — env vars only apply to builds made after they're saved, so
   **Deployments → ⋯ → Redeploy**.
+- **Names are case-sensitive.** `GHL_API_Token` is a different variable from
+  `GHL_API_TOKEN`. The code accepts a case variant so leads keep flowing, and
+  logs `GHL_ENV_CASE` asking for the rename — but use the exact upper-case
+  names and there's nothing to think about.
 - **`ghlContacts: true` but contacts still don't appear** → the credentials
   are visible and the call is being rejected. The reason is in the logs
   below, verbatim from GHL.
