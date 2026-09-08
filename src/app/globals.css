@@ -16,6 +16,14 @@
   --surface:      #F4F4F4;
   --paper:        #FFFFFF;
   --on-dark:      #D9D9D9;
+
+  /* Dark-theme surfaces for the sponsor template (src/components/sponsor).
+     Near-black ground, one step up for cards, a hairline seam, and a muted
+     foreground that still clears 4.5:1 on both. Orange stays the accent. */
+  --night:        #0D0D0D;
+  --coal:         #171717;
+  --seam:         #2A2A2A;
+  --ash:          #A8A8A8;
 }
 
 @theme inline {
@@ -30,6 +38,10 @@
   --color-surface:     var(--surface);
   --color-paper:       var(--paper);
   --color-on-dark:     var(--on-dark);
+  --color-night:       var(--night);
+  --color-coal:        var(--coal);
+  --color-seam:        var(--seam);
+  --color-ash:         var(--ash);
 
   --font-display: var(--font-archivo), Arial, sans-serif;
   --font-sans:    var(--font-plex-sans), Arial, sans-serif;
@@ -344,6 +356,11 @@ html {
 }
 @media (prefers-reduced-motion: reduce) {
   .btn-dark, .btn-dark svg { transition: none; }
+}
+
+/* Dark-theme range track for the sponsor template's calculator. */
+[data-theme="dark"] input[type="range"] {
+  --track: var(--seam);
 }
 
 /* The global focus ring is orange — invisible on the orange band, so

@@ -1,13 +1,17 @@
-import type { Vertical } from "./types";
+import type { SponsorPageContent, Vertical } from "./types";
 
 /*
  * ascentforsponsors.com — investor acquisition for real estate syndicators
  * and private real estate fund sponsors raising under Reg D Rule 506(c).
  *
  * Served at /sponsors and, via the host rewrite in next.config.ts, as the
- * ROOT of ascentforsponsors.com. `business.url` and `canonicalUrl` point at
- * that domain, so the canonical, JSON-LD, robots and sitemap all describe
- * the sponsor site whichever host actually served the request.
+ * ROOT of ascentforsponsors.com. Rendered by the dark sponsor template
+ * (src/components/sponsor/SponsorPage.tsx), which reads this `Vertical`
+ * for the gate, booking, benchmarks, boundaries, fit, FAQ and footer, and
+ * the `sponsorsPage` export below for the sections only that template has.
+ * `business.url` and `canonicalUrl` point at that domain, so the canonical,
+ * JSON-LD, robots and sitemap all describe the sponsor site whichever host
+ * actually served the request.
  *
  * Sources: the Ascent business plan (RE sponsors, second edition, Sept
  * 2026), the Brand Style Guide v2.0, Delivery Boundaries v2.0, and the
@@ -68,7 +72,7 @@ const sponsors: Vertical = {
     h1Highlight: "Investor meetings held",
     sub: "Roughly two percent of investor leads become investors. Most of the rest were never called, or were called days later by someone reading no script — and you paid to generate every one. Ascent works the other ninety-eight: a live setter calling as you, inside a structure your securities counsel approved in writing.",
     closingLine: "You run the investor conversation. We run everything before it.",
-    cta: "Book a scoping call",
+    cta: "See if you qualify",
     secondaryCta: null,
     // Practice claims only — things a sponsor or their counsel can check.
     chips: [
@@ -173,86 +177,11 @@ const sponsors: Vertical = {
    * The diagram. Stage copy describes what the system DOES — never counts,
    * rates, or dollars. Badges are statements of how the firm operates.
    */
-  systemFlow: {
-    eyebrow: "HOW THE SYSTEM WORKS",
-    h2: "One machine, four stages. Your counsel signs before it starts.",
-    sub: "Every investor lead runs the same path, timestamped at every step, so the report can say exactly where the ninety-eight percent went — and the conversation about your offering stays yours alone.",
-    stages: [
-      {
-        icon: "megaphone",
-        title: "An investor lead lands",
-        body: "From LinkedIn, Meta, or search — into one CRM you own, timestamped the moment it arrives. Every ad was drafted against the metrics your counsel approved.",
-        badge: null,
-      },
-      {
-        icon: "loop",
-        title: "Instant acknowledgement",
-        body: "A text and an email go out from your name within seconds and the nurture sequence starts. First touch and first human touch are recorded as separate fields.",
-        badge: "Texts and emails",
-      },
-      {
-        icon: "phone",
-        title: "A live setter calls, as you",
-        body: "Under your name, from a number registered to you, on the script your counsel approved. Logistics only — never the offering. Every call recorded.",
-        badge: "Live · scripted · recorded",
-      },
-      {
-        icon: "calendar",
-        title: "The meeting is held",
-        body: "Attendance confirmed beforehand, no-shows rescheduled, the outcome logged. Cost per appointment held is media spend divided by meetings that happened.",
-        badge: null,
-      },
-    ],
-    closing: "Four stages — and the conversation about your offering is the only one that's yours.",
-  },
+  // Rendered as the numbered process in `sponsorsPage` instead.
+  systemFlow: null,
 
-  services: {
-    eyebrow: "WHAT WE INSTALL AND OPERATE",
-    h2: "One system, four parts. The value is in the handoffs.",
-    items: [
-      {
-        icon: "shield",
-        title: "A compliance gate that closes before anything runs.",
-        body: "Nine conditions, in writing, before an ad publishes or a call is placed: your counsel confirms the exemption, names an approver of record, and approves every legend and the complete setter script.",
-      },
-      {
-        icon: "megaphone",
-        title: "A paid media lane your counsel already approved.",
-        body: "LinkedIn for accredited-investor quality, Meta for volume, Google for existing demand. No projected returns, no guarantees, no manufactured urgency. Media is billed by the platform to your own account — Ascent never holds or marks it up.",
-      },
-      {
-        icon: "loop",
-        title: "Instrumented lead response.",
-        body: "Instant acknowledgement of every lead by text and email, a staged nurture sequence, and the measurement layer missing everywhere else: first human touch timestamped, contact and set rates bucketed by response time.",
-      },
-      {
-        icon: "phone",
-        title: "A live setter, calling as you, from your number.",
-        body: "Recruited, scripted, trained and supervised by Ascent. Calls your inbound investor leads under your name on a counsel-approved script. Every call recorded and available to you and to counsel. The setter never discusses the offering.",
-      },
-    ],
-    closing:
-      "Nothing is switched on out of order. The compliance gate closes first; the lane builds in fourteen days from access and approvals; the setter dials only inbound leads the lane produced — never a purchased list, never your old database without scoping it first.",
-    ownerCard: {
-      heading: "Three things. That's your whole job.",
-      steps: [
-        {
-          title: "Approve the script and the creative.",
-          body: "One complete package, one review deadline, three business days. Your counsel sees everything before the first dial.",
-        },
-        {
-          title: "Run the investor meeting.",
-          body: "The setter gets the meeting held. The conversation about your offering is yours, and only yours.",
-        },
-        {
-          title: "Tap the outcome in the CRM.",
-          body: "Held, rescheduled, committed, passed. Two seconds, and it's what keeps the reporting honest.",
-        },
-      ],
-      closing:
-        "Everything else — the gate, the lane, the setter's recruiting, training and supervision, the reporting — is installed and operated by Ascent. Everything built belongs to you: the number, the recordings, the list.",
-    },
-  },
+  // Rendered as the feature grid in `sponsorsPage` instead.
+  services: null,
 
   // Folded into services.ownerCard on this page.
   howItWorks: null,
@@ -285,27 +214,8 @@ const sponsors: Vertical = {
    * Practice claims only — what a sponsor or their counsel can check.
    * Numbers live in `proof`, attributed.
    */
-  transparency: {
-    eyebrow: "HOW WE REPORT",
-    h2: "The four numbers your current vendor doesn't produce.",
-    items: [
-      {
-        icon: "target",
-        title: "Cost per appointment held — never per appointment set.",
-        body: "Media spend divided by meetings that actually happened. It cannot be inflated by booking meetings nobody attends, which is why it is the number we manage to.",
-      },
-      {
-        icon: "chart",
-        title: "Speed to first human touch, in seconds.",
-        body: "Median, not mean, and bucketed — contact rate and set rate by how fast the lead was reached, plus set-to-held rate. Weekly, in a fifteen-minute call; long-form at thirty, sixty and ninety days.",
-      },
-      {
-        icon: "shield",
-        title: "Every call recorded, available to you and to counsel.",
-        body: "Ask for any recording, any time. Reviewed weekly against a call-quality rubric. Quality isn't asserted; it's auditable.",
-      },
-    ],
-  },
+  // Folded into the process and feature grid in `sponsorsPage`.
+  transparency: null,
 
   boundaries: {
     eyebrow: "WHAT WE NEVER DO",
@@ -367,30 +277,8 @@ const sponsors: Vertical = {
   // No published pricing on this page — quoted in writing after the call.
   pricing: null,
 
-  expectations: {
-    eyebrow: "HOW AN ENGAGEMENT RUNS",
-    h2: "Four expectations, in writing.",
-    intro:
-      "Pricing is a flat monthly fee, quoted in writing after the scoping call — once we have read your numbers, not before. Media spend is billed by the platform directly to you.",
-    items: [
-      {
-        title: "Counsel signs before anything runs.",
-        body: "The nine-condition compliance gate closes first, with a written record of every approval, in parallel with scoping. Nothing publishes and nobody dials until it does.",
-      },
-      {
-        title: "Live in fourteen days from access and approvals.",
-        body: "Campaign architecture, creative, CRM and pipeline, telephony registered in your name, instrumentation, and a setter rehearsed against the approved script. The clock starts when the gate closes.",
-      },
-      {
-        title: "A weekly report with the four numbers.",
-        body: "Median speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held. Fifteen minutes on a call, every week. Long-form reviews at thirty, sixty and ninety days.",
-      },
-      {
-        title: "A fee that scales with media under management, never with outcomes.",
-        body: "Flat, monthly, month to month. Nothing tied to capital raised, investors acquired, or appointments held, at any performance level. Everything built stays with you if you leave.",
-      },
-    ],
-  },
+  // Folded into the process steps in `sponsorsPage`.
+  expectations: null,
 
   // No performance guarantee ever attaches to a regulated raise.
   guarantees: null,
@@ -401,9 +289,25 @@ const sponsors: Vertical = {
    * claimed here; if a fact changes above, change it here too.
    */
   faq: {
-    eyebrow: "QUESTIONS COUNSEL ACTUALLY ASKS",
-    h2: "Before you book.",
+    eyebrow: "FREQUENTLY ASKED QUESTIONS",
+    h2: "What sponsors and their counsel ask first.",
     items: [
+      {
+        q: "What is investor acquisition for a 506(c) raise?",
+        a: "Generating accredited-investor leads for a syndication or fund that is permitted to advertise under Rule 506(c), and then working those leads until a meeting with the sponsor is actually held. Ascent runs the whole path — counsel-approved media, instrumented response, and a live setter — and reports it as cost per appointment held.",
+      },
+      {
+        q: "How much should we budget?",
+        a: "Two lines. Media, which you pay to the platform on your own account — $15,000 a month is the floor at which a campaign holds a stable footing, and published guidance for this category puts total marketing at roughly three to four percent of the raise. And Ascent's flat monthly fee, which scales with media under management and is quoted in writing after the scoping call.",
+      },
+      {
+        q: "How long until the lane is live?",
+        a: "Fourteen days from account access and counsel's approvals. The compliance gate runs first and in parallel with scoping; the build clock starts when the gate closes, not before. The first weekly report follows the first full week live.",
+      },
+      {
+        q: "What results can we expect?",
+        a: "Ascent publishes no client figures without a named, written case study, and no performance guarantee attaches to a regulated raise. What you can expect, in writing, is the reporting: median speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held — every week, from the first one.",
+      },
       {
         q: "Is Ascent a broker-dealer, finder, or placement agent?",
         a: "No. Compensation is a flat monthly fee — nothing tied to capital raised, investors acquired, or appointments held, at any performance level. Ascent never touches funds, never verifies accredited-investor status, and never gives investment advice. Those terms are in the contract, not in a policy.",
@@ -584,6 +488,155 @@ const sponsors: Vertical = {
     // The brand guide's compliance footer — on every sponsor-facing page.
     complianceLine:
       "Ascent is not a broker-dealer, finder or placement agent. Compensation is a flat monthly fee — nothing tied to capital raised, investors acquired, or appointments booked. Verification of accredited status remains with the issuer. Nothing on this page is an offer to sell or a solicitation of an offer to buy any security.",
+  },
+};
+
+/*
+ * Sections only the dark template has. Hero stats are statements of how
+ * Ascent operates — never outcomes — and the disclosure under them says so.
+ */
+export const sponsorsPage: SponsorPageContent = {
+  nav: {
+    cta: "See if you qualify",
+  },
+
+  hero: {
+    kicker: "Real estate · Rule 506(c) · Investor acquisition",
+    h1: "The investor acquisition firm for real estate sponsors.",
+    h1Highlight: "investor acquisition",
+    sub: "Ascent builds the investor pipeline for your syndication, multifamily or CRE raise under Rule 506(c): counsel-approved media, instrumented lead response, and a live setter who turns leads into meetings that are actually held. Flat monthly fee. Nothing tied to capital raised.",
+    primaryCta: "See if you qualify",
+    secondaryCta: { label: "How it works", href: "#process" },
+    stats: [
+      { number: "14 days", label: "to live, from account access and counsel's approvals" },
+      { number: "9", label: "written conditions closed before an ad runs or a call is placed" },
+      { number: "4", label: "numbers reported every week, from the first week live" },
+      { number: "$0", label: "of compensation tied to capital raised, investors acquired, or appointments held" },
+    ],
+    disclosure:
+      "These describe how Ascent operates, not results. Ascent publishes no client figures without a named, written case study, and no performance guarantee attaches to a regulated raise.",
+  },
+
+  problems: {
+    eyebrow: "WHY RAISES STALL",
+    h2: "Why most syndications struggle to fill the investor pipeline.",
+    sub: "Three failures, and the one most vendors are paid to ignore is the last one.",
+    cards: [
+      {
+        icon: "target",
+        title: "No repeatable investor pipeline",
+        body: "Most sponsors raise from a personal network, a country club and warm introductions. When that runs dry the deal doesn't fill — and there is no system for sourcing the next accredited investor.",
+      },
+      {
+        icon: "loop",
+        title: "The first ninety seconds",
+        body: "An investor lead gets an autoresponder, then a call three days later from someone reading no script. About two percent of investor leads invest. Nobody in the chain is paid to work the other ninety-eight.",
+      },
+      {
+        icon: "calendar",
+        title: "Meetings booked, not held",
+        body: "A $25K–$500K decision is long and high-diligence. Without confirmation, reschedules and a nurture sequence between touches, booked meetings quietly stop happening — and the report never says so.",
+      },
+    ],
+  },
+
+  process: {
+    eyebrow: "HOW IT WORKS",
+    h2: "Our real estate investor acquisition process.",
+    sub: "Four stages, each with a written output. Your counsel signs before anything runs, and the conversation about your offering is the only one that stays yours.",
+    steps: [
+      {
+        title: "Scope, and clear compliance",
+        body: "We read your last raise's numbers and interview whoever calls the leads today. In parallel, the nine-condition gate closes with your securities counsel: exemption confirmed, approver named, every legend and the full setter script approved in writing.",
+      },
+      {
+        title: "Build the lane",
+        body: "Campaign architecture and counsel-approved creative, a CRM and pipeline you own, telephony registered in your name, instant text-and-email acknowledgement, and instrumentation that timestamps first touch and first human touch separately. Live in fourteen days from access and approvals.",
+      },
+      {
+        title: "Run the media and the phone",
+        body: "LinkedIn for accredited-investor quality, Meta for volume, Google for existing demand. A live setter, recruited and supervised by Ascent, calls every inbound investor lead as you, confirms attendance, reschedules no-shows and logs every outcome. Every call recorded.",
+      },
+      {
+        title: "Report and optimize, weekly",
+        body: "Fifteen minutes a week on the four numbers: speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held. Long-form reviews at thirty, sixty and ninety days. Creative refreshed on fatigue; budget moved on evidence.",
+      },
+    ],
+    cta: "Book a scoping call",
+  },
+
+  included: {
+    eyebrow: "FULL-SERVICE INVESTOR ACQUISITION",
+    h2: "What's included in the Ascent system.",
+    sub: "End-to-end investor acquisition for real estate sponsors — everything from the first impression to the meeting that is held, inside a structure your counsel approved.",
+    cards: [
+      {
+        icon: "megaphone",
+        title: "Accredited-investor media lane",
+        bullets: [
+          "LinkedIn, Meta and Google campaigns built for real estate investor acquisition",
+          "Every ad drafted against the metrics your counsel approved — no projected returns, no manufactured urgency",
+          "Media billed by the platform to your own account; never held, advanced or marked up",
+        ],
+      },
+      {
+        icon: "stack",
+        title: "Investor-grade assets",
+        bullets: [
+          "Landing pages and lead forms carrying the legends your counsel specifies, verbatim",
+          "Staged nurture sequences by text and email, from your name",
+          "A CRM and pipeline you own, with source and creative recorded on every lead",
+        ],
+      },
+      {
+        icon: "loop",
+        title: "Instrumented lead response",
+        bullets: [
+          "Instant acknowledgement of every lead, within seconds",
+          "First touch and first human touch timestamped as separate fields",
+          "Contact rate and set rate bucketed by response time",
+        ],
+      },
+      {
+        icon: "phone",
+        title: "A live, scripted setter",
+        bullets: [
+          "Recruited, trained and supervised by Ascent; calls as you, from a number registered to you",
+          "Logistics only — never the offering. A breach is a stop-work event",
+          "Attendance confirmed before every meeting; every call recorded for you and counsel",
+        ],
+      },
+      {
+        icon: "shield",
+        title: "Compliance gate and governance",
+        bullets: [
+          "Nine written conditions close before anything publishes or anyone dials",
+          "One complete package to counsel, one review deadline of three business days",
+          "A lapsed approval stops calling the same day, in writing",
+        ],
+      },
+    ],
+    ctaCard: {
+      title: "Ready to see what one appointment held costs?",
+      body: "Six questions. If it fits, the calendar is on the next screen.",
+      cta: "See if you qualify",
+    },
+  },
+
+  ctaBand: {
+    h2: "Ready to find out where your last raise's leads went?",
+    body: "Thirty minutes on your numbers, in dollars. Counsel welcome. If it doesn't fit, we'll say so on the call.",
+    cta: "Book a scoping call",
+  },
+
+  legal: {
+    heading: "Legal disclosures",
+    paragraphs: [
+      "Ascent Client Acquisition Systems LLC provides marketing, lead-response, appointment-setting and reporting services only. Ascent is not a registered broker-dealer, placement agent, finder, investment adviser or funding portal, and does not act in any fiduciary capacity.",
+      "Ascent does not offer, sell or distribute securities; does not solicit the purchase or sale of any security; does not make investment recommendations or give investment advice; does not structure, price or negotiate offering terms; does not verify accredited-investor status; and does not handle investor funds or subscription documents. Setters place logistical calls only, under the sponsor's name and on a script approved by the sponsor's securities counsel, and every call is recorded.",
+      "Compensation is a flat monthly fee. Ascent does not receive and will not accept any commission, success fee, finder's fee or other transaction-based compensation, including any compensation tied to capital raised, investors introduced or acquired, or appointments booked or held.",
+      "Nothing on this site is an offer to sell or a solicitation of an offer to buy any security, nor investment, legal or tax advice. Any offering is made only by the issuer under its own offering documents, under the direction of its counsel, and only to eligible investors in permitted jurisdictions. Benchmark figures on this page are published third-party category figures, are not Ascent results, and do not guarantee any outcome.",
+    ],
   },
 };
 

@@ -28,6 +28,47 @@ import { formatUSD, formatUSDCompact, formatPercent } from "@/lib/format";
  * persisted or sent anywhere.
  */
 
+/* Light is the default (paper page); dark is the sponsor template's
+ * near-black page, where the same panel sits on coal with a seam border. */
+export type CalculatorTone = "light" | "dark";
+
+const T = {
+  light: {
+    box: "rounded-lg border border-line bg-surface px-4 pb-2 pt-3",
+    label: "block text-[13px] text-slate",
+    hint: "mt-1 pb-1 text-[12px] leading-snug text-slate",
+    prefix: "text-[17px] font-semibold text-slate",
+    input: "min-h-[36px] w-full bg-transparent text-[17px] font-semibold text-ink",
+    readout: "min-h-[36px] text-[17px] font-semibold leading-[36px] text-ink",
+    select: "min-h-[36px] w-full appearance-none truncate bg-transparent pr-8 text-[15px] font-semibold text-ink md:text-[16px]",
+    chevron: "text-slate",
+    inputsCard: "flex flex-col gap-3 rounded-2xl border border-line bg-paper p-4 shadow-card md:p-5",
+    tiles: "grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-paper shadow-card",
+    tileBorder: "border-line",
+    dt: "text-[15px] font-semibold leading-snug text-ink md:text-[17px]",
+    ddPlain: "text-ink",
+    assumption: "mt-4 font-mono text-[12px] leading-relaxed text-slate",
+    micro: "eyebrow !text-[12px] text-slate",
+  },
+  dark: {
+    box: "rounded-lg border border-seam bg-night px-4 pb-2 pt-3",
+    label: "block text-[13px] text-ash",
+    hint: "mt-1 pb-1 text-[12px] leading-snug text-ash",
+    prefix: "text-[17px] font-semibold text-ash",
+    input: "min-h-[36px] w-full bg-transparent text-[17px] font-semibold text-paper",
+    readout: "min-h-[36px] text-[17px] font-semibold leading-[36px] text-paper",
+    select: "min-h-[36px] w-full appearance-none truncate bg-transparent pr-8 text-[15px] font-semibold text-paper md:text-[16px]",
+    chevron: "text-ash",
+    inputsCard: "flex flex-col gap-3 rounded-2xl border border-seam bg-coal p-4 md:p-5",
+    tiles: "grid grid-cols-2 overflow-hidden rounded-2xl border border-seam bg-coal",
+    tileBorder: "border-seam",
+    dt: "text-[15px] font-semibold leading-snug text-paper md:text-[17px]",
+    ddPlain: "text-paper",
+    assumption: "mt-4 font-mono text-[12px] leading-relaxed text-ash",
+    micro: "eyebrow !text-[12px] text-ash",
+  },
+} as const;
+
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
@@ -45,27 +86,28 @@ function FieldBox({
   label,
   htmlFor,
   hint,
+  tone,
   children,
 }: {
   label: string;
   htmlFor: string;
   hint?: string;
+  tone: CalculatorTone;
   children: React.ReactNode;
 }) {
+  const t = T[tone];
   return (
-    <div className="rounded-lg border border-line bg-surface px-4 pb-2 pt-3">
-      <label htmlFor={htmlFor} className="block text-[13px] text-slate">
+    <div className={t.box}>
+      <label htmlFor={htmlFor} className={t.label}>
         {label}
       </label>
       {children}
-      {hint ? (
-        <p className="mt-1 pb-1 text-[12px] leading-snug text-slate">{hint}</p>
-      ) : null}
+      {hint ? <p className={t.hint}>{hint}</p> : null}
     </div>
   );
 }
 
-function Chevron() {
+function Chevron({ tone }: { tone: CalculatorTone }) {
   return (
     <svg
       aria-hidden="true"
@@ -78,7 +120,7 @@ function Chevron() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-slate"
+      className={`pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 ${T[tone].chevron}`}
     >
       <path d="m6 9 6 6 6-6" />
     </svg>
@@ -90,12 +132,15 @@ function NumberField({
   field,
   value,
   onChange,
+  tone,
 }: {
   id: string;
   field: CalculatorField;
   value: number;
   onChange: (v: number) => void;
+  tone: CalculatorTone;
 }) {
+  const t = T[tone];
   // Shown with thousands separators ("4,000"); typed digits stay raw until
   // blur so the caret never jumps mid-entry.
   const formatDraft = (n: number) => n.toLocaleString("en-US");
@@ -124,10 +169,10 @@ function NumberField({
   };
 
   return (
-    <FieldBox label={field.label} htmlFor={id}>
+    <FieldBox label={field.label} htmlFor={id} tone={tone}>
       <div className="flex items-center gap-1">
         {field.unit === "$" ? (
-          <span aria-hidden="true" className="text-[17px] font-semibold text-slate">
+          <span aria-hidden="true" className={t.prefix}>
             $
           </span>
         ) : null}
@@ -153,7 +198,7 @@ function NumberField({
           onKeyDown={(e) => {
             if (e.key === "Enter") commit();
           }}
-          className="min-h-[36px] w-full bg-transparent text-[17px] font-semibold text-ink"
+          className={t.input}
         />
       </div>
       <input
@@ -176,17 +221,17 @@ function RangeField({
   field,
   value,
   onChange,
+  tone,
 }: {
   id: string;
   field: CalculatorField;
   value: number;
   onChange: (v: number) => void;
+  tone: CalculatorTone;
 }) {
   return (
-    <FieldBox label={field.label} htmlFor={id}>
-      <p className="min-h-[36px] text-[17px] font-semibold leading-[36px] text-ink">
-        {formatFieldValue(field, value)}
-      </p>
+    <FieldBox label={field.label} htmlFor={id} tone={tone}>
+      <p className={T[tone].readout}>{formatFieldValue(field, value)}</p>
       <input
         id={id}
         type="range"
@@ -214,32 +259,29 @@ function Outputs({
   assumptionLine,
   ctaLabel,
   ctaMicrocopy,
+  tone,
 }: {
   tiles: Tile[];
   assumptionLine: string;
   ctaLabel: string;
   ctaMicrocopy: string;
+  tone: CalculatorTone;
 }) {
+  const t = T[tone];
   return (
     <div>
-      <dl
-        aria-live="polite"
-        aria-atomic="true"
-        className="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-paper shadow-card"
-      >
+      <dl aria-live="polite" aria-atomic="true" className={t.tiles}>
         {tiles.map((tile, i) => (
           <div
             key={tile.label}
-            className={`p-6 md:p-8 ${i % 2 === 1 ? "border-l border-line" : ""} ${
-              i >= 2 ? "border-t border-line" : ""
+            className={`p-6 md:p-8 ${i % 2 === 1 ? `border-l ${t.tileBorder}` : ""} ${
+              i >= 2 ? `border-t ${t.tileBorder}` : ""
             }`}
           >
-            <dt className="text-[15px] font-semibold leading-snug text-ink md:text-[17px]">
-              {tile.label}
-            </dt>
+            <dt className={t.dt}>{tile.label}</dt>
             <dd
               className={`readout mt-3 text-[30px] leading-none md:text-[44px] ${
-                tile.accent ? "text-orange" : "text-ink"
+                tile.accent ? "text-orange" : t.ddPlain
               }`}
             >
               {tile.value}
@@ -247,9 +289,7 @@ function Outputs({
           </div>
         ))}
       </dl>
-      <p className="mt-4 font-mono text-[12px] leading-relaxed text-slate">
-        {assumptionLine}
-      </p>
+      <p className={t.assumption}>{assumptionLine}</p>
       <div className="mt-6 flex flex-col items-start gap-3">
         <a
           href="#book"
@@ -259,24 +299,24 @@ function Outputs({
           {ctaLabel}
           <ArrowRight />
         </a>
-        <p className="eyebrow !text-[12px] text-slate">{ctaMicrocopy}</p>
+        <p className={t.micro}>{ctaMicrocopy}</p>
       </div>
     </div>
   );
 }
 
 const layout = "grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start";
-const inputsCard =
-  "flex flex-col gap-3 rounded-2xl border border-line bg-paper p-4 shadow-card md:p-5";
 
 function RoiCalculator({
   calculator,
   ctaLabel,
   ctaMicrocopy,
+  tone,
 }: {
   calculator: RoiCalculatorContent;
   ctaLabel: string;
   ctaMicrocopy: string;
+  tone: CalculatorTone;
 }) {
   const { fields, industries, outputs, assumptionLine } = calculator;
   const uid = useId();
@@ -350,19 +390,20 @@ function RoiCalculator({
 
   return (
     <div className={layout}>
-      <div className={inputsCard}>
+      <div className={T[tone].inputsCard}>
         {industries ? (
           <FieldBox
             label={industries.label}
             htmlFor={`${uid}-industry`}
             hint={industries.note}
+            tone={tone}
           >
             <div className="relative">
               <select
                 id={`${uid}-industry`}
                 value={industryIndex}
                 onChange={(e) => chooseIndustry(Number(e.target.value))}
-                className="min-h-[36px] w-full appearance-none truncate bg-transparent pr-8 text-[15px] font-semibold text-ink md:text-[16px]"
+                className={T[tone].select}
               >
                 {industries.options.map((option, i) => (
                   <option key={option.label} value={i}>
@@ -370,7 +411,7 @@ function RoiCalculator({
                   </option>
                 ))}
               </select>
-              <Chevron />
+              <Chevron tone={tone} />
             </div>
           </FieldBox>
         ) : null}
@@ -379,30 +420,35 @@ function RoiCalculator({
           field={fields.monthlyBudget}
           value={monthlyBudget}
           onChange={setMonthlyBudget}
+          tone={tone}
         />
         <NumberField
           id={`${uid}-cpa`}
           field={fields.costPerAppointment}
           value={costPerAppointment}
           onChange={setCostPerAppointment}
+          tone={tone}
         />
         <NumberField
           id={`${uid}-deal`}
           field={fields.averageDealSize}
           value={averageDealSize}
           onChange={setAverageDealSize}
+          tone={tone}
         />
         <RangeField
           id={`${uid}-close`}
           field={fields.closeRate}
           value={closeRatePct}
           onChange={setCloseRatePct}
+          tone={tone}
         />
         <RangeField
           id={`${uid}-cycle`}
           field={fields.salesCycleMonths}
           value={salesCycleMonths}
           onChange={setSalesCycleMonths}
+          tone={tone}
         />
       </div>
 
@@ -411,6 +457,7 @@ function RoiCalculator({
         assumptionLine={assumptionLine}
         ctaLabel={ctaLabel}
         ctaMicrocopy={ctaMicrocopy}
+        tone={tone}
       />
     </div>
   );
@@ -426,10 +473,12 @@ function AppointmentsCalculator({
   calculator,
   ctaLabel,
   ctaMicrocopy,
+  tone,
 }: {
   calculator: AppointmentsCalculatorContent;
   ctaLabel: string;
   ctaMicrocopy: string;
+  tone: CalculatorTone;
 }) {
   const { fields, outputs, assumptionLine } = calculator;
   const uid = useId();
@@ -462,30 +511,34 @@ function AppointmentsCalculator({
 
   return (
     <div className={layout}>
-      <div className={inputsCard}>
+      <div className={T[tone].inputsCard}>
         <NumberField
           id={`${uid}-budget`}
           field={fields.mediaBudget}
           value={mediaBudget}
           onChange={setMediaBudget}
+          tone={tone}
         />
         <NumberField
           id={`${uid}-cpl`}
           field={fields.costPerLead}
           value={costPerLead}
           onChange={setCostPerLead}
+          tone={tone}
         />
         <RangeField
           id={`${uid}-contact`}
           field={fields.contactRate}
           value={contactRatePct}
           onChange={setContactRatePct}
+          tone={tone}
         />
         <RangeField
           id={`${uid}-held`}
           field={fields.heldRate}
           value={heldRatePct}
           onChange={setHeldRatePct}
+          tone={tone}
         />
       </div>
 
@@ -494,6 +547,7 @@ function AppointmentsCalculator({
         assumptionLine={assumptionLine}
         ctaLabel={ctaLabel}
         ctaMicrocopy={ctaMicrocopy}
+        tone={tone}
       />
     </div>
   );
@@ -509,10 +563,12 @@ export default function Calculator({
   calculator,
   ctaLabel,
   ctaMicrocopy,
+  tone = "light",
 }: {
   calculator: CalculatorContent;
   ctaLabel: string;
   ctaMicrocopy: string;
+  tone?: CalculatorTone;
 }) {
   if (calculator.kind === "appointments") {
     return (
@@ -520,6 +576,7 @@ export default function Calculator({
         calculator={calculator}
         ctaLabel={ctaLabel}
         ctaMicrocopy={ctaMicrocopy}
+        tone={tone}
       />
     );
   }
@@ -528,6 +585,7 @@ export default function Calculator({
       calculator={calculator}
       ctaLabel={ctaLabel}
       ctaMicrocopy={ctaMicrocopy}
+      tone={tone}
     />
   );
 }

@@ -53,6 +53,7 @@ fetched from Google at runtime.
 | `docs/ascent-brand-style-guide.md` | Authoritative palette / type / logo rules. `globals.css` implements it. |
 | `docs/BUILD-NOTES.md` | Design-system conventions the components follow. |
 | `src/components/` | Presentational components; all take content via props. |
+| `src/components/sponsor/SponsorPage.tsx` | The **dark sponsor template** for ascentforsponsors.com — a second page template beside `VerticalPage`, fed by `content/verticals/sponsors.ts` (`sponsors` + `sponsorsPage`). Sector-page structure: hero with a structural-facts row, category benchmarks, problem triptych, dark calculator, numbered process, feature grid with a CTA card, boundaries, fit check, FAQ, gate, long-form legal footer. |
 | `src/lib/calculator.ts` | Calculator math, in one place. Two kinds, chosen by `calculator.kind`: `roi` (budget → deals → revenue → ROI, the trade pages) and `appointments` (media budget → cost per appointment held, the sponsor page — deliberately not a revenue projection). |
 | `scripts/generate-assets.mjs` | Regenerates `public/` icons and the OG image from the vector mark. |
 

@@ -233,6 +233,63 @@ export interface QualificationContent {
   trustItems: string[];
 }
 
+/**
+ * Extra content for the dark sponsor template (src/components/sponsor).
+ * It renders alongside a `Vertical` — the vertical still carries the gate,
+ * booking, benchmarks (`proof`), boundaries, fit, FAQ, footer and JSON-LD —
+ * and this holds only what that template has and the light one doesn't.
+ *
+ * Content rules carry over: the hero stats are statements of how the firm
+ * operates, never results; nothing here is a performance promise.
+ */
+export interface SponsorPageContent {
+  nav: {
+    /** Header CTA — opens the qualification gate. */
+    cta: string;
+  };
+  hero: {
+    /** Small mono line above the h1, e.g. "Real Estate · Rule 506(c)". */
+    kicker: string;
+    h1: string;
+    /** Substring of h1 rendered in orange. null renders plain. */
+    h1Highlight: string | null;
+    sub: string;
+    /** Opens the gate. */
+    primaryCta: string;
+    /** In-page anchor. */
+    secondaryCta: { label: string; href: string };
+    /** Four structural facts — how Ascent operates, never outcomes. */
+    stats: Stat[];
+    /** The line under the stats that says exactly that. */
+    disclosure: string;
+  };
+  problems: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    cards: { icon: IconName; title: string; body: string }[];
+  };
+  process: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    /** Numbered 01–04 in the UI. */
+    steps: { title: string; body: string }[];
+    cta: string;
+  };
+  included: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    cards: { icon: IconName; title: string; bullets: string[] }[];
+    /** The orange card that closes the grid. */
+    ctaCard: { title: string; body: string; cta: string };
+  };
+  ctaBand: { h2: string; body: string; cta: string };
+  /** The long-form disclosure block in the footer. */
+  legal: { heading: string; paragraphs: string[] };
+}
+
 export interface ApplyPageContent {
   seoTitle: string;
   seoDescription: string;
