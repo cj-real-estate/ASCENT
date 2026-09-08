@@ -538,7 +538,7 @@ export const sponsorsPage: SponsorPageContent = {
       },
     ],
     disclosure:
-      "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal, never here. Ascent publishes no client figures without a named, written case study, and nothing on this page is a projection of capital raised.",
+      "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal.",
   },
 
   problems: {
