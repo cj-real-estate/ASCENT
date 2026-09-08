@@ -43,7 +43,9 @@ const sponsors: Vertical = {
     // Delivery is entirely remote; the firm sells nationally.
     areaServed: "United States",
     phone: "580-304-8470",
-    email: "info@ascentcas.com",
+    // The sponsor domain's own mailbox — footer, /privacy and JSON-LD pick
+    // it up. It must exist and be monitored; nothing on the site sends to it.
+    email: "info@ascentforsponsors.com",
   },
 
   seo: {
@@ -437,11 +439,15 @@ const sponsors: Vertical = {
     eyebrow: "BOOK A SCOPING CALL",
     h2: "Find out where your last raise's leads went.",
     body: "Thirty minutes. Bring the numbers from your last raise — media spent, leads generated, meetings that actually happened. We'll tell you, in dollars, what the gap between the leads you paid for and the appointments you held is costing you, and whether this structure will clear your counsel. If it doesn't fit, we'll say so on the call.",
-    // DECISION — the same Calendly event as the brand page for now, embedded
-    // from the sponsor domain. A dedicated "scoping call" event type would
-    // be cleaner; swap the link here when it exists.
+    // A dedicated Calendly event for sponsors, separate from the brand
+    // page's strategy call, so bookings from this domain are their own
+    // event type. The event MUST exist in Calendly under exactly this slug
+    // (caleb-ascentcas → "Scoping call", URL slug "scoping-call", 30 min)
+    // before the domain goes live — a qualified sponsor is shown this embed,
+    // and a missing event renders Calendly's not-found page in its place.
+    // Set-up steps are in CONNECT-ASCENTFORSPONSORS.md.
     schedulingLink:
-      "https://calendly.com/caleb-ascentcas/30min?hide_gdpr_banner=1&embed_domain=ascentforsponsors.com&embed_type=Inline",
+      "https://calendly.com/caleb-ascentcas/scoping-call?hide_gdpr_banner=1&embed_domain=ascentforsponsors.com&embed_type=Inline",
     // Legacy form labels — the gate below is the live path.
     form: {
       nameLabel: "Name",

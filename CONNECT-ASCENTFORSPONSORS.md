@@ -8,12 +8,28 @@ production builds.
 
 ## Before you start
 
-1. **Merge the sponsor page into `main`.** It lives on
-   `claude/ascentforsponsors-landing-page-z1ob8l`. Until that branch is
-   merged and deployed, `ascentforsponsors.com` would serve the brand page.
-   Check: `https://ascentcas.com/sponsors` should load the sponsor page
-   (headline "Investor meetings held, not just investor leads.").
-2. Open two tabs, **already logged in** — a browser agent can't get through
+1. **The sponsor page must be on `main`** (merged 2026-09-08). Check:
+   `https://ascentcas.com/sponsors` should load the sponsor page (headline
+   "Investor meetings held, not just investor leads."). If it doesn't,
+   production hasn't redeployed yet — wait for the Vercel build.
+2. **Create the Calendly event the page embeds.** A qualified sponsor is
+   shown a Calendly embed for a dedicated event that does not exist until
+   you create it — until then they see Calendly's not-found page instead of
+   a calendar. In Calendly (account `caleb-ascentcas`) → *Event Types* →
+   *New event type* → one-on-one:
+   - Name: **Scoping call** · Duration: **30 min**
+   - URL slug: **`scoping-call`** — exactly, so the link is
+     `calendly.com/caleb-ascentcas/scoping-call`. This is what
+     `booking.schedulingLink` in `content/verticals/sponsors.ts` points at;
+     if you pick a different slug, change it there too.
+   - Description (optional): "Thirty minutes on your last raise's numbers,
+     in dollars. Bring counsel if you like."
+   Then open `https://calendly.com/caleb-ascentcas/scoping-call` in a
+   private window and confirm it shows a calendar.
+3. **Make sure `info@ascentforsponsors.com` exists and is monitored.** It is
+   the contact address in the sponsor page's footer, privacy page and
+   structured data. The site never sends to it, but sponsors will.
+4. Open two tabs, **already logged in** — a browser agent can't get through
    a login or 2FA prompt:
    - **Vercel** — `vercel.com/dashboard`
    - **GoDaddy DNS for ascentforsponsors.com** —
@@ -78,8 +94,9 @@ accounts or new services.
 
 Open a new tab and load `https://ascentcas.com/sponsors`. It should show the
 headline "Investor meetings held, not just investor leads." If it 404s or
-shows the brand page instead, **stop**: the sponsor page isn't on `main` yet,
-and adding the domain now would put the wrong page on it. Tell me.
+shows the brand page instead, **stop**: production hasn't picked up the
+sponsor page yet, and adding the domain now would put the wrong page on it.
+Tell me.
 
 ## Phase 3 — Add the domain in Vercel
 
@@ -138,6 +155,10 @@ Switch to the GoDaddy tab, on the DNS records page for
    - `https://ascentcas.com` — still loads the brand page, unchanged
 5. Give me a final summary: the DNS records as they now stand, the domain
    status in Vercel, and the result of each of the five checks.
+6. (For me, not the agent.) Run the gate end to end once: answer the six
+   questions with qualifying answers and confirm the Calendly calendar
+   appears — that proves the `scoping-call` event exists and the embed
+   domain is right.
 
 ## Don't do these
 
