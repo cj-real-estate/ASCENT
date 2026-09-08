@@ -329,6 +329,8 @@ export interface Vertical {
   seo: {
     title: string;
     description: string;
+    /** Path under /public for the social card. Defaults to /og-image.png. */
+    ogImage?: string;
   };
 
   header: {

@@ -16,7 +16,7 @@ export function verticalUrl(vertical: Vertical): string {
 export function verticalMetadata(vertical: Vertical): Metadata {
   const { seo, business } = vertical;
   const url = verticalUrl(vertical);
-  const ogImage = `${new URL(url).origin}/og-image.png`;
+  const ogImage = `${new URL(url).origin}${seo.ogImage ?? "/og-image.png"}`;
   return {
     title: seo.title,
     description: seo.description,

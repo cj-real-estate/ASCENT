@@ -154,6 +154,19 @@ content module for `DECISION`:
 
 ## Logo and brand files
 
+**v3 (September 2026) — the sponsor site.** The current logo system is
+`brand/v3/` (masters copied from the "ASCENT LOGOS" Drive folder; its
+`README.txt` carries the usage rules). The tagline is now *Investor
+Acquisition*. The dark sponsor template renders the primary-on-dark lockup
+and the wordmark straight from `public/brand/*.svg`; `public/favicon-32.png`,
+`apple-touch-icon-180.png`, `icon-512.png`, `maskable-512.png` and
+`og-sponsors.png` were rasterized from the v3 app icon and lockup with
+sharp. **Do not run `npm run generate:assets` any more** — it would
+overwrite those icons with the older traced mark below.
+
+**v1/v2 — the brand and fence pages.** Everything below still describes the
+lockup those pages draw in `Logo.tsx` and the files in `brand/*.svg`.
+
 The delivered brand assets were raster-only, so the mark is drawn as vector
 geometry and everything else is generated from it. Downloadable files live in
 `brand/`:

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import { toQualifyFlowProps } from "@/lib/qualify";
-import { AscentLockup } from "@/components/Logo";
+import Image from "next/image";
 import ArrowRight from "@/components/ArrowRight";
 import ServiceIcon from "@/components/ServiceIcon";
 import EyebrowText from "@/components/EyebrowText";
@@ -83,15 +83,37 @@ function Cross() {
   );
 }
 
+/*
+ * The v3 logo system (brand/v3/README.txt): the primary-on-dark lockup is
+ * the default on any dark ground and has a 230px minimum; below that the
+ * wordmark (no tagline) is used. So: full lockup from md up, wordmark on a
+ * phone. Both are the outlined SVG masters, so no font is involved.
+ */
+const LOCKUP = { src: "/brand/ascent-lockup-primary-on-dark.svg", w: 807.027, h: 186.375 };
+const WORDMARK = { src: "/brand/ascent-wordmark-on-dark.svg", w: 762.917, h: 144.779 };
+
+function Logo({ name, width, className = "" }: { name: string; width: number; className?: string }) {
+  const src = width >= 230 ? LOCKUP : WORDMARK;
+  return (
+    <Image
+      src={src.src}
+      alt={name}
+      width={width}
+      height={Math.round((width * src.h) / src.w)}
+      priority
+      className={className}
+    />
+  );
+}
+
 function Header({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
-  const name = vertical.business.name;
-  const tagline = name.split(" ").slice(1).join(" ");
+  const name = `${vertical.business.name} — Investor Acquisition`;
   return (
     <header className="sticky top-0 z-50 border-b border-seam bg-night/85 backdrop-blur">
       <div className={`${shell} flex min-h-16 items-center justify-between gap-4 py-2`}>
-        {/* LOGO — swap point. The v3 lockup goes here once it is in brand/. */}
         <Link href="/" aria-label={name} className="shrink-0">
-          <AscentLockup variant="onDark" name={name} tagline={tagline} responsive />
+          <Logo name={name} width={168} className="md:hidden" />
+          <Logo name={name} width={236} className="hidden md:block" />
         </Link>
         <a
           href="#book"
@@ -481,14 +503,12 @@ function Booking({ vertical }: { vertical: Vertical }) {
 
 function Footer({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
   const { business, footer } = vertical;
-  const tagline = business.name.split(" ").slice(1).join(" ");
   return (
     <footer className="border-t border-seam py-14 md:py-20">
       <div className={shell}>
         <div className="grid gap-10 md:grid-cols-[1.2fr_1fr]">
           <div>
-            {/* LOGO — same swap point as the header. */}
-            <AscentLockup variant="onDark" name={business.name} tagline={tagline} />
+            <Logo name={`${business.name} — Investor Acquisition`} width={260} />
             <p className="mt-6 max-w-[48ch] text-[16px] text-on-dark">{footer.tagline}</p>
             <p className="mt-1 text-[15px] text-ash">{footer.locationLine}</p>
           </div>
