@@ -173,22 +173,26 @@ function Hero({ page }: { page: SponsorPageContent }) {
           </a>
         </div>
 
-        {/* Structural facts — how the firm operates, never results. */}
-        <dl className={`${card} mt-14 grid grid-cols-2 divide-seam md:mt-16 lg:grid-cols-4`}>
-          {hero.stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`p-6 md:p-7 ${i % 2 === 1 ? "border-l border-seam" : ""} ${
-                i >= 2 ? "border-t border-seam lg:border-t-0" : ""
-              } ${i === 2 ? "lg:border-l" : ""}`}
+        {/* Commitment cards — what Ascent does and signs, never a result. */}
+        <ul className="mt-14 grid gap-4 md:mt-16 md:grid-cols-2 xl:grid-cols-4">
+          {hero.cards.map((item) => (
+            <li
+              key={item.label}
+              className={`${card} flex flex-col p-6 motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-ash/40 md:p-7`}
             >
-              <dd className="readout text-[32px] leading-none text-paper md:text-[40px]">
-                {stat.number}
-              </dd>
-              <dt className="mt-2 text-[14px] leading-snug text-ash">{stat.label}</dt>
-            </div>
+              <span className="icon-tile !h-10 !w-10 !rounded-xl">
+                <ServiceIcon name={item.icon} />
+              </span>
+              <p className="readout mt-5 text-[26px] leading-none text-orange md:text-[28px]">
+                {item.label}
+              </p>
+              <h2 className="mt-3 text-[18px] font-semibold leading-snug text-paper">
+                {item.title}
+              </h2>
+              <p className="mt-2 text-[15px] leading-relaxed text-ash">{item.body}</p>
+            </li>
           ))}
-        </dl>
+        </ul>
         <p className="mt-4 max-w-[90ch] text-[12px] leading-relaxed text-ash/80">
           {hero.disclosure}
         </p>

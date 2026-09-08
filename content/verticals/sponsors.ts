@@ -21,9 +21,11 @@ import type { SponsorPageContent, Vertical } from "./types";
  *   - "appointment held", never set / booked / scheduled.
  *   - "investor lead", never prospect or qualified investor.
  *   - "flat monthly fee" — nothing tied to capital raised, investors
- *     acquired, or appointments held. NEVER a performance guarantee on this
- *     page: a guarantee belongs in a proposal, not in collateral, which is
- *     why `guarantees` and `pricing.guaranteeLine` are absent here.
+ *     acquired, or appointments held. The one guarantee on this page is the
+ *     proposal's own: a minimum of appointments HELD in 90 days or the fee
+ *     stops until it's met — never a result, never anything about capital.
+ *     (The brand guide's default is no guarantee in collateral; the owner
+ *     chose to publish this one, in the proposal's exact terms.)
  *   - "sponsor" / "issuer"; the investors are never Ascent's.
  *   - Live, human, scripted calls only. The automated channels are texts
  *     and emails — write the channel out; never "automated calls".
@@ -308,7 +310,7 @@ const sponsors: Vertical = {
       },
       {
         q: "What results can we expect?",
-        a: "Ascent publishes no client figures without a named, written case study, and no performance guarantee attaches to a regulated raise. What you can expect, in writing, is the reporting: median speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held — every week, from the first one.",
+        a: "Ascent publishes no client figures without a named, written case study, and nothing on this site projects capital raised. What you get in writing is a minimum number of investor appointments held in the first ninety days, set in your proposal from your own media budget and history — and if it's missed, Ascent keeps working at no fee until it's met. Plus the reporting: median speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held, every week from the first one.",
       },
       {
         q: "Is Ascent a broker-dealer, finder, or placement agent?",
@@ -466,8 +468,8 @@ const sponsors: Vertical = {
     // on the page already.
     trustItems: [
       "30 minutes. No cost. No obligation.",
-      "Flat monthly fee — nothing tied to capital raised, investors acquired, or appointments held.",
-      "Every setter call recorded and available to you and your counsel.",
+      "A minimum of investor appointments held in 90 days, in writing — or Ascent works at no fee until it's met.",
+      "Flat monthly fee. You keep 100% of what you raise.",
     ],
   },
 
@@ -509,14 +511,34 @@ export const sponsorsPage: SponsorPageContent = {
     sub: "Ascent builds the investor pipeline for your syndication, multifamily or CRE raise under Rule 506(c): counsel-approved media, instrumented lead response, and a live setter who turns leads into meetings that are actually held. Flat monthly fee. Nothing tied to capital raised.",
     primaryCta: "See if you qualify",
     secondaryCta: { label: "How it works", href: "#process" },
-    stats: [
-      { number: "14 days", label: "to live, from account access and counsel's approvals" },
-      { number: "9", label: "written conditions closed before an ad runs or a call is placed" },
-      { number: "4", label: "numbers reported every week, from the first week live" },
-      { number: "$0", label: "of compensation tied to capital raised, investors acquired, or appointments held" },
+    cards: [
+      {
+        icon: "calendar",
+        label: "Week 1",
+        title: "Investor calls from the first week live.",
+        body: "The lane is live in fourteen days from access and approvals, and the setter is on the phone with your investor leads in the first week — not after a ramp.",
+      },
+      {
+        icon: "stack",
+        label: "Next raise",
+        title: "Every lead stays on a list you own.",
+        body: "Accredited-investor leads, recordings and pipeline live in a CRM registered to you, so the next raise starts from a warmer list than this one did.",
+      },
+      {
+        icon: "shield",
+        label: "Guaranteed",
+        title: "A minimum of appointments held, in writing.",
+        body: "Each proposal sets a minimum number of investor appointments held in the first ninety days, from your own media budget and history. Miss it, and Ascent keeps working at no fee until it's met.",
+      },
+      {
+        icon: "target",
+        label: "100%",
+        title: "You keep 100% of what you raise.",
+        body: "Ascent handles everything from the creative to the setter who gets the meeting onto your calendar. You show up. Ascent is a flat-fee firm — nothing tied to capital raised.",
+      },
     ],
     disclosure:
-      "These describe how Ascent operates, not results. Ascent publishes no client figures without a named, written case study, and no performance guarantee attaches to a regulated raise.",
+      "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal, never here. Ascent publishes no client figures without a named, written case study, and nothing on this page is a projection of capital raised.",
   },
 
   problems: {

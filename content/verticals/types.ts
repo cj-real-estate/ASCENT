@@ -258,9 +258,13 @@ export interface SponsorPageContent {
     primaryCta: string;
     /** In-page anchor. */
     secondaryCta: { label: string; href: string };
-    /** Four structural facts — how Ascent operates, never outcomes. */
-    stats: Stat[];
-    /** The line under the stats that says exactly that. */
+    /**
+     * Four commitment cards under the hero: a big label, a title, a body.
+     * Practice commitments and written terms — what Ascent does and signs
+     * — never a client result or a capital-raised claim.
+     */
+    cards: { icon: IconName; label: string; title: string; body: string }[];
+    /** The line under the cards that says where the terms are set. */
     disclosure: string;
   };
   problems: {
