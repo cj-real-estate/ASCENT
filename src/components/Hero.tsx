@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import type { Vertical } from "@content/verticals/types";
 import ArrowRight from "@/components/ArrowRight";
+import EyebrowText from "@/components/EyebrowText";
 
 /*
  * Hero — light, two columns on desktop: the claim on the left, and on the
@@ -66,7 +67,9 @@ export default function Hero({ vertical }: { vertical: Vertical }) {
 
       <div className="section-shell relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-          <p className="eyebrow text-orange-deep">{hero.eyebrow}</p>
+          <p className="eyebrow text-orange-deep">
+            <EyebrowText text={hero.eyebrow} />
+          </p>
           <h1 className="display mt-6 max-w-[15ch] text-balance text-[36px] text-ink min-[380px]:text-[42px] md:text-[58px] xl:text-[64px]">
             {highlight && hero.h1.includes(highlight) ? (
               <>

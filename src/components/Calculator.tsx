@@ -3,20 +3,29 @@
 import { useId, useState } from "react";
 import ArrowRight from "./ArrowRight";
 import type {
+  AppointmentsCalculatorContent,
   CalculatorContent,
   CalculatorField,
+  RoiCalculatorContent,
 } from "@content/verticals/types";
-import { computeRoi } from "@/lib/calculator";
+import { computeAppointments, computeRoi } from "@/lib/calculator";
 import { formatUSD, formatUSDCompact, formatPercent } from "@/lib/format";
 
 /*
- * The ROI calculator, reference-site style: boxed fields in a card on the
- * left (industry picker first — it seeds cost per booked appointment, deal
- * size, close rate, and sales cycle, all of which stay editable), four
- * per-year output tiles on the right. All math lives in
- * src/lib/calculator.ts — straight arithmetic on the visitor's inputs,
- * stated openly in the assumption line. Nothing is persisted or sent
- * anywhere.
+ * The calculator, reference-site style: boxed fields in a card on the left,
+ * four output tiles on the right. Two variants share the chrome and are
+ * chosen by `calculator.kind`:
+ *
+ *   roi          — budget ÷ cost per booked appointment → deals, revenue,
+ *                  ROI per year (industry picker seeds the inputs).
+ *   appointments — media budget, cost per lead, contact rate, held rate →
+ *                  cost per appointment held per month. Used where a
+ *                  revenue projection would be a performance claim the
+ *                  page must not make.
+ *
+ * All math lives in src/lib/calculator.ts — straight arithmetic on the
+ * visitor's inputs, stated openly in the assumption line. Nothing is
+ * persisted or sent anywhere.
  */
 
 function clamp(value: number, min: number, max: number): number {
@@ -193,18 +202,79 @@ function RangeField({
   );
 }
 
-/*
- * Client props are serialized into the page source, so this component takes
- * only the slices it renders — never the whole Vertical, which would ship
- * the qualification gate's `qualifies` flags and the scheduling link to
- * every visitor in view-source.
- */
-export default function Calculator({
+interface Tile {
+  label: string;
+  value: string;
+  accent: boolean;
+}
+
+/* The shared right-hand column: four tiles, the assumption line, the CTA. */
+function Outputs({
+  tiles,
+  assumptionLine,
+  ctaLabel,
+  ctaMicrocopy,
+}: {
+  tiles: Tile[];
+  assumptionLine: string;
+  ctaLabel: string;
+  ctaMicrocopy: string;
+}) {
+  return (
+    <div>
+      <dl
+        aria-live="polite"
+        aria-atomic="true"
+        className="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-paper shadow-card"
+      >
+        {tiles.map((tile, i) => (
+          <div
+            key={tile.label}
+            className={`p-6 md:p-8 ${i % 2 === 1 ? "border-l border-line" : ""} ${
+              i >= 2 ? "border-t border-line" : ""
+            }`}
+          >
+            <dt className="text-[15px] font-semibold leading-snug text-ink md:text-[17px]">
+              {tile.label}
+            </dt>
+            <dd
+              className={`readout mt-3 text-[30px] leading-none md:text-[44px] ${
+                tile.accent ? "text-orange" : "text-ink"
+              }`}
+            >
+              {tile.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 font-mono text-[12px] leading-relaxed text-slate">
+        {assumptionLine}
+      </p>
+      <div className="mt-6 flex flex-col items-start gap-3">
+        <a
+          href="#book"
+          data-open-lead-modal
+          className="btn-primary w-full md:w-auto"
+        >
+          {ctaLabel}
+          <ArrowRight />
+        </a>
+        <p className="eyebrow !text-[12px] text-slate">{ctaMicrocopy}</p>
+      </div>
+    </div>
+  );
+}
+
+const layout = "grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start";
+const inputsCard =
+  "flex flex-col gap-3 rounded-2xl border border-line bg-paper p-4 shadow-card md:p-5";
+
+function RoiCalculator({
   calculator,
   ctaLabel,
   ctaMicrocopy,
 }: {
-  calculator: CalculatorContent;
+  calculator: RoiCalculatorContent;
   ctaLabel: string;
   ctaMicrocopy: string;
 }) {
@@ -271,7 +341,7 @@ export default function Calculator({
     salesCycleMonths,
   });
 
-  const tiles = [
+  const tiles: Tile[] = [
     { label: outputs.appointments, value: String(r.appointments), accent: false },
     { label: outputs.revenue, value: formatUSDCompact(r.revenue), accent: true },
     { label: outputs.deals, value: String(r.deals), accent: false },
@@ -279,8 +349,8 @@ export default function Calculator({
   ];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr] lg:items-start">
-      <div className="flex flex-col gap-3 rounded-2xl border border-line bg-paper p-4 shadow-card md:p-5">
+    <div className={layout}>
+      <div className={inputsCard}>
         {industries ? (
           <FieldBox
             label={industries.label}
@@ -336,47 +406,128 @@ export default function Calculator({
         />
       </div>
 
-      <div>
-        <dl
-          aria-live="polite"
-          aria-atomic="true"
-          className="grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-paper shadow-card"
-        >
-          {tiles.map((tile, i) => (
-            <div
-              key={tile.label}
-              className={`p-6 md:p-8 ${i % 2 === 1 ? "border-l border-line" : ""} ${
-                i >= 2 ? "border-t border-line" : ""
-              }`}
-            >
-              <dt className="text-[15px] font-semibold leading-snug text-ink md:text-[17px]">
-                {tile.label}
-              </dt>
-              <dd
-                className={`readout mt-3 text-[30px] leading-none md:text-[44px] ${
-                  tile.accent ? "text-orange" : "text-ink"
-                }`}
-              >
-                {tile.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-4 font-mono text-[12px] leading-relaxed text-slate">
-          {assumptionLine}
-        </p>
-        <div className="mt-6 flex flex-col items-start gap-3">
-          <a
-            href="#book"
-            data-open-lead-modal
-            className="btn-primary w-full md:w-auto"
-          >
-            {ctaLabel}
-            <ArrowRight />
-          </a>
-          <p className="eyebrow !text-[12px] text-slate">{ctaMicrocopy}</p>
-        </div>
-      </div>
+      <Outputs
+        tiles={tiles}
+        assumptionLine={assumptionLine}
+        ctaLabel={ctaLabel}
+        ctaMicrocopy={ctaMicrocopy}
+      />
     </div>
+  );
+}
+
+/** Whole number with separators; a dash for a non-finite value. */
+function formatCount(value: number): string {
+  if (!Number.isFinite(value)) return "—";
+  return Math.round(value).toLocaleString("en-US");
+}
+
+function AppointmentsCalculator({
+  calculator,
+  ctaLabel,
+  ctaMicrocopy,
+}: {
+  calculator: AppointmentsCalculatorContent;
+  ctaLabel: string;
+  ctaMicrocopy: string;
+}) {
+  const { fields, outputs, assumptionLine } = calculator;
+  const uid = useId();
+
+  const [mediaBudget, setMediaBudget] = useState(fields.mediaBudget.defaultValue);
+  const [costPerLead, setCostPerLead] = useState(fields.costPerLead.defaultValue);
+  // Percent numbers in state; fractions for the math.
+  const [contactRatePct, setContactRatePct] = useState(
+    fields.contactRate.defaultValue,
+  );
+  const [heldRatePct, setHeldRatePct] = useState(fields.heldRate.defaultValue);
+
+  const r = computeAppointments({
+    mediaBudget,
+    costPerLead,
+    contactRate: contactRatePct / 100,
+    heldRate: heldRatePct / 100,
+  });
+
+  const tiles: Tile[] = [
+    { label: outputs.leads, value: formatCount(r.leads), accent: false },
+    {
+      label: outputs.costPerHeld,
+      value: Number.isFinite(r.costPerHeld) ? formatUSD(r.costPerHeld) : "—",
+      accent: true,
+    },
+    { label: outputs.held, value: formatCount(r.held), accent: false },
+    { label: outputs.uncontacted, value: formatCount(r.uncontacted), accent: true },
+  ];
+
+  return (
+    <div className={layout}>
+      <div className={inputsCard}>
+        <NumberField
+          id={`${uid}-budget`}
+          field={fields.mediaBudget}
+          value={mediaBudget}
+          onChange={setMediaBudget}
+        />
+        <NumberField
+          id={`${uid}-cpl`}
+          field={fields.costPerLead}
+          value={costPerLead}
+          onChange={setCostPerLead}
+        />
+        <RangeField
+          id={`${uid}-contact`}
+          field={fields.contactRate}
+          value={contactRatePct}
+          onChange={setContactRatePct}
+        />
+        <RangeField
+          id={`${uid}-held`}
+          field={fields.heldRate}
+          value={heldRatePct}
+          onChange={setHeldRatePct}
+        />
+      </div>
+
+      <Outputs
+        tiles={tiles}
+        assumptionLine={assumptionLine}
+        ctaLabel={ctaLabel}
+        ctaMicrocopy={ctaMicrocopy}
+      />
+    </div>
+  );
+}
+
+/*
+ * Client props are serialized into the page source, so this component takes
+ * only the slices it renders — never the whole Vertical, which would ship
+ * the qualification gate's `qualifies` flags and the scheduling link to
+ * every visitor in view-source.
+ */
+export default function Calculator({
+  calculator,
+  ctaLabel,
+  ctaMicrocopy,
+}: {
+  calculator: CalculatorContent;
+  ctaLabel: string;
+  ctaMicrocopy: string;
+}) {
+  if (calculator.kind === "appointments") {
+    return (
+      <AppointmentsCalculator
+        calculator={calculator}
+        ctaLabel={ctaLabel}
+        ctaMicrocopy={ctaMicrocopy}
+      />
+    );
+  }
+  return (
+    <RoiCalculator
+      calculator={calculator}
+      ctaLabel={ctaLabel}
+      ctaMicrocopy={ctaMicrocopy}
+    />
   );
 }

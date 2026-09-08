@@ -21,6 +21,8 @@ export function PricingSection({
   index?: number;
 }) {
   const { pricing } = vertical;
+  // A vertical that publishes no pricing carries `expectations` instead.
+  if (pricing === null) return null;
   const wide = pricing.cards.length > 2;
 
   return (

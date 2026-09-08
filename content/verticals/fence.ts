@@ -67,6 +67,7 @@ const fence: Vertical = {
   },
 
   calculator: {
+    kind: "roi",
     fields: {
       monthlyBudget: {
         label: "Monthly lead gen budget",
@@ -350,6 +351,12 @@ const fence: Vertical = {
       "Guarantees carry conditions, and they're the same things that make the work succeed: at least 150 contactable past leads, scripts approved within 48 hours, your team calls back the leads who reply, outcomes logged in the CRM, and one 20-minute review a week. All of it is spelled out in the proposal before you sign anything.",
   },
 
+  // No pricing-less expectations section here — this page publishes its prices.
+  expectations: null,
+  // No standing-limits or fit sections on this page.
+  boundaries: null,
+  fit: null,
+
   /*
    * Practice claims only — things a client can check (listen to a call, read
    * the report), never performance numbers. Numbers live in `proof`,
@@ -548,6 +555,7 @@ const fence: Vertical = {
     tagline: "Ascent Client Acquisition Systems",
     locationLine: "Oklahoma City, OK",
     privacyLabel: "Privacy",
+    complianceLine: null,
   },
 };
 

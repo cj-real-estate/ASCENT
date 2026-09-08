@@ -94,6 +94,35 @@ filter `/api/book`:
 | `GHL_SKIPPED`       | no credentials visible — names which are missing             |
 | `LEAD_UNDELIVERED`  | nothing took the lead; the line carries the lead itself      |
 
+## 2b. The sponsor domain — ascentforsponsors.com
+
+The sponsor landing page (`/sponsors`) is served by this same project as the
+**root** of `ascentforsponsors.com`. No second project and no new env vars:
+`next.config.ts` rewrites that host's `/`, `/robots.txt` and `/sitemap.xml`
+to the sponsor page and its own robots/sitemap, and the page canonicalizes to
+`https://ascentforsponsors.com` whichever host served it.
+
+1. Make sure the commit carrying `src/app/sponsors/` is on `main` — the
+   domain serves whatever production builds, and before that commit it would
+   serve the brand page.
+2. Vercel → project → *Settings* → *Domains* → add **`ascentforsponsors.com`**
+   and **`www.ascentforsponsors.com`** (redirecting to the apex), exactly as
+   in step 3 below.
+3. GoDaddy DNS for `ascentforsponsors.com` (direct:
+   `dcc.godaddy.com/control/ascentforsponsors.com/dns`), exactly as in step 4
+   below. As of 2026-09-08 the domain is **parked at GoDaddy with forwarding
+   on** (the apex answers with a redirect to GoDaddy's `/lander`, `www` is a
+   CNAME to the apex, and the two `@` A records point at GoDaddy's parking
+   IPs) — so: turn forwarding off, replace the parking A record(s) on `@`
+   with the single Vercel A record, and repoint `www`.
+4. Verify: `https://ascentforsponsors.com` loads the sponsor page (headline
+   "Investor meetings held, not just investor leads."), `www` redirects to the
+   apex, `/robots.txt` on that host lists only the sponsor sitemap, and the
+   gate at the bottom returns the calendar for a qualifying answer set.
+
+The paste-ready browser-agent version is
+[`CONNECT-ASCENTFORSPONSORS.md`](CONNECT-ASCENTFORSPONSORS.md).
+
 ## 3. Add the domain in Vercel
 
 Vercel → project → *Settings* → *Domains*:

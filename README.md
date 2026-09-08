@@ -1,8 +1,32 @@
-# Ascent — ascentcas.com
+# Ascent — ascentcas.com · ascentforsponsors.com
 
-Marketing site for **Ascent Client Acquisition Systems**. One page, one job:
-make a skeptical contractor who just got a cold email believe this is a real
-firm, and get him to book the free pipeline audit.
+Marketing site for **Ascent Client Acquisition Systems**. One Next.js project,
+two domains, three pages built from one set of components:
+
+| Route | Domain | Who it's for |
+|---|---|---|
+| `/` | ascentcas.com | The brand page — service businesses generally |
+| `/fence` | ascentcas.com | The fence-company pitch |
+| `/sponsors` | **ascentforsponsors.com** (served as its root) | **Investor acquisition for 506(c) real estate sponsors** — syndicators and private RE fund sponsors |
+
+### The sponsor domain
+
+`ascentforsponsors.com` is the root of the sponsor page, not a subpath.
+`next.config.ts` rewrites `/`, `/robots.txt` and `/sitemap.xml` on that host
+(and its `www`) to `/sponsors`, `/sponsors/robots.txt` and
+`/sponsors/sitemap.xml`. The page's canonical, OpenGraph URL, JSON-LD, robots
+and sitemap all point at `https://ascentforsponsors.com` (`business.url` and
+`canonicalUrl` in `content/verticals/sponsors.ts`), so `ascentcas.com/sponsors`
+is reachable but canonicalizes to the sponsor domain. Both domains attach to
+the same Vercel project — see `DEPLOY.md` §2b and
+`CONNECT-ASCENTFORSPONSORS.md`.
+
+The sponsor copy carries compliance positions, not style choices — read the
+header comment in `content/verticals/sponsors.ts` before editing it. In short:
+*appointment held* (never set/booked), *investor lead*, *flat monthly fee*, no
+performance guarantee anywhere on the page, no published pricing, live human
+scripted calls only (the automated channels are texts and emails), and every
+number traces to the metrics ontology or an attributed published benchmark.
 
 Static Next.js (App Router) + TypeScript + Tailwind v4. No database, no auth,
 no server state. Deployed on Vercel.
@@ -24,12 +48,12 @@ fetched from Google at runtime.
 
 | Path | What |
 |---|---|
-| `content/verticals/fence.ts` | **Every vertical-specific string on the site.** Copy, stats, pricing, labels — components read from it and hard-code nothing. |
-| `content/verticals/types.ts` | The `Vertical` interface the content module is typed against. |
+| `content/verticals/{general,fence,sponsors}.ts` | **Every vertical-specific string on the site.** Copy, stats, pricing, labels, the qualification gate — components read from it and hard-code nothing. |
+| `content/verticals/types.ts` | The `Vertical` interface the content modules are typed against. Optional sections (`boundaries`, `fit`, `expectations`, `pricing`, `guarantees`, …) render only when non-null. |
 | `docs/ascent-brand-style-guide.md` | Authoritative palette / type / logo rules. `globals.css` implements it. |
 | `docs/BUILD-NOTES.md` | Design-system conventions the components follow. |
 | `src/components/` | Presentational components; all take content via props. |
-| `src/lib/calculator.ts` | The pipeline-calculator math, in one place, exactly as specified. |
+| `src/lib/calculator.ts` | Calculator math, in one place. Two kinds, chosen by `calculator.kind`: `roi` (budget → deals → revenue → ROI, the trade pages) and `appointments` (media budget → cost per appointment held, the sponsor page — deliberately not a revenue projection). |
 | `scripts/generate-assets.mjs` | Regenerates `public/` icons and the OG image from the vector mark. |
 
 ## Adding a second vertical
@@ -44,6 +68,11 @@ layer. To add, say, roofing:
 
 No component changes. If a component ever needs a vertical string, it goes in
 the `Vertical` interface, not in the component.
+
+To give a vertical its own domain, set `business.url` and `canonicalUrl` to
+that origin, add host rewrites in `next.config.ts` (copy the sponsor block),
+and add `robots.txt` / `sitemap.xml` route handlers under its route folder —
+`src/app/sponsors/` is the pattern.
 
 ## The founding-spots counter — manually maintained
 
@@ -207,4 +236,6 @@ install it or drop that paragraph.
 
 See `DEPLOY.md` for the Vercel import + GoDaddy DNS runbook for
 ascentcas.com, and `CONNECT-DOMAIN-CHROME.md` for a paste-ready browser-agent
-version of the same steps.
+version of the same steps. For **ascentforsponsors.com**, see
+`CONNECT-ASCENTFORSPONSORS.md` — same project, second domain, and the sponsor
+page must be on `main` first.

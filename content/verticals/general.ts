@@ -95,6 +95,7 @@ const general: Vertical = {
   },
 
   calculator: {
+    kind: "roi",
     fields: {
       monthlyBudget: {
         label: "Monthly lead gen budget",
@@ -407,6 +408,12 @@ const general: Vertical = {
   guarantees: null,
 
 
+  // No pricing-less expectations section here — this page publishes its prices.
+  expectations: null,
+  // No standing-limits or fit sections on this page.
+  boundaries: null,
+  fit: null,
+
   /*
    * Every answer below restates facts already published on this page —
    * pricing cards, the guarantee line, the owner-card steps, the proof
@@ -614,6 +621,7 @@ const general: Vertical = {
     tagline: "Ascent Client Acquisition Systems",
     locationLine: "Oklahoma City, OK",
     privacyLabel: "Privacy",
+    complianceLine: null,
   },
 };
 

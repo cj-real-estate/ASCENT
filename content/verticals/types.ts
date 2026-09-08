@@ -20,7 +20,9 @@ export interface CalculatorField {
   numberInput: boolean;
 }
 
-export interface CalculatorContent {
+/** The ROI calculator — budget ÷ cost per booked appointment → deals, revenue, ROI. */
+export interface RoiCalculatorContent {
+  kind: "roi";
   fields: {
     monthlyBudget: CalculatorField;
     costPerAppointment: CalculatorField;
@@ -61,6 +63,40 @@ export interface CalculatorContent {
    *  toggle — transparency about the math IS the positioning. */
   assumptionLine: string;
 }
+
+/**
+ * The appointments calculator — cost per appointment held from a media
+ * budget, a cost per lead, and the two rates nobody tracks. Used where a
+ * revenue projection would be a performance claim the page must not make
+ * (a capital raise). Math in src/lib/calculator.ts `computeAppointments`;
+ * the definitions mirror the metrics ontology (CPL, contact_rate,
+ * lead_to_held, CPA_held). Media spend only — the fee never enters a
+ * cost-per number.
+ */
+export interface AppointmentsCalculatorContent {
+  kind: "appointments";
+  fields: {
+    mediaBudget: CalculatorField;
+    costPerLead: CalculatorField;
+    /** percent of leads that get a connected (two-way) touch */
+    contactRate: CalculatorField;
+    /** percent of contacted leads whose meeting is actually held */
+    heldRate: CalculatorField;
+  };
+  /** Labels over the four output tiles (per-month figures). */
+  outputs: {
+    leads: string;
+    costPerHeld: string;
+    held: string;
+    uncontacted: string;
+  };
+  /** Permanent, never behind a toggle. */
+  assumptionLine: string;
+}
+
+export type CalculatorContent =
+  | RoiCalculatorContent
+  | AppointmentsCalculatorContent;
 
 export interface Stat {
   number: string;
@@ -209,6 +245,14 @@ export interface Vertical {
   slug: string;
   /** Route this vertical is served at — used for canonicals and the sitemap. */
   path: string;
+  /**
+   * Absolute canonical URL when the vertical is the ROOT of its own domain
+   * (e.g. "https://ascentforsponsors.com" — next.config.ts rewrites that
+   * host's "/" to `path`). Omit for verticals that live on the primary
+   * site; canonical is then derived from `path`. A vertical with this set
+   * is listed by its own domain's sitemap, not the primary one.
+   */
+  canonicalUrl?: string;
 
   business: {
     /** Full legal-ish display name — "Ascent Client Acquisition Systems" */
@@ -378,6 +422,10 @@ export interface Vertical {
     closing: string;
   } | null;
 
+  /**
+   * Price grid. null on a vertical that publishes no pricing and carries an
+   * `expectations` section in its place.
+   */
   pricing: {
     /** Mono eyebrow. Only rendered on a `paper` background — Orange Deep
      *  measures 4.43:1 on Surface, under the 4.5 floor. */
@@ -390,7 +438,43 @@ export interface Vertical {
     note: string;
     /** Section background. `surface` requires `eyebrow: null` (contrast). */
     background: "paper" | "surface";
-  };
+  } | null;
+
+  /**
+   * How an engagement runs, numbered — the section a page uses INSTEAD of
+   * a price grid when pricing is quoted after a call rather than published.
+   * Practice commitments only; never a performance promise. null omits it.
+   */
+  expectations: {
+    eyebrow: string;
+    h2: string;
+    intro: string | null;
+    items: { title: string; body: string }[];
+  } | null;
+
+  /**
+   * Standing limits — what the firm will not do. Written for the buyer who
+   * has veto power and no upside from saying yes (counsel, the CFO). Dark
+   * section. null omits it.
+   */
+  boundaries: {
+    eyebrow: string;
+    h2: string;
+    intro: string;
+    items: { title: string; body: string }[];
+    closing: string;
+  } | null;
+
+  /** Qualifiers and disqualifiers side by side. null omits it. */
+  fit: {
+    eyebrow: string;
+    h2: string;
+    forYouHeading: string;
+    forYou: string[];
+    notForYouHeading: string;
+    notForYou: string[];
+    note: string | null;
+  } | null;
 
   /** Full three-guarantee section. null where the page carries the single
    *  `pricing.guaranteeLine` instead. */
@@ -455,5 +539,10 @@ export interface Vertical {
     locationLine: string;
     /** Label of the /privacy link — rendered in the Footer and on /apply. */
     privacyLabel: string;
+    /**
+     * Standing regulatory line, e.g. the not-a-broker-dealer statement that
+     * goes on every sponsor-facing document. null renders nothing.
+     */
+    complianceLine: string | null;
   };
 }

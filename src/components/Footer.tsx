@@ -55,6 +55,12 @@ export function Footer({ vertical }: { vertical: Vertical }) {
           </a>
         </p>
 
+        {footer.complianceLine ? (
+          <p className="mt-8 max-w-[80ch] border-t border-white/15 pt-6 text-[14px] leading-relaxed text-fog">
+            {footer.complianceLine}
+          </p>
+        ) : null}
+
         <p className="mt-6 text-[14px] text-fog">
           © {new Date().getFullYear()} {business.name}
         </p>
