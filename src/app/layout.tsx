@@ -3,6 +3,7 @@ import { archivo, plexSans, plexMono } from "./fonts";
 import general from "@content/verticals/general";
 import GoogleTag from "@/components/GoogleTag";
 import { readEnv } from "@/lib/env";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 /*
@@ -83,6 +84,7 @@ export default function RootLayout({
       <body className="bg-paper text-ink antialiased">
         {children}
         <GoogleTag />
+        <Analytics />
       </body>
     </html>
   );
