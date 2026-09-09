@@ -175,6 +175,11 @@ const guide: Guide = {
     { label: "GowerCrowd — published 506(c) marketing guidance for real estate sponsors: cost per lead by channel, lead-to-investor conversion, cost per investor, budget share and minimum budgets", url: "https://gowercrowd.com" },
     { label: "Ascent metrics ontology — definitions of contact rate, set-to-held rate and cost per appointment held, as reported weekly to each sponsor", url: null },
   ],
+  image: {
+    src: "/guides/cost-per-investor-lead-506c-benchmarks.jpg",
+    alt: "A calculator on a printed bar-chart report beside a laptop keyboard, in black and white.",
+    credit: "Negative Space via StockSnap, CC0",
+  },
   related: [
     "speed-to-lead-investor-acquisition",
     "how-to-find-accredited-investors-real-estate-syndication",

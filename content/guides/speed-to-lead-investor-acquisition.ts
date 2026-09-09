@@ -174,6 +174,11 @@ const guide: Guide = {
     { label: "Ascent metrics ontology — definitions of first touch, first human touch, contact rate by response bucket, set-to-held rate and cost per appointment held", url: null },
     { label: "Federal Communications Commission — Telephone Consumer Protection Act rules (47 CFR 64.1200)", url: "https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200" },
   ],
+  image: {
+    src: "/guides/speed-to-lead-investor-acquisition.jpg",
+    alt: "A smartphone and an open notebook with a pen on a dark wooden desk.",
+    credit: "Negative Space via StockSnap, CC0",
+  },
   related: [
     "cost-per-investor-lead-506c-benchmarks",
     "how-to-find-accredited-investors-real-estate-syndication",

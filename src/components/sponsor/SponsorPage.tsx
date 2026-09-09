@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import { guides } from "@content/guides";
 import { SPONSOR_PAGE_UPDATED } from "@content/verticals/sponsors";
@@ -544,12 +545,22 @@ function Guides({ vertical, page }: { vertical: Vertical; page: SponsorPageConte
             <li key={guide.slug}>
               <a
                 href={sponsorHref(vertical, guidePath(guide))}
-                className={`${card} flex h-full flex-col p-6 motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-ash/40`}
+                className={`${card} flex h-full flex-col overflow-hidden motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-ash/40`}
               >
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">
-                  <EyebrowText text={guide.eyebrow} />
+                <Image
+                  src={guide.image.src}
+                  alt=""
+                  width={960}
+                  height={540}
+                  sizes="(min-width: 1024px) 380px, (min-width: 768px) 50vw, 100vw"
+                  className="block aspect-video h-auto w-full object-cover"
+                />
+                <span className="flex flex-col p-6">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">
+                    <EyebrowText text={guide.eyebrow} />
+                  </span>
+                  <span className="mt-3 text-[17px] font-semibold leading-snug text-paper">{guide.title}</span>
                 </span>
-                <span className="mt-3 text-[17px] font-semibold leading-snug text-paper">{guide.title}</span>
               </a>
             </li>
           ))}

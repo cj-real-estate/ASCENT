@@ -28,7 +28,8 @@ export async function generateMetadata({
   const guide = guideBySlug(slug);
   if (!guide) return {};
   const url = `${sponsors.business.url}/guides/${guide.slug}`;
-  const image = `${sponsors.business.url}${sponsors.seo.ogImage}`;
+  // The guide's own photo as the social card (1200×630 beside the 960×540).
+  const image = `${sponsors.business.url}${guide.image.src.replace(/\.jpg$/, "-og.jpg")}`;
   return {
     title: guide.seoTitle,
     description: guide.description,
@@ -45,7 +46,7 @@ export async function generateMetadata({
       modifiedTime: guide.updated,
       authors: sponsors.business.founder ? [sponsors.business.founder.name] : undefined,
       section: guide.eyebrow,
-      images: [{ url: image, width: 1200, height: 630, alt: sponsors.business.name }],
+      images: [{ url: image, width: 1200, height: 630, alt: guide.image.alt }],
     },
     twitter: {
       card: "summary_large_image",

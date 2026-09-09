@@ -173,6 +173,11 @@ const guide: Guide = {
     { label: "SEC Division of Corporation Finance — no-action letter to Latham & Watkins LLP, March 12, 2025, regarding Rule 506(c) verification", url: "https://www.sec.gov/rules-regulations/staff-guidance/corporation-finance-no-action-letters" },
     { label: "SEC — Rule 501(a), definition of accredited investor, as amended August 2020", url: "https://www.ecfr.gov/current/title-17/chapter-II/part-230/subject-group-ECFR6e651a4c86c0174/section-230.501" },
   ],
+  image: {
+    src: "/guides/accredited-investor-verification-506c.jpg",
+    alt: "A pen resting on the signature line of a printed contract.",
+    credit: "rawpixel, CC0",
+  },
   related: [
     "506b-vs-506c-real-estate-marketing",
     "placement-agent-vs-flat-fee-investor-acquisition",

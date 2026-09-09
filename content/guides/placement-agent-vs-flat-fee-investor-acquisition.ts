@@ -165,6 +165,11 @@ const guide: Guide = {
     { label: "SEC — Regulation D, Rule 506(d) bad-actor disqualification, and Form D Item 12 (sales compensation)", url: "https://www.ecfr.gov/current/title-17/chapter-II/part-230/subject-group-ECFR6e651a4c86c0174/section-230.506" },
     { label: "Published industry ranges for placement-agent fees in private real estate and for fully-loaded investor-relations salaries, as summarised in Ascent's business plan (September 2026)", url: null },
   ],
+  image: {
+    src: "/guides/placement-agent-vs-flat-fee-investor-acquisition.jpg",
+    alt: "Two people shaking hands across a desk over a notebook and a cup of coffee.",
+    credit: "Kristin Hardwick via StockSnap, CC0",
+  },
   related: [
     "cost-per-investor-lead-506c-benchmarks",
     "506b-vs-506c-real-estate-marketing",

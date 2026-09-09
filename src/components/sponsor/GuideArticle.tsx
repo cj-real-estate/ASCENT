@@ -1,5 +1,6 @@
 import type { Guide, GuideBlock } from "@content/guides/types";
 import type { SponsorPageContent, Vertical } from "@content/verticals/types";
+import Image from "next/image";
 import ArrowRight from "@/components/ArrowRight";
 import RichText from "./RichText";
 import { Eyebrow, card, guidePath, shell, sponsorHref } from "./SponsorChrome";
@@ -170,6 +171,18 @@ export default function GuideArticle({
           </p>
         </header>
 
+        <figure className="mt-10 max-w-[80ch] overflow-hidden rounded-xl border border-seam">
+          <Image
+            src={guide.image.src}
+            alt={guide.image.alt}
+            width={960}
+            height={540}
+            priority
+            sizes="(min-width: 960px) 880px, 100vw"
+            className="block h-auto w-full"
+          />
+        </figure>
+
         {/* The direct answer — the first substantive text on the page. */}
         <div className={`${card} mt-10 max-w-[80ch] p-6 md:p-8`}>
           <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-orange">
@@ -293,12 +306,22 @@ export default function GuideArticle({
                 <li key={g.slug}>
                   <a
                     href={sponsorHref(vertical, guidePath(g))}
-                    className={`${card} flex h-full flex-col p-5 motion-safe:transition-[border-color] hover:border-ash/40`}
+                    className={`${card} flex h-full flex-col overflow-hidden motion-safe:transition-[border-color] hover:border-ash/40`}
                   >
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">
-                      {g.eyebrow}
+                    <Image
+                      src={g.image.src}
+                      alt=""
+                      width={960}
+                      height={540}
+                      sizes="(min-width: 768px) 380px, 100vw"
+                      className="block aspect-video h-auto w-full object-cover"
+                    />
+                    <span className="flex flex-col p-5">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">
+                        {g.eyebrow}
+                      </span>
+                      <span className="mt-2 text-[16px] font-semibold leading-snug text-paper">{g.title}</span>
                     </span>
-                    <span className="mt-2 text-[16px] font-semibold leading-snug text-paper">{g.title}</span>
                   </a>
                 </li>
               ))}

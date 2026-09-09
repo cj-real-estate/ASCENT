@@ -194,6 +194,11 @@ const guide: Guide = {
     { label: "SEC — Regulation D, Rule 506 (17 CFR 230.506)", url: "https://www.ecfr.gov/current/title-17/chapter-II/part-230/subject-group-ECFR6e651a4c86c0174/section-230.506" },
     { label: "Oldroyd, McElheran and Elkington — “The Short Life of Online Sales Leads,” Harvard Business Review, March 2011", url: "https://hbr.org/2011/03/the-short-life-of-online-sales-leads" },
   ],
+  image: {
+    src: "/guides/how-to-find-accredited-investors-real-estate-syndication.jpg",
+    alt: "A modern mid-rise apartment building at dusk, with lit windows and balconies.",
+    credit: "Matt Bango via StockSnap, CC0",
+  },
   related: [
     "cost-per-investor-lead-506c-benchmarks",
     "speed-to-lead-investor-acquisition",

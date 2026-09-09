@@ -195,6 +195,11 @@ const guide: Guide = {
     { label: "SEC Division of Corporation Finance — no-action letter to Latham & Watkins LLP regarding Rule 506(c) verification, March 12, 2025", url: "https://www.sec.gov/rules-regulations/staff-guidance/corporation-finance-no-action-letters" },
     { label: "SEC Division of Economic and Risk Analysis — Regulation D offerings statistics", url: "https://www.sec.gov/dera" },
   ],
+  image: {
+    src: "/guides/506b-vs-506c-real-estate-marketing.jpg",
+    alt: "Fluted granite columns on the facade of a courthouse-style building.",
+    credit: "The Building Envelope via StockSnap, CC0",
+  },
   related: [
     "accredited-investor-verification-506c",
     "how-to-find-accredited-investors-real-estate-syndication",

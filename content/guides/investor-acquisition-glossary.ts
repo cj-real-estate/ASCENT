@@ -93,6 +93,11 @@ const guide: Guide = {
     { label: "GowerCrowd — published 506(c) marketing benchmarks for real estate sponsors", url: "https://gowercrowd.com" },
     { label: "Ascent metrics ontology — the reported definitions of first touch, first human touch, contact rate, set-to-held rate and cost per appointment held", url: null },
   ],
+  image: {
+    src: "/guides/investor-acquisition-glossary.jpg",
+    alt: "A hand writing notes with a pen on printed sheets beside a laptop and a coffee cup.",
+    credit: "Green Chameleon via StockSnap, CC0",
+  },
   related: [
     "506b-vs-506c-real-estate-marketing",
     "speed-to-lead-investor-acquisition",

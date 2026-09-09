@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import sponsors, { sponsorsPage, SPONSOR_PAGE_UPDATED } from "@content/verticals/sponsors";
 import { guides, guidesUpdated } from "@content/guides";
 import { JsonLdData } from "@/components/JsonLd";
@@ -67,11 +68,21 @@ export default function GuidesIndexPage() {
               <li key={g.slug}>
                 <a
                   href={sponsorHref(sponsors, guidePath(g))}
-                  className={`${card} flex h-full flex-col p-6 motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-ash/40 md:p-7`}
+                  className={`${card} flex h-full flex-col overflow-hidden motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-ash/40`}
                 >
-                  <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">{g.eyebrow}</span>
-                  <span className="mt-3 text-[20px] font-semibold leading-snug text-paper">{g.title}</span>
-                  <span className="mt-3 text-[15px] leading-relaxed text-ash">{g.description}</span>
+                  <Image
+                    src={g.image.src}
+                    alt=""
+                    width={960}
+                    height={540}
+                    sizes="(min-width: 768px) 570px, 100vw"
+                    className="block aspect-video h-auto w-full object-cover"
+                  />
+                  <span className="flex flex-col p-6 md:p-7">
+                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">{g.eyebrow}</span>
+                    <span className="mt-3 text-[20px] font-semibold leading-snug text-paper">{g.title}</span>
+                    <span className="mt-3 text-[15px] leading-relaxed text-ash">{g.description}</span>
+                  </span>
                 </a>
               </li>
             ))}

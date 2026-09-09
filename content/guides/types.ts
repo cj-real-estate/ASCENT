@@ -58,4 +58,12 @@ export interface Guide {
   sources: { label: string; url: string | null }[];
   /** Slugs of the guides linked at the end. */
   related: string[];
+  /**
+   * The photo on the guide's card and at the top of the page. `src` is a
+   * 960×540 JPEG under /public/guides; the 1200×630 social card sits beside
+   * it as `<name>-og.jpg`. `alt` describes the picture, not the topic.
+   * Every photo is CC0 (public-domain dedication, no attribution required);
+   * `credit` records where it came from anyway, for the file.
+   */
+  image: { src: string; alt: string; credit: string };
 }
