@@ -60,7 +60,8 @@ export interface Guide {
   related: string[];
   /**
    * The photo on the guide's card and at the top of the page. `src` is a
-   * 960×540 JPEG under /public/guides; the 1200×630 social card sits beside
+   * 960×540 JPEG under /public/guide-images (not /guides — on the sponsor
+   * host that path is rewritten to the guide routes and a file there 404s); the 1200×630 social card sits beside
    * it as `<name>-og.jpg`. `alt` describes the picture, not the topic.
    * Every photo is CC0 (public-domain dedication, no attribution required);
    * `credit` records where it came from anyway, for the file.

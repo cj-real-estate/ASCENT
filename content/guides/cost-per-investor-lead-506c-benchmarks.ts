@@ -176,7 +176,7 @@ const guide: Guide = {
     { label: "Ascent metrics ontology — definitions of contact rate, set-to-held rate and cost per appointment held, as reported weekly to each sponsor", url: null },
   ],
   image: {
-    src: "/guides/cost-per-investor-lead-506c-benchmarks.jpg",
+    src: "/guide-images/cost-per-investor-lead-506c-benchmarks.jpg",
     alt: "A calculator on a printed bar-chart report beside a laptop keyboard, in black and white.",
     credit: "Negative Space via StockSnap, CC0",
   },

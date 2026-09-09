@@ -196,7 +196,7 @@ const guide: Guide = {
     { label: "SEC Division of Economic and Risk Analysis — Regulation D offerings statistics", url: "https://www.sec.gov/dera" },
   ],
   image: {
-    src: "/guides/506b-vs-506c-real-estate-marketing.jpg",
+    src: "/guide-images/506b-vs-506c-real-estate-marketing.jpg",
     alt: "Fluted granite columns on the facade of a courthouse-style building.",
     credit: "The Building Envelope via StockSnap, CC0",
   },

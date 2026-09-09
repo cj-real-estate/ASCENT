@@ -195,7 +195,7 @@ const guide: Guide = {
     { label: "Oldroyd, McElheran and Elkington — “The Short Life of Online Sales Leads,” Harvard Business Review, March 2011", url: "https://hbr.org/2011/03/the-short-life-of-online-sales-leads" },
   ],
   image: {
-    src: "/guides/how-to-find-accredited-investors-real-estate-syndication.jpg",
+    src: "/guide-images/how-to-find-accredited-investors-real-estate-syndication.jpg",
     alt: "A modern mid-rise apartment building at dusk, with lit windows and balconies.",
     credit: "Matt Bango via StockSnap, CC0",
   },

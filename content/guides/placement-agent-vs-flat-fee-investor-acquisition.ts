@@ -166,7 +166,7 @@ const guide: Guide = {
     { label: "Published industry ranges for placement-agent fees in private real estate and for fully-loaded investor-relations salaries, as summarised in Ascent's business plan (September 2026)", url: null },
   ],
   image: {
-    src: "/guides/placement-agent-vs-flat-fee-investor-acquisition.jpg",
+    src: "/guide-images/placement-agent-vs-flat-fee-investor-acquisition.jpg",
     alt: "Two people shaking hands across a desk over a notebook and a cup of coffee.",
     credit: "Kristin Hardwick via StockSnap, CC0",
   },

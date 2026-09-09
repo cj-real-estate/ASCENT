@@ -94,7 +94,7 @@ const guide: Guide = {
     { label: "Ascent metrics ontology — the reported definitions of first touch, first human touch, contact rate, set-to-held rate and cost per appointment held", url: null },
   ],
   image: {
-    src: "/guides/investor-acquisition-glossary.jpg",
+    src: "/guide-images/investor-acquisition-glossary.jpg",
     alt: "A hand writing notes with a pen on printed sheets beside a laptop and a coffee cup.",
     credit: "Green Chameleon via StockSnap, CC0",
   },

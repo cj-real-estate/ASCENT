@@ -174,7 +174,7 @@ const guide: Guide = {
     { label: "SEC — Rule 501(a), definition of accredited investor, as amended August 2020", url: "https://www.ecfr.gov/current/title-17/chapter-II/part-230/subject-group-ECFR6e651a4c86c0174/section-230.501" },
   ],
   image: {
-    src: "/guides/accredited-investor-verification-506c.jpg",
+    src: "/guide-images/accredited-investor-verification-506c.jpg",
     alt: "A pen resting on the signature line of a printed contract.",
     credit: "rawpixel, CC0",
   },

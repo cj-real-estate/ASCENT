@@ -64,7 +64,7 @@ fetched from Google at runtime.
 | `docs/ascent-brand-style-guide.md` | Authoritative palette / type / logo rules. `globals.css` implements it. |
 | `docs/BUILD-NOTES.md` | Design-system conventions the components follow. |
 | `src/components/` | Presentational components; all take content via props. |
-| `content/guides/*.ts` | **The guides** on ascentforsponsors.com — typed against `content/guides/types.ts`, answer-first (one direct paragraph, takeaways, sections, open FAQ, sources). Same compliance conventions as the sponsor page. Each carries a CC0 photo in `public/guides/` (960×540 plus a 1200×630 `-og` social card); the source is recorded in `image.credit`. |
+| `content/guides/*.ts` | **The guides** on ascentforsponsors.com — typed against `content/guides/types.ts`, answer-first (one direct paragraph, takeaways, sections, open FAQ, sources). Same compliance conventions as the sponsor page. Each carries a CC0 photo in `public/guide-images/` (960×540 plus a 1200×630 `-og` social card); the source is recorded in `image.credit`. |
 | `src/components/sponsor/SponsorChrome.tsx` | Header, footer, logo and shared styles for every page on the sponsor domain. Links are absolute on the sponsor domain because `/guides` does not exist under `/sponsors` on ascentcas.com. |
 | `src/components/sponsor/GuideArticle.tsx` | Renders a guide. `RichText.tsx` beside it handles `[links](href)` and `**bold**` in guide copy. |
 | `src/lib/schema.ts` | JSON-LD graphs for the sponsor page, the guides index and each guide. |
