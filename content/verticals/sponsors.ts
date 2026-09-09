@@ -573,9 +573,9 @@ export const sponsorsPage: SponsorPageContent = {
         body: "Most sponsors raise from a personal network, a country club and warm introductions. When that runs dry the deal doesn't fill — and there is no system for sourcing the next accredited investor.",
       },
       {
-        icon: "loop",
-        title: "The first ninety seconds",
-        body: "An investor lead gets an autoresponder, then a call three days later from someone reading no script. About two percent of investor leads invest. Nobody in the chain is paid to work the other ninety-eight.",
+        icon: "shield",
+        title: "Built for one profession, not both",
+        body: "Marketing agencies write manufactured urgency into what is legally a securities communication. Securities lawyers know the rules but can't run a media buy — so a raise gets one discipline or the other, never both.",
       },
       {
         icon: "calendar",
@@ -583,9 +583,11 @@ export const sponsorsPage: SponsorPageContent = {
         body: "A $25K–$500K decision is long and high-diligence. Without confirmation, reschedules and a nurture sequence between touches, booked meetings quietly stop happening — and the report never says so.",
       },
     ],
-    // The 2% figure's source. It used to sit in the benchmarks section that
-    // this page no longer renders; it stays attached to the number itself.
-    note: "The two-percent figure is the category's own published benchmark for real estate 506(c) investor marketing (GowerCrowd), not an Ascent result.",
+    // No published figure remains in this row — the 2% benchmark now lives
+    // in the guides (see cost-per-investor-lead-506c-benchmarks), attributed
+    // there. Don't restore this note without a number on the page for it to
+    // attach to.
+    note: null,
   },
 
   /*
@@ -629,18 +631,22 @@ export const sponsorsPage: SponsorPageContent = {
     sub: "Four stages, each with a written output. Your counsel signs before anything runs, and the conversation about your offering is the only one that stays yours.",
     steps: [
       {
+        icon: "shield",
         title: "Scope, and clear compliance",
         body: "We read your last raise's numbers and interview whoever calls the leads today. In parallel, the nine-condition gate closes with your securities counsel: exemption confirmed, approver named, every legend and the full setter script approved in writing.",
       },
       {
+        icon: "stack",
         title: "Build the lane",
         body: "Campaign architecture and counsel-approved creative, a CRM and pipeline you own, telephony registered in your name, instant text-and-email acknowledgement, and instrumentation that timestamps first touch and first human touch separately. Live in fourteen days from access and approvals.",
       },
       {
+        icon: "phone",
         title: "Run the media and the phone",
         body: "LinkedIn for accredited-investor quality, Meta for volume, Google for existing demand. A live setter, recruited and supervised by Ascent, calls every inbound investor lead as you, confirms attendance, reschedules no-shows and logs every outcome. Every call recorded.",
       },
       {
+        icon: "chart",
         title: "Report and optimize, weekly",
         body: "Fifteen minutes a week on the four numbers: speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held. Long-form reviews at thirty, sixty and ninety days. Creative refreshed on fatigue; budget moved on evidence.",
       },

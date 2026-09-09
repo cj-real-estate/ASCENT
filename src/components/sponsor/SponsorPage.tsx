@@ -312,24 +312,38 @@ function CalculatorBlock({ vertical }: { vertical: Vertical }) {
   );
 }
 
+/*
+ * Centered, pill-eyebrow, ghost-numeral treatment for this section only —
+ * modeled on the reference site's process block. Every other section
+ * keeps the page's standard left-aligned Eyebrow/h2/sub; this one is
+ * deliberately its own layout, not a new site-wide pattern.
+ */
 function Process({ page }: { page: SponsorPageContent }) {
   const { process } = page;
   return (
     <section id="process" className="scroll-mt-16 border-t border-seam py-16 md:py-24">
-      <div className={shell}>
-        <Eyebrow>{process.eyebrow}</Eyebrow>
-        <h2 className={`${h2} mt-4`}>{process.h2}</h2>
-        <p className={sub}>{process.sub}</p>
-        <ol className="mt-10 grid gap-4 md:mt-12 md:grid-cols-2 md:gap-6 xl:grid-cols-4">
+      <div className={`${shell} text-center`}>
+        <p className="eyebrow inline-flex items-center rounded-full border border-seam px-4 py-1.5 text-orange">
+          <EyebrowText text={process.eyebrow} />
+        </p>
+        <h2 className={`${h2} mx-auto mt-5`}>{process.h2}</h2>
+        <p className={`${sub} mx-auto`}>{process.sub}</p>
+        <ol className="mt-10 grid gap-4 text-left md:mt-12 md:grid-cols-2 md:gap-6 xl:grid-cols-4">
           {process.steps.map((step, i) => (
-            <li key={step.title} className={`${card} p-6 md:p-7`}>
-              <p className="readout text-[28px] leading-none text-orange" aria-hidden="true">
+            <li key={step.title} className={`${card} relative overflow-hidden p-6 md:p-7`}>
+              <p
+                aria-hidden="true"
+                className="display pointer-events-none absolute -right-1 -top-3 text-[84px] leading-none text-paper/[0.06]"
+              >
                 {String(i + 1).padStart(2, "0")}
               </p>
-              <h3 className="mt-4 text-[19px] font-semibold leading-snug text-paper">
+              <span className="icon-tile relative">
+                <ServiceIcon name={step.icon} />
+              </span>
+              <h3 className="relative mt-5 text-[19px] font-semibold leading-snug text-paper">
                 {step.title}
               </h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ash">{step.body}</p>
+              <p className="relative mt-2 text-[15px] leading-relaxed text-ash">{step.body}</p>
             </li>
           ))}
         </ol>

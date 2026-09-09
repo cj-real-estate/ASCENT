@@ -298,8 +298,8 @@ export interface SponsorPageContent {
     eyebrow: string;
     h2: string;
     sub: string;
-    /** Numbered 01–04 in the UI. */
-    steps: { title: string; body: string }[];
+    /** Numbered 01–04 in the UI, each behind a large ghost numeral and an icon tile. */
+    steps: { icon: IconName; title: string; body: string }[];
     cta: string;
   };
   included: {
