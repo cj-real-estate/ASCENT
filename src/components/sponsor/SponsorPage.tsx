@@ -303,6 +303,42 @@ function Comparison({ page }: { page: SponsorPageContent }) {
   );
 }
 
+/*
+ * Slim platform band under the hero. Wordmarks are set in the site's own
+ * type rather than reproduced brand marks — nominative use, and it keeps
+ * the band on-brand instead of a row of mismatched foreign logos.
+ */
+function TrustBar({ page }: { page: SponsorPageContent }) {
+  const { trustBar } = page;
+  if (trustBar === null) return null;
+  return (
+    <section className="border-y border-seam bg-coal/40 py-8 md:py-10">
+      <div className={shell}>
+        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-10">
+          <p className="max-w-[42ch] text-[14px] leading-relaxed text-ash">
+            {trustBar.label}
+          </p>
+          <ul className="flex flex-wrap items-center gap-x-8 gap-y-3 md:gap-x-12">
+            {trustBar.items.map((item) => (
+              <li
+                key={item}
+                className="text-[17px] font-semibold uppercase tracking-[0.08em] text-on-dark md:text-[19px]"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        {trustBar.note ? (
+          <p className="mt-5 max-w-[90ch] text-[12px] leading-relaxed text-ash/70">
+            {trustBar.note}
+          </p>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
 function Problems({ page }: { page: SponsorPageContent }) {
   const { problems } = page;
   return (
@@ -657,6 +693,7 @@ export function SponsorPage({
       <Header vertical={vertical} page={page} />
       <main>
         <Hero page={page} />
+        <TrustBar page={page} />
         <Problems page={page} />
         <CalculatorBlock vertical={vertical} />
         <Process page={page} />
