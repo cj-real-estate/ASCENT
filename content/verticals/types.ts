@@ -236,10 +236,11 @@ export interface QualificationContent {
 /**
  * Extra content for the dark sponsor template (src/components/sponsor).
  * It renders alongside a `Vertical` — the vertical still carries the gate,
- * booking, benchmarks (`proof`), boundaries, fit, FAQ, footer and JSON-LD —
- * and this holds only what that template has and the light one doesn't.
+ * booking, boundaries, fit, FAQ, footer and JSON-LD — and this holds only
+ * what that template has and the light one doesn't. (`proof` is required by
+ * the interface but the dark template does not render it.)
  *
- * Content rules carry over: the hero stats are statements of how the firm
+ * Content rules carry over: the hero cards are statements of how the firm
  * operates, never results; nothing here is a performance promise.
  */
 export interface SponsorPageContent {
@@ -277,6 +278,21 @@ export interface SponsorPageContent {
     h2: string;
     sub: string;
     cards: { icon: IconName; title: string; body: string }[];
+    /** Source line for any published figure quoted in the cards. */
+    note: string | null;
+  };
+  /**
+   * How Ascent's model compares to the alternatives a sponsor is weighing.
+   * Structural comparison of fee models and scope only — never a claim that
+   * Ascent performs better, and never a named competitor.
+   */
+  comparison: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    /** `highlight` marks the Ascent row — exactly one. */
+    rows: { name: string; cost: string; body: string; highlight?: boolean }[];
+    note: string;
   };
   process: {
     eyebrow: string;

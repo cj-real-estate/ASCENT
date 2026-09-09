@@ -246,31 +246,57 @@ function Hero({ page }: { page: SponsorPageContent }) {
   );
 }
 
-/* The category's published numbers — `proof` on the vertical. */
-function Benchmarks({ vertical }: { vertical: Vertical }) {
-  const { proof } = vertical;
+/*
+ * The alternatives, compared. Rows read name + cost on the left and the
+ * substance on the right, so the fee column scans down the page; the Ascent
+ * row is the one lit card in the stack.
+ */
+function Comparison({ page }: { page: SponsorPageContent }) {
+  const { comparison } = page;
   return (
-    <section className="border-y border-seam bg-coal/40 py-16 md:py-20">
+    <section className="border-t border-seam py-16 md:py-24">
       <div className={shell}>
-        <h2 className="sr-only">{proof.srHeading}</h2>
-        {proof.framingLine ? (
-          <p className="max-w-[60ch] text-[20px] font-semibold leading-snug text-paper md:text-[26px]">
-            {proof.framingLine}
-          </p>
-        ) : null}
-        <div className="mt-10 grid gap-8 md:grid-cols-3 md:gap-10">
-          {proof.stats.map((stat) => (
-            <div key={stat.number} className="border-t border-seam pt-6">
-              <p className="readout text-[40px] leading-none text-orange md:text-[54px]">
-                {stat.number}
+        <Eyebrow>{comparison.eyebrow}</Eyebrow>
+        <h2 className={`${h2} mt-4`}>{comparison.h2}</h2>
+        <p className={sub}>{comparison.sub}</p>
+
+        <ul className="mt-10 overflow-hidden rounded-xl border border-seam md:mt-12">
+          {comparison.rows.map((row, i) => (
+            <li
+              key={row.name}
+              className={`grid gap-x-8 gap-y-2 p-6 md:grid-cols-[15rem_1fr] md:p-7 ${
+                i > 0 ? "border-t border-seam" : ""
+              } ${row.highlight ? "bg-coal" : ""}`}
+            >
+              <div className={row.highlight ? "border-l-2 border-orange pl-4 md:-ml-4" : ""}>
+                <h3
+                  className={`text-[18px] font-semibold leading-snug ${
+                    row.highlight ? "text-paper" : "text-on-dark"
+                  }`}
+                >
+                  {row.name}
+                </h3>
+                <p
+                  className={`readout mt-1 text-[15px] ${
+                    row.highlight ? "text-orange" : "text-ash"
+                  }`}
+                >
+                  {row.cost}
+                </p>
+              </div>
+              <p
+                className={`max-w-[62ch] text-[15px] leading-relaxed ${
+                  row.highlight ? "text-on-dark" : "text-ash"
+                }`}
+              >
+                {row.body}
               </p>
-              <p className="mt-3 max-w-[36ch] text-[15px] text-ash">{stat.label}</p>
-            </div>
+            </li>
           ))}
-        </div>
-        <p className="mt-8 max-w-[90ch] font-mono text-[12px] leading-relaxed text-ash">
-          {proof.attributionLine ??
-            "[NEEDS ATTRIBUTION LINE — whose numbers, which source, what period]"}
+        </ul>
+
+        <p className="mt-6 max-w-[90ch] text-[13px] leading-relaxed text-ash/80">
+          {comparison.note}
         </p>
       </div>
     </section>
@@ -298,6 +324,11 @@ function Problems({ page }: { page: SponsorPageContent }) {
             </li>
           ))}
         </ul>
+        {problems.note ? (
+          <p className="mt-8 max-w-[90ch] text-[13px] leading-relaxed text-ash/80">
+            {problems.note}
+          </p>
+        ) : null}
       </div>
     </section>
   );
@@ -626,12 +657,12 @@ export function SponsorPage({
       <Header vertical={vertical} page={page} />
       <main>
         <Hero page={page} />
-        <Benchmarks vertical={vertical} />
         <Problems page={page} />
         <CalculatorBlock vertical={vertical} />
         <Process page={page} />
         <Included page={page} />
         <Boundaries vertical={vertical} />
+        <Comparison page={page} />
         <Fit vertical={vertical} />
         <CtaBand page={page} />
         <Faq vertical={vertical} />

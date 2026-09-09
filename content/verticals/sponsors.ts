@@ -190,6 +190,12 @@ const sponsors: Vertical = {
   // Folded into services.ownerCard on this page.
   howItWorks: null,
 
+  /*
+   * Required by the Vertical interface and used by the light template's
+   * ProofSection — the dark sponsor template does not render it. The 2%
+   * figure it carries is attributed in `sponsorsPage.problems.note`, where
+   * that number now appears on the page.
+   */
   proof: {
     srHeading: "The category's published numbers",
     framingLine:
@@ -563,6 +569,44 @@ export const sponsorsPage: SponsorPageContent = {
         body: "A $25K–$500K decision is long and high-diligence. Without confirmation, reschedules and a nurture sequence between touches, booked meetings quietly stop happening — and the report never says so.",
       },
     ],
+    // The 2% figure's source. It used to sit in the benchmarks section that
+    // this page no longer renders; it stays attached to the number itself.
+    note: "The two-percent figure is the category's own published benchmark for real estate 506(c) investor marketing (GowerCrowd), not an Ascent result.",
+  },
+
+  /*
+   * The alternatives, compared on fee model and scope — never on outcomes,
+   * and never by name. Every figure here is a standard published industry
+   * range, labelled as such in the note.
+   */
+  comparison: {
+    eyebrow: "THE ALTERNATIVES",
+    h2: "Four ways to fill a raise. One of them is a flat fee.",
+    sub: "What a sponsor is usually choosing between, and where the money actually goes in each.",
+    rows: [
+      {
+        name: "A media-only agency",
+        cost: "Monthly retainer",
+        body: "Builds the funnel and hands you leads. The service list stops there — calling, appointment setting and investor-relations staffing are somebody's problem, and that somebody is you.",
+      },
+      {
+        name: "A placement agent",
+        cost: "6–8% of capital raised",
+        body: "Registered, and priced like it. On a $10 million raise that is $600,000 to $800,000, and it comes out of your equity rather than your marketing budget.",
+      },
+      {
+        name: "An in-house IR hire",
+        cost: "$90K–$140K a year",
+        body: "Fully loaded, and fixed whether you are raising this quarter or not. You still buy the media, build the compliance workflow, and do the recruiting yourself.",
+      },
+      {
+        name: "Ascent",
+        cost: "Flat monthly fee",
+        body: "Counsel-approved media, instrumented response, and a live scripted setter who gets the meeting held — inside one compliance gate. Nothing is tied to capital raised, so you keep 100% of it.",
+        highlight: true,
+      },
+    ],
+    note: "Placement-agent and in-house figures are standard published industry ranges, not quotes. Ascent's fee is quoted in writing after the scoping call.",
   },
 
   process: {
