@@ -548,20 +548,6 @@ export const sponsorsPage: SponsorPageContent = {
       "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal.",
   },
 
-  /*
-   * Platform names, not client logos. These are the three platforms the
-   * media lane already runs in per `included` below, set as text rather
-   * than reproduced brand marks. A client logo goes here ONLY with that
-   * client's written publicity rights, and only if that client is a real
-   * estate sponsor — an off-category logo costs more credibility with this
-   * buyer than it buys.
-   */
-  trustBar: {
-    label: "The lane runs in your own ad accounts, on the platforms accredited investors already use.",
-    items: ["LinkedIn", "Meta", "Google Ads"],
-    note: "Platform names are used to identify where campaigns run. Ascent is not affiliated with, endorsed by, or sponsored by any of them.",
-  },
-
   problems: {
     eyebrow: "WHY RAISES STALL",
     h2: "Why most syndications struggle to fill the investor pipeline.",

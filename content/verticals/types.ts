@@ -273,21 +273,6 @@ export interface SponsorPageContent {
     /** The line under the cards that says where the terms are set. */
     disclosure: string;
   };
-  /**
-   * Slim band under the hero. Platform wordmarks set as text rather than
-   * reproduced brand marks — nominative use of names Ascent already names
-   * as the media lane elsewhere on the page. Client logos are NOT valid
-   * here without written publicity rights from that client, and a client
-   * outside this page's category does not belong here at all. null omits
-   * the band.
-   */
-  trustBar: {
-    /** Framing line above the row — says what the marks are and are not. */
-    label: string;
-    items: string[];
-    /** Small line under the row. null renders nothing. */
-    note: string | null;
-  } | null;
   problems: {
     eyebrow: string;
     h2: string;
