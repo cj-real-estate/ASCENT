@@ -511,6 +511,7 @@ export const sponsorsPage: SponsorPageContent = {
     sub: "Ascent builds the investor pipeline for your syndication, multifamily or CRE raise under Rule 506(c): precision audience targeting, battle-tested funnels, counsel-approved media, instrumented lead response, and a live setter who turns leads into meetings that are actually held. Flat monthly fee. Nothing tied to capital raised.",
     primaryCta: "See if you qualify",
     secondaryCta: { label: "How it works", href: "#process" },
+    patrioticLine: "100% American owned & operated.",
     cards: [
       {
         icon: "calendar",

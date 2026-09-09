@@ -259,6 +259,11 @@ export interface SponsorPageContent {
     /** In-page anchor. */
     secondaryCta: { label: string; href: string };
     /**
+     * Small trust line under the CTAs, rendered with a flag icon
+     * (e.g. "100% American owned & operated"). null renders neither.
+     */
+    patrioticLine: string | null;
+    /**
      * Four commitment cards under the hero: a big label, a title, a body.
      * Practice commitments and written terms — what Ascent does and signs
      * — never a client result or a capital-raised claim.

@@ -84,6 +84,44 @@ function Cross() {
 }
 
 /*
+ * A small US flag, drawn rather than the 🇺🇸 emoji — like ArrowRight and
+ * Check/Cross above, this avoids handing rendering to whatever emoji font
+ * the visitor's OS supplies (the self-hosted latin subsets carry no color
+ * glyphs either way). Simplified for small sizes: seven stripes, a solid
+ * canton with a sparse dot grid standing in for stars.
+ */
+const FLAG_STRIPE_H = 16 / 7;
+
+function FlagIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      viewBox="0 0 30 16"
+      className={`shrink-0 ${className}`}
+    >
+      {/* Ground is white; lay a red stripe over every other band (0, 2, 4, 6 of 7). */}
+      <rect width="30" height="16" fill="#FFFFFF" />
+      {[0, 2, 4, 6].map((i) => (
+        <rect key={i} x="0" y={i * FLAG_STRIPE_H} width="30" height={FLAG_STRIPE_H} fill="#B22234" />
+      ))}
+      <rect width="13" height={FLAG_STRIPE_H * 4} fill="#3C3B6E" />
+      {[0, 1, 2].flatMap((row) =>
+        [0, 1, 2, 3].map((col) => (
+          <circle
+            key={`${row}-${col}`}
+            cx={2 + col * 3}
+            cy={1.6 + row * 2.7}
+            r="0.65"
+            fill="#FFFFFF"
+          />
+        )),
+      )}
+    </svg>
+  );
+}
+
+/*
  * The v3 logo system (brand/v3/README.txt): the primary-on-dark lockup is
  * the default on any dark ground and has a 230px minimum; below that the
  * wordmark (no tagline) is used. So: full lockup from md up, wordmark on a
@@ -172,6 +210,13 @@ function Hero({ page }: { page: SponsorPageContent }) {
             {hero.secondaryCta.label}
           </a>
         </div>
+
+        {hero.patrioticLine ? (
+          <p className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-ash">
+            <FlagIcon className="h-[13px] w-auto" />
+            {hero.patrioticLine}
+          </p>
+        ) : null}
 
         {/* Commitment cards — what Ascent does and signs, never a result. */}
         <ul className="mt-14 grid gap-4 md:mt-16 md:grid-cols-2 xl:grid-cols-4">
