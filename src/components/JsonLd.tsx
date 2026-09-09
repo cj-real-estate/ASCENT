@@ -30,6 +30,14 @@ export default function JsonLd({ vertical }: { vertical: Vertical }) {
   if (business.phone !== null) data.telephone = business.phone;
   if (business.email !== null) data.email = business.email;
 
+  return <JsonLdData data={data} />;
+}
+
+/**
+ * Any JSON-LD object (or @graph), rendered as one script. The sponsor
+ * domain builds its graph in src/lib/schema.ts and renders it with this.
+ */
+export function JsonLdData({ data }: { data: object }) {
   return (
     <script
       type="application/ld+json"

@@ -21,6 +21,17 @@ is reachable but canonicalizes to the sponsor domain. Both domains attach to
 the same Vercel project — see `DEPLOY.md` §2b and
 `CONNECT-ASCENTFORSPONSORS.md`.
 
+The sponsor domain also carries the site's search and answer-engine
+surface: seven long-form guides at `/guides/<slug>` (content in
+`content/guides/`), an `/llms.txt`, a robots.txt that names and allows the
+AI crawlers, a sitemap with content dates, a domain-specific `/privacy`, and
+a JSON-LD `@graph` per page (Organization + founder, WebSite, Service,
+FAQPage, Article, BreadcrumbList) built in `src/lib/schema.ts`. Every one of
+those derives from the content modules — register a guide in
+`content/guides/index.ts` and it is in the sitemap, llms.txt, the guides
+section, the footer and the schema. The off-site work (Search Console, Bing,
+IndexNow, profiles, mentions) is in `SEO-GEO-PLAYBOOK.md`.
+
 The sponsor copy carries compliance positions, not style choices — read the
 header comment in `content/verticals/sponsors.ts` before editing it. In short:
 *appointment held* (never set/booked), *investor lead*, *flat monthly fee*, no
@@ -53,6 +64,11 @@ fetched from Google at runtime.
 | `docs/ascent-brand-style-guide.md` | Authoritative palette / type / logo rules. `globals.css` implements it. |
 | `docs/BUILD-NOTES.md` | Design-system conventions the components follow. |
 | `src/components/` | Presentational components; all take content via props. |
+| `content/guides/*.ts` | **The guides** on ascentforsponsors.com — typed against `content/guides/types.ts`, answer-first (one direct paragraph, takeaways, sections, open FAQ, sources). Same compliance conventions as the sponsor page. |
+| `src/components/sponsor/SponsorChrome.tsx` | Header, footer, logo and shared styles for every page on the sponsor domain. Links are absolute on the sponsor domain because `/guides` does not exist under `/sponsors` on ascentcas.com. |
+| `src/components/sponsor/GuideArticle.tsx` | Renders a guide. `RichText.tsx` beside it handles `[links](href)` and `**bold**` in guide copy. |
+| `src/lib/schema.ts` | JSON-LD graphs for the sponsor page, the guides index and each guide. |
+| `scripts/indexnow.mjs` | `npm run indexnow` — submits the sponsor sitemap's URLs to IndexNow (needs `INDEXNOW_KEY`, see `SEO-GEO-PLAYBOOK.md`). |
 | `src/components/sponsor/SponsorPage.tsx` | The **dark sponsor template** for ascentforsponsors.com — a second page template beside `VerticalPage`, fed by `content/verticals/sponsors.ts` (`sponsors` + `sponsorsPage`). Sector-page structure: hero with a structural-facts row, category benchmarks, problem triptych, dark calculator, numbered process, feature grid with a CTA card, boundaries, fit check, FAQ, gate, long-form legal footer. |
 | `src/lib/calculator.ts` | Calculator math, in one place. Two kinds, chosen by `calculator.kind`: `roi` (budget → deals → revenue → ROI, the trade pages) and `appointments` (media budget → cost per appointment held, the sponsor page — deliberately not a revenue projection). |
 | `scripts/generate-assets.mjs` | Regenerates `public/` icons and the OG image from the vector mark. |

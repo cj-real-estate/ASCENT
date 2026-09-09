@@ -2,7 +2,24 @@ import type { Metadata } from "next";
 import { archivo, plexSans, plexMono } from "./fonts";
 import general from "@content/verticals/general";
 import GoogleTag from "@/components/GoogleTag";
+import { readEnv } from "@/lib/env";
 import "./globals.css";
+
+/*
+ * Search Console / Bing Webmaster ownership tokens, from the environment
+ * so nobody has to edit code to verify a property. Comma-separated lists,
+ * because the two domains are two properties with two tokens each:
+ *   GOOGLE_SITE_VERIFICATION=token-for-ascentcas,token-for-sponsors
+ *   BING_SITE_VERIFICATION=token-for-ascentcas,token-for-sponsors
+ * Unset means no tag is rendered. Set-up steps: SEO-GEO-PLAYBOOK.md.
+ */
+const tokens = (name: string) =>
+  readEnv(name)
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+const google = tokens("GOOGLE_SITE_VERIFICATION");
+const bing = tokens("BING_SITE_VERIFICATION");
 
 /*
  * Site-wide metadata only. Title, description, canonical, and OG/Twitter
@@ -23,6 +40,31 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon-180.png", sizes: "180x180" }],
   },
+  // Let search and answer engines quote the page in full — the default
+  // snippet limits would truncate the FAQ answers and the guides' direct
+  // answers, which are written to be lifted whole.
+  robots: {
+    index: true,
+    follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large",
+    "max-video-preview": -1,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  ...(google.length || bing.length
+    ? {
+        verification: {
+          ...(google.length ? { google } : {}),
+          ...(bing.length ? { other: { "msvalidate.01": bing } } : {}),
+        },
+      }
+    : {}),
 };
 
 export default function RootLayout({

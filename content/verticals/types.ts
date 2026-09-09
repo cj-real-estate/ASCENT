@@ -311,6 +311,26 @@ export interface SponsorPageContent {
     ctaCard: { title: string; body: string; cta: string };
   };
   ctaBand: { h2: string; body: string; cta: string };
+  /**
+   * "At a glance" — the entity block. One definition sentence that stands
+   * alone, then label/value facts. Written to be lifted whole by an answer
+   * engine, so every value is a checkable fact about how the firm operates,
+   * never an outcome.
+   */
+  glance: {
+    eyebrow: string;
+    h2: string;
+    definition: string;
+    facts: { label: string; value: string }[];
+  };
+  /** The guides strip — links into content/guides. */
+  guides: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    /** Label on the link to the guides index. */
+    indexLabel: string;
+  };
   /** The long-form disclosure block in the footer. */
   legal: { heading: string; paragraphs: string[] };
 }
@@ -349,6 +369,17 @@ export interface Vertical {
     phone: string | null;
     /** null until the client supplies it — renders a visible placeholder */
     email: string | null;
+    /**
+     * Entity facts for the Organization JSON-LD on a vertical that is its
+     * own domain. `legalName` is the registered name; `founder` is a named
+     * person (Person schema, and the byline on the guides); `sameAs` is
+     * the list of the firm's own profile URLs — LinkedIn company page and
+     * the like — that tell search and answer engines the entity is the
+     * same one. Leave `sameAs` empty rather than guess a URL.
+     */
+    legalName?: string;
+    founder?: { name: string; title: string };
+    sameAs?: string[];
   };
 
   seo: {

@@ -1,7 +1,8 @@
-import Link from "next/link";
 import type { SponsorPageContent, Vertical } from "@content/verticals/types";
+import { guides } from "@content/guides";
+import { SPONSOR_PAGE_UPDATED } from "@content/verticals/sponsors";
 import { toQualifyFlowProps } from "@/lib/qualify";
-import Image from "next/image";
+import { sponsorPageGraph } from "@/lib/schema";
 import ArrowRight from "@/components/ArrowRight";
 import ServiceIcon from "@/components/ServiceIcon";
 import EyebrowText from "@/components/EyebrowText";
@@ -9,7 +10,18 @@ import Calculator from "@/components/Calculator";
 import QualifyFlow from "@/components/QualifyFlow";
 import LeadModal from "@/components/LeadModal";
 import TrustBanner from "@/components/TrustBanner";
-import JsonLd from "@/components/JsonLd";
+import { JsonLdData } from "@/components/JsonLd";
+import {
+  Eyebrow,
+  SponsorFooter,
+  SponsorHeader,
+  card,
+  guidePath,
+  h2,
+  shell,
+  sponsorHref,
+  sub,
+} from "./SponsorChrome";
 
 /*
  * The dark sponsor template — ascentforsponsors.com.
@@ -23,25 +35,13 @@ import JsonLd from "@/components/JsonLd";
  * check, an FAQ, and a long-form disclosure in the footer.
  *
  * Everything rendered comes from content: the `Vertical` (gate, booking,
- * benchmarks, boundaries, fit, FAQ, footer, JSON-LD) and the
- * `SponsorPageContent` beside it. No copy lives here.
+ * boundaries, fit, FAQ, footer, JSON-LD) and the `SponsorPageContent`
+ * beside it. No copy lives here. The header, footer and logo are shared
+ * with the guide and privacy pages — see SponsorChrome.tsx.
  *
  * The whole page is `data-dark` + `data-theme="dark"`: the focus ring, the
  * secondary button and the calculator's range track all key off that.
  */
-
-const shell = "section-shell";
-const h2 = "display max-w-[22ch] text-[30px] text-paper md:text-[46px]";
-const sub = "mt-5 max-w-[68ch] text-[17px] leading-relaxed text-ash md:text-[18px]";
-const card = "rounded-xl border border-seam bg-coal";
-
-function Eyebrow({ children }: { children: string }) {
-  return (
-    <p className="eyebrow text-orange">
-      <EyebrowText text={children} />
-    </p>
-  );
-}
 
 function Check() {
   return (
@@ -118,50 +118,6 @@ function FlagIcon({ className = "" }: { className?: string }) {
         )),
       )}
     </svg>
-  );
-}
-
-/*
- * The v3 logo system (brand/v3/README.txt): the primary-on-dark lockup is
- * the default on any dark ground and has a 230px minimum; below that the
- * wordmark (no tagline) is used. So: full lockup from md up, wordmark on a
- * phone. Both are the outlined SVG masters, so no font is involved.
- */
-const LOCKUP = { src: "/brand/ascent-lockup-primary-on-dark.svg", w: 807.027, h: 186.375 };
-const WORDMARK = { src: "/brand/ascent-wordmark-on-dark.svg", w: 762.917, h: 144.779 };
-
-function Logo({ name, width, className = "" }: { name: string; width: number; className?: string }) {
-  const src = width >= 230 ? LOCKUP : WORDMARK;
-  return (
-    <Image
-      src={src.src}
-      alt={name}
-      width={width}
-      height={Math.round((width * src.h) / src.w)}
-      priority
-      className={className}
-    />
-  );
-}
-
-function Header({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
-  const name = `${vertical.business.name} — Investor Acquisition`;
-  return (
-    <header className="sticky top-0 z-50 border-b border-seam bg-night/85 backdrop-blur">
-      <div className={`${shell} flex min-h-16 items-center justify-between gap-4 py-2`}>
-        <Link href="/" aria-label={name} className="shrink-0">
-          <Logo name={name} width={168} className="md:hidden" />
-          <Logo name={name} width={236} className="hidden md:block" />
-        </Link>
-        <a
-          href="#book"
-          data-open-lead-modal
-          className="btn-primary shrink-0 !min-h-[44px] !px-5 text-[14px]"
-        >
-          {page.nav.cta}
-        </a>
-      </div>
-    </header>
   );
 }
 
@@ -535,6 +491,80 @@ function CtaBand({ page }: { page: SponsorPageContent }) {
   );
 }
 
+/*
+ * The entity block: one definition sentence set as a quote, then the
+ * facts as a description list. Written to be lifted whole by an answer
+ * engine, which is why it sits beside the FAQ rather than in the hero.
+ */
+function Glance({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
+  const { glance } = page;
+  return (
+    <section id="about" aria-labelledby="about-h" className="scroll-mt-16 border-t border-seam py-16 md:py-24">
+      <div className={shell}>
+        <Eyebrow>{glance.eyebrow}</Eyebrow>
+        <h2 id="about-h" className={`${h2} mt-4`}>
+          {glance.h2}
+        </h2>
+        <p className="mt-6 max-w-[80ch] border-l-2 border-orange pl-5 text-[17px] leading-relaxed text-on-dark md:text-[19px]">
+          {glance.definition}
+        </p>
+        <dl className="mt-10 grid gap-x-8 gap-y-5 md:grid-cols-2">
+          {glance.facts.map((f) => (
+            <div key={f.label} className="border-t border-seam pt-4">
+              <dt className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ash">{f.label}</dt>
+              <dd className="mt-1 text-[16px] leading-relaxed text-paper">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-8 text-[14px] text-ash">
+          {vertical.business.legalName ?? vertical.business.name} · {vertical.footer.locationLine}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/*
+ * The guides strip. Every guide registered in content/guides, linked
+ * absolutely on the sponsor domain (the guides do not exist under
+ * /sponsors on ascentcas.com).
+ */
+function Guides({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
+  const g = page.guides;
+  return (
+    <section id="guides" aria-labelledby="guides-h" className="scroll-mt-16 border-t border-seam bg-coal/40 py-16 md:py-24">
+      <div className={shell}>
+        <Eyebrow>{g.eyebrow}</Eyebrow>
+        <h2 id="guides-h" className={`${h2} mt-4`}>
+          {g.h2}
+        </h2>
+        <p className={sub}>{g.sub}</p>
+        <ul className="mt-10 grid gap-4 md:mt-12 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          {guides.map((guide) => (
+            <li key={guide.slug}>
+              <a
+                href={sponsorHref(vertical, guidePath(guide))}
+                className={`${card} flex h-full flex-col p-6 motion-safe:transition-[transform,border-color] motion-safe:hover:-translate-y-1 hover:border-ash/40`}
+              >
+                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-ash">
+                  <EyebrowText text={guide.eyebrow} />
+                </span>
+                <span className="mt-3 text-[17px] font-semibold leading-snug text-paper">{guide.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8">
+          <a href={sponsorHref(vertical, "/guides")} className="btn-secondary px-7 text-[15px]">
+            {g.indexLabel}
+            <ArrowRight />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Faq({ vertical }: { vertical: Vertical }) {
   const { faq } = vertical;
   if (faq === null) return null;
@@ -581,69 +611,6 @@ function Booking({ vertical }: { vertical: Vertical }) {
   );
 }
 
-function Footer({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
-  const { business, footer } = vertical;
-  return (
-    <footer className="border-t border-seam py-14 md:py-20">
-      <div className={shell}>
-        <div className="grid gap-10 md:grid-cols-[1.2fr_1fr]">
-          <div>
-            <Logo name={`${business.name} — Investor Acquisition`} width={260} />
-            <p className="mt-6 max-w-[48ch] text-[16px] text-on-dark">{footer.tagline}</p>
-            <p className="mt-1 text-[15px] text-ash">{footer.locationLine}</p>
-          </div>
-          <div className="flex flex-col items-start gap-1 md:items-end">
-            {business.phone ? (
-              <a
-                href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
-                className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark hover:text-paper"
-              >
-                {business.phone}
-              </a>
-            ) : null}
-            {business.email ? (
-              <a
-                href={`mailto:${business.email}`}
-                className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark hover:text-paper"
-              >
-                {business.email}
-              </a>
-            ) : null}
-            <a
-              href="/privacy"
-              className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
-            >
-              {footer.privacyLabel}
-            </a>
-          </div>
-        </div>
-
-        <div className="mt-12 border-t border-seam pt-8">
-          <h2 className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ash">
-            {page.legal.heading}
-          </h2>
-          <div className="mt-4 max-w-[100ch] space-y-3">
-            {page.legal.paragraphs.map((p, i) => (
-              <p key={i} className="text-[13px] leading-relaxed text-ash/85">
-                {p}
-              </p>
-            ))}
-          </div>
-          {footer.complianceLine ? (
-            <p className="mt-4 max-w-[100ch] text-[13px] leading-relaxed text-ash/85">
-              {footer.complianceLine}
-            </p>
-          ) : null}
-        </div>
-
-        <p className="mt-8 text-[14px] text-ash">
-          © {new Date().getFullYear()} {business.name}. All rights reserved.
-        </p>
-      </div>
-    </footer>
-  );
-}
-
 export function SponsorPage({
   vertical,
   page,
@@ -653,8 +620,8 @@ export function SponsorPage({
 }) {
   return (
     <div data-dark data-theme="dark" className="min-h-dvh bg-night text-paper">
-      <JsonLd vertical={vertical} />
-      <Header vertical={vertical} page={page} />
+      <JsonLdData data={sponsorPageGraph(vertical, page, SPONSOR_PAGE_UPDATED)} />
+      <SponsorHeader vertical={vertical} cta={page.nav.cta} />
       <main>
         <Hero page={page} />
         <Problems page={page} />
@@ -665,11 +632,13 @@ export function SponsorPage({
         <Comparison page={page} />
         <Fit vertical={vertical} />
         <CtaBand page={page} />
+        <Glance vertical={vertical} page={page} />
         <Faq vertical={vertical} />
+        <Guides vertical={vertical} page={page} />
         <Booking vertical={vertical} />
         <LeadModal flow={toQualifyFlowProps(vertical)} />
       </main>
-      <Footer vertical={vertical} page={page} />
+      <SponsorFooter vertical={vertical} legal={page.legal} guides={guides} guidesLabel={page.guides.eyebrow} />
     </div>
   );
 }
