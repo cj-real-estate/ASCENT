@@ -3,10 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import general from "@content/verticals/general";
 import calebFree from "@content/people/caleb-free";
-import { formatAddress } from "@/lib/business";
 import { personProfileGraph } from "@/lib/schema";
 import { JsonLdData } from "@/components/JsonLd";
-import { AscentLockup } from "@/components/Logo";
+import { BrandLockup } from "@/components/Logo";
 
 /*
  * /caleb-free — the one authoritative page about the founder.
@@ -74,15 +73,13 @@ const pClass = "mt-4 max-w-[68ch] text-[17px] leading-relaxed text-ink";
 export default function CalebFreePage() {
   const person = calebFree;
   const { business } = general;
-  const address = formatAddress(business);
-  const lockupTagline = business.name.split(" ").slice(1).join(" ");
 
   return (
     <main className="bg-paper py-12 md:py-20">
       <JsonLdData data={personProfileGraph(general, person)} />
       <div className="section-shell">
         <Link href="/" aria-label={business.name} className="inline-flex min-h-[44px] items-center">
-          <AscentLockup variant="onLight" name={business.name} tagline={lockupTagline} />
+          <BrandLockup variant="onLight" width={236} name={business.name} priority />
         </Link>
 
         <nav aria-label="Breadcrumb" className="mt-10 font-mono text-[12px] uppercase tracking-[0.14em] text-slate">
@@ -268,15 +265,11 @@ export default function CalebFreePage() {
           <h2 id="contact" className={h2Class}>
             Contact
           </h2>
-          <p className={pClass}>
-            {business.legalName ?? business.name}
-            {address ? (
-              <>
-                <br />
-                {address}
-              </>
-            ) : null}
-          </p>
+          {/* Deliberately no postal address here. It is published where it
+              is actually required — both footers, /privacy and /terms, for
+              A2P 10DLC brand registration — and a page about a person is
+              not the place for one. */}
+          <p className={pClass}>{business.legalName ?? business.name}</p>
           <p className={pClass}>
             {business.email ? (
               <a

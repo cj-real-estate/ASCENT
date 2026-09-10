@@ -1,5 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
-import { AscentLockup } from "@/components/Logo";
+import { BrandLockup } from "@/components/Logo";
 import { formatAddress } from "@/lib/business";
 
 /*
@@ -10,7 +10,6 @@ import { formatAddress } from "@/lib/business";
  */
 export function Footer({ vertical }: { vertical: Vertical }) {
   const { business, footer } = vertical;
-  const lockupTagline = business.name.split(" ").slice(1).join(" ");
   /* The registered postal address. A2P 10DLC brand registration and the
    * carriers expect the sending business's address to be findable on its
    * site, and a reviewer should find the same one that was registered. */
@@ -19,11 +18,7 @@ export function Footer({ vertical }: { vertical: Vertical }) {
   return (
     <footer data-dark="" className="cv-auto bg-ink py-16 md:py-28">
       <div className="section-shell">
-        <AscentLockup
-          variant="onDark"
-          name={business.name}
-          tagline={lockupTagline}
-        />
+        <BrandLockup variant="onDark" width={260} name={business.name} />
 
         <p className="mt-6 text-[16px] text-on-dark">{footer.tagline}</p>
         <p className="mt-1 text-[16px] text-on-dark">{footer.locationLine}</p>

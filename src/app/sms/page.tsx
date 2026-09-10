@@ -4,7 +4,7 @@ import general from "@content/verticals/general";
 import { LEGAL_ENTITY, SMS_PROGRAM_NAME } from "@content/compliance";
 import { toSmsConsentProps } from "@/lib/consent";
 import { formatAddress } from "@/lib/business";
-import { AscentLockup } from "@/components/Logo";
+import { BrandLockup } from "@/components/Logo";
 import SmsOptInForm from "@/components/SmsOptInForm";
 
 /*
@@ -41,13 +41,12 @@ export default function SmsOptInPage() {
   const { business } = general;
   const consent = toSmsConsentProps(general);
   const address = formatAddress(business);
-  const lockupTagline = business.name.split(" ").slice(1).join(" ");
 
   return (
     <main className="bg-paper py-12 md:py-20">
       <div className="section-shell">
         <Link href="/" aria-label={business.name} className="inline-flex min-h-[44px] items-center">
-          <AscentLockup variant="onLight" name={business.name} tagline={lockupTagline} />
+          <BrandLockup variant="onLight" width={236} name={business.name} priority />
         </Link>
 
         <div className="mt-12 max-w-[68ch]">

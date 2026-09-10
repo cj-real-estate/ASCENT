@@ -1,20 +1,31 @@
 import Link from "next/link";
 import type { Vertical } from "@content/verticals/types";
-import { AscentLockup } from "@/components/Logo";
+import { BrandLockup } from "@/components/Logo";
 
 /*
  * Sticky site header. Sits over the light hero: translucent paper with a
- * blur and a hairline rule, lockup in its ink variant. No nav — one CTA.
+ * blur and a hairline rule, the v3 lockup on its light ground. No nav —
+ * one CTA.
  */
 export default function Header({ vertical }: { vertical: Vertical }) {
   const name = vertical.business.name;
-  const tagline = name.split(" ").slice(1).join(" ");
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur">
       <div className="section-shell flex min-h-16 items-center justify-between gap-4 py-2">
         <Link href="/" aria-label={name} className="shrink-0">
-          <AscentLockup variant="onLight" name={name} tagline={tagline} responsive />
+          {/* Two widths rather than one responsive component: under the
+              230px lockup minimum BrandLockup drops the tagline itself,
+              so the small screen gets the wordmark and md up gets the
+              full lockup. */}
+          <BrandLockup variant="onLight" width={168} name={name} priority className="md:hidden" />
+          <BrandLockup
+            variant="onLight"
+            width={236}
+            name={name}
+            priority
+            className="hidden md:block"
+          />
         </Link>
         <a
           href="#book"

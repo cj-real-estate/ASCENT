@@ -22,7 +22,19 @@ const site = (v: Vertical) => v.business.url;
 const orgId = (v: Vertical) => `${site(v)}/#organization`;
 const websiteId = (v: Vertical) => `${site(v)}/#website`;
 
-function organization(v: Vertical, description: string) {
+function organization(
+  v: Vertical,
+  description: string,
+  /*
+   * Omit the postal address. Used only by the founder's profile page: the
+   * registered address is published where it is actually needed — both
+   * footers, /privacy and /terms, for A2P 10DLC brand registration — and
+   * the owner asked for it to stay off the page about him, including its
+   * source. The Organization is fully described on the other pages that
+   * carry this same @id, so nothing is lost.
+   */
+  options: { omitAddress?: boolean } = {},
+) {
   const { business } = v;
   const org: Record<string, unknown> = {
     "@type": ["Organization", "ProfessionalService"],
@@ -41,14 +53,18 @@ function organization(v: Vertical, description: string) {
     description,
     slogan: v.footer.tagline,
     areaServed: { "@type": "Country", name: business.areaServed },
-    address: {
-      "@type": "PostalAddress",
-      ...(business.street ? { streetAddress: business.street } : {}),
-      addressLocality: business.city,
-      addressRegion: business.region,
-      ...(business.postalCode ? { postalCode: business.postalCode } : {}),
-      addressCountry: "US",
-    },
+    ...(options.omitAddress
+      ? {}
+      : {
+          address: {
+            "@type": "PostalAddress",
+            ...(business.street ? { streetAddress: business.street } : {}),
+            addressLocality: business.city,
+            addressRegion: business.region,
+            ...(business.postalCode ? { postalCode: business.postalCode } : {}),
+            addressCountry: "US",
+          },
+        }),
     knowsAbout: [
       "Investor acquisition for real estate syndications and private real estate funds",
       "Regulation D Rule 506(c) general solicitation",
@@ -335,6 +351,7 @@ export function personProfileGraph(v: Vertical, person: PersonProfile) {
     worksFor: { "@id": orgId(v) },
     /* He founded it as well as works for it — both, because they answer
      * different questions an engine asks. */
+    /* City and region only — never a street address on a person. */
     homeLocation: {
       "@type": "Place",
       address: {
@@ -343,6 +360,11 @@ export function personProfileGraph(v: Vertical, person: PersonProfile) {
         addressRegion: v.business.region,
         addressCountry: "US",
       },
+    },
+    alumniOf: {
+      "@type": "CollegeOrUniversity",
+      name: "Oklahoma City Community College",
+      sameAs: "https://www.occc.edu",
     },
     knowsAbout: [
       "Client acquisition systems",
@@ -405,7 +427,7 @@ export function personProfileGraph(v: Vertical, person: PersonProfile) {
         inLanguage: "en-US",
       },
       personNode,
-      organization(v, v.seo.description),
+      organization(v, v.seo.description, { omitAddress: true }),
       website(v),
       breadcrumbs(v, [
         { name: "Home", path: "/" },

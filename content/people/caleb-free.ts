@@ -15,10 +15,10 @@ import type { PersonProfile } from "./types";
  *      and team operations are adjacent to commercial syndication rather
  *      than inside it. This page says the same. It describes marketing and
  *      operations work, never regulated or advisory work.
- *   2. Every figure is one already published on this site with its client
- *      named and its window stated. The real-estate-team Google Ads case is
- *      described without figures because the site has never published those
- *      with an attribution line; add the numbers only together with one.
+ *   2. A figure appears only with its client named and its window stated.
+ *      `trackRecord` is null because the one attributed case this page had
+ *      is a client the owner has asked not to mention; an unnamed version
+ *      of the same numbers is not a substitute.
  *
  * `profiles.links` and `image` are empty/null until the owner supplies
  * them. Do not fill either with a guess — the whole purpose of the page is
@@ -40,15 +40,16 @@ const calebFree: PersonProfile = {
 
   /* The one paragraph to be quoted whole. Facts in plain order, no pitch. */
   summary:
-    "Caleb Free is an Oklahoma City entrepreneur and the founder and managing member of Ascent Client Acquisition Systems LLC, an Oklahoma company he formed in 2026. Ascent builds and operates client acquisition systems — paid media, CRM and lead routing, instrumented lead response, and appointment setting — for service businesses, and investor acquisition for real estate syndicators and private real estate fund sponsors raising under Regulation D Rule 506(c). He is a licensed Oklahoma real estate agent, was previously Director of Operations for VA Home Team OKC, and is a half owner of Prestige Fence LLC. His work is marketing and operations: he is not a broker-dealer, a placement agent or an investment adviser, and does not give investment, legal or tax advice.",
+    "Caleb Free is an Oklahoma City entrepreneur and the founder and managing member of Ascent Client Acquisition Systems LLC, an Oklahoma company he formed in 2026. Ascent builds and operates client acquisition systems — paid media, CRM and lead routing, instrumented lead response, and appointment setting — for service businesses, and investor acquisition for real estate syndicators and private real estate fund sponsors raising under Regulation D Rule 506(c). He is a licensed Oklahoma real estate agent, a graduate of Oklahoma City Community College in business, and was previously Director of Operations for VA Home Team OKC. His work is marketing and operations: he is not a broker-dealer, a placement agent or an investment adviser, and does not give investment, legal or tax advice.",
 
   facts: [
     { label: "Role", value: "Founder and Managing Member, Ascent Client Acquisition Systems LLC" },
     { label: "Based in", value: "Oklahoma City, Oklahoma" },
     { label: "Works on", value: "Client acquisition systems for service businesses; investor acquisition for Rule 506(c) real estate sponsors" },
     { label: "Licensed", value: "Oklahoma real estate agent" },
+    { label: "Education", value: "Oklahoma City Community College — business" },
     { label: "Previously", value: "Director of Operations, VA Home Team OKC" },
-    { label: "Also", value: "Half owner, Prestige Fence LLC; founder, CJF Property Investments LLC" },
+    { label: "Also", value: "Founder, CJF Property Investments LLC" },
     { label: "Not", value: "A broker-dealer, placement agent, investment adviser or funding portal" },
   ],
 
@@ -65,8 +66,8 @@ const calebFree: PersonProfile = {
       h2: "Before Ascent",
       paragraphs: [
         "He came to marketing through real estate operations rather than through an agency. As Director of Operations for VA Home Team OKC, a real estate team, he built and ran the operational systems behind its transaction pipeline — the routing, the follow-up and the reporting that decide whether leads a team already paid for turn into closings.",
-        "Oklahoma City Community College profiled him in March 2025, while he was studying business there and working as a real estate agent at Keller Williams Elite with first-time homebuyers. \u201cAs an entrepreneur at heart,\u201d he told the college, \u201cOCCC has helped provide me with the tools and knowledge to be successful.\u201d",
-        "He is a licensed Oklahoma real estate agent, a half owner of Prestige Fence LLC, and the founder of CJF Property Investments LLC, an Oklahoma company through which he has run distressed-property marketing and assignment work. Having sold, quoted and closed work in the field is why he tends to diagnose a response failure — nobody called the lead back — before a lead-volume one.",
+        "He studied business at Oklahoma City Community College while working full-time in real estate, and graduated. The college profiled him in March 2025, midway through: \u201cAs an entrepreneur at heart,\u201d he told them, \u201cOCCC has helped provide me with the tools and knowledge to be successful.\u201d",
+        "He is a licensed Oklahoma real estate agent and the founder of CJF Property Investments LLC, an Oklahoma company through which he has run distressed-property marketing and assignment work. Having sold, quoted and closed work in the field is why he tends to diagnose a response failure — nobody called the lead back — before a lead-volume one.",
         "He states the limits of that background plainly: residential brokerage, team operations and contracting are adjacent to commercial real estate syndication, not inside it, and he does not hold a securities licence. What the experience buys is fluency in how a deal-driven business actually operates, and firsthand knowledge of the failure Ascent is built to fix.",
       ],
     },
@@ -79,18 +80,16 @@ const calebFree: PersonProfile = {
     },
   ],
 
-  trackRecord: {
-    h2: "Track record",
-    intro:
-      "One named, attributed case, published here with the client's agreement. The figures are the client's own, from the ad account and their quote tracker.",
-    stats: [
-      { number: "65 in 19 days", label: "Leads generated on $866 of Meta ad spend" },
-      { number: "$275K → $85K", label: "Quoted, then signed inside 30 days — from follow-up alone" },
-      { number: "$13.33", label: "Average cost per lead, Oklahoma City metro" },
-    ],
-    attribution:
-      "Results from Prestige Fence, Oklahoma City — August 1–30, 2026. He has also run Google Ads and the follow-up system for an Oklahoma City real estate team; those figures are not published here because that client has not agreed to a named case study.",
-  },
+  /*
+   * Removed, not emptied by accident: the only attributed case this page
+   * carried was Prestige Fence, which the owner has asked not to mention.
+   * The site's rule is that a figure appears only with its client named
+   * and its window stated, so an unnamed version of the same numbers is
+   * not an option — it reads as fabrication to exactly the sceptical
+   * reader this page is for. Restore this with a client who has agreed to
+   * be named, and put the attribution line back with it.
+   */
+  trackRecord: null,
 
   ventures: {
     h2: "Where to find the work",
@@ -106,12 +105,6 @@ const calebFree: PersonProfile = {
         url: "https://ascentforsponsors.com",
         role: "Founder",
         body: "Investor acquisition for real estate syndicators and private real estate fund sponsors raising under Rule 506(c), inside a structure their securities counsel approves in writing.",
-      },
-      {
-        name: "Prestige Fence LLC",
-        url: null,
-        role: "Half owner",
-        body: "An Oklahoma City fencing contractor, and the named client in the results published above.",
       },
       {
         name: "CJF Property Investments LLC",
@@ -141,7 +134,7 @@ const calebFree: PersonProfile = {
         date: "2025-03-12",
         url: "https://www.occc.edu/news/2025/gaining-title-course-flexibility-helps-occc-student-take-on-role-in-real-estate-market.html",
         note:
-          "The college's profile of him as a business student working full-time as a real estate agent, a year before he founded Ascent.",
+          "The college's profile of him as a business student working full-time in real estate, a year before he founded Ascent.",
       },
     ],
   },

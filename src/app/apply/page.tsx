@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ApplyPageContent } from "@content/verticals/types";
 import general from "@content/verticals/general";
-import { AscentLockup } from "@/components/Logo";
+import { BrandLockup } from "@/components/Logo";
 import QualifyFlow from "@/components/QualifyFlow";
 import { toQualifyFlowProps } from "@/lib/qualify";
 import TrustBanner from "@/components/TrustBanner";
@@ -43,7 +43,6 @@ export const metadata: Metadata = {
 
 export default function ApplyPage() {
   const { business } = general;
-  const lockupTagline = business.name.split(" ").slice(1).join(" ");
   const address = formatAddress(business);
 
   return (
@@ -54,11 +53,7 @@ export default function ApplyPage() {
           aria-label={business.name}
           className="inline-flex min-h-[44px] items-center"
         >
-          <AscentLockup
-            variant="onDark"
-            name={business.name}
-            tagline={lockupTagline}
-          />
+          <BrandLockup variant="onDark" width={236} name={business.name} priority />
         </Link>
 
         <p className="eyebrow mt-12 text-orange md:mt-16">{applyPage.eyebrow}</p>
