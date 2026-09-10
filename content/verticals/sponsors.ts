@@ -55,6 +55,10 @@ const sponsors: Vertical = {
     region: "OK",
     // Delivery is entirely remote; the firm sells nationally.
     areaServed: "United States",
+    // The registered street address. Rendered in the footer and in the
+    // contact sections of /privacy and /terms, and in the JSON-LD address.
+    street: "1424 Highland Park Blvd",
+    postalCode: "73114",
     phone: "580-304-8470",
     // The sponsor domain's own mailbox — footer, /privacy and JSON-LD pick
     // it up. It must exist and be monitored; nothing on the site sends to it.
@@ -66,6 +70,10 @@ const sponsors: Vertical = {
     // the owner supplies them — never guess a URL here.
     sameAs: [],
   },
+
+  // The call this vertical books, as the transactional SMS consent
+  // sentence names it (content/compliance.ts).
+  smsCallName: "scoping call",
 
   seo: {
     // The root layout appends " | Ascent". Leads with the two names the

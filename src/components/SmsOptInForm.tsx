@@ -1,8 +1,8 @@
 "use client";
 
 import { useId, useState } from "react";
-import type { SmsConsentProps } from "@/lib/consent";
-import SmsConsentCheckbox from "./SmsConsentCheckbox";
+import type { SmsConsentProps, SmsConsentValues } from "@/lib/consent";
+import SmsConsentFields from "./SmsConsentFields";
 
 /*
  * The form on /sms — a name, a mobile number, an optional email, and the
@@ -12,9 +12,9 @@ import SmsConsentCheckbox from "./SmsConsentCheckbox";
  * field and the consent language without clicking through a wizard.
  *
  * Light ground (this page is on paper, unlike the gate). Posts to
- * /api/sms-optin. The consent box is optional here as everywhere: an
- * unchecked submit is recorded as a contact request with consent explicitly
- * not given, and nothing texts that number.
+ * /api/sms-optin. Both consent boxes are optional here as everywhere: a
+ * submit with neither ticked is recorded as a contact request with consent
+ * explicitly not given, and nothing texts that number.
  */
 
 type Stage = "form" | "done";
@@ -46,7 +46,9 @@ export default function SmsOptInForm({
     emailNote: string;
     submit: string;
     submitting: string;
+    /** Shown when either box was ticked. */
     doneConsented: string;
+    /** Shown when neither was. */
     doneNotConsented: string;
   };
 }) {
@@ -56,9 +58,15 @@ export default function SmsOptInForm({
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
-  /* Unchecked on arrival, and no submit path validates it. */
-  const [smsConsent, setSmsConsent] = useState(false);
-  const [consented, setConsented] = useState(false);
+  /* Both unchecked on arrival, and no submit path validates either. */
+  const [smsConsent, setSmsConsent] = useState<SmsConsentValues>({
+    transactional: false,
+    marketing: false,
+  });
+  const [consented, setConsented] = useState<SmsConsentValues>({
+    transactional: false,
+    marketing: false,
+  });
   const [errors, setErrors] = useState<{ name?: string; phone?: string; email?: string }>({});
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -90,7 +98,8 @@ export default function SmsOptInForm({
           phone: phone.trim(),
           email: email.trim(),
           website,
-          smsConsent,
+          smsConsentTransactional: smsConsent.transactional,
+          smsConsentMarketing: smsConsent.marketing,
         }),
       });
       if (res.ok) {
@@ -169,7 +178,9 @@ export default function SmsOptInForm({
         className="max-w-[60ch] rounded-md border border-slate/25 bg-surface p-6 md:p-8"
       >
         <p className="text-[17px] leading-relaxed text-ink">
-          {consented ? labels.doneConsented : labels.doneNotConsented}
+          {consented.transactional || consented.marketing
+            ? labels.doneConsented
+            : labels.doneNotConsented}
         </p>
       </div>
     );
@@ -194,18 +205,10 @@ export default function SmsOptInForm({
         />
       </div>
 
+      {/* Phone last, so the consent boxes below are directly below the
+          number — same order as the gate's contact card. */}
       <div className="grid gap-5">
         {field(`${uid}-name`, labels.name, "text", name, setName, "name", errors.name)}
-        {field(
-          `${uid}-phone`,
-          labels.phone,
-          "tel",
-          phone,
-          (next) => setPhone(formatPhone(next)),
-          "tel",
-          errors.phone,
-          { placeholder: "(405) 555-0123", inputMode: "tel" },
-        )}
         {field(
           `${uid}-email`,
           labels.email,
@@ -216,13 +219,24 @@ export default function SmsOptInForm({
           errors.email,
           { placeholder: "name@company.com", note: labels.emailNote },
         )}
+        {field(
+          `${uid}-phone`,
+          labels.phone,
+          "tel",
+          phone,
+          (next) => setPhone(formatPhone(next)),
+          "tel",
+          errors.phone,
+          { placeholder: "(405) 555-0123", inputMode: "tel" },
+        )}
       </div>
 
+      {/* Directly below the phone field. Neither box blocks the submit. */}
       <div className="mt-6 border-t border-slate/20 pt-5">
-        <SmsConsentCheckbox
-          id={`${uid}-sms-consent`}
+        <SmsConsentFields
+          idPrefix={uid}
           consent={consent}
-          checked={smsConsent}
+          values={smsConsent}
           onChange={setSmsConsent}
           tone="light"
         />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import general from "@content/verticals/general";
 import { LEGAL_ENTITY, SMS_PROGRAM_NAME } from "@content/compliance";
 import { toSmsConsentProps } from "@/lib/consent";
+import { formatAddress } from "@/lib/business";
 import { AscentLockup } from "@/components/Logo";
 import SmsOptInForm from "@/components/SmsOptInForm";
 
@@ -39,6 +40,7 @@ const pClass = "mt-4 max-w-[68ch] text-[17px] leading-relaxed text-slate";
 export default function SmsOptInPage() {
   const { business } = general;
   const consent = toSmsConsentProps(general);
+  const address = formatAddress(business);
   const lockupTagline = business.name.split(" ").slice(1).join(" ");
 
   return (
@@ -54,14 +56,15 @@ export default function SmsOptInPage() {
             Get text updates from {business.shortName}.
           </h1>
           <p className="mt-6 text-[18px] leading-relaxed text-slate">
-            {SMS_PROGRAM_NAME} is how {LEGAL_ENTITY} texts you about the call you asked for —
-            scheduling it, confirming it, and following up afterwards. Give us a mobile number and
-            check the box to join.
+            {SMS_PROGRAM_NAME} is how {LEGAL_ENTITY} texts you about the call you asked for.
+            There are two boxes, because they are two different permissions: one for
+            non-marketing messages — confirming your call, reminding you of it, telling you if the
+            time changes — and one for marketing messages. Tick either, both, or neither.
           </p>
           <p className="mt-4 text-[17px] leading-relaxed text-slate">
-            The box is optional and starts unchecked. Leave it alone and we will still have your
+            Both are optional and start unchecked. Leave them alone and we will still have your
             details, and we will reach you by phone or email instead — nothing is texted to a
-            number that did not opt in.
+            number that did not opt in, and we only ever send the kind of message you agreed to.
           </p>
         </div>
 
@@ -76,9 +79,9 @@ export default function SmsOptInPage() {
               submit: "Submit",
               submitting: "Sending…",
               doneConsented:
-                "You're subscribed. You'll get a confirmation text shortly. Reply STOP to any message to opt out, or HELP for help.",
+                "You're subscribed to what you ticked. You'll get a confirmation text shortly. Reply STOP to any message to opt out, or HELP for help.",
               doneNotConsented:
-                "Thanks — we have your details. You did not check the SMS box, so we won't text you; we'll reach you by phone or email instead.",
+                "Thanks — we have your details. You left both SMS boxes unchecked, so we won't text you; we'll reach you by phone or email instead.",
             }}
           />
         </div>
@@ -86,9 +89,11 @@ export default function SmsOptInPage() {
         <div className="mt-14 max-w-[68ch]">
           <h2 className={h2Class}>The short version</h2>
           <p className={pClass}>
-            {SMS_PROGRAM_NAME}, operated by {LEGAL_ENTITY}. Message frequency varies. Message and
-            data rates may apply. Reply HELP for help or STOP to opt out at any time. Consent is
-            not a condition of any purchase.
+            {SMS_PROGRAM_NAME}, operated by {LEGAL_ENTITY}
+            {address ? `, ${address}` : null}. Two consents, collected separately: non-marketing
+            (call confirmations, reminders and scheduling updates) and marketing. Message
+            frequency varies. Message and data rates may apply. Reply HELP for help or STOP to opt
+            out at any time. Neither consent is a condition of any purchase.
           </p>
           <p className={pClass}>
             The full program terms — frequency, cost, how to stop, supported carriers and how to
@@ -131,6 +136,7 @@ export default function SmsOptInPage() {
           <p>
             © {new Date().getFullYear()} {business.legalName ?? business.name}
           </p>
+          {address ? <address className="not-italic">{address}</address> : null}
           <Link
             href="/privacy"
             className="inline-flex min-h-[44px] items-center underline underline-offset-4 hover:text-ink"

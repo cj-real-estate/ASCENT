@@ -17,8 +17,9 @@ export async function postLeadWebhook(record: {
   page: string;
   interest: string;
   answers: Record<string, string>;
-  /** Whether the SMS consent box was ticked — a column in the sheet. */
-  smsConsent: boolean;
+  /** The two consent boxes, as separate columns in the sheet. */
+  smsConsentTransactional: boolean;
+  smsConsentMarketing: boolean;
   /** ISO receipt time, which is also the consent timestamp when consented. */
   receivedAt: string;
 }): Promise<boolean> {

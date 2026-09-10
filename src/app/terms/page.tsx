@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import general from "@content/verticals/general";
 import { LEGAL_ENTITY, smsProgramTerms } from "@content/compliance";
+import { formatAddress } from "@/lib/business";
 
 /*
  * /terms — site terms, and the SMS program terms the consent language on
@@ -31,7 +32,13 @@ const pClass = "mt-4 text-[17px] leading-relaxed text-ink";
 
 export default function TermsPage() {
   const { business } = general;
-  const sms = smsProgramTerms({ email: business.email, phone: business.phone });
+  const address = formatAddress(business);
+  const sms = smsProgramTerms({
+    email: business.email,
+    phone: business.phone,
+    address,
+    callName: general.smsCallName,
+  });
 
   return (
     <main className="bg-paper py-16 md:py-28">
@@ -39,7 +46,8 @@ export default function TermsPage() {
         <div className="max-w-[68ch]">
           <h1 className="display text-[34px] text-ink md:text-[46px]">Terms</h1>
           <p className="mt-4 text-[14px] text-slate">
-            {LEGAL_ENTITY} · {business.city}, {business.region} · Effective September 10, 2026
+            {LEGAL_ENTITY}
+            {address ? ` · ${address}` : null} · Effective September 10, 2026
           </p>
 
           <p className={pClass}>
@@ -52,8 +60,9 @@ export default function TermsPage() {
 
           <h2 className={h2Class}>Text message program</h2>
           <p className={pClass}>
-            Every form on this site carries an optional checkbox for text messages. The program it
-            opts you into is described here in full.
+            Every form on this site carries two optional, unchecked checkboxes for text messages —
+            one for non-marketing messages about the call you booked, one for marketing messages.
+            They are separate permissions, and the program both opt into is described here in full.
           </p>
 
           <dl className="mt-8">
@@ -95,7 +104,8 @@ export default function TermsPage() {
           <h2 className={h2Class}>Changes and contact</h2>
           <p className={pClass}>
             If these terms change we will update this page and the effective date above. Questions
-            about them, or about the text program:{" "}
+            about them, or about the text program — {LEGAL_ENTITY}
+            {address ? `, ${address}` : null}:{" "}
             {business.email ? (
               <a
                 href={`mailto:${business.email}`}

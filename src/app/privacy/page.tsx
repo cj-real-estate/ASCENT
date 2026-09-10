@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import general from "@content/verticals/general";
 import { MOBILE_DATA_NO_SHARING, SMS_PROGRAM_NAME } from "@content/compliance";
+import { formatAddress } from "@/lib/business";
 
 /*
  * Privacy policy — short, plain-English, and scoped to exactly what the site
@@ -21,6 +22,7 @@ const pClass = "mt-4 text-[17px] text-ink";
 export default function PrivacyPage() {
   const { business } = general;
   const contact = business.email ?? null;
+  const address = formatAddress(business);
 
   return (
     <main className="bg-paper py-16 md:py-28">
@@ -77,12 +79,25 @@ export default function PrivacyPage() {
 
           <h2 className={h2Class}>Text messages and your mobile number</h2>
           <p className={pClass}>
-            Every form on this site has an optional, unchecked box for text messages. Check it and
-            we may text you about your enquiry — scheduling and confirming your call, and following
-            up afterwards ({SMS_PROGRAM_NAME}). Leave it unchecked and we never text you; it is not
-            a condition of anything. Message frequency varies, message and data rates may apply,
-            and you can reply STOP to any message to opt out or HELP for help. The full program
-            terms are on the{" "}
+            Every form on this site has two optional, unchecked boxes for text messages, and they
+            are two separate permissions ({SMS_PROGRAM_NAME}):
+          </p>
+          <ul className={`${pClass} list-disc space-y-2 pl-6 marker:text-orange-deep`}>
+            <li>
+              <strong className="font-semibold text-ink">Non-marketing.</strong> Texts about the
+              call you booked — confirming it, reminding you of it, and telling you if the time
+              changes.
+            </li>
+            <li>
+              <strong className="font-semibold text-ink">Marketing.</strong> Following up on your
+              enquiry and occasional offers, which may be sent by autodialer.
+            </li>
+          </ul>
+          <p className={pClass}>
+            Checking one does not check the other, and we only ever send the kind of message you
+            agreed to. Leave both unchecked and we never text you; neither is a condition of
+            anything. Message frequency varies, message and data rates may apply, and you can reply
+            STOP to any message to opt out or HELP for help. The full program terms are on the{" "}
             <Link href="/terms" className="text-orange-deep underline">
               terms page
             </Link>
@@ -102,6 +117,13 @@ export default function PrivacyPage() {
           </p>
 
           <h2 className={h2Class}>Questions or deletion</h2>
+          {address ? (
+            <p className={pClass}>
+              {business.legalName ?? business.name}
+              <br />
+              {address}
+            </p>
+          ) : null}
           <p className={pClass}>
             To ask a question about this policy or have your information
             deleted, email{" "}

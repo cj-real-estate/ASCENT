@@ -30,6 +30,10 @@ const general: Vertical = {
     // should read wider here than on the vertical page, but only as wide as
     // he'll actually travel.
     areaServed: "Oklahoma",
+    // The registered street address. Rendered in the footer and in the
+    // contact sections of /privacy and /terms, and in the JSON-LD address.
+    street: "1424 Highland Park Blvd",
+    postalCode: "73114",
     phone: "580-304-8470",
     email: "info@ascentcas.com",
     // The registered entity. Shown in the footer and used by the SMS
@@ -37,6 +41,10 @@ const general: Vertical = {
     // matches the business that registered the campaign.
     legalName: "Ascent Client Acquisition Systems LLC",
   },
+
+  // The call this vertical books, as the transactional SMS consent
+  // sentence names it (content/compliance.ts).
+  smsCallName: "strategy call",
 
   seo: {
     title:

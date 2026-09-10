@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import general from "@content/verticals/general";
 import { deliverLeadToGhl } from "@/lib/ghl";
 import { postLeadWebhook } from "@/lib/leadSink";
 
@@ -11,10 +12,10 @@ import { postLeadWebhook } from "@/lib/leadSink";
  * visible phone field that A2P 10DLC campaign review asks for — so it posts
  * here instead of bending the gate's payload into a shape that fits.
  *
- * What it needs is small: a name, a mobile number, and whether the consent
- * box was ticked. Email is optional. The box itself is optional too, exactly
- * as it is everywhere else on the site: a submission without it is a contact
- * request, not an opt-in, and the CRM record says so.
+ * What it needs is small: a name, a mobile number, and which of the two
+ * consent boxes were ticked. Email is optional. The boxes are optional too,
+ * exactly as they are everywhere else on the site: a submission without
+ * either is a contact request, not an opt-in, and the CRM record says so.
  *
  * Delivery is the same pair of sinks as the gate, so an opt-in lands in the
  * same CRM with the same tags and the same timestamped proof of what wording
@@ -67,13 +68,22 @@ export async function POST(request: Request) {
   const phone = readString(body, "phone");
   const email = readString(body, "email");
   const honeypot = readString(body, "website");
-  /* Optional, unvalidated, and only true when it is exactly true — see the
-   * note in /api/book. */
-  const smsConsent = body.smsConsent === true;
+  /* Two optional consents, unvalidated, each true only when its own field
+   * is exactly true — see the note in /api/book. `smsConsent` is the
+   * pre-split field name and was the marketing one. */
+  const smsConsentTransactional = body.smsConsentTransactional === true;
+  const smsConsentMarketing =
+    body.smsConsentMarketing === true || body.smsConsent === true;
   const receivedAt = new Date().toISOString();
 
   // Honeypot filled: answer as though it worked, send nothing.
-  if (honeypot) return NextResponse.json({ ok: true, smsConsent: false });
+  if (honeypot) {
+    return NextResponse.json({
+      ok: true,
+      smsConsentTransactional: false,
+      smsConsentMarketing: false,
+    });
+  }
 
   for (const [label, value] of [
     ["Name", name],
@@ -107,7 +117,9 @@ export async function POST(request: Request) {
       qualified: null,
       answers: {},
       answerLines: [],
-      smsConsent,
+      smsConsentTransactional,
+      smsConsentMarketing,
+      smsCallName: general.smsCallName,
       receivedAt,
     }),
     postLeadWebhook({
@@ -119,7 +131,8 @@ export async function POST(request: Request) {
       page: "sms",
       interest: "SMS updates",
       answers: {},
-      smsConsent,
+      smsConsentTransactional,
+      smsConsentMarketing,
       receivedAt,
     }),
   ]);
@@ -136,7 +149,8 @@ export async function POST(request: Request) {
       name,
       phone,
       email,
-      smsConsent,
+      smsConsentTransactional,
+      smsConsentMarketing,
       receivedAt,
     });
     return bad(
@@ -145,5 +159,9 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json({ ok: true, smsConsent });
+  return NextResponse.json({
+    ok: true,
+    smsConsentTransactional,
+    smsConsentMarketing,
+  });
 }

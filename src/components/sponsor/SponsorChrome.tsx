@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { Vertical } from "@content/verticals/types";
 import type { Guide } from "@content/guides/types";
 import EyebrowText from "@/components/EyebrowText";
+import { formatAddress } from "@/lib/business";
 
 /*
  * The chrome the dark sponsor template shares with its guide pages and its
@@ -120,6 +121,8 @@ export function SponsorFooter({
 }) {
   const { business, footer } = vertical;
   const href = (path: string) => (absolute ? sponsorHref(vertical, path) : path);
+  /* The registered postal address — see the note in src/components/Footer.tsx. */
+  const address = formatAddress(business);
   return (
     <footer className="border-t border-seam py-14 md:py-20">
       <div className={shell}>
@@ -128,6 +131,9 @@ export function SponsorFooter({
             <Logo name={logoName(vertical)} width={260} />
             <p className="mt-6 max-w-[48ch] text-[16px] text-on-dark">{footer.tagline}</p>
             <p className="mt-1 text-[15px] text-ash">{footer.locationLine}</p>
+            {address ? (
+              <address className="mt-1 text-[15px] not-italic text-ash">{address}</address>
+            ) : null}
             {business.founder ? (
               <p className="mt-1 text-[15px] text-ash">
                 {business.founder.name}, {business.founder.title}

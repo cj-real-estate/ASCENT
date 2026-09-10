@@ -365,6 +365,16 @@ export interface Vertical {
     region: string;
     /** For LocalBusiness JSON-LD */
     areaServed: string;
+    /**
+     * Registered street address, e.g. "1424 Highland Park Blvd". Shown in
+     * the footer and in the contact section of /privacy and /terms — A2P
+     * 10DLC brand registration and the carriers both expect the sending
+     * business's postal address to be findable on its site — and used for
+     * `streetAddress` in the PostalAddress JSON-LD.
+     */
+    street?: string;
+    /** ZIP, e.g. "73114". Pairs with `street` wherever the address renders. */
+    postalCode?: string;
     /** null until the client supplies it — renders a visible placeholder */
     phone: string | null;
     /** null until the client supplies it — renders a visible placeholder */
@@ -381,6 +391,15 @@ export interface Vertical {
     founder?: { name: string; title: string };
     sameAs?: string[];
   };
+
+  /**
+   * The noun the transactional SMS consent sentence uses for the call this
+   * vertical books — "scoping call" on the sponsor domain, "strategy call"
+   * on the brand site. Every disclosure in that sentence is fixed
+   * (content/compliance.ts); this is the one part that has to match what
+   * the form above the checkbox is actually booking.
+   */
+  smsCallName: string;
 
   seo: {
     title: string;

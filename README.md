@@ -57,14 +57,17 @@ fetched from Google at runtime.
 
 ## SMS consent and A2P 10DLC
 
-Every form on the site carries an optional, unchecked SMS consent checkbox,
-and `/sms` is a dedicated one-screen opt-in page whose URL goes on the A2P
-10DLC campaign registration. The carrier-mandated wording lives in one
-module, `content/compliance.ts`, imported by both forms, both privacy
-policies and both terms pages — edit it there and it changes everywhere.
-Three things about the checkbox are compliance, not design: it starts
-unchecked, nothing validates it, and its sentence is quoted verbatim. A
-ticked box tags the GoHighLevel contact `sms consent` and writes a
+Every form on the site carries **two** optional, unchecked SMS consent
+checkboxes directly below the phone field — transactional (call
+confirmations, reminders, scheduling updates) and marketing — and `/sms` is
+a dedicated one-screen opt-in page whose URL goes on the A2P 10DLC campaign
+registration. The carrier-mandated wording lives in one module,
+`content/compliance.ts`, imported by both forms, both privacy policies and
+both terms pages — edit it there and it changes everywhere. Four things
+about the boxes are compliance, not design: both start unchecked, nothing
+validates either, ticking one never implies the other, and both sentences
+are quoted verbatim. Each ticked box tags the GoHighLevel contact
+(`sms consent: transactional` / `sms consent: marketing`) and writes its own
 timestamped record of the wording shown. Read `docs/A2P-10DLC.md` before
 touching any of it.
 
@@ -82,7 +85,8 @@ touching any of it.
 | `src/components/sponsor/GuideArticle.tsx` | Renders a guide. `RichText.tsx` beside it handles `[links](href)` and `**bold**` in guide copy. |
 | `src/lib/schema.ts` | JSON-LD graphs for the sponsor page, the guides index and each guide. |
 | `content/compliance.ts` | **The carrier-mandated SMS strings** — consent sentence, the privacy policy's mobile-data clause, and the program terms. Not per-vertical: the same wording has to appear identically on both domains or A2P review rejects the campaign. |
-| `src/components/SmsConsentCheckbox.tsx` | The consent box, on both grounds. Unchecked, never required — see `docs/A2P-10DLC.md`. |
+| `src/components/SmsConsentFields.tsx` | The two consent boxes, on both grounds. Unchecked, never required, independent — see `docs/A2P-10DLC.md`. |
+| `src/lib/business.ts` | `formatAddress()` — the registered postal address, rendered in both footers, both policies and both terms pages. |
 | `src/app/sms/page.tsx` | The single-screen opt-in page submitted for A2P review, posting to `/api/sms-optin`. |
 | `src/lib/leadSink.ts` | The Google Sheet backstop, shared by `/api/book` and `/api/sms-optin`. |
 | `scripts/indexnow.mjs` | `npm run indexnow` — submits the sponsor sitemap's URLs to IndexNow (needs `INDEXNOW_KEY`, see `SEO-GEO-PLAYBOOK.md`). |

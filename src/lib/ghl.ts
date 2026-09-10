@@ -25,7 +25,10 @@
  * See docs/GOHIGHLEVEL-SETUP.md.
  */
 
-import { SMS_CONSENT_LABEL } from "@content/compliance";
+import {
+  SMS_MARKETING_CONSENT_LABEL,
+  smsTransactionalConsentLabel,
+} from "@content/compliance";
 import { envNamesMatching, readEnv, readSecret } from "./env";
 
 /* Overridable only so the integration can be exercised against a mock in
@@ -77,14 +80,26 @@ export interface LeadRecord {
   /** "Question: Answer" lines, in the order the gate asked them */
   answerLines: string[];
   /**
-   * Whether the visitor ticked the SMS consent box. The box is optional, so
-   * false is the common, expected case — it means "do not text this number",
-   * not "unknown". A2P 10DLC review can ask for proof of consent for any
-   * number that was messaged, which is why the exact wording shown and the
-   * time it was accepted go into the CRM note below rather than living only
-   * in a boolean.
+   * The two SMS consent boxes, independently. Both are optional, so false
+   * is the common, expected case — it means "do not send this kind of text
+   * to this number", not "unknown".
+   *
+   * They are separate permissions: `transactional` covers confirmations,
+   * reminders and scheduling updates for the call the person booked, and
+   * `marketing` covers promotional messages. Never treat one as implying
+   * the other. A2P 10DLC review can ask for proof of consent for any number
+   * that was messaged, which is why the exact wording shown and the time it
+   * was accepted go into the CRM note below rather than living only in a
+   * boolean.
    */
-  smsConsent: boolean;
+  smsConsentTransactional: boolean;
+  smsConsentMarketing: boolean;
+  /**
+   * The noun the transactional consent sentence used ("scoping call" /
+   * "strategy call") — the vertical's `smsCallName`. Recorded so the note
+   * can quote the sentence exactly as the visitor saw it.
+   */
+  smsCallName: string;
   /** ISO timestamp the lead was received — the consent timestamp when consented. */
   receivedAt: string;
 }
@@ -111,23 +126,45 @@ function leadTags(lead: LeadRecord): string[] {
   if (lead.qualified === true) tags.push("qualified");
   if (lead.qualified === false) tags.push("below icp");
   if (lead.interest) tags.push(lead.interest.toLowerCase());
-  /* The tag an SMS workflow must filter on. Only a ticked box earns it, so
-   * a workflow gated on "sms consent" can never text a number that did not
-   * opt in — which is the whole point of collecting it. */
-  if (lead.smsConsent) tags.push("sms consent");
+  /* One tag per consent, because they are one permission each. A reminder
+   * workflow filters on "sms consent: transactional"; a promotional one on
+   * "sms consent: marketing". Only a ticked box earns its tag, so neither
+   * workflow can reach a number that did not opt into that kind of message
+   * — which is the whole point of collecting them separately. */
+  if (lead.smsConsentTransactional) tags.push("sms consent: transactional");
+  if (lead.smsConsentMarketing) tags.push("sms consent: marketing");
   return tags;
 }
 
-/* Proof of consent, in the contact's own record: what was shown, that it
- * was accepted, and when. A boolean alone is not evidence if a carrier ever
- * asks how the number opted in. */
+/* Proof of consent, in the contact's own record: for each of the two
+ * permissions, whether it was given, when, and the exact sentence that was
+ * on screen. A boolean alone is not evidence if a carrier ever asks how the
+ * number opted in — and a single combined line would not show which of the
+ * two was agreed to. */
 function consentLines(lead: LeadRecord): string[] {
-  if (!lead.smsConsent) {
-    return ["SMS consent: NOT GIVEN — do not send marketing texts."];
-  }
+  const line = (
+    kind: string,
+    given: boolean,
+    wording: string,
+    refusal: string,
+  ): string[] =>
+    given
+      ? [`SMS ${kind} consent: GIVEN ${lead.receivedAt}`, `Consent shown: "${wording}"`]
+      : [`SMS ${kind} consent: NOT GIVEN — ${refusal}`];
+
   return [
-    `SMS consent: GIVEN ${lead.receivedAt}`,
-    `Consent shown: "${SMS_CONSENT_LABEL}"`,
+    ...line(
+      "transactional",
+      lead.smsConsentTransactional,
+      smsTransactionalConsentLabel(lead.smsCallName),
+      "do not send confirmations, reminders or scheduling texts.",
+    ),
+    ...line(
+      "marketing",
+      lead.smsConsentMarketing,
+      SMS_MARKETING_CONSENT_LABEL,
+      "do not send marketing texts.",
+    ),
   ];
 }
 
@@ -255,9 +292,14 @@ async function postInboundWebhook(lead: LeadRecord): Promise<boolean> {
         verdict: lead.verdict,
         qualified: lead.qualified,
         tags: leadTags(lead).join(", "),
-        sms_consent: lead.smsConsent,
-        sms_consent_at: lead.smsConsent ? lead.receivedAt : "",
-        sms_consent_text: lead.smsConsent ? SMS_CONSENT_LABEL : "",
+        sms_consent_transactional: lead.smsConsentTransactional,
+        sms_consent_transactional_at: lead.smsConsentTransactional ? lead.receivedAt : "",
+        sms_consent_transactional_text: lead.smsConsentTransactional
+          ? smsTransactionalConsentLabel(lead.smsCallName)
+          : "",
+        sms_consent_marketing: lead.smsConsentMarketing,
+        sms_consent_marketing_at: lead.smsConsentMarketing ? lead.receivedAt : "",
+        sms_consent_marketing_text: lead.smsConsentMarketing ? SMS_MARKETING_CONSENT_LABEL : "",
         answers_summary: lead.answerLines.join("\n"),
         ...flatAnswers,
       }),

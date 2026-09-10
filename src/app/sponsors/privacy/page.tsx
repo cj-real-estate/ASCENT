@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import sponsors, { sponsorsPage } from "@content/verticals/sponsors";
 import { guides } from "@content/guides";
 import { MOBILE_DATA_NO_SHARING, SMS_PROGRAM_NAME } from "@content/compliance";
+import { formatAddress } from "@/lib/business";
 import { SponsorFooter, SponsorHeader, shell, sponsorHref } from "@/components/sponsor/SponsorChrome";
 
 /*
@@ -27,6 +28,7 @@ const pClass = "mt-4 max-w-[68ch] text-[17px] leading-relaxed text-ash";
 export default function SponsorPrivacyPage() {
   const { business } = sponsors;
   const page = sponsorsPage;
+  const address = formatAddress(business);
   return (
     <div data-dark data-theme="dark" className="min-h-dvh bg-night text-paper">
       <SponsorHeader
@@ -81,12 +83,25 @@ export default function SponsorPrivacyPage() {
 
           <h2 className={h2Class}>Text messages and your mobile number</h2>
           <p className={pClass}>
-            The qualification form has an optional, unchecked box for text messages. Check it and
-            we may text you about your enquiry — scheduling and confirming the scoping call, and
-            following up afterwards ({SMS_PROGRAM_NAME}). Leave it unchecked and we never text you;
-            it is not a condition of anything. Message frequency varies, message and data rates
-            may apply, and you can reply STOP to any message to opt out or HELP for help. The full
-            program terms are on the{" "}
+            The qualification form has two optional, unchecked boxes for text messages, and they
+            are two separate permissions ({SMS_PROGRAM_NAME}):
+          </p>
+          <ul className={`${pClass} list-disc space-y-2 pl-6 marker:text-orange`}>
+            <li>
+              <strong className="font-semibold text-paper">Non-marketing.</strong> Texts about the
+              scoping call you booked — confirming it, reminding you of it, and telling you if the
+              time changes.
+            </li>
+            <li>
+              <strong className="font-semibold text-paper">Marketing.</strong> Following up on your
+              enquiry and occasional offers, which may be sent by autodialer.
+            </li>
+          </ul>
+          <p className={pClass}>
+            Checking one does not check the other, and we only ever send the kind of message you
+            agreed to. Leave both unchecked and we never text you; neither is a condition of
+            anything. Message frequency varies, message and data rates may apply, and you can reply
+            STOP to any message to opt out or HELP for help. The full program terms are on the{" "}
             <a
               href={sponsorHref(sponsors, "/terms")}
               className="text-paper underline underline-offset-4"
@@ -109,6 +124,13 @@ export default function SponsorPrivacyPage() {
           </p>
 
           <h2 className={h2Class}>Contact</h2>
+          {address ? (
+            <p className={pClass}>
+              {business.legalName ?? business.name}
+              <br />
+              {address}
+            </p>
+          ) : null}
           <p className={pClass}>
             Questions about this policy, or a request to delete what you submitted:{" "}
             {business.email ? (

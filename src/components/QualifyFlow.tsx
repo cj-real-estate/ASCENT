@@ -4,7 +4,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { QualifyFlowProps } from "@/lib/qualify";
 import { trackLeadConversion } from "@/lib/conversion";
 import CalendlyConversion from "./CalendlyConversion";
-import SmsConsentCheckbox from "./SmsConsentCheckbox";
+import type { SmsConsentValues } from "@/lib/consent";
+import SmsConsentFields from "./SmsConsentFields";
 
 /*
  * The ICP gate as a multi-step wizard: one card per question, contact
@@ -29,7 +30,11 @@ type Stage = "form" | "pass" | "declined";
 
 type ContactField = "name" | "company" | "phone" | "email";
 
-const CONTACT_ORDER: ContactField[] = ["name", "company", "phone", "email"];
+/* Phone LAST: the two SMS consent boxes render directly below this grid,
+ * and the carriers want the consent language immediately below the number
+ * field — which it only is on every viewport if the number is the last
+ * field. Also the focus order on a failed submit. */
+const CONTACT_ORDER: ContactField[] = ["name", "company", "email", "phone"];
 
 // Same rules as /api/book — kept identical on purpose.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -118,10 +123,15 @@ export function QualifyFlow({
   });
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [website, setWebsite] = useState(""); // honeypot
-  /* Starts false and is never validated: A2P 10DLC review rejects a
-   * pre-checked or required consent box, so the gate submits identically
-   * whether or not this is ticked. It only rides along in the payload. */
-  const [smsConsent, setSmsConsent] = useState(false);
+  /* Two independent consents — non-marketing (confirmations, reminders,
+   * scheduling updates) and marketing. Both start false and neither is
+   * ever validated: A2P 10DLC review rejects a pre-checked or required
+   * consent box, so the gate submits identically whichever, or neither, is
+   * ticked. They only ride along in the payload. */
+  const [smsConsent, setSmsConsent] = useState<SmsConsentValues>({
+    transactional: false,
+    marketing: false,
+  });
   const [errors, setErrors] = useState<Partial<Record<ContactField, string>>>(
     {},
   );
@@ -251,7 +261,8 @@ export function QualifyFlow({
           vertical: flow.slug,
           website,
           interest: intent,
-          smsConsent,
+          smsConsentTransactional: smsConsent.transactional,
+          smsConsentMarketing: smsConsent.marketing,
           answers,
         }),
       });
@@ -474,25 +485,28 @@ export function QualifyFlow({
               {flow.contactHeading}
             </h3>
             <p className="mt-2 text-[15px] text-on-dark">{flow.contactSub}</p>
+            {/* Phone is the last field so the consent boxes below it are
+                directly below the number on every viewport. */}
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               {textField("name", flow.nameLabel, "text", "name")}
               {textField("company", flow.companyLabel, "text", "organization")}
-              {textField("phone", flow.phoneLabel, "tel", "tel", {
-                inputMode: "tel",
-                placeholder: "(405) 555-0123",
-              })}
               {textField("email", flow.emailLabel, "email", "email", {
                 placeholder: "name@company.com",
                 onBlur: validateEmailOnBlur,
               })}
+              {textField("phone", flow.phoneLabel, "tel", "tel", {
+                inputMode: "tel",
+                placeholder: "(405) 555-0123",
+              })}
             </div>
-            {/* Beside the phone field, on the same card — the carriers want
-                the consent language where the number is typed. */}
+            {/* Directly below the phone field, on the same card — the
+                carriers want the consent language where the number is
+                typed. Neither box blocks the submit below. */}
             <div className="mt-6 border-t border-white/10 pt-5">
-              <SmsConsentCheckbox
-                id={`${uid}-sms-consent`}
+              <SmsConsentFields
+                idPrefix={uid}
                 consent={flow.smsConsent}
-                checked={smsConsent}
+                values={smsConsent}
                 onChange={setSmsConsent}
                 tone="dark"
               />

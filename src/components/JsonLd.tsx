@@ -22,8 +22,11 @@ export default function JsonLd({ vertical }: { vertical: Vertical }) {
     areaServed: business.areaServed,
     address: {
       "@type": "PostalAddress",
+      ...(business.street ? { streetAddress: business.street } : {}),
       addressLocality: business.city,
       addressRegion: business.region,
+      ...(business.postalCode ? { postalCode: business.postalCode } : {}),
+      addressCountry: "US",
     },
   };
 

@@ -23,12 +23,14 @@ import { readEnv } from "@/lib/env";
  *   believed if it did — the flags are the thresholds, and they live in
  *   content.
  *
- * Either shape may carry `smsConsent: true` from the optional consent box
- * beside the phone field. It is never required and never validated — it
- * decides only whether the CRM contact is tagged "sms consent" and given a
- * timestamped record of the wording that was shown (src/lib/ghl.ts). A
- * texting workflow gated on that tag can then never reach a number that
- * did not opt in. See docs/A2P-10DLC.md.
+ * Either shape may carry `smsConsentTransactional` and
+ * `smsConsentMarketing` from the two optional consent boxes below the phone
+ * field. They are separate permissions — confirmations and reminders for the
+ * booked call, versus promotional messages — and neither is required or
+ * validated. Each decides only whether the CRM contact gets that consent's
+ * own tag and a timestamped record of the sentence that was shown
+ * (src/lib/ghl.ts), so a texting workflow gated on one tag can never reach a
+ * number that only agreed to the other. See docs/A2P-10DLC.md.
  *
  *   legacy — { name, company, phone, email, trade, estimates } from the old
  *   booking form, still posted by cached copies of pages that shipped before
@@ -135,11 +137,18 @@ export async function POST(request: Request) {
   const trade = readString(body, "trade");
   const verticalSlug = readString(body, "vertical");
   const honeypot = readString(body, "website");
-  /* The SMS opt-in. Optional by design and never validated: a missing or
-   * non-boolean value is simply "not consented", which is the safe reading
-   * — the CRM tag that lets a texting workflow run is only added when this
-   * is exactly true. */
-  const smsConsent = body.smsConsent === true;
+  /* The two SMS opt-ins, read independently. Optional by design and never
+   * validated: a missing or non-boolean value is simply "not consented",
+   * which is the safe reading — the CRM tag that lets a texting workflow
+   * run is only added when its own field is exactly true.
+   *
+   * `smsConsent` is the pre-split field name. A page cached from before the
+   * two boxes shipped still posts it, and it was the MARKETING consent, so
+   * that is where it lands. Remove the fallback once no deployment serves
+   * the old bundle. */
+  const smsConsentTransactional = body.smsConsentTransactional === true;
+  const smsConsentMarketing =
+    body.smsConsentMarketing === true || body.smsConsent === true;
   const receivedAt = new Date().toISOString();
   // Which CTA the visitor clicked. Unknown values collapse to the default
   // rather than erroring — it's routing metadata, not a gate input.
@@ -182,6 +191,12 @@ export async function POST(request: Request) {
   // legacy shape.
   const isQualification = "answers" in body;
 
+  /* The vertical this submission came from, resolved once: the gate branch
+   * scores answers against its questions, and both delivery legs need its
+   * `smsCallName` to record which transactional consent sentence was on
+   * screen. An unknown or missing slug falls back to the brand page. */
+  const config = VERTICALS_BY_SLUG.get(verticalSlug) ?? general;
+
   let subject: string;
   let text: string;
   /* Echoed to the client so the gate can branch without ever holding the
@@ -195,7 +210,6 @@ export async function POST(request: Request) {
   let gateAnswerLines: string[] = [];
 
   if (isQualification) {
-    const config = VERTICALS_BY_SLUG.get(verticalSlug) ?? general;
     const answers = body.answers;
     if (
       typeof answers !== "object" ||
@@ -243,7 +257,9 @@ export async function POST(request: Request) {
       `Phone: ${phone}`,
       `Email: ${email}`,
       `Wants: ${interest}`,
-      `SMS consent: ${smsConsent ? `yes (${receivedAt})` : "no"}`,
+      `SMS consent — reminders: ${smsConsentTransactional ? "yes" : "no"}, marketing: ${
+        smsConsentMarketing ? "yes" : "no"
+      }${smsConsentTransactional || smsConsentMarketing ? ` (${receivedAt})` : ""}`,
       "",
       ...answerLines,
       "",
@@ -302,7 +318,9 @@ export async function POST(request: Request) {
       qualified: gate ? gate.qualified : null,
       answers: gateAnswers,
       answerLines: gateAnswerLines,
-      smsConsent,
+      smsConsentTransactional,
+      smsConsentMarketing,
+      smsCallName: config.smsCallName,
       receivedAt,
     }),
     postLeadWebhook({
@@ -314,7 +332,8 @@ export async function POST(request: Request) {
       page,
       interest,
       answers: gateAnswers,
-      smsConsent,
+      smsConsentTransactional,
+      smsConsentMarketing,
       receivedAt,
     }),
   ]);

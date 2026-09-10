@@ -6,6 +6,7 @@ import { AscentLockup } from "@/components/Logo";
 import QualifyFlow from "@/components/QualifyFlow";
 import { toQualifyFlowProps } from "@/lib/qualify";
 import TrustBanner from "@/components/TrustBanner";
+import { formatAddress } from "@/lib/business";
 
 /*
  * /apply — the destination for paid and social traffic. Deliberately bare:
@@ -43,6 +44,7 @@ export const metadata: Metadata = {
 export default function ApplyPage() {
   const { business } = general;
   const lockupTagline = business.name.split(" ").slice(1).join(" ");
+  const address = formatAddress(business);
 
   return (
     <main data-dark className="min-h-dvh bg-ink py-10 md:py-16">
@@ -75,8 +77,9 @@ export default function ApplyPage() {
 
         <div className="mt-16 flex flex-wrap items-center gap-x-6 border-t border-white/10 pt-4 text-[14px] text-fog">
           <p>
-            © {new Date().getFullYear()} {business.name}
+            © {new Date().getFullYear()} {business.legalName ?? business.name}
           </p>
+          {address ? <address className="not-italic">{address}</address> : null}
           <Link
             href="/privacy"
             className="inline-flex min-h-[44px] items-center underline underline-offset-4 transition-colors hover:text-on-dark"

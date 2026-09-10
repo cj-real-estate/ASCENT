@@ -11,6 +11,10 @@ const fence: Vertical = {
     city: "Oklahoma City",
     region: "OK",
     areaServed: "Oklahoma City metro",
+    // The registered street address. Rendered in the footer and in the
+    // contact sections of /privacy and /terms, and in the JSON-LD address.
+    street: "1424 Highland Park Blvd",
+    postalCode: "73114",
     // Supplied by the client 2026-08-21.
     phone: "580-304-8470",
     email: "info@ascentcas.com",
@@ -19,6 +23,10 @@ const fence: Vertical = {
     // matches the business that registered the campaign.
     legalName: "Ascent Client Acquisition Systems LLC",
   },
+
+  // The call this vertical books, as the transactional SMS consent
+  // sentence names it (content/compliance.ts).
+  smsCallName: "strategy call",
 
   seo: {
     title:
