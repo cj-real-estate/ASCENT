@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description: sponsorsPage.guides.sub,
   alternates: { canonical: url },
   openGraph: {
-    title: `Guides for 506(c) Real Estate Sponsors | ${sponsors.business.shortName}`,
+    title: `Guides for 506(c) Real Estate Sponsors | ${sponsors.business.name}`,
     description: sponsorsPage.guides.sub,
     url,
     siteName: sponsors.business.name,

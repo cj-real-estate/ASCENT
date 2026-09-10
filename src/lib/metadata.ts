@@ -18,7 +18,15 @@ export function verticalMetadata(vertical: Vertical): Metadata {
   const url = verticalUrl(vertical);
   const ogImage = `${new URL(url).origin}${seo.ogImage ?? "/og-image.png"}`;
   return {
-    title: seo.title,
+    /*
+     * `absolute` — every vertical's seo.title already ends in the brand
+     * name, and the root layout's "%s | Ascent" template applies to pages
+     * in child segments (so /fence but not /), which appended it a second
+     * time on the vertical pages only. Owning the whole title here makes
+     * the two behave the same and keeps the keyword first, where it earns
+     * the click.
+     */
+    title: { absolute: seo.title },
     description: seo.description,
     alternates: { canonical: url },
     openGraph: {

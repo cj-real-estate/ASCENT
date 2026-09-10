@@ -34,7 +34,11 @@ export interface PersonProfile {
   name: string;
   /** Primary role, e.g. "Founder". Used in the <title>. */
   jobTitle: string;
-  /** The legal role, where it differs — "Founder and Managing Member". */
+  /**
+   * The registered role, only where it differs from the title the person
+   * actually uses — e.g. "Managing Member" against a working "Founder".
+   * null when the two are the same, which is the usual case.
+   */
   legalRole: string | null;
   seoTitle: string;
   seoDescription: string;

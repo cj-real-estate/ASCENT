@@ -17,7 +17,8 @@ import { formatAddress } from "@/lib/business";
  */
 
 export const metadata: Metadata = {
-  title: `Privacy | ${general.business.name}`,
+  // The root layout appends " | Ascent".
+  title: "Privacy",
 };
 
 const h2Class = "display mt-10 text-[20px] text-ink md:text-[26px]";
@@ -55,7 +56,7 @@ export default function PrivacyPage() {
 
           <h2 className={h2Class}>Advertising</h2>
           <p className={pClass}>
-            {business.shortName} advertises on Google. The site loads
+            {business.name} advertises on Google. The site loads
             Google&apos;s advertising tag (gtag.js), which sets cookies in your
             browser so Google can tell whether someone who clicked an ad went
             on to request a call. That is what the tag is for — measuring ads

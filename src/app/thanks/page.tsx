@@ -9,7 +9,8 @@ import LeadConversion from "@/components/LeadConversion";
  */
 
 export const metadata: Metadata = {
-  title: `Request received | ${general.business.name}`,
+  // The root layout appends " | Ascent".
+  title: "Request received",
   robots: { index: false },
 };
 

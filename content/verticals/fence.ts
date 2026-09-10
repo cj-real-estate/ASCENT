@@ -5,8 +5,7 @@ const fence: Vertical = {
   path: "/fence",
 
   business: {
-    name: "Ascent Client Acquisition Systems",
-    shortName: "Ascent",
+    name: "Ascent",
     url: "https://ascentcas.com",
     city: "Oklahoma City",
     region: "OK",
@@ -30,7 +29,7 @@ const fence: Vertical = {
 
   seo: {
     title:
-      "Ascent Client Acquisition Systems | Growth Systems for Fence Companies in Oklahoma City",
+      "Growth Systems for Fence Companies in Oklahoma City | Ascent",
     description:
       "Ascent installs its proprietary client acquisition system — lead follow-up, appointment setting, ads, and CRM — for fence companies in Oklahoma City. Book a free 30-minute strategy call.",
   },
@@ -564,7 +563,7 @@ const fence: Vertical = {
   },
 
   footer: {
-    tagline: "Ascent Client Acquisition Systems",
+    tagline: "Client acquisition systems for fence companies",
     locationLine: "Oklahoma City, OK",
     privacyLabel: "Privacy",
     termsLabel: "Terms",

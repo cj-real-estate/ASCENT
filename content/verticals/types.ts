@@ -357,9 +357,16 @@ export interface Vertical {
   canonicalUrl?: string;
 
   business: {
-    /** Full legal-ish display name — "Ascent Client Acquisition Systems" */
+    /**
+     * The display name, and the only one that appears in body copy,
+     * headings and page titles — "Ascent". The v3 brand system
+     * (brand/v3/README.txt) retired the "Client Acquisition Systems"
+     * lockup, and the copy follows the lockup. The registered name lives
+     * in `legalName` and renders only where it is actually required: the
+     * footer, the compliance line, /privacy and /terms, where an A2P
+     * 10DLC reviewer looks for it.
+     */
     name: string;
-    shortName: string;
     url: string;
     city: string;
     region: string;

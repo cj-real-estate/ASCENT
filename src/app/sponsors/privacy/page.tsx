@@ -62,7 +62,7 @@ export default function SponsorPrivacyPage() {
 
           <h2 className={h2Class}>Advertising</h2>
           <p className={pClass}>
-            {business.shortName} advertises on Google. The site loads Google&apos;s advertising tag (gtag.js),
+            {business.name} advertises on Google. The site loads Google&apos;s advertising tag (gtag.js),
             which sets cookies so Google can tell whether someone who clicked an ad went on to request a
             call. You can opt out of personalized Google advertising at{" "}
             <a href="https://myadcenter.google.com" rel="noreferrer" className="text-paper underline underline-offset-4">

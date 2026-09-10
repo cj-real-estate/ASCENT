@@ -21,8 +21,7 @@ const general: Vertical = {
   path: "/",
 
   business: {
-    name: "Ascent Client Acquisition Systems",
-    shortName: "Ascent",
+    name: "Ascent",
     url: "https://ascentcas.com",
     city: "Oklahoma City",
     region: "OK",
@@ -42,7 +41,7 @@ const general: Vertical = {
     legalName: "Ascent Client Acquisition Systems LLC",
     // Named so the Organization JSON-LD can point at the authoritative
     // profile page at /caleb-free (see src/lib/schema.ts PERSON_ID).
-    founder: { name: "Caleb Free", title: "Founder and Managing Member" },
+    founder: { name: "Caleb Free", title: "Founder" },
   },
 
   // The call this vertical books, as the transactional SMS consent
@@ -51,7 +50,7 @@ const general: Vertical = {
 
   seo: {
     title:
-      "Ascent Client Acquisition Systems | CRM, Follow-Up, and Appointment Setting",
+      "CRM, Follow-Up and Appointment Setting | Ascent",
     description:
       "Ascent installs its proprietary client acquisition system — CRM, follow-up, appointment setting, and lead generation — for businesses in Oklahoma. Book a free 30-minute strategy call on your numbers.",
   },
@@ -615,7 +614,7 @@ const general: Vertical = {
 
   applyPage: {
     seoTitle:
-      "Book a Free Strategy Call | Ascent Client Acquisition Systems",
+      "Book a Free Strategy Call | Ascent",
     seoDescription:
       "Answer a few questions, and if we’re a fit, book a free 30-minute strategy call on your numbers — where leads stall, what an appointment should cost, and what to install.",
     eyebrow: "THE FREE STRATEGY CALL",
@@ -633,7 +632,7 @@ const general: Vertical = {
   },
 
   footer: {
-    tagline: "Ascent Client Acquisition Systems",
+    tagline: "Client acquisition systems for service businesses",
     locationLine: "Oklahoma City, OK",
     privacyLabel: "Privacy",
     termsLabel: "Terms",

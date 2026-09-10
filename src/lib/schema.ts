@@ -9,7 +9,7 @@ import { plainText } from "@/components/sponsor/RichText";
  * The Organization, its founder and the WebSite carry stable @ids, so the
  * sponsor page, the guides index and every guide all point at the same
  * entity — that consistency is what lets a search or answer engine treat
- * "Ascent Client Acquisition Systems" as one thing across the site.
+ * "Ascent" as one thing across the site.
  *
  * Rules kept here, deliberately:
  *   - No aggregateRating, no Review, no price: there are no published
@@ -41,7 +41,15 @@ function organization(
     "@id": orgId(v),
     name: business.name,
     legalName: business.legalName ?? business.name,
-    alternateName: business.shortName,
+    /*
+     * The pre-v3 display name, which is still what the domain, the A2P
+     * registration and a good deal of existing search demand spell out.
+     * Declaring it as an alternate is how the short brand name and the
+     * long one resolve to one entity instead of two.
+     */
+    ...(business.legalName
+      ? { alternateName: business.legalName.replace(/\s+LLC$/, "") }
+      : {}),
     url: site(v),
     logo: {
       "@type": "ImageObject",

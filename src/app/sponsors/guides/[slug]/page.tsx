@@ -36,7 +36,7 @@ export async function generateMetadata({
     alternates: { canonical: url },
     authors: sponsors.business.founder ? [{ name: sponsors.business.founder.name, url: sponsors.business.url }] : undefined,
     openGraph: {
-      title: `${guide.seoTitle} | ${sponsors.business.shortName}`,
+      title: `${guide.seoTitle} | ${sponsors.business.name}`,
       description: guide.description,
       url,
       siteName: sponsors.business.name,
@@ -50,7 +50,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${guide.seoTitle} | ${sponsors.business.shortName}`,
+      title: `${guide.seoTitle} | ${sponsors.business.name}`,
       description: guide.description,
       images: [image],
     },

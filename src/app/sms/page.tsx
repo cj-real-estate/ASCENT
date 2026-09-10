@@ -52,7 +52,7 @@ export default function SmsOptInPage() {
         <div className="mt-12 max-w-[68ch]">
           <p className="eyebrow text-orange-deep">TEXT MESSAGE UPDATES</p>
           <h1 className="display mt-5 text-[34px] text-ink md:text-[46px]">
-            Get text updates from {business.shortName}.
+            Get text updates from {business.name}.
           </h1>
           <p className="mt-6 text-[18px] leading-relaxed text-slate">
             {SMS_PROGRAM_NAME} is how {LEGAL_ENTITY} texts you about the call you asked for.

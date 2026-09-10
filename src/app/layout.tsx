@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(general.business.url),
   title: {
     default: general.seo.title,
-    template: `%s | ${general.business.shortName}`,
+    template: `%s | ${general.business.name}`,
   },
   description: general.seo.description,
   icons: {
