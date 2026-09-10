@@ -687,6 +687,12 @@ export interface Vertical {
      */
     textUpdatesLabel: string;
     /**
+     * Label of the link to the founder's authoritative profile page
+     * (/caleb-free on the brand domain). Linked from the footer because an
+     * entity page nothing links to does not get crawled or trusted.
+     */
+    founderLabel: string;
+    /**
      * Standing regulatory line, e.g. the not-a-broker-dealer statement that
      * goes on every sponsor-facing document. null renders nothing.
      */

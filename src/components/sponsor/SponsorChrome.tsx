@@ -177,6 +177,14 @@ export function SponsorFooter({
             >
               {footer.textUpdatesLabel}
             </a>
+            {/* Always absolute: the founder's page is canonical on the
+                brand domain, and there is exactly one of it. */}
+            <a
+              href="https://ascentcas.com/caleb-free"
+              className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
+            >
+              {footer.founderLabel}
+            </a>
           </div>
         </div>
 

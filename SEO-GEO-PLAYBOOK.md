@@ -120,9 +120,34 @@ Instant indexing on Bing and the engines that share its index.
 Answer engines corroborate an entity across independent sources before
 they cite it. Use the **same** name, description, address and phone on
 each — copy them from the "at a glance" block on the site. Then add every
-profile URL to `business.sameAs` in `content/verticals/sponsors.ts` so the
-Organization schema points at them.
+profile URL to the right place in content so the structured data points at
+them:
 
+- **Company** profiles → `business.sameAs` in
+  `content/verticals/sponsors.ts` (and `general.ts`).
+- **Caleb's personal** profiles → `profiles.links` in
+  `content/people/caleb-free.ts`. That array is empty on purpose; filling
+  it renders the Profiles section on
+  [ascentcas.com/caleb-free](https://ascentcas.com/caleb-free) and emits
+  `sameAs` on the Person. **Paste the LinkedIn personal profile first.**
+
+`ascentcas.com/caleb-free` is the authoritative page about the founder:
+ProfilePage + Person structured data, with a Person `@id` that the
+Organization node on both domains and every guide byline point at, so the
+mentions merge into one entity rather than competing. It is linked from
+both footers and listed in the brand sitemap. If a fact about him changes,
+change it there first.
+
+Independent coverage counts double here, because it is not self-published.
+The page already cites Oklahoma City Community College's March 2025 profile
+of him (`press` in the content module, emitted as `subjectOf` on the
+Person). Add any podcast appearance or trade article the same way — and
+where the publisher will do it, ask them to link back to
+ascentcas.com/caleb-free so the reference is mutual.
+
+- **LinkedIn personal profile** — the single most valuable `sameAs` for a
+  person entity. Job title "Founder, Ascent Client Acquisition Systems",
+  and link ascentcas.com/caleb-free from it so the reference is mutual.
 - **LinkedIn company page** for Ascent Client Acquisition Systems —
   the business plan already names LinkedIn as the only social channel.
   Website `https://ascentforsponsors.com`, specialty "Investor acquisition
@@ -210,7 +235,10 @@ list. The business plan already names the moves:
 - [ ] LinkedIn company page · founder profile updated
 - [ ] Google Business Profile · Bing Places
 - [ ] Crunchbase · Clutch · G2
-- [ ] Profile URLs added to `business.sameAs`
+- [ ] Company profile URLs added to `business.sameAs`
+- [ ] Personal profile URLs added to `profiles.links` in `content/people/caleb-free.ts`
+- [x] A photograph of Caleb in `/public/people`, wired to `image` in that same file
+- [ ] Ask OCCC to link ascentcas.com/caleb-free from their March 2025 article about him
 - [ ] Case study published as a guide
 - [ ] First three guest pieces / podcast pitches sent
 - [ ] Monthly: Search Console review · cite check in four engines

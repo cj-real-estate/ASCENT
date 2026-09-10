@@ -1,5 +1,6 @@
 import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import type { Guide } from "@content/guides/types";
+import type { PersonProfile } from "@content/people/types";
 import { plainText } from "@/components/sponsor/RichText";
 
 /*
@@ -19,10 +20,9 @@ import { plainText } from "@/components/sponsor/RichText";
 
 const site = (v: Vertical) => v.business.url;
 const orgId = (v: Vertical) => `${site(v)}/#organization`;
-const founderId = (v: Vertical) => `${site(v)}/#founder`;
 const websiteId = (v: Vertical) => `${site(v)}/#website`;
 
-function organization(v: Vertical, page: SponsorPageContent) {
+function organization(v: Vertical, description: string) {
   const { business } = v;
   const org: Record<string, unknown> = {
     "@type": ["Organization", "ProfessionalService"],
@@ -38,7 +38,7 @@ function organization(v: Vertical, page: SponsorPageContent) {
       height: 512,
     },
     image: `${site(v)}${v.seo.ogImage ?? "/og-image.png"}`,
-    description: page.glance.definition,
+    description,
     slogan: v.footer.tagline,
     areaServed: { "@type": "Country", name: business.areaServed },
     address: {
@@ -57,7 +57,7 @@ function organization(v: Vertical, page: SponsorPageContent) {
       "Cost per appointment held",
     ],
   };
-  if (business.founder) org.founder = { "@id": founderId(v) };
+  if (business.founder) org.founder = { "@id": PERSON_ID };
   if (business.phone || business.email) {
     org.contactPoint = {
       "@type": "ContactPoint",
@@ -72,16 +72,37 @@ function organization(v: Vertical, page: SponsorPageContent) {
   return org;
 }
 
+/*
+ * The person's canonical identity, and it is deliberately NOT on the
+ * sponsor domain: there is one authoritative page about Caleb Free, at
+ * ascentcas.com/caleb-free, and every mention of him in either domain's
+ * graph points at that same @id. That is what lets a search or answer
+ * engine merge "the founder of Ascent" on this site, the guide bylines on
+ * the sponsor site, and the profile page into one entity rather than
+ * three.
+ *
+ * BRAND_SITE is hard-coded rather than derived from the vertical because
+ * the id must not change with whichever host served the request — an @id
+ * that moves is two entities.
+ */
+const BRAND_SITE = "https://ascentcas.com";
+export const PERSON_ID = `${BRAND_SITE}/caleb-free#person`;
+export const personProfileUrl = `${BRAND_SITE}/caleb-free`;
+
 function founder(v: Vertical) {
   const { business } = v;
   if (!business.founder) return null;
   return {
     "@type": "Person",
-    "@id": founderId(v),
+    /* The same id the profile page emits, so this node and that one are
+     * understood as one person. */
+    "@id": PERSON_ID,
     name: business.founder.name,
     jobTitle: business.founder.title,
     worksFor: { "@id": orgId(v) },
-    url: site(v),
+    /* Points at the authoritative page, not at whichever site this is. */
+    url: personProfileUrl,
+    mainEntityOfPage: personProfileUrl,
   };
 }
 
@@ -123,7 +144,7 @@ function breadcrumbs(v: Vertical, trail: { name: string; path: string }[]) {
 /** The sponsor page: Organization, founder, WebSite, WebPage, Service, FAQPage. */
 export function sponsorPageGraph(v: Vertical, page: SponsorPageContent, updated: string) {
   const url = site(v);
-  const graph: unknown[] = [organization(v, page), founder(v), website(v)].filter(Boolean);
+  const graph: unknown[] = [organization(v, page.glance.definition), founder(v), website(v)].filter(Boolean);
   graph.push({
     "@type": "WebPage",
     "@id": `${url}/#webpage`,
@@ -173,7 +194,7 @@ export function guidesIndexGraph(v: Vertical, page: SponsorPageContent, guides: 
   return {
     "@context": "https://schema.org",
     "@graph": [
-      organization(v, page),
+      organization(v, page.glance.definition),
       founder(v),
       website(v),
       {
@@ -221,7 +242,7 @@ export function guideGraph(v: Vertical, page: SponsorPageContent, guide: Guide) 
     .join(" ")
     .split(/\s+/).length;
 
-  const graph: unknown[] = [organization(v, page), founder(v), website(v)].filter(Boolean);
+  const graph: unknown[] = [organization(v, page.glance.definition), founder(v), website(v)].filter(Boolean);
   graph.push({
     "@type": "Article",
     "@id": `${url}/#article`,
@@ -235,7 +256,7 @@ export function guideGraph(v: Vertical, page: SponsorPageContent, guide: Guide) 
     isPartOf: { "@id": websiteId(v) },
     datePublished: guide.published,
     dateModified: guide.updated,
-    author: v.business.founder ? { "@id": founderId(v) } : { "@id": orgId(v) },
+    author: v.business.founder ? { "@id": PERSON_ID } : { "@id": orgId(v) },
     publisher: { "@id": orgId(v) },
     image: {
       "@type": "ImageObject",
@@ -282,4 +303,114 @@ export function guideGraph(v: Vertical, page: SponsorPageContent, guide: Guide) 
     });
   }
   return { "@context": "https://schema.org", "@graph": graph };
+}
+
+/*
+ * The authoritative profile page: ProfilePage wrapping a Person.
+ *
+ * ProfilePage is the type Google documents for a page about one person or
+ * organisation, and `mainEntity` is what says which one — so the Person
+ * node carries the whole identity (name, description, job title, the
+ * employer by reference, and `sameAs` for the profiles that are actually
+ * his) rather than leaving an engine to infer it from prose.
+ *
+ * Nothing optional is invented. `sameAs` and `image` are emitted only when
+ * the content module actually has them: an empty sameAs is not a signal,
+ * and a wrong one is a bad signal.
+ */
+export function personProfileGraph(v: Vertical, person: PersonProfile) {
+  const url = `${BRAND_SITE}${person.path}`;
+  const sameAs = person.profiles.links.map((link) => link.url);
+
+  const personNode: Record<string, unknown> = {
+    "@type": "Person",
+    "@id": PERSON_ID,
+    name: person.name,
+    givenName: "Caleb",
+    familyName: "Free",
+    description: person.summary,
+    jobTitle: person.legalRole ?? person.jobTitle,
+    url,
+    mainEntityOfPage: url,
+    worksFor: { "@id": orgId(v) },
+    /* He founded it as well as works for it — both, because they answer
+     * different questions an engine asks. */
+    homeLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: v.business.city,
+        addressRegion: v.business.region,
+        addressCountry: "US",
+      },
+    },
+    knowsAbout: [
+      "Client acquisition systems",
+      "Paid media on Meta, Google and LinkedIn",
+      "Lead response and appointment setting",
+      "Investor acquisition for Regulation D Rule 506(c) real estate offerings",
+      "Real estate operations",
+    ],
+    knowsLanguage: "en-US",
+  };
+  if (sameAs.length > 0) personNode.sameAs = sameAs;
+  /* Independent coverage, as `subjectOf`. Self-description is what every
+   * profile page has; a named third-party publisher writing about him is
+   * the part an engine can corroborate, so it is stated explicitly rather
+   * than left as a link in the prose. */
+  if (person.press && person.press.items.length > 0) {
+    personNode.subjectOf = person.press.items.map((item) => ({
+      "@type": "NewsArticle",
+      headline: item.title,
+      url: item.url,
+      datePublished: item.date,
+      publisher: { "@type": "Organization", name: item.publisher },
+      about: { "@id": PERSON_ID },
+    }));
+  }
+  if (person.image) {
+    /* The square, high-resolution variant: Google's profile-page guidance
+     * asks for a large image, and a square crop survives every thumbnail
+     * shape an engine might render it at. */
+    personNode.image = {
+      "@type": "ImageObject",
+      url: `${BRAND_SITE}${person.image.square.src}`,
+      width: person.image.square.width,
+      height: person.image.square.height,
+      caption: person.image.alt,
+    };
+  }
+  if (v.business.email) personNode.email = v.business.email;
+  if (v.business.phone) personNode.telephone = v.business.phone;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "ProfilePage",
+        "@id": `${url}/#webpage`,
+        url,
+        name: person.seoTitle,
+        description: person.seoDescription,
+        /* The whole point of the page, declared. */
+        mainEntity: { "@id": PERSON_ID },
+        about: { "@id": PERSON_ID },
+        isPartOf: { "@id": websiteId(v) },
+        ...(person.image
+          ? { primaryImageOfPage: `${BRAND_SITE}${person.image.og}` }
+          : {}),
+        dateCreated: person.published,
+        datePublished: person.published,
+        dateModified: person.updated,
+        inLanguage: "en-US",
+      },
+      personNode,
+      organization(v, v.seo.description),
+      website(v),
+      breadcrumbs(v, [
+        { name: "Home", path: "/" },
+        { name: person.name, path: person.path },
+      ]),
+    ],
+  };
 }

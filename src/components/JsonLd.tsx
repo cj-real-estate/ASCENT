@@ -1,9 +1,14 @@
 import type { Vertical } from "@content/verticals/types";
+import { PERSON_ID, personProfileUrl } from "@/lib/schema";
 
 /*
  * LocalBusiness structured data, rendered server-side as a single
  * application/ld+json script. ProfessionalService is a LocalBusiness
  * subtype, which fits a growth-systems firm better than the base type.
+ *
+ * The founder is named by the cross-domain @id from src/lib/schema.ts, so
+ * the person on /caleb-free, the guide bylines on the sponsor domain and
+ * this node all merge into one entity.
  *
  * telephone/email are OMITTED entirely while business.phone/business.email
  * are null — placeholder strings must never reach structured data. No
@@ -32,6 +37,18 @@ export default function JsonLd({ vertical }: { vertical: Vertical }) {
 
   if (business.phone !== null) data.telephone = business.phone;
   if (business.email !== null) data.email = business.email;
+  /* The founder, by the same @id the authoritative profile page emits, so
+   * this node and that page describe one person rather than two. */
+  if (business.founder) {
+    data.founder = {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: business.founder.name,
+      jobTitle: business.founder.title,
+      url: personProfileUrl,
+    };
+  }
+  if (business.legalName) data.legalName = business.legalName;
 
   return <JsonLdData data={data} />;
 }

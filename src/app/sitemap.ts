@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { verticals } from "@content/verticals";
 import { verticalUrl } from "@/lib/metadata";
+import calebFree from "@content/people/caleb-free";
 
 /*
  * Sitemap for the primary host: every vertical that lives there, plus
@@ -28,6 +29,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "yearly",
       priority: 0.3,
+    },
+    /* The authoritative page about the founder. High-ish priority: it is
+     * the entity page, and an orphan cannot do that job. */
+    {
+      url: `${base}/caleb-free`,
+      lastModified: new Date(`${calebFree.updated}T12:00:00Z`),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${base}/terms`,

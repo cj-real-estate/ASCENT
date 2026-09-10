@@ -77,6 +77,15 @@ export function Footer({ vertical }: { vertical: Vertical }) {
           >
             {footer.textUpdatesLabel}
           </a>
+          {/* The founder's authoritative page. Absolute, because the
+              sponsor domain renders this footer too and the page is
+              canonical on the brand domain only. */}
+          <a
+            href="https://ascentcas.com/caleb-free"
+            className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
+          >
+            {footer.founderLabel}
+          </a>
         </p>
 
         {footer.complianceLine ? (

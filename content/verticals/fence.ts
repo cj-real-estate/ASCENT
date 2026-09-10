@@ -569,6 +569,7 @@ const fence: Vertical = {
     privacyLabel: "Privacy",
     termsLabel: "Terms",
     textUpdatesLabel: "Text updates",
+    founderLabel: "About Caleb Free",
     complianceLine: null,
   },
 };

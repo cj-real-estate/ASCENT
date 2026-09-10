@@ -519,6 +519,7 @@ const sponsors: Vertical = {
     privacyLabel: "Privacy",
     termsLabel: "Terms",
     textUpdatesLabel: "Text updates",
+    founderLabel: "About Caleb Free",
     // The brand guide's compliance footer — on every sponsor-facing page.
     complianceLine:
       "Ascent is not a broker-dealer, finder or placement agent. Compensation is a flat monthly fee — nothing tied to capital raised, investors acquired, or appointments booked. Verification of accredited status remains with the issuer. Nothing on this page is an offer to sell or a solicitation of an offer to buy any security.",

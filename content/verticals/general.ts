@@ -40,6 +40,9 @@ const general: Vertical = {
     // consent language — A2P review checks that the name on the site
     // matches the business that registered the campaign.
     legalName: "Ascent Client Acquisition Systems LLC",
+    // Named so the Organization JSON-LD can point at the authoritative
+    // profile page at /caleb-free (see src/lib/schema.ts PERSON_ID).
+    founder: { name: "Caleb Free", title: "Founder and Managing Member" },
   },
 
   // The call this vertical books, as the transactional SMS consent
@@ -635,6 +638,7 @@ const general: Vertical = {
     privacyLabel: "Privacy",
     termsLabel: "Terms",
     textUpdatesLabel: "Text updates",
+    founderLabel: "About Caleb Free",
     complianceLine: null,
   },
 };

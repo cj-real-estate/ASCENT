@@ -73,6 +73,20 @@ are quoted verbatim. Each ticked box tags the GoHighLevel contact
 timestamped record of the wording shown. Read `docs/A2P-10DLC.md` before
 touching any of it.
 
+## The founder's entity page
+
+`ascentcas.com/caleb-free` is the one authoritative page about Caleb Free:
+ProfilePage + Person structured data whose Person `@id`
+(`PERSON_ID` in `src/lib/schema.ts`) is also what the Organization
+`founder` on both domains and every sponsor guide byline point at, so all
+the mentions describe one entity. Copy lives in
+`content/people/caleb-free.ts`, with his photograph in `public/people`
+(regenerate the three crops with `npm run generate:person <original.jpg>`).
+`profiles.links` is deliberately empty and wants his real profile URLs,
+which become `sameAs` — never fill it with a guess, since the page exists
+to identify one person. Third-party coverage goes in `press`, which becomes
+`subjectOf`.
+
 ## Where things live
 
 | Path | What |
@@ -86,6 +100,7 @@ touching any of it.
 | `src/components/sponsor/SponsorChrome.tsx` | Header, footer, logo and shared styles for every page on the sponsor domain. Links are absolute on the sponsor domain because `/guides` does not exist under `/sponsors` on ascentcas.com. |
 | `src/components/sponsor/GuideArticle.tsx` | Renders a guide. `RichText.tsx` beside it handles `[links](href)` and `**bold**` in guide copy. |
 | `src/lib/schema.ts` | JSON-LD graphs for the sponsor page, the guides index and each guide. |
+| `content/people/caleb-free.ts` | **The founder's profile content** for `/caleb-free`. `profiles.links` and `image` are empty until the owner supplies real ones. |
 | `content/compliance.ts` | **The carrier-mandated SMS strings** — consent sentence, the privacy policy's mobile-data clause, and the program terms. Not per-vertical: the same wording has to appear identically on both domains or A2P review rejects the campaign. |
 | `src/components/SmsConsentFields.tsx` | The two consent boxes, on both grounds. Unchecked, never required, independent — see `docs/A2P-10DLC.md`. |
 | `src/lib/business.ts` | `formatAddress()` — the registered postal address, rendered in both footers, both policies and both terms pages. |
