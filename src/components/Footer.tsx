@@ -69,6 +69,14 @@ export function Footer({ vertical }: { vertical: Vertical }) {
           >
             {footer.termsLabel}
           </a>
+          {/* This domain's opt-in page. The sponsor domain's equivalent is
+              /sms-opt-in — see src/components/sponsor/SponsorChrome.tsx. */}
+          <a
+            href="/sms"
+            className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
+          >
+            {footer.textUpdatesLabel}
+          </a>
         </p>
 
         {footer.complianceLine ? (

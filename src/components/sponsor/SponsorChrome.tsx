@@ -163,12 +163,19 @@ export function SponsorFooter({
             >
               {footer.privacyLabel}
             </a>
-            {/* The SMS consent box on this site's forms links to both. */}
+            {/* The SMS consent boxes on this site's forms link to both. */}
             <a
               href={href("/terms")}
               className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
             >
               {footer.termsLabel}
+            </a>
+            {/* The no-JavaScript opt-in page, reachable from every page. */}
+            <a
+              href={href("/sms-opt-in")}
+              className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
+            >
+              {footer.textUpdatesLabel}
             </a>
           </div>
         </div>

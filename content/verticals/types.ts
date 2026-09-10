@@ -681,6 +681,12 @@ export interface Vertical {
      */
     termsLabel: string;
     /**
+     * Label of the link to this domain's SMS opt-in page — /sms-opt-in on
+     * the sponsor domain, /sms on the brand site. A reviewer should be able
+     * to reach the opt-in form from any page, which means from the footer.
+     */
+    textUpdatesLabel: string;
+    /**
      * Standing regulatory line, e.g. the not-a-broker-dealer statement that
      * goes on every sponsor-facing document. null renders nothing.
      */

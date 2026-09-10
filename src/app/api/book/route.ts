@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
 import { deliverLeadToGhl, ghlConfigured, ghlEnvNamesSeen } from "@/lib/ghl";
 import { postLeadWebhook } from "@/lib/leadSink";
+import { deliverOptIn } from "@/lib/optIn";
+import { CONSENT_FIELD_NAMES } from "@/components/SmsConsentFields";
 import { readEnv } from "@/lib/env";
 
 /*
@@ -37,6 +39,12 @@ import { readEnv } from "@/lib/env";
  *   the gate. Validated and delivered exactly as it always was — but since
  *   delivery is its only outcome, it still fails honestly when nothing takes
  *   it, where a gate submission proceeds to the calendar regardless.
+ *
+ *   form-encoded — a NATIVE form post from /sms-opt-in, which is fully
+ *   server-rendered and must work with JavaScript off, so it cannot send
+ *   JSON. Handled first and separately below: it is an SMS opt-in, not a
+ *   gate submission, and it answers with a 303 redirect back to the page
+ *   rather than JSON, because the browser is navigating.
  */
 
 export const runtime = "nodejs";
@@ -101,8 +109,118 @@ function readString(source: Record<string, unknown>, key: string): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+/*
+ * A native <form> post from /sms-opt-in.
+ *
+ * That page is server-rendered with no client JavaScript — the whole point,
+ * so A2P 10DLC review can see the fields and submit them with scripting off
+ * — which means the body arrives form-encoded and the response has to be a
+ * redirect the browser can follow, not JSON.
+ *
+ * Outcome rides back in the query string and the page renders it: `?ok=1`
+ * on success, `?error=<code>` otherwise. `returnTo` says which page to go
+ * back to and is checked to be a same-origin path, so this can never be
+ * turned into an open redirect.
+ */
+const OPT_IN_ERRORS = {
+  name: "name",
+  phone: "phone",
+  email: "email",
+  undelivered: "undelivered",
+} as const;
+
+const SAFE_RETURN_TO = /^\/[A-Za-z0-9\-._~/]*$/;
+
+function seeOther(path: string, query: string) {
+  /* A relative Location, so the redirect lands on whichever host served
+   * the request — the same route answers ascentcas.com and
+   * ascentforsponsors.com. */
+  return new Response(null, {
+    status: 303,
+    headers: { Location: `${path}?${query}`, "Cache-Control": "no-store" },
+  });
+}
+
+async function handleFormPost(request: Request) {
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return bad("Couldn't read the form.");
+  }
+  const read = (key: string) => {
+    const value = form.get(key);
+    return typeof value === "string" ? value.trim().slice(0, MAX_FIELD_LENGTH) : "";
+  };
+
+  const requested = read("returnTo");
+  const returnTo =
+    requested && SAFE_RETURN_TO.test(requested) && !requested.startsWith("//")
+      ? requested
+      : "/";
+  const slug = read("vertical");
+  const config = VERTICALS_BY_SLUG.get(slug) ?? general;
+
+  // Honeypot filled: answer as though it worked, deliver nothing.
+  if (read("website")) return seeOther(returnTo, "ok=1");
+
+  const name = read("name");
+  const company = read("company");
+  const phone = read("phone");
+  const email = read("email");
+  /* Presence is consent: an unticked checkbox posts nothing at all. Neither
+   * is required, so neither can fail this submission. */
+  const smsConsentTransactional = form.get(CONSENT_FIELD_NAMES.transactional) !== null;
+  const smsConsentMarketing = form.get(CONSENT_FIELD_NAMES.marketing) !== null;
+
+  if (!name) return seeOther(returnTo, `error=${OPT_IN_ERRORS.name}`);
+  if (!phone || !PHONE_CHARS_RE.test(phone) || phone.replace(/\D/g, "").length < 10) {
+    return seeOther(returnTo, `error=${OPT_IN_ERRORS.phone}`);
+  }
+  if (email && !EMAIL_RE.test(email)) {
+    return seeOther(returnTo, `error=${OPT_IN_ERRORS.email}`);
+  }
+
+  const receivedAt = new Date().toISOString();
+  const delivered = await deliverOptIn({
+    name,
+    company,
+    phone,
+    email,
+    page: slug ? `sms-opt-in:${slug}` : "sms-opt-in",
+    smsConsentTransactional,
+    smsConsentMarketing,
+    smsCallName: config.smsCallName,
+    receivedAt,
+  });
+
+  if (!delivered) {
+    /* Delivery IS the outcome here, so a failure is told to the visitor
+     * rather than swallowed. Logging the opt-in is the same deliberate PII
+     * exception the gate makes: it is the only remaining copy. */
+    console.error("[OPT_IN_UNDELIVERED]", {
+      name,
+      phone,
+      email,
+      smsConsentTransactional,
+      smsConsentMarketing,
+      receivedAt,
+    });
+    return seeOther(returnTo, `error=${OPT_IN_ERRORS.undelivered}`);
+  }
+  return seeOther(returnTo, "ok=1");
+}
+
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") ?? "";
+  /* The no-JavaScript opt-in form. Checked before the JSON gate because a
+   * native post can only be form-encoded. */
+  if (
+    contentType.includes("application/x-www-form-urlencoded") ||
+    contentType.includes("multipart/form-data")
+  ) {
+    return handleFormPost(request);
+  }
   if (!contentType.includes("application/json")) {
     return bad("Requests must be JSON.");
   }

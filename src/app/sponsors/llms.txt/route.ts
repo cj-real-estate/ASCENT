@@ -38,6 +38,9 @@ export function GET() {
   for (const g of guides) {
     lines.push(`- [${g.title}](${base}/guides/${g.slug}): ${g.description}`);
   }
+  lines.push(
+    `- [Text updates](${base}/sms-opt-in): Opt in to text messages about a scoping call.`,
+  );
   lines.push(`- [Privacy](${base}/privacy): How this site handles visitor data.`);
   lines.push(
     `- [Terms](${base}/terms): Website terms and the text message program terms.`,

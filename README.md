@@ -59,9 +59,11 @@ fetched from Google at runtime.
 
 Every form on the site carries **two** optional, unchecked SMS consent
 checkboxes directly below the phone field — transactional (call
-confirmations, reminders, scheduling updates) and marketing — and `/sms` is
-a dedicated one-screen opt-in page whose URL goes on the A2P 10DLC campaign
-registration. The carrier-mandated wording lives in one module,
+confirmations, reminders, scheduling updates) and marketing. Two dedicated
+opt-in pages carry the same pair: `/sms-opt-in` on the sponsor domain,
+which is a plain server-rendered `<form method="post">` that works with
+JavaScript off and is the URL to submit for A2P 10DLC campaign review, and
+`/sms` on the brand domain. The carrier-mandated wording lives in one module,
 `content/compliance.ts`, imported by both forms, both privacy policies and
 both terms pages — edit it there and it changes everywhere. Four things
 about the boxes are compliance, not design: both start unchecked, nothing
@@ -87,7 +89,9 @@ touching any of it.
 | `content/compliance.ts` | **The carrier-mandated SMS strings** — consent sentence, the privacy policy's mobile-data clause, and the program terms. Not per-vertical: the same wording has to appear identically on both domains or A2P review rejects the campaign. |
 | `src/components/SmsConsentFields.tsx` | The two consent boxes, on both grounds. Unchecked, never required, independent — see `docs/A2P-10DLC.md`. |
 | `src/lib/business.ts` | `formatAddress()` — the registered postal address, rendered in both footers, both policies and both terms pages. |
-| `src/app/sms/page.tsx` | The single-screen opt-in page submitted for A2P review, posting to `/api/sms-optin`. |
+| `src/app/sponsors/sms-opt-in/page.tsx` | **The no-JavaScript opt-in page** submitted for A2P review. A native form post to `/api/book`, which answers form-encoded bodies with a 303 back to the page. |
+| `src/app/sms/page.tsx` | The brand domain's opt-in page, posting JSON to `/api/sms-optin`. |
+| `src/lib/optIn.ts` | Shared opt-in delivery, so both pages produce the same CRM record. |
 | `src/lib/leadSink.ts` | The Google Sheet backstop, shared by `/api/book` and `/api/sms-optin`. |
 | `scripts/indexnow.mjs` | `npm run indexnow` — submits the sponsor sitemap's URLs to IndexNow (needs `INDEXNOW_KEY`, see `SEO-GEO-PLAYBOOK.md`). |
 | `src/components/sponsor/SponsorPage.tsx` | The **dark sponsor template** for ascentforsponsors.com — a second page template beside `VerticalPage`, fed by `content/verticals/sponsors.ts` (`sponsors` + `sponsorsPage`). Sector-page structure: hero with a structural-facts row, category benchmarks, problem triptych, dark calculator, numbered process, feature grid with a CTA card, boundaries, fit check, FAQ, gate, long-form legal footer. |

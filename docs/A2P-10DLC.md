@@ -11,36 +11,51 @@ match what a reviewer will actually find, and what only you can do.
 
 ---
 
-## The one URL to submit
+## The URL to submit
 
-**Opt-in URL: `https://ascentcas.com/sms`**
+**Opt-in URL: `https://ascentforsponsors.com/sms-opt-in`**
 
-That page exists for the review. It is one screen with the mobile-number
-field and both consent checkboxes visible on arrival, it names the
-registered entity and its address, and it links to the privacy policy and
-the terms. Every other form
-on the site collects a number too, but they all sit behind the ICP gate's
-question cards — a reviewer who lands on the homepage cannot see a phone
-field without clicking through a wizard, and "no visible opt-in form" is a
-rejection.
+Submit this one. It is the only opt-in form on either domain that works
+with **no JavaScript at all**: a plain `<form method="post">`, so every
+field, both consent checkboxes, the optional note and the links are in the
+initial HTML and a review scraper that does not run scripts can still see
+and submit them. It posts natively to `/api/book`, which answers a
+form-encoded body with a 303 back to the page (`?ok=1`, or `?error=<code>`
+which the page renders).
 
-Use the `ascentcas.com` domain when a field asks for the website: the
-registered entity is **Ascent Client Acquisition Systems LLC** and that
-domain is the one whose name matches it. `ascentforsponsors.com` is the same
-company and carries the same consent boxes, policy and terms, but a reviewer
-comparing a name to a domain should be given the easy match.
+There is a second opt-in page, `https://ascentcas.com/sms`. Its fields are
+server-rendered too, but its submit handler is client-side, so with
+scripting off the form is inert. Keep it as the brand domain's page; submit
+the sponsor one.
+
+Every other form on the site collects a number as well, but they sit behind
+the ICP gate's question cards — a reviewer who lands on a homepage cannot
+see a phone field without clicking through a wizard, and "no visible opt-in
+form" is a rejection.
+
+One trade-off to know about: the registered entity is **Ascent Client
+Acquisition Systems LLC**, and `ascentcas.com` is the domain whose name
+matches it most obviously. `ascentforsponsors.com` is the same company,
+names the entity in full on the opt-in page, in both footers, in both
+policies and in both terms pages, and publishes the same registered
+address — so a reviewer can confirm the match. If a rejection ever cites a
+website/business-name mismatch specifically, resubmit with the brand
+domain's page and expect to argue the JavaScript point.
 
 ## What is on the site already
 
 | Requirement | Where it is | File |
 |---|---|---|
-| Phone field on a live, public URL | `/sms`, plus the contact step of every gate form — the phone is the LAST field in both, so the boxes sit directly below it | `src/components/SmsOptInForm.tsx`, `src/components/QualifyFlow.tsx` |
-| Two consent checkboxes, unchecked, not required | Directly below the phone field on both | `src/components/SmsConsentFields.tsx` |
+| Phone field on a live, public URL, no JavaScript needed | `/sms-opt-in` on the sponsor domain — a native form post, fully server-rendered | `src/app/sponsors/sms-opt-in/page.tsx` |
+| Phone field on a live, public URL | `/sms`, plus the contact step of every gate form — the phone is the LAST field in all of them, so the boxes sit directly below it | `src/components/SmsOptInForm.tsx`, `src/components/QualifyFlow.tsx` |
+| Two consent checkboxes, unchecked, not required | Directly below the phone field on every form | `src/components/SmsConsentFields.tsx` — one component, controlled for the JavaScript forms and uncontrolled for the native one, so the wording cannot drift |
 | The exact consent wording | Two constants, imported by both forms | `content/compliance.ts` |
 | Privacy policy linked from the forms | One links row under both boxes, plus every footer | `src/app/privacy`, `src/app/sponsors/privacy` |
 | The mobile-data no-sharing clause | In both policies, verbatim | `MOBILE_DATA_NO_SHARING` in `content/compliance.ts` |
 | Terms page covering the SMS program | Both domains | `src/app/terms`, `src/app/sponsors/terms` |
 | Program name, both consent types, frequency, rates, HELP/STOP, support contact | The terms page's program table | `smsProgramTerms()` in `content/compliance.ts` |
+| Minimum age (18) | The terms page's program table, and on `/sms-opt-in` | `SMS_AGE_REQUIREMENT` in `content/compliance.ts` |
+| Data-security statement | A "Data security" section in both policies | `DATA_SECURITY_CLAUSE` in `content/compliance.ts` |
 | The registered postal address | Both footers, and the contact section of both policies and both terms pages | `business.street` / `postalCode`, rendered by `formatAddress()` in `src/lib/business.ts` |
 
 ## Two consents, not one
@@ -97,6 +112,11 @@ A ticked box is proof only if you can produce it later. On submit:
   `sms_consent_transactional`, `_at`, `_text` and `sms_consent_marketing`,
   `_at`, `_text` — so each can be mapped to its own custom field.
 - The Google Sheet backstop gets both booleans as columns.
+- The native form on `/sms-opt-in` posts the same two field names
+  form-encoded; an unticked checkbox posts nothing at all, so the route
+  reads presence as consent. Both opt-in pages deliver through the same
+  helper (`src/lib/optIn.ts`), so the CRM record is identical whichever
+  page someone used.
 - The forms post `smsConsentTransactional` and `smsConsentMarketing`. A page
   cached from before the split posts the old single `smsConsent`, which is
   read as the marketing consent (it was); that fallback can be removed once

@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import sponsors, { sponsorsPage } from "@content/verticals/sponsors";
 import { guides } from "@content/guides";
-import { MOBILE_DATA_NO_SHARING, SMS_PROGRAM_NAME } from "@content/compliance";
+import {
+  DATA_SECURITY_CLAUSE,
+  MOBILE_DATA_NO_SHARING,
+  SMS_PROGRAM_NAME,
+} from "@content/compliance";
 import { formatAddress } from "@/lib/business";
 import { SponsorFooter, SponsorHeader, shell, sponsorHref } from "@/components/sponsor/SponsorChrome";
 
@@ -115,6 +119,9 @@ export default function SponsorPrivacyPage() {
             (GoHighLevel) with a record of the wording you agreed to and when, so we can show how
             a number opted in. {MOBILE_DATA_NO_SHARING}
           </p>
+
+          <h2 className={h2Class}>Data security</h2>
+          <p className={pClass}>{DATA_SECURITY_CLAUSE}</p>
 
           <h2 className={h2Class}>What we don&apos;t do</h2>
           <p className={pClass}>

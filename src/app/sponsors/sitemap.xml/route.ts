@@ -30,6 +30,8 @@ ${[
   entry(base, SPONSOR_PAGE_UPDATED, "weekly", "1"),
   entry(`${base}/guides`, guidesUpdated, "weekly", "0.8"),
   ...guides.map((g) => entry(`${base}/guides/${g.slug}`, g.updated, "monthly", "0.8")),
+  /* The opt-in page. Listed because A2P 10DLC review has to find it. */
+  entry(`${base}/sms-opt-in`, LEGAL_UPDATED, "yearly", "0.4"),
   entry(`${base}/privacy`, PRIVACY_UPDATED, "yearly", "0.3"),
   entry(`${base}/terms`, LEGAL_UPDATED, "yearly", "0.3"),
 ].join("\n")}

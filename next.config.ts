@@ -20,6 +20,7 @@ const sponsorHostRewrites = SPONSOR_HOSTS.flatMap((host) => {
     { source: "/llms.txt", destination: "/sponsors/llms.txt", has },
     { source: "/privacy", destination: "/sponsors/privacy", has },
     { source: "/terms", destination: "/sponsors/terms", has },
+    { source: "/sms-opt-in", destination: "/sponsors/sms-opt-in", has },
     { source: "/guides", destination: "/sponsors/guides", has },
     { source: "/guides/:slug", destination: "/sponsors/guides/:slug", has },
   ];

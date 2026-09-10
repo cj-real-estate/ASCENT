@@ -568,6 +568,7 @@ const fence: Vertical = {
     locationLine: "Oklahoma City, OK",
     privacyLabel: "Privacy",
     termsLabel: "Terms",
+    textUpdatesLabel: "Text updates",
     complianceLine: null,
   },
 };

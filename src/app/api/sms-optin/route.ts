@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import general from "@content/verticals/general";
-import { deliverLeadToGhl } from "@/lib/ghl";
-import { postLeadWebhook } from "@/lib/leadSink";
+import { deliverOptIn } from "@/lib/optIn";
 
 /*
  * The standalone SMS opt-in endpoint, behind /sms.
@@ -105,40 +104,17 @@ export async function POST(request: Request) {
     return bad("Enter an email address like name@company.com.");
   }
 
-  const results = await Promise.allSettled([
-    deliverLeadToGhl({
-      name,
-      company: "",
-      phone,
-      email,
-      page: "sms",
-      interest: "SMS updates",
-      verdict: "SMS OPT-IN",
-      qualified: null,
-      answers: {},
-      answerLines: [],
-      smsConsentTransactional,
-      smsConsentMarketing,
-      smsCallName: general.smsCallName,
-      receivedAt,
-    }),
-    postLeadWebhook({
-      verdict: "SMS OPT-IN",
-      name,
-      company: "",
-      phone,
-      email,
-      page: "sms",
-      interest: "SMS updates",
-      answers: {},
-      smsConsentTransactional,
-      smsConsentMarketing,
-      receivedAt,
-    }),
-  ]);
-  const delivered = results.some(
-    (result) => result.status === "fulfilled" && result.value,
-  );
+  const delivered = await deliverOptIn({
+    name,
+    company: "",
+    phone,
+    email,
+    page: "sms",
+    smsConsentTransactional,
+    smsConsentMarketing,
+    smsCallName: general.smsCallName,
+    receivedAt,
+  });
 
   if (!delivered) {
     /* Nothing took it, and unlike a gate submission there is no calendar to

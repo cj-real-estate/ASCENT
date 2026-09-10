@@ -35,8 +35,9 @@
  *   - `MOBILE_DATA_NO_SHARING` appears verbatim in both privacy policies.
  *     Its absence is the single most common rejection cause.
  *   - Whatever the forms say, the terms page must repeat: program name,
- *     both consent types, frequency, rates, HELP/STOP and a support
- *     contact.
+ *     both consent types, frequency, rates, HELP/STOP, the minimum age and
+ *     a support contact.
+ *   - `DATA_SECURITY_CLAUSE` appears in both privacy policies.
  *
  * If a carrier asks for different wording, change it HERE and it changes on
  * every form, policy and terms page at once. See docs/A2P-10DLC.md.
@@ -85,6 +86,27 @@ export const MOBILE_DATA_NO_SHARING =
   "No mobile information will be shared with third parties or affiliates for marketing or " +
   "promotional purposes. Text messaging originator opt-in data and consent will not be shared " +
   "with any third parties.";
+
+/**
+ * The minimum age to opt in. A2P 10DLC review asks for it, and it belongs
+ * in the terms rather than in either consent sentence — the sentences are
+ * quoted wording and do not get extended.
+ */
+export const SMS_AGE_REQUIREMENT =
+  `You must be at least 18 years old to opt in to text messages from ${LEGAL_ENTITY}.`;
+
+/**
+ * The data-security paragraph, verbatim, for both privacy policies. It
+ * describes safeguards rather than promising security — "no method of
+ * transmission or storage is 100% secure" is part of the statement and
+ * stays in it.
+ */
+export const DATA_SECURITY_CLAUSE =
+  "We protect personal information, including mobile numbers and consent records, using " +
+  "industry-standard safeguards: encryption in transit (HTTPS/TLS), access limited to " +
+  "authorized personnel, and secure, access-controlled storage with our service providers. " +
+  "No method of transmission or storage is 100% secure, but we take reasonable measures to " +
+  "protect your information.";
 
 /** Link labels that close the consent language, per the carrier's template. */
 export const SMS_CONSENT_PRIVACY_LINK_LABEL = "Privacy Policy";
@@ -155,6 +177,10 @@ export function smsProgramTerms(support: {
           "By checking a box on a form on this site and submitting your mobile number. Both boxes " +
           "are optional and start unchecked — every form here can be submitted without either, " +
           "and we do not text a number that did not opt in.",
+      },
+      {
+        term: "Age",
+        detail: SMS_AGE_REQUIREMENT,
       },
       {
         term: "Message frequency",
