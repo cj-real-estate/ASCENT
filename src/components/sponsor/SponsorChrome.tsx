@@ -157,6 +157,13 @@ export function SponsorFooter({
             >
               {footer.privacyLabel}
             </a>
+            {/* The SMS consent box on this site's forms links to both. */}
+            <a
+              href={href("/terms")}
+              className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
+            >
+              {footer.termsLabel}
+            </a>
           </div>
         </div>
 

@@ -39,6 +39,9 @@ export function GET() {
     lines.push(`- [${g.title}](${base}/guides/${g.slug}): ${g.description}`);
   }
   lines.push(`- [Privacy](${base}/privacy): How this site handles visitor data.`);
+  lines.push(
+    `- [Terms](${base}/terms): Website terms and the text message program terms.`,
+  );
   lines.push("");
 
   lines.push("## What is included");

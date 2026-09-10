@@ -4,7 +4,7 @@ import { verticalUrl } from "@/lib/metadata";
 
 /*
  * Sitemap for the primary host: every vertical that lives there, plus
- * "/privacy". "/thanks" is a post-submit confirmation page and is
+ * "/privacy", "/terms" and the SMS opt-in page. "/thanks" is a post-submit confirmation page and is
  * deliberately excluded (noindexed). A vertical that is the root of its own
  * domain (canonicalUrl set) is listed by that domain's sitemap instead —
  * see src/app/sponsors/sitemap.xml/route.ts. New verticals appear here
@@ -25,6 +25,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       })),
     {
       url: `${base}/privacy`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${base}/terms`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    /* The SMS opt-in page. Listed because A2P 10DLC campaign review has to
+     * be able to find it — see docs/A2P-10DLC.md. */
+    {
+      url: `${base}/sms`,
       lastModified,
       changeFrequency: "yearly",
       priority: 0.3,

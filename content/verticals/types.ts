@@ -655,6 +655,13 @@ export interface Vertical {
     /** Label of the /privacy link — rendered in the Footer and on /apply. */
     privacyLabel: string;
     /**
+     * Label of the /terms link, beside the privacy one. Terms are not
+     * optional on a site whose forms carry an SMS consent checkbox: the
+     * consent language links to them, and A2P campaign review reads them
+     * for the program's frequency, rates, HELP/STOP and support contact.
+     */
+    termsLabel: string;
+    /**
      * Standing regulatory line, e.g. the not-a-broker-dealer statement that
      * goes on every sponsor-facing document. null renders nothing.
      */

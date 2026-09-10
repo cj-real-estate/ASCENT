@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import sponsors, { sponsorsPage } from "@content/verticals/sponsors";
 import { guides } from "@content/guides";
+import { MOBILE_DATA_NO_SHARING, SMS_PROGRAM_NAME } from "@content/compliance";
 import { SponsorFooter, SponsorHeader, shell, sponsorHref } from "@/components/sponsor/SponsorChrome";
 
 /*
@@ -76,6 +77,28 @@ export default function SponsorPrivacyPage() {
           <p className={pClass}>
             If the engagement fits, the site shows a Calendly scheduler. Calendly&apos;s own privacy policy
             governs what you enter there.
+          </p>
+
+          <h2 className={h2Class}>Text messages and your mobile number</h2>
+          <p className={pClass}>
+            The qualification form has an optional, unchecked box for text messages. Check it and
+            we may text you about your enquiry — scheduling and confirming the scoping call, and
+            following up afterwards ({SMS_PROGRAM_NAME}). Leave it unchecked and we never text you;
+            it is not a condition of anything. Message frequency varies, message and data rates
+            may apply, and you can reply STOP to any message to opt out or HELP for help. The full
+            program terms are on the{" "}
+            <a
+              href={sponsorHref(sponsors, "/terms")}
+              className="text-paper underline underline-offset-4"
+            >
+              terms page
+            </a>
+            .
+          </p>
+          <p className={pClass}>
+            Your number and your consent are stored in our customer relationship manager
+            (GoHighLevel) with a record of the wording you agreed to and when, so we can show how
+            a number opted in. {MOBILE_DATA_NO_SHARING}
           </p>
 
           <h2 className={h2Class}>What we don&apos;t do</h2>

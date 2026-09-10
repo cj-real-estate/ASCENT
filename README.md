@@ -55,6 +55,19 @@ Node 20+. Fonts are self-hosted in `src/fonts/` (Archivo 800, IBM Plex Sans
 400/600, IBM Plex Mono 500 — latin subsets) via `next/font/local`; nothing is
 fetched from Google at runtime.
 
+## SMS consent and A2P 10DLC
+
+Every form on the site carries an optional, unchecked SMS consent checkbox,
+and `/sms` is a dedicated one-screen opt-in page whose URL goes on the A2P
+10DLC campaign registration. The carrier-mandated wording lives in one
+module, `content/compliance.ts`, imported by both forms, both privacy
+policies and both terms pages — edit it there and it changes everywhere.
+Three things about the checkbox are compliance, not design: it starts
+unchecked, nothing validates it, and its sentence is quoted verbatim. A
+ticked box tags the GoHighLevel contact `sms consent` and writes a
+timestamped record of the wording shown. Read `docs/A2P-10DLC.md` before
+touching any of it.
+
 ## Where things live
 
 | Path | What |
@@ -68,6 +81,10 @@ fetched from Google at runtime.
 | `src/components/sponsor/SponsorChrome.tsx` | Header, footer, logo and shared styles for every page on the sponsor domain. Links are absolute on the sponsor domain because `/guides` does not exist under `/sponsors` on ascentcas.com. |
 | `src/components/sponsor/GuideArticle.tsx` | Renders a guide. `RichText.tsx` beside it handles `[links](href)` and `**bold**` in guide copy. |
 | `src/lib/schema.ts` | JSON-LD graphs for the sponsor page, the guides index and each guide. |
+| `content/compliance.ts` | **The carrier-mandated SMS strings** — consent sentence, the privacy policy's mobile-data clause, and the program terms. Not per-vertical: the same wording has to appear identically on both domains or A2P review rejects the campaign. |
+| `src/components/SmsConsentCheckbox.tsx` | The consent box, on both grounds. Unchecked, never required — see `docs/A2P-10DLC.md`. |
+| `src/app/sms/page.tsx` | The single-screen opt-in page submitted for A2P review, posting to `/api/sms-optin`. |
+| `src/lib/leadSink.ts` | The Google Sheet backstop, shared by `/api/book` and `/api/sms-optin`. |
 | `scripts/indexnow.mjs` | `npm run indexnow` — submits the sponsor sitemap's URLs to IndexNow (needs `INDEXNOW_KEY`, see `SEO-GEO-PLAYBOOK.md`). |
 | `src/components/sponsor/SponsorPage.tsx` | The **dark sponsor template** for ascentforsponsors.com — a second page template beside `VerticalPage`, fed by `content/verticals/sponsors.ts` (`sponsors` + `sponsorsPage`). Sector-page structure: hero with a structural-facts row, category benchmarks, problem triptych, dark calculator, numbered process, feature grid with a CTA card, boundaries, fit check, FAQ, gate, long-form legal footer. |
 | `src/lib/calculator.ts` | Calculator math, in one place. Two kinds, chosen by `calculator.kind`: `roi` (budget → deals → revenue → ROI, the trade pages) and `appointments` (media budget → cost per appointment held, the sponsor page — deliberately not a revenue projection). |

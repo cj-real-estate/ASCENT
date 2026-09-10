@@ -46,12 +46,20 @@ export function Footer({ vertical }: { vertical: Vertical }) {
           )}
         </div>
 
-        <p className="mt-8">
+        <p className="mt-8 flex flex-wrap items-center gap-x-6">
           <a
             href="/privacy"
             className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
           >
             {footer.privacyLabel}
+          </a>
+          {/* Terms carry the SMS program disclosures the consent box on
+              every form links to — they are not optional on this site. */}
+          <a
+            href="/terms"
+            className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
+          >
+            {footer.termsLabel}
           </a>
         </p>
 
@@ -62,7 +70,7 @@ export function Footer({ vertical }: { vertical: Vertical }) {
         ) : null}
 
         <p className="mt-6 text-[14px] text-fog">
-          © {new Date().getFullYear()} {business.name}
+          © {new Date().getFullYear()} {business.legalName ?? business.name}
         </p>
       </div>
     </footer>

@@ -10,7 +10,9 @@ import { guides, guidesUpdated } from "@content/guides";
  */
 export const dynamic = "force-static";
 
-const PRIVACY_UPDATED = "2026-09-09";
+const PRIVACY_UPDATED = "2026-09-10";
+/* The terms page, which carries the SMS program disclosures. */
+const LEGAL_UPDATED = "2026-09-10";
 
 export function GET() {
   const base = sponsors.business.url;
@@ -29,6 +31,7 @@ ${[
   entry(`${base}/guides`, guidesUpdated, "weekly", "0.8"),
   ...guides.map((g) => entry(`${base}/guides/${g.slug}`, g.updated, "monthly", "0.8")),
   entry(`${base}/privacy`, PRIVACY_UPDATED, "yearly", "0.3"),
+  entry(`${base}/terms`, LEGAL_UPDATED, "yearly", "0.3"),
 ].join("\n")}
 </urlset>
 `;

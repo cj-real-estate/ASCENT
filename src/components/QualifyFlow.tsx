@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { QualifyFlowProps } from "@/lib/qualify";
 import { trackLeadConversion } from "@/lib/conversion";
 import CalendlyConversion from "./CalendlyConversion";
+import SmsConsentCheckbox from "./SmsConsentCheckbox";
 
 /*
  * The ICP gate as a multi-step wizard: one card per question, contact
@@ -117,6 +118,10 @@ export function QualifyFlow({
   });
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [website, setWebsite] = useState(""); // honeypot
+  /* Starts false and is never validated: A2P 10DLC review rejects a
+   * pre-checked or required consent box, so the gate submits identically
+   * whether or not this is ticked. It only rides along in the payload. */
+  const [smsConsent, setSmsConsent] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<ContactField, string>>>(
     {},
   );
@@ -246,6 +251,7 @@ export function QualifyFlow({
           vertical: flow.slug,
           website,
           interest: intent,
+          smsConsent,
           answers,
         }),
       });
@@ -479,6 +485,17 @@ export function QualifyFlow({
                 placeholder: "name@company.com",
                 onBlur: validateEmailOnBlur,
               })}
+            </div>
+            {/* Beside the phone field, on the same card — the carriers want
+                the consent language where the number is typed. */}
+            <div className="mt-6 border-t border-white/10 pt-5">
+              <SmsConsentCheckbox
+                id={`${uid}-sms-consent`}
+                consent={flow.smsConsent}
+                checked={smsConsent}
+                onChange={setSmsConsent}
+                tone="dark"
+              />
             </div>
           </>
         ) : question ? (

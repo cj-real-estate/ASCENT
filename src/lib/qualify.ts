@@ -1,4 +1,5 @@
 import type { Vertical } from "@content/verticals/types";
+import { type SmsConsentProps, toSmsConsentProps } from "./consent";
 
 /*
  * The server/client boundary of the ICP gate.
@@ -27,6 +28,11 @@ export interface QualifyFlowQuestion {
 
 export interface QualifyFlowProps {
   slug: string;
+  /**
+   * The SMS opt-in beside the phone field. Rendered unchecked and never
+   * required — see src/components/SmsConsentCheckbox.tsx.
+   */
+  smsConsent: SmsConsentProps;
   nameLabel: string;
   companyLabel: string;
   phoneLabel: string;
@@ -50,6 +56,7 @@ export function toQualifyFlowProps(vertical: Vertical): QualifyFlowProps {
   const q = vertical.qualification;
   return {
     slug: vertical.slug,
+    smsConsent: toSmsConsentProps(vertical),
     nameLabel: q.nameLabel,
     companyLabel: q.companyLabel,
     phoneLabel: q.phoneLabel,

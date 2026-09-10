@@ -509,6 +509,7 @@ const sponsors: Vertical = {
     tagline: "Investor acquisition for 506(c) real estate sponsors",
     locationLine: "Oklahoma City, OK · Delivery is remote, nationwide",
     privacyLabel: "Privacy",
+    termsLabel: "Terms",
     // The brand guide's compliance footer — on every sponsor-facing page.
     complianceLine:
       "Ascent is not a broker-dealer, finder or placement agent. Compensation is a flat monthly fee — nothing tied to capital raised, investors acquired, or appointments booked. Verification of accredited status remains with the issuer. Nothing on this page is an offer to sell or a solicitation of an offer to buy any security.",

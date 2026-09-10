@@ -25,6 +25,7 @@
  * See docs/GOHIGHLEVEL-SETUP.md.
  */
 
+import { SMS_CONSENT_LABEL } from "@content/compliance";
 import { envNamesMatching, readEnv, readSecret } from "./env";
 
 /* Overridable only so the integration can be exercised against a mock in
@@ -68,13 +69,24 @@ export interface LeadRecord {
   /** Vertical slug the lead came from — "general" | "fence" */
   page: string;
   interest: string;
-  verdict: "QUALIFIED" | "BELOW ICP" | "LEGACY FORM";
+  verdict: "QUALIFIED" | "BELOW ICP" | "LEGACY FORM" | "SMS OPT-IN";
   /** null on the legacy form, which has no gate */
   qualified: boolean | null;
   /** question key → chosen option label */
   answers: Record<string, string>;
   /** "Question: Answer" lines, in the order the gate asked them */
   answerLines: string[];
+  /**
+   * Whether the visitor ticked the SMS consent box. The box is optional, so
+   * false is the common, expected case — it means "do not text this number",
+   * not "unknown". A2P 10DLC review can ask for proof of consent for any
+   * number that was messaged, which is why the exact wording shown and the
+   * time it was accepted go into the CRM note below rather than living only
+   * in a boolean.
+   */
+  smsConsent: boolean;
+  /** ISO timestamp the lead was received — the consent timestamp when consented. */
+  receivedAt: string;
 }
 
 /* GHL stores first and last separately. One word means no last name — never
@@ -99,7 +111,24 @@ function leadTags(lead: LeadRecord): string[] {
   if (lead.qualified === true) tags.push("qualified");
   if (lead.qualified === false) tags.push("below icp");
   if (lead.interest) tags.push(lead.interest.toLowerCase());
+  /* The tag an SMS workflow must filter on. Only a ticked box earns it, so
+   * a workflow gated on "sms consent" can never text a number that did not
+   * opt in — which is the whole point of collecting it. */
+  if (lead.smsConsent) tags.push("sms consent");
   return tags;
+}
+
+/* Proof of consent, in the contact's own record: what was shown, that it
+ * was accepted, and when. A boolean alone is not evidence if a carrier ever
+ * asks how the number opted in. */
+function consentLines(lead: LeadRecord): string[] {
+  if (!lead.smsConsent) {
+    return ["SMS consent: NOT GIVEN — do not send marketing texts."];
+  }
+  return [
+    `SMS consent: GIVEN ${lead.receivedAt}`,
+    `Consent shown: "${SMS_CONSENT_LABEL}"`,
+  ];
 }
 
 function noteBody(lead: LeadRecord): string {
@@ -108,6 +137,8 @@ function noteBody(lead: LeadRecord): string {
     `Company: ${lead.company}`,
     `Wants: ${lead.interest}`,
     `Page: ${lead.page}`,
+    "",
+    ...consentLines(lead),
     ...(lead.answerLines.length ? ["", ...lead.answerLines] : []),
   ].join("\n");
 }
@@ -224,6 +255,9 @@ async function postInboundWebhook(lead: LeadRecord): Promise<boolean> {
         verdict: lead.verdict,
         qualified: lead.qualified,
         tags: leadTags(lead).join(", "),
+        sms_consent: lead.smsConsent,
+        sms_consent_at: lead.smsConsent ? lead.receivedAt : "",
+        sms_consent_text: lead.smsConsent ? SMS_CONSENT_LABEL : "",
         answers_summary: lead.answerLines.join("\n"),
         ...flatAnswers,
       }),

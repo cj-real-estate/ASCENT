@@ -32,6 +32,10 @@ const general: Vertical = {
     areaServed: "Oklahoma",
     phone: "580-304-8470",
     email: "info@ascentcas.com",
+    // The registered entity. Shown in the footer and used by the SMS
+    // consent language — A2P review checks that the name on the site
+    // matches the business that registered the campaign.
+    legalName: "Ascent Client Acquisition Systems LLC",
   },
 
   seo: {
@@ -621,6 +625,7 @@ const general: Vertical = {
     tagline: "Ascent Client Acquisition Systems",
     locationLine: "Oklahoma City, OK",
     privacyLabel: "Privacy",
+    termsLabel: "Terms",
     complianceLine: null,
   },
 };

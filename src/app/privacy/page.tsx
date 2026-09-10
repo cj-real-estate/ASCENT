@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import general from "@content/verticals/general";
+import { MOBILE_DATA_NO_SHARING, SMS_PROGRAM_NAME } from "@content/compliance";
 
 /*
  * Privacy policy — short, plain-English, and scoped to exactly what the site
@@ -71,6 +73,25 @@ export default function PrivacyPage() {
             customer relationship manager, GoHighLevel, and is used solely to
             schedule and prepare for your call. It lives in that CRM once
             it&apos;s sent — this site itself stores nothing.
+          </p>
+
+          <h2 className={h2Class}>Text messages and your mobile number</h2>
+          <p className={pClass}>
+            Every form on this site has an optional, unchecked box for text messages. Check it and
+            we may text you about your enquiry — scheduling and confirming your call, and following
+            up afterwards ({SMS_PROGRAM_NAME}). Leave it unchecked and we never text you; it is not
+            a condition of anything. Message frequency varies, message and data rates may apply,
+            and you can reply STOP to any message to opt out or HELP for help. The full program
+            terms are on the{" "}
+            <Link href="/terms" className="text-orange-deep underline">
+              terms page
+            </Link>
+            .
+          </p>
+          <p className={pClass}>
+            Your number and your consent are stored in our customer relationship manager
+            (GoHighLevel) with a record of the wording you agreed to and when, so we can show how
+            a number opted in. {MOBILE_DATA_NO_SHARING}
           </p>
 
           <h2 className={h2Class}>What we don&apos;t do</h2>

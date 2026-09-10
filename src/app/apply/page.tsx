@@ -83,6 +83,12 @@ export default function ApplyPage() {
           >
             {general.footer.privacyLabel}
           </Link>
+          <Link
+            href="/terms"
+            className="inline-flex min-h-[44px] items-center underline underline-offset-4 transition-colors hover:text-on-dark"
+          >
+            {general.footer.termsLabel}
+          </Link>
         </div>
       </div>
     </main>

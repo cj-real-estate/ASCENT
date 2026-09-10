@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { fence, general, verticals } from "@content/verticals";
 import { deliverLeadToGhl, ghlConfigured, ghlEnvNamesSeen } from "@/lib/ghl";
+import { postLeadWebhook } from "@/lib/leadSink";
 import { readEnv } from "@/lib/env";
 
 /*
@@ -21,6 +22,13 @@ import { readEnv } from "@/lib/env";
  *   `qualifies` flags. The client never sends a verdict and would not be
  *   believed if it did — the flags are the thresholds, and they live in
  *   content.
+ *
+ * Either shape may carry `smsConsent: true` from the optional consent box
+ * beside the phone field. It is never required and never validated — it
+ * decides only whether the CRM contact is tagged "sms consent" and given a
+ * timestamped record of the wording that was shown (src/lib/ghl.ts). A
+ * texting workflow gated on that tag can then never reach a number that
+ * did not opt in. See docs/A2P-10DLC.md.
  *
  *   legacy — { name, company, phone, email, trade, estimates } from the old
  *   booking form, still posted by cached copies of pages that shipped before
@@ -86,50 +94,6 @@ function bad(message: string, status = 400) {
   return NextResponse.json({ ok: false, message }, { status });
 }
 
-/*
- * Second, independent lead sink: a Google Apps Script web app that appends
- * the lead to the "Ascent Leads" sheet and sends the owner a Gmail
- * notification (see docs/GOOGLE-SHEET-SETUP.md). Fire-and-forget with a
- * hard timeout — a slow or broken sheet must never block a prospect, so a
- * failure only logs. The shared secret is checked by the script; this is
- * routing, not authentication.
- */
-async function postLeadWebhook(record: {
-  verdict: string;
-  name: string;
-  company: string;
-  phone: string;
-  email: string;
-  page: string;
-  interest: string;
-  answers: Record<string, string>;
-}): Promise<boolean> {
-  const url = readEnv("LEADS_WEBHOOK_URL");
-  if (!url) return false;
-  try {
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        secret: process.env.LEADS_WEBHOOK_SECRET ?? "",
-        ...record,
-      }),
-      signal: AbortSignal.timeout(4000),
-      // Apps Script answers through a redirect; follow it or the POST
-      // reports failure even when the row landed.
-      redirect: "follow",
-    });
-    if (!res.ok) {
-      console.error("[LEAD_WEBHOOK_FAILED] status", res.status);
-      return false;
-    }
-    return true;
-  } catch (error) {
-    console.error("[LEAD_WEBHOOK_FAILED]", error);
-    return false;
-  }
-}
-
 function readString(source: Record<string, unknown>, key: string): string {
   const value = source[key];
   return typeof value === "string" ? value.trim() : "";
@@ -171,6 +135,12 @@ export async function POST(request: Request) {
   const trade = readString(body, "trade");
   const verticalSlug = readString(body, "vertical");
   const honeypot = readString(body, "website");
+  /* The SMS opt-in. Optional by design and never validated: a missing or
+   * non-boolean value is simply "not consented", which is the safe reading
+   * — the CRM tag that lets a texting workflow run is only added when this
+   * is exactly true. */
+  const smsConsent = body.smsConsent === true;
+  const receivedAt = new Date().toISOString();
   // Which CTA the visitor clicked. Unknown values collapse to the default
   // rather than erroring — it's routing metadata, not a gate input.
   // One offer today: everything is a strategy call. Old deployed pages may
@@ -273,6 +243,7 @@ export async function POST(request: Request) {
       `Phone: ${phone}`,
       `Email: ${email}`,
       `Wants: ${interest}`,
+      `SMS consent: ${smsConsent ? `yes (${receivedAt})` : "no"}`,
       "",
       ...answerLines,
       "",
@@ -331,6 +302,8 @@ export async function POST(request: Request) {
       qualified: gate ? gate.qualified : null,
       answers: gateAnswers,
       answerLines: gateAnswerLines,
+      smsConsent,
+      receivedAt,
     }),
     postLeadWebhook({
       verdict,
@@ -341,6 +314,8 @@ export async function POST(request: Request) {
       page,
       interest,
       answers: gateAnswers,
+      smsConsent,
+      receivedAt,
     }),
   ]);
   const delivered = results.some(
