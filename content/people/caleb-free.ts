@@ -118,7 +118,7 @@ const calebFree: PersonProfile = {
         name: "CJF Property Investments LLC",
         url: null,
         role: "Founder",
-        body: "An Oklahoma company through which he has run distressed-property marketing and assignment work.",
+        body: "An Oklahoma company through which he runs distressed-property marketing and assignment work.",
       },
     ],
   },
