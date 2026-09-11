@@ -64,7 +64,19 @@ export interface PersonProfile {
   trackRecord: {
     h2: string;
     intro: string;
-    stats: { number: string; label: string }[];
+    stats: {
+      /** The figure, or the BEFORE figure when `changeTo` is set. */
+      number: string;
+      /**
+       * The after figure of a before/after pair. Set it rather than
+       * writing "145 → 224" into `number`: the self-hosted latin font
+       * subsets carry no U+2192, so a literal arrow falls back to another
+       * font and reads as a glitch. The page draws this one as the same
+       * inline SVG the CTAs use.
+       */
+      changeTo?: string;
+      label: string;
+    }[];
     attribution: string;
   } | null;
   /** The businesses he currently runs, linked. */

@@ -369,11 +369,6 @@ export function personProfileGraph(v: Vertical, person: PersonProfile) {
         addressCountry: "US",
       },
     },
-    alumniOf: {
-      "@type": "CollegeOrUniversity",
-      name: "Oklahoma City Community College",
-      sameAs: "https://www.occc.edu",
-    },
     knowsAbout: [
       "Client acquisition systems",
       "Paid media on Meta, Google and LinkedIn",

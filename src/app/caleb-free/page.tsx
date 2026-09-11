@@ -152,48 +152,63 @@ export default function CalebFreePage() {
             </ol>
           </nav>
 
-          <header className="mt-8 flex flex-col gap-8 md:flex-row md:items-start md:gap-12">
-            <div className="max-w-[70ch]">
+          {/*
+           * Two columns that interlock rather than sit side by side. The
+           * name block and the summary card stack down column one; the
+           * photograph occupies column two beside the name. A plain flex
+           * row left the summary below BOTH, so the portrait's height
+           * opened a hole of dead space next to a short name.
+           *
+           * The figure is placed explicitly at row 1 of column 2, so the
+           * card auto-places into row 2 of column 1 underneath the name.
+           * In source order it is name, photo, card — which is exactly the
+           * order wanted when the grid collapses to one column on a phone.
+           */}
+          <header className="mt-8 grid gap-8 md:grid-cols-[minmax(0,1fr)_240px] md:gap-x-12 md:gap-y-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+            <div>
               <p className="eyebrow text-orange">
                 <EyebrowText text={person.eyebrow} />
               </p>
-              <h1 className="display mt-4 max-w-[24ch] text-balance text-[38px] text-paper md:text-[54px]">
+              <h1 className="display mt-4 max-w-[18ch] text-balance text-[38px] text-paper md:text-[54px]">
                 {person.name}
               </h1>
-              <p className="mt-5 max-w-[68ch] text-[17px] leading-relaxed text-ash md:text-[18px]">
+              <p className="mt-5 max-w-[46ch] text-[17px] leading-relaxed text-ash md:text-[18px]">
                 {person.tagline}
               </p>
             </div>
-            {/* `self-start` so the frame is the width of the photograph
-                rather than the column, and `md:ml-auto` so it sits on the
-                layout's right edge instead of floating mid-page beside a
-                measure-capped text column. */}
+
+            {/* Spans both rows, so row one is only as tall as the name and
+                the card can sit directly under it. `self-start` keeps the
+                frame the height of the photograph, not of the two rows. */}
             {person.image ? (
-              <figure className="self-start overflow-hidden rounded-xl border border-seam md:ml-auto">
+              <figure className="self-start justify-self-start overflow-hidden rounded-xl border border-seam md:col-start-2 md:row-span-2 md:row-start-1">
                 <Image
                   src={person.image.page.src}
                   alt={person.image.alt}
                   width={person.image.page.width}
                   height={person.image.page.height}
                   priority
-                  sizes="(min-width: 768px) 240px, 200px"
-                  className="block h-auto w-[200px] md:w-[240px]"
+                  sizes="(min-width: 1024px) 280px, 240px"
+                  /* Capped on a phone rather than full-column: a full-width
+                     portrait is 450px tall there and pushes the summary,
+                     which is the point of the page, off the first screen. */
+                  className="block h-auto w-[240px] md:w-full"
                 />
               </figure>
             ) : null}
-          </header>
 
-          {/* The definitive paragraph — first substantive text on the page,
-              written to be quoted whole. Same treatment as "The short
-              answer" on a guide, because it does the same job. */}
-          <div className={`${card} mt-10 max-w-[80ch] p-6 md:p-8`}>
-            <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-orange">
-              In short
-            </p>
-            <p className="mt-3 text-[17px] leading-relaxed text-on-dark md:text-[18px]">
-              {person.summary}
-            </p>
-          </div>
+            {/* The definitive paragraph — first substantive text on the
+                page, written to be quoted whole. Same treatment as "The
+                short answer" on a guide, because it does the same job. */}
+            <div className={`${card} p-6 md:col-start-1 md:row-start-2 md:p-8`}>
+              <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-orange">
+                In short
+              </p>
+              <p className="mt-3 text-[17px] leading-relaxed text-on-dark md:text-[18px]">
+                {person.summary}
+              </p>
+            </div>
+          </header>
 
           <section aria-labelledby="facts" className="mt-12 max-w-[80ch]">
             <h2 id="facts" className={microHeading}>
@@ -231,11 +246,29 @@ export default function CalebFreePage() {
                 {person.trackRecord.h2}
               </h2>
               <p className={pClass}>{person.trackRecord.intro}</p>
-              <dl className="mt-8 grid gap-6 md:grid-cols-3">
+              {/* Three across when there are three, two when there are
+                  two — a fixed three-column grid leaves a visible hole. */}
+              <dl
+                className={`mt-8 grid gap-6 ${
+                  person.trackRecord.stats.length >= 3 ? "md:grid-cols-3" : "sm:grid-cols-2"
+                }`}
+              >
                 {person.trackRecord.stats.map((stat) => (
                   <div key={stat.label} className="border-t-2 border-orange pt-4">
-                    <dt className="readout text-[24px] leading-none text-paper md:text-[28px]">
-                      {stat.number}
+                    {/* The arrow is the inline SVG, not U+2192 — the
+                        self-hosted font subsets have no glyph for it. */}
+                    <dt className="readout flex items-center gap-3 text-[24px] leading-none text-paper md:text-[28px]">
+                      {stat.changeTo ? (
+                        <>
+                          <span className="text-ash">{stat.number}</span>
+                          <span className="text-orange">
+                            <ArrowRight />
+                          </span>
+                          <span>{stat.changeTo}</span>
+                        </>
+                      ) : (
+                        stat.number
+                      )}
                     </dt>
                     <dd className="mt-3 text-[15px] leading-relaxed text-ash">{stat.label}</dd>
                   </div>
