@@ -18,23 +18,14 @@ Script: [`scripts/ghl_outbound_build.py`](../scripts/ghl_outbound_build.py)
   by the script; the other 19 it created.
 * **7 / 7 custom values exist.** Two are still placeholders — fill them in GHL:
   `audit_booking_link`, `caleb_direct_line`.
-* **0 / 25 tags exist — blocked.** The `ascent-build` token is missing `locations/tags.write`.
-  See "Outstanding" below.
+* **25 / 25 tags exist.**
 * Agency default LC domain `mg.growwithascent.com` is still the sender for the Ascent (house) and
   Westwin sub-accounts — move them to their own domains before any cold send.
 
-## Outstanding — tags need one more scope
+## Re-running
 
-`POST /locations/{id}/tags` returns `401 The token is not authorized for this scope`. Reads
-succeed, so `locations/tags.readonly` is granted and `locations/tags.write` is not.
-
-Fix: GHL → Outbound sub-account → **Settings → Private Integrations → `ascent-build` → edit
-scopes** → add **`locations/tags.write`** → save. The token does not need reissuing for a scope
-add; if GHL does reissue it, update the `GHL Ascent Outbound` credential in the Claude environment
-to match.
-
-Then re-run the build. It is idempotent: the 24 fields and 7 custom values are skipped, and only
-the 25 tags are created.
+The build is complete and idempotent — a dry run against this location now plans **zero** creates.
+Re-running is safe and is the right first move after any hand-edit in GHL:
 
 ```
 python scripts/ghl_outbound_build.py --location UKGbpWRFkARlgnMtlB4C --dry-run
@@ -43,6 +34,15 @@ python scripts/ghl_outbound_build.py --location UKGbpWRFkARlgnMtlB4C --verify
 ```
 
 `--verify` is green when it reports 24 fields, 25 tags, 7 custom values and no `MISSING` line.
+
+Note that existing custom values are reported `exists (value unchanged)` — the script never
+overwrites one. Editing a value is a hand change in GHL, by design: the two placeholders are meant
+to be filled there, not in this file.
+
+> **A dry run cannot prove a write will succeed.** It issues GETs only, so a missing *write* scope
+> is invisible to it — this build passed a clean dry run and then failed partway on the first
+> `POST /tags` because the token had `locations/tags.readonly` but not `locations/tags.write`
+> (added 14 Sept). Check the scope list in step 1 rather than trusting a green dry run.
 
 ## One-time setup (Caleb, ~5 minutes)
 
