@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import general from "@content/verticals/general";
@@ -47,7 +48,17 @@ import { card, shell } from "@/components/sponsor/SponsorChrome";
 
 const url = `${general.business.url}${calebFree.path}`;
 
-export const metadata: Metadata = {
+/*
+ * While `calebFree.archived` is true this route 404s and the page below
+ * never renders. A 404 is the honest answer for a page that has been
+ * taken down — a redirect to the home page would be a soft 404, and
+ * noindex would leave it reachable, which is not what archiving means.
+ * Nothing here is deleted: unarchiving is one line in the content module.
+ */
+
+export const metadata: Metadata = calebFree.archived
+  ? { robots: { index: false, follow: false } }
+  : {
   // `absolute` — seoTitle already reads "Caleb Free | Founder of Ascent",
   // and the layout's "%s | Ascent" template would say it twice.
   title: { absolute: calebFree.seoTitle },
@@ -81,7 +92,7 @@ export const metadata: Metadata = {
       ? { images: [`${general.business.url}${calebFree.image.og}`] }
       : {}),
   },
-};
+    };
 
 /* The sponsor template's type scale, so the two sites read as one brand. */
 const h2Class = "display mt-14 max-w-[24ch] text-[26px] text-paper md:text-[34px]";
@@ -101,6 +112,8 @@ function formatDate(iso: string): string {
 }
 
 export default function CalebFreePage() {
+  if (calebFree.archived) notFound();
+
   const person = calebFree;
   const { business, footer, booking, header } = general;
   const name = business.name;

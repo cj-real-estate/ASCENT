@@ -31,13 +31,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     /* The authoritative page about the founder. High-ish priority: it is
-     * the entity page, and an orphan cannot do that job. */
-    {
-      url: `${base}/caleb-free`,
-      lastModified: new Date(`${calebFree.updated}T12:00:00Z`),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
+     * the entity page, and an orphan cannot do that job. Dropped entirely
+     * while it is archived — a sitemap must never list a URL that 404s. */
+    ...(calebFree.archived
+      ? []
+      : [
+          {
+            url: `${base}${calebFree.path}`,
+            lastModified: new Date(`${calebFree.updated}T12:00:00Z`),
+            changeFrequency: "monthly" as const,
+            priority: 0.6,
+          },
+        ]),
     {
       url: `${base}/terms`,
       lastModified,

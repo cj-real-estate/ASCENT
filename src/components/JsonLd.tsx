@@ -45,7 +45,8 @@ export default function JsonLd({ vertical }: { vertical: Vertical }) {
       "@id": PERSON_ID,
       name: business.founder.name,
       jobTitle: business.founder.title,
-      url: personProfileUrl,
+      /* Omitted while the profile page is archived — see schema.ts. */
+      ...(personProfileUrl ? { url: personProfileUrl } : {}),
     };
   }
   if (business.legalName) data.legalName = business.legalName;

@@ -33,6 +33,14 @@ import type { PersonProfile } from "./types";
  * result). His street address stays off it too.
  */
 const calebFree: PersonProfile = {
+  /*
+   * ARCHIVED at the owner's request — the page is off the site. Nothing
+   * below has been deleted or watered down; flip this to false and the
+   * route, the sitemap entry, both footer links and the entity @id all
+   * come back exactly as they were. See the `archived` note in ./types.
+   */
+  archived: true,
+
   path: "/caleb-free",
   name: "Caleb Free",
   jobTitle: "Founder",

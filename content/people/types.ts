@@ -28,6 +28,14 @@ export interface ProfileLink {
 }
 
 export interface PersonProfile {
+  /**
+   * true takes the page OFF the site without deleting anything. The route
+   * returns 404, the sitemap drops it, both domains' footers drop the
+   * link, and the person's cross-domain @id moves off the dead URL so no
+   * structured data points at a page that is gone. Everything else here
+   * stays exactly as written, so unarchiving is this one line.
+   */
+  archived: boolean;
   /** Route this page is served at, on the brand domain. */
   path: string;
   /** Full name, as it should be indexed. */

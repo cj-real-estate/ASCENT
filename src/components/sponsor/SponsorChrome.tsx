@@ -4,6 +4,7 @@ import type { Vertical } from "@content/verticals/types";
 import type { Guide } from "@content/guides/types";
 import EyebrowText from "@/components/EyebrowText";
 import { formatAddress } from "@/lib/business";
+import calebFree from "@content/people/caleb-free";
 
 /*
  * The chrome the dark sponsor template shares with its guide pages and its
@@ -178,13 +179,16 @@ export function SponsorFooter({
               {footer.textUpdatesLabel}
             </a>
             {/* Always absolute: the founder's page is canonical on the
-                brand domain, and there is exactly one of it. */}
-            <a
-              href="https://ascentcas.com/caleb-free"
-              className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
-            >
-              {footer.founderLabel}
-            </a>
+                brand domain, and there is exactly one of it. Hidden while
+                it is archived — see content/people/caleb-free.ts. */}
+            {calebFree.archived ? null : (
+              <a
+                href={`https://ascentcas.com${calebFree.path}`}
+                className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 hover:text-paper"
+              >
+                {footer.founderLabel}
+              </a>
+            )}
           </div>
         </div>
 

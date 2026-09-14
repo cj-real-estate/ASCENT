@@ -1,6 +1,7 @@
 import type { Vertical } from "@content/verticals/types";
 import { BrandLockup } from "@/components/Logo";
 import { formatAddress } from "@/lib/business";
+import calebFree from "@content/people/caleb-free";
 
 /*
  * Footer — dark (bg-ink, data-dark). Server component.
@@ -74,13 +75,16 @@ export function Footer({ vertical }: { vertical: Vertical }) {
           </a>
           {/* The founder's authoritative page. Absolute, because the
               sponsor domain renders this footer too and the page is
-              canonical on the brand domain only. */}
-          <a
-            href="https://ascentcas.com/caleb-free"
-            className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
-          >
-            {footer.founderLabel}
-          </a>
+              canonical on the brand domain only. Hidden while that page is
+              archived — see content/people/caleb-free.ts. */}
+          {calebFree.archived ? null : (
+            <a
+              href={`https://ascentcas.com${calebFree.path}`}
+              className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark underline underline-offset-4 transition-colors hover:text-paper"
+            >
+              {footer.founderLabel}
+            </a>
+          )}
         </p>
 
         {footer.complianceLine ? (

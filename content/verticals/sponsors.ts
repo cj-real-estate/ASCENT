@@ -750,7 +750,7 @@ export const sponsorsPage: SponsorPageContent = {
       { label: "Live in", value: "14 days from account access and counsel's approvals" },
       { label: "Reports", value: "Weekly: speed to first human touch, contact rate, set-to-held rate, cost per appointment held" },
       { label: "Based in", value: "Oklahoma City, Oklahoma. Delivery is remote, nationwide. 100% American owned and operated" },
-      { label: "Founder", value: "Caleb Free — see ascentcas.com/caleb-free" },
+      { label: "Founder", value: "Caleb Free, Oklahoma City" },
     ],
   },
 

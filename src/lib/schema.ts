@@ -1,6 +1,7 @@
 import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import type { Guide } from "@content/guides/types";
 import type { PersonProfile } from "@content/people/types";
+import calebFree from "@content/people/caleb-free";
 import { plainText } from "@/components/sponsor/RichText";
 
 /*
@@ -110,8 +111,21 @@ function organization(
  * that moves is two entities.
  */
 const BRAND_SITE = "https://ascentcas.com";
-export const PERSON_ID = `${BRAND_SITE}/caleb-free#person`;
-export const personProfileUrl = `${BRAND_SITE}/caleb-free`;
+
+/*
+ * While the profile page is archived the id moves off it, onto the brand
+ * site's own root. An @id is an identifier rather than a promise of a
+ * fetchable document, but one shaped like a URL that 404s is a bad signal
+ * on the very nodes it exists to consolidate — and `personProfileUrl`
+ * genuinely is a link, so it becomes null and every node that emitted it
+ * omits it. Unarchiving restores both to exactly what they were.
+ */
+export const PERSON_ID = calebFree.archived
+  ? `${BRAND_SITE}/#caleb-free`
+  : `${BRAND_SITE}${calebFree.path}#person`;
+export const personProfileUrl: string | null = calebFree.archived
+  ? null
+  : `${BRAND_SITE}${calebFree.path}`;
 
 function founder(v: Vertical) {
   const { business } = v;
@@ -124,9 +138,9 @@ function founder(v: Vertical) {
     name: business.founder.name,
     jobTitle: business.founder.title,
     worksFor: { "@id": orgId(v) },
-    /* Points at the authoritative page, not at whichever site this is. */
-    url: personProfileUrl,
-    mainEntityOfPage: personProfileUrl,
+    /* Points at the authoritative page, not at whichever site this is —
+     * and at nothing at all while that page is archived. */
+    ...(personProfileUrl ? { url: personProfileUrl, mainEntityOfPage: personProfileUrl } : {}),
   };
 }
 
