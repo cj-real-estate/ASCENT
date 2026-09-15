@@ -9,7 +9,7 @@ The durable copy is now the code itself, in [`formd/`](../formd/):
 | File | |
 |---|---|
 | [`formd/formd_pipeline.py`](../formd/formd_pipeline.py) | `build` and `arms` |
-| [`formd/enrich.py`](../formd/enrich.py) | `worklist` and `merge` |
+| [`formd/enrich.py`](../formd/enrich.py) | `worklist`, `merge` and `hunter` |
 | [`formd/fetch.py`](../formd/fetch.py) | EDGAR ingestion — `--selftest`, and the live weekly pull |
 | [`formd/tests/make_fixture.py`](../formd/tests/make_fixture.py) | synthetic two-quarter fixture for the documented test |
 | [`formd/hold_list.csv`](../formd/hold_list.csv) | 9 named holds from the 6 Sept build |
@@ -126,11 +126,12 @@ structural 9 kept / 5 dropped, second screen 4 kept / 5 dropped, 1 held (Nitya, 
 
 ## Gaps
 
-- **`enrich.py hunter` is not here.** A third subcommand exists in the handoff container — it
-  splits candidates into `email_finder` / `domain_search` routes and prints the Hunter credit count
-  before spending any. Its source was said to be "in the zip alongside this doc" and no zip
-  arrived, so the subcommand is absent from the repo. `enrich.py` here has `worklist` and `merge`
-  only. It needs preserving the same way everything else just was.
+- `enrich.py hunter --domain-search-only` **miscounts its own skip line**: it reports the
+  nameless rows as "skipped ... with no named contact" in the same breath as emitting them as
+  `domain_search` rows, so the summary contradicts the line above it and the file it just wrote.
+  The CSV is correct — only the message is wrong. It matters a little because that summary exists
+  to be read before spending Hunter credits. The condition needs to consider `--domain-search-only`
+  as well as `--include-nameless`. Left as found; not changed unasked.
 - `prospect_route` emits only `A_priority` and `B_standard` — tier C candidates route
   `B_standard` while tagged `tier_c`, and the field's `C_under_floor` option is never written.
   Left alone deliberately: enrichment already routes segment C to phone-first and `arms` excludes
@@ -142,3 +143,25 @@ structural 9 kept / 5 dropped, second screen 4 kept / 5 dropped, 1 held (Nitya, 
 - Pipeline "Ascent New Business": New Inquiry · Contacted · Audit Booked · Audit Held ·
   Proposal Sent · Verbal / Negotiating · Closed Won · Nurture / Not Now · Disqualified.
 - Workflows W1–W4 per spec §5.3 (W1 drip mode 20/day week 1 → 30/day; 08:00–16:00 CT; Mon–Thu).
+
+**15 Sept, zip reconciled.** The handoff zip arrived and was diffed file by file rather than
+unpacked over the tree. `formd_pipeline.py`, `fetch.py`, `tests/make_fixture.py`, `hold_list.csv`,
+`institutional_brands.txt` and `weekly_hits_TEMPLATE.csv` were **byte-identical** to the repo —
+including the two weekly-path patches, which had been applied identically on both sides. The zip's
+`README.md` was **older** than the repo's (it predates the `fetch.py` weekly step and the expanded
+Test section) and was deliberately not taken. Only `enrich.py` was adopted, a purely additive
+change: `cmd_hunter` plus its subparser, nothing else in the file touched.
+
+`hunter` verified in all three modes against a fixture covering every branch — named + domain,
+domain with no usable name, and no domain:
+
+| mode | emitted | skipped |
+|---|---|---|
+| default | 2 `email_finder` | 2 nameless, 1 no-domain |
+| `--include-nameless` | 2 `email_finder` + 2 `domain_search` | 1 no-domain |
+| `--domain-search-only` | 2 `domain_search` | 2 named, 1 no-domain |
+
+A row with a first name but no surname routes to `domain_search`, which is right — Email Finder
+needs both. And the subcommand's premise checks out on real data: `build`'s `hunter_upload.csv`
+from the live 213-filing run holds 26 rows with **0** domains, unusable by Hunter, while `hunter`
+over the same rows emits nothing and reports ~0 credits until enrichment supplies them.

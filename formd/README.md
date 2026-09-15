@@ -46,6 +46,14 @@ Fill `segment`, `hunter_email`, `hunter_confidence`, `funnel_observation`, `ad_s
 
 `python formd_pipeline.py arms --enriched out/enriched.csv --out out --seed 2026`
 
+Then rebuild the Hunter upload, which `build` could only write with an empty domain column:
+
+`python enrich.py hunter --enriched out/enriched.csv --out out/hunter_ready.csv --include-nameless`
+
+Rows split by route — `email_finder` where the filing named a person, `domain_search` where it did
+not. Rows with no domain are skipped to the phone-first route. The credit count prints before you
+spend anything.
+
 Arms are assigned only to rows with `email1_approved = yes` and segment ≠ C, stratified by segment,
 fixed seed — the same file always gets the same arms. Import `enriched_with_arms.csv` to GHL using
 the `ghl_import.csv` column mapping.

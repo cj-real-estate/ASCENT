@@ -241,6 +241,54 @@ def cmd_merge(a) -> int:
     return 0
 
 
+# ----------------------------------------------------------------------------- hunter
+def cmd_hunter(a) -> int:
+    """Regenerate the Hunter bulk upload AFTER enrichment, when domains actually exist.
+
+    `formd_pipeline.py build` also writes hunter_upload.csv, but it runs before any domain is
+    resolved, so that copy always has an empty domain column and Hunter cannot use it. This is
+    the file to upload.
+    """
+    _, rows = read_csv(Path(a.enriched))
+    out_rows, no_domain, no_name = [], 0, 0
+    for r in rows:
+        dom, first, last = r.get("domain", ""), r.get("contact_first", ""), r.get("contact_last", "")
+        if not dom:
+            no_domain += 1
+            continue
+        if not (first and last):
+            no_name += 1
+            if a.domain_search_only or a.include_nameless:
+                out_rows.append({"first_name": "", "last_name": "",
+                                 "company": r.get("entity_name", ""), "domain": dom,
+                                 "form_d_accession_no": r.get("form_d_accession_no", ""),
+                                 "route": "domain_search"})
+            continue
+        if a.domain_search_only:
+            continue
+        out_rows.append({"first_name": first, "last_name": last,
+                         "company": r.get("entity_name", ""), "domain": dom,
+                         "form_d_accession_no": r.get("form_d_accession_no", ""),
+                         "route": "email_finder"})
+
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    cols = ["first_name", "last_name", "company", "domain", "form_d_accession_no", "route"]
+    with out.open("w", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=cols)
+        w.writeheader()
+        w.writerows(out_rows)
+
+    finder = sum(1 for r in out_rows if r["route"] == "email_finder")
+    dsearch = len(out_rows) - finder
+    print(f"hunter: {len(out_rows)} row(s) -> {out}")
+    print(f"  email_finder (name + domain): {finder}   domain_search (domain only): {dsearch}")
+    print(f"  skipped: {no_domain} with no domain (phone-first route)"
+          + (f", {no_name} with no named contact" if no_name and not a.include_nameless else ""))
+    print(f"  credits needed: ~{len(out_rows)}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -257,6 +305,15 @@ def main() -> int:
     m.add_argument("--out", required=True)
     m.add_argument("--require-observation", action="store_true")
     m.set_defaults(fn=cmd_merge)
+
+    h = sp.add_parser("hunter", help="rebuild the Hunter upload from enriched.csv (domains present)")
+    h.add_argument("--enriched", required=True)
+    h.add_argument("--out", required=True)
+    h.add_argument("--include-nameless", action="store_true",
+                   help="also emit domain-only rows for Hunter Domain Search")
+    h.add_argument("--domain-search-only", action="store_true",
+                   help="emit ONLY the domain-only rows")
+    h.set_defaults(fn=cmd_hunter)
 
     a = ap.parse_args()
     return a.fn(a)
