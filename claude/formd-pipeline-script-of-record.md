@@ -10,6 +10,8 @@ The durable copy is now the code itself, in [`formd/`](../formd/):
 |---|---|
 | [`formd/formd_pipeline.py`](../formd/formd_pipeline.py) | `build` and `arms` |
 | [`formd/enrich.py`](../formd/enrich.py) | `worklist` and `merge` |
+| [`formd/fetch.py`](../formd/fetch.py) | EDGAR ingestion — `--selftest`, and the live weekly pull |
+| [`formd/tests/make_fixture.py`](../formd/tests/make_fixture.py) | synthetic two-quarter fixture for the documented test |
 | [`formd/hold_list.csv`](../formd/hold_list.csv) | 9 named holds from the 6 Sept build |
 | [`formd/institutional_brands.txt`](../formd/institutional_brands.txt) | 28 substrings |
 | [`formd/weekly_hits_TEMPLATE.csv`](../formd/weekly_hits_TEMPLATE.csv) | 16-column shape for the Monday EDGAR rows |
@@ -25,7 +27,7 @@ Deterministic: **no network calls, no LLM**. Same inputs → same CSVs. Python 3
 
 | Stage | Automated? |
 |---|---|
-| SEC → disk | **No.** Quarterly zips downloaded by hand; weekly EDGAR hits hand-typed into `weekly/<date>.csv` (16 fields per filing) |
+| SEC → disk | **Quarterly: no** — zips downloaded by hand. **Weekly: yes** — `fetch.py` pulls EDGAR full-text and parses each `primary_doc.xml`; the hand-typing step is gone |
 | Filter, screen, hold gate, score, tier | **Yes** — `build` |
 | Hunter enrichment | **No.** Emits `hunter_upload.csv`; results pasted back into `enriched.csv` |
 | Domain resolution | **Yes** — `enrich.py worklist` → agent web search → `merge`. Form D carries no domain; the agent resolves it, including the common case where the investor funnel lives on a second domain |
@@ -60,6 +62,8 @@ the cloud-default environment returns 403 on CONNECT.
 
 ```
 python tests/make_fixture.py
+python fetch.py --selftest
+python fetch.py --days 7 --out weekly/2026-09-15.csv --user-agent "Ascent Client Acquisition Systems caleb@ascentforsponsors.com"
 python formd_pipeline.py build --raw raw --out out --hold hold_list.csv --brands institutional_brands.txt
 python formd_pipeline.py build --raw raw --weekly weekly/2026-09-15.csv --out out_week --hold hold_list.csv --brands institutional_brands.txt
 python formd_pipeline.py arms --enriched out/enriched.csv --out out --seed 2026
@@ -93,16 +97,45 @@ fixture differs; the outcomes match: second screen **4 kept**, hold gate **1 hel
 
 Run on pandas 3.0.5 / Python 3.11.
 
+**15 Sept, handoff applied.** `tests/make_fixture.py` and `fetch.py` added, two weekly-path bugs
+patched. The documented test now reproduces the original run **exactly** — 81 filings, universe 14,
+structural 9 kept / 5 dropped, second screen 4 kept / 5 dropped, 1 held (Nitya, `distress`),
+3 candidates (A=1, B=1, C=1), 10 screened out, 3 hunter rows. Also:
+
+- `fetch.py --selftest` passes: all 19 fields against the embedded MHF filing, namespace-stripping
+  verified, and `pick_contact` ranks Executive Officer (Minka Hull) above Promoter (Mark Hull).
+- **The weekly contact bug, reproduced then fixed.** Before the patches a fetch.py-shaped weekly row
+  produced 1 candidate and **0** hunter rows with all three contact fields blank; after, **1**
+  hunter row carrying `Minka,Hull,MHF Real Estate Income Fund LLC`. The quarterly path is
+  byte-identical across the patch — `candidates.csv`, `held.csv`, `screened_out.csv`,
+  `hunter_upload.csv` and `ghl_import.csv` all compare equal.
+- **Live EDGAR run, this session** (it turned out to have SEC egress): 217 filings matched `"06c"`
+  for 2026-09-08..09-15 — the same 217 the handoff saw — **213 rows written, all 213 carrying a
+  named related person**. The 4 shortfall is duplicate accession numbers in the search results, not
+  parse failures; none were logged.
+- **Weekly build over those 213 real filings**: 42 past the structural filter, 26 past the second
+  screen (16 `placement_agent`), 0 held, **26 candidates and 26 hunter rows** — the contact fix
+  holding on real data, not just the synthetic row.
+- **`not_real_estate` checked for over-dropping**, per the handoff's instruction not to add a SIC
+  lookup without evidence. 134 of 213 dropped, but **zero** of them carry a real-estate name term,
+  so the name sweep is not leaking. The 92 `Pooled Investment Fund` drops — the README's documented
+  blind spot — are Equitybee startup-equity series funds, medical co-invests and hospitality on
+  inspection. No evidence of over-dropping; no SIC lookup warranted. Note that if it ever is, Form D
+  carries no SIC at all, so the fix would be a CIK→SIC lookup against EDGAR's submissions API,
+  not a field in the filing.
+
 ## Gaps
 
-- **`tests/make_fixture.py` was never preserved.** It is the first command under *Commands* and the
-  whole of the README's *Test* section, and the original verification rests on it — but no copy of
-  it exists here, in `formd/`, or anywhere in the repo. The re-verification above used a
-  throwaway fixture written from scratch, which is why the stage counts differ from the original
-  run. Until the generator is recovered or rewritten, the documented test is not reproducible.
-- `prospect_route` emits only `A_priority` and `B_standard` — tier C candidates are routed
-  `B_standard` while tagged `tier_c`, and the field's `C_under_floor` option is never written by
-  this script.
+- **`enrich.py hunter` is not here.** A third subcommand exists in the handoff container — it
+  splits candidates into `email_finder` / `domain_search` routes and prints the Hunter credit count
+  before spending any. Its source was said to be "in the zip alongside this doc" and no zip
+  arrived, so the subcommand is absent from the repo. `enrich.py` here has `worklist` and `merge`
+  only. It needs preserving the same way everything else just was.
+- `prospect_route` emits only `A_priority` and `B_standard` — tier C candidates route
+  `B_standard` while tagged `tier_c`, and the field's `C_under_floor` option is never written.
+  Left alone deliberately: enrichment already routes segment C to phone-first and `arms` excludes
+  it, so the tag does the work. Worth revisiting only if `prospect_route` starts driving a
+  workflow branch.
 
 ## After the script: still by hand
 

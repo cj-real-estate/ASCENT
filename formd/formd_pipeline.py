@@ -275,6 +275,12 @@ def unify_weekly(path: Path) -> pd.DataFrame:
         "sales_comm": g("sales_comm").map(to_num),
         "is_amendment": g("is_amendment").str.strip().str.lower().isin({"true", "1", "y", "yes"}),
         "entity_type": "", "jurisdiction": g("jurisdiction").str.strip(), "phone": g("phone").str.strip(),
+        # fetch.py reads related persons straight off primary_doc.xml. RELATEDPERSONS.tsv in the
+        # quarterly zips cannot contain this week's filings, so without these the weekly path
+        # produces no named contacts and therefore no Hunter rows.
+        "contact_first": g("contact_first").str.strip(),
+        "contact_last": g("contact_last").str.strip(),
+        "contact_title": g("contact_title").str.strip(),
     })
     return out
 
@@ -535,9 +541,12 @@ def build(args):
         for c in OUTPUT_COLUMNS:
             if c not in df:
                 df[c] = ""
-        df["contact_first"] = df["form_d_accession_no"].map(lambda a: contacts.get(a, ("", "", ""))[0])
-        df["contact_last"] = df["form_d_accession_no"].map(lambda a: contacts.get(a, ("", "", ""))[1])
-        df["contact_title"] = df["form_d_accession_no"].map(lambda a: contacts.get(a, ("", "", ""))[2])
+        # Fill from RELATEDPERSONS only where the row has no contact of its own. Weekly rows arrive
+        # from fetch.py already carrying one; overwriting them blanked every weekly hit.
+        for idx, col in enumerate(("contact_first", "contact_last", "contact_title")):
+            from_tsv = df["form_d_accession_no"].map(lambda a, i=idx: contacts.get(a, ("", "", ""))[i])
+            existing = df[col].fillna("").astype(str).str.strip() if col in df else ""
+            df[col] = existing.where(existing != "", from_tsv)
         df["filing_date"] = df["filing_date"].map(lambda d: d.isoformat() if v(d) else "")
         for c in ("total_offering", "total_sold", "remaining", "investors", "min_investment",
                   "sales_comm", "avg_check", "investors_needed"):

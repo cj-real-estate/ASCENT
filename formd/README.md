@@ -27,10 +27,13 @@ no LLM. Same inputs → same CSVs. Runs on the Mac with Python 3.10+ and pandas 
 
 ## Weekly (Monday)
 
-1. EDGAR full-text search (through the browser): `forms=D`, query `<industry> "06c"`, trailing 7 days.
-   Open each hit's `primary_doc.xml` and fill a row in `weekly/<date>.csv` using `weekly_hits_TEMPLATE.csv`
-   as the column shape. Accession number and CIK are on the filing index page; the money fields are in
-   Item 13 / Item 14 of the XML.
+1. `python fetch.py --days 7 --out weekly/2026-09-15.csv --user-agent "Ascent Client Acquisition Systems caleb@ascentforsponsors.com"`
+
+   Needs `sec.gov` + `efts.sec.gov` egress — run it in the **Ascent - SEC** environment. The
+   User-Agent must carry a contact address (SEC rejects generic agents) and `--rate` defaults to
+   8 req/sec, under SEC's cap of 10. A filing that fails to parse is logged and skipped, never
+   fatal. `weekly_hits_TEMPLATE.csv` documents the column shape fetch.py writes; fill it by hand
+   only if EDGAR is unreachable.
 2. `python formd_pipeline.py build --raw raw --weekly weekly/2026-09-15.csv --out out_week --hold hold_list.csv --brands institutional_brands.txt`
    History (prior-filing counts) comes from the quarters in `raw/`, so keep them loaded.
 3. Also match `weekly/<date>.csv` against GHL contacts tagged `nurture_active` — a new filing by a
@@ -82,6 +85,15 @@ Tier A ≥ 70, B ≥ 45, else C. Thresholds are constants at the top of the scri
 
 ## Test
 
-`python tests/make_fixture.py` builds a synthetic two-quarter data set with one issuer per branch;
-the build command above against `tests/fixture_raw` should give 3 candidates, 1 held (Nitya, distress),
-10 screened out.
+```
+python tests/make_fixture.py
+python formd_pipeline.py build --raw tests/fixture_raw --out out \
+    --hold hold_list.csv --brands institutional_brands.txt
+```
+
+`make_fixture.py` builds a synthetic two-quarter data set with one issuer per branch. Expected:
+**3 candidates** (A=1, B=1, C=1), **1 held** (Nitya, `distress`), **10 screened out**.
+`tests/fixture_raw/` is generated and git-ignored.
+
+`python fetch.py --selftest` parses an embedded copy of a real filing offline and asserts all 19
+fields plus a namespaced variant — no network needed.
