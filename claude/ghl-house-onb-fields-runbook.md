@@ -8,43 +8,54 @@ Creates the 11 calendar / video / DNS onboarding fields in the **house** sub-acc
 
 Script: [`scripts/create_onb_fields.py`](../scripts/create_onb_fields.py)
 
-## Status: blocked on a credential, not on code
+## State as of 15 Sept (post-run)
 
-The script is written and its logic is validated, but it **has not run against the house
-sub-account yet**. The `GHL Ascent Outbound` credential attached to the cloud environment is a
-Private Integration token created *inside the Outbound sub-account*, and GHL scopes those per
-sub-account. Against the house location every call returns:
+**Complete. 11 / 11 created, verified, 0 failed.** The house sub-account went from 36 to 47
+custom fields (41 of them `onb_*`), all parented to the one onboarding folder
+`7jVS4aq3g3zxeXq7Y2Pq`, no duplicates. A re-run immediately after reported
+`0 created, 11 skipped, 0 failed`.
+
+Resolved at runtime from the three template fields, as designed:
+
+| kind | template | dataType |
+| --- | --- | --- |
+| text | `onb_ein` | `TEXT` |
+| dropdown | `onb_business_type` | `SINGLE_OPTIONS` |
+| checkbox | `onb_meta_access_done` | `CHECKBOX` |
+
+Worth noting that `checkbox` resolved to a **distinct** `CHECKBOX` type — not the
+`SINGLE_OPTIONS` the dropdowns use, and not what the Outbound sub-account would have suggested.
+Hardcoding it would have produced the wrong field type.
+
+Options came back exactly as sent (plain strings under `picklistOptions`), so the
+`[{"key":..,"label":..}]` shape never came into play on this API version.
+
+### The credential (resolved)
+
+The first attempt failed because the attached `GHL Ascent Outbound` credential is a Private
+Integration token scoped to the *Outbound* sub-account; GHL scopes those per sub-account, and the
+house location answered:
 
 ```
 HTTP 403 {"statusCode":403,"message":"The token does not have access to this location."}
 ```
 
-The same token returns `HTTP 200, 24 fields` against `UKGbpWRFkARlgnMtlB4C` in the same session,
-so this is authorization scope — not the Cloudflare/User-Agent transport failure, and not a
-missing allowlist entry. A second token is required; no scope edit on the existing one can widen
-it to another sub-account.
+while the same token read Outbound fine in the same session. A house-scoped token was added and
+the build ran clean. Keep this in mind for any future house-account script: **a token from one
+sub-account can never be widened to another** — it needs its own Private Integration.
 
-## Unblocking it (Caleb, ~5 minutes)
+## Re-running
 
-1. In the **house** sub-account (`pX8dNxneJPkYjJ8FVZJn`) → **Settings → Private Integrations →
-   Create**. Name `ascent-house-build`. Scopes:
-   * `locations/customFields.readonly`
-   * `locations/customFields.write`
+Safe and idempotent; a dry run against this location now plans zero creates.
 
-   Both matter. A missing *write* scope is invisible until the first POST — reads keep working,
-   so a dry run passes clean and the build fails partway.
-2. claude.ai/code → cloud icon above the prompt → the environment → **API credentials → Add
-   credential**. Name `GHL Ascent House`, allowed website `services.leadconnectorhq.com`, header
-   `Authorization` / prefix `Bearer` / value = the token → **Connect**.
+```
+python3 scripts/create_onb_fields.py --dry-run
+python3 scripts/create_onb_fields.py
+```
 
-   Note that the environment will then hold two credentials for the same host. If the proxy
-   injects only one per host, swap the existing `GHL Ascent Outbound` value instead of adding a
-   second, and swap it back before the next outbound run.
-3. New session in that environment: "Run `scripts/create_onb_fields.py --dry-run`, then for real."
+## What it creates
 
-## What it will create
-
-Five text fields (`onb_calendar_backup_owner_email`, `onb_meeting_hours`, `onb_video_host_email`,
+The script creates five text fields (`onb_calendar_backup_owner_email`, `onb_meeting_hours`, `onb_video_host_email`,
 `onb_dns_admin_name`, `onb_dns_admin_email`), five dropdowns (`onb_calendar_system`,
 `onb_meeting_length_min`, `onb_meeting_timezone`, `onb_video_platform`, `onb_dns_provider`) and
 one checkbox (`onb_calendar_access_done`).
@@ -54,18 +65,6 @@ from three fields that already exist in the account — `onb_ein`, `onb_business
 `onb_meta_access_done` — so the new fields inherit whatever spelling that API version uses and
 land in the same folder as the rest of the `onb_*` set. If any of the three is missing the script
 aborts rather than guessing.
-
-## Validation already done
-
-Run against the readable Outbound sub-account with `prospect_*` analogues substituted for the
-templates, the script resolved `TEXT` / `SINGLE_OPTIONS`, derived the correct folder
-(`6Y10UOlRdzhiJvUvtwyH`) and emitted well-formed create bodies. So the GET parsing, dataType
-inference, folder derivation and option shaping are all exercised and correct — only the
-authorization remains.
-
-Options on this API version come back as `picklistOptions` holding **plain strings**, which is
-what the script sends. `shape_options` mirrors the template's shape, so if the house account
-returns `[{"key":..,"label":..}]` instead it adapts rather than failing.
 
 ## Inherited gotcha
 
