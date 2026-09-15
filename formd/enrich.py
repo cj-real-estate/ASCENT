@@ -250,7 +250,7 @@ def cmd_hunter(a) -> int:
     the file to upload.
     """
     _, rows = read_csv(Path(a.enriched))
-    out_rows, no_domain, no_name = [], 0, 0
+    out_rows, no_domain, no_name, no_route = [], 0, 0, 0
     for r in rows:
         dom, first, last = r.get("domain", ""), r.get("contact_first", ""), r.get("contact_last", "")
         if not dom:
@@ -265,6 +265,7 @@ def cmd_hunter(a) -> int:
                                  "route": "domain_search"})
             continue
         if a.domain_search_only:
+            no_route += 1
             continue
         out_rows.append({"first_name": first, "last_name": last,
                          "company": r.get("entity_name", ""), "domain": dom,
@@ -283,8 +284,14 @@ def cmd_hunter(a) -> int:
     dsearch = len(out_rows) - finder
     print(f"hunter: {len(out_rows)} row(s) -> {out}")
     print(f"  email_finder (name + domain): {finder}   domain_search (domain only): {dsearch}")
-    print(f"  skipped: {no_domain} with no domain (phone-first route)"
-          + (f", {no_name} with no named contact" if no_name and not a.include_nameless else ""))
+    # Report only what was actually left out. Nameless rows are emitted as domain_search under
+    # either flag, and --domain-search-only drops the named ones — both were previously misreported.
+    skipped = [f"{no_domain} with no domain (phone-first route)"] if no_domain else []
+    if no_name and not (a.include_nameless or a.domain_search_only):
+        skipped.append(f"{no_name} with no named contact")
+    if no_route:
+        skipped.append(f"{no_route} named (--domain-search-only)")
+    print("  skipped: " + (", ".join(skipped) if skipped else "none"))
     print(f"  credits needed: ~{len(out_rows)}")
     return 0
 

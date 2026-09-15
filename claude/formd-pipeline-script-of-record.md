@@ -126,12 +126,6 @@ structural 9 kept / 5 dropped, second screen 4 kept / 5 dropped, 1 held (Nitya, 
 
 ## Gaps
 
-- `enrich.py hunter --domain-search-only` **miscounts its own skip line**: it reports the
-  nameless rows as "skipped ... with no named contact" in the same breath as emitting them as
-  `domain_search` rows, so the summary contradicts the line above it and the file it just wrote.
-  The CSV is correct — only the message is wrong. It matters a little because that summary exists
-  to be read before spending Hunter credits. The condition needs to consider `--domain-search-only`
-  as well as `--include-nameless`. Left as found; not changed unasked.
 - `prospect_route` emits only `A_priority` and `B_standard` — tier C candidates route
   `B_standard` while tagged `tier_c`, and the field's `C_under_floor` option is never written.
   Left alone deliberately: enrichment already routes segment C to phone-first and `arms` excludes
@@ -165,3 +159,23 @@ A row with a first name but no surname routes to `domain_search`, which is right
 needs both. And the subcommand's premise checks out on real data: `build`'s `hunter_upload.csv`
 from the live 213-filing run holds 26 rows with **0** domains, unusable by Hunter, while `hunter`
 over the same rows emits nothing and reports ~0 credits until enrichment supplies them.
+
+**15 Sept, `hunter` skip line fixed.** The summary now reports only what was actually left out, and
+it had two faults, not the one first recorded:
+
+- Nameless rows were reported as "skipped ... with no named contact" under `--domain-search-only`
+  while being emitted as `domain_search` rows.
+- Named rows *were* silently dropped under that same flag and counted nowhere — the more consequential
+  half, since the summary exists to be read before spending Hunter credits.
+
+Both are fixed, and the skip list is now built from what was genuinely excluded (`skipped: none`
+when nothing was). Emitted + skipped reconciles to the input row count in all three modes, which it
+did not before:
+
+| mode | emitted | skipped | total |
+|---|---|---|---|
+| default | 2 | 1 no-domain, 2 nameless | 5 |
+| `--include-nameless` | 4 | 1 no-domain | 5 |
+| `--domain-search-only` | 2 | 1 no-domain, 2 named | 5 |
+
+Reporting-only: all three output CSVs are byte-identical to the pre-fix runs.
