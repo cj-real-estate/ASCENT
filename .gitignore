@@ -47,3 +47,9 @@ CLAUDE.md
 # python
 __pycache__/
 *.py[cod]
+
+# formd pipeline: downloaded SEC data and regenerated outputs
+formd/raw/
+formd/weekly/
+formd/out/
+formd/out_week/
