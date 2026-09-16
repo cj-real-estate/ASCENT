@@ -41,18 +41,26 @@ no LLM. Same inputs → same CSVs. Runs on the Mac with Python 3.10+ and pandas 
 
 ## After enrichment (Hunter + research-verify, spec §3.3)
 
-Fill `segment`, `hunter_email`, `hunter_confidence`, `funnel_observation`, `ad_status`,
-`ad_status_checked`, `email1_approved` on `candidates.csv`, save as `enriched.csv`, then:
+1. `python enrich.py worklist --candidates out/candidates.csv --out out/worklist.json`, have the
+   agent write `out/findings.json`, then
+   `python enrich.py merge --candidates out/candidates.csv --findings out/findings.json --out out/enriched.csv`.
+   This fills `domain`, `website`, `funnel_observation`, `ad_status`, `ad_status_checked`, `segment`.
+2. Build the Hunter uploads. `build` also writes `hunter_upload.csv`, but before any domain is
+   resolved, so its domain column is empty — don't upload that one.
 
-`python formd_pipeline.py arms --enriched out/enriched.csv --out out --seed 2026`
+   `python enrich.py hunter --enriched out/enriched.csv --out out/hunter_finder.csv`
+   → Hunter **Bulk Email Finder** (the filing named a person)
 
-Then rebuild the Hunter upload, which `build` could only write with an empty domain column:
+   `python enrich.py hunter --enriched out/enriched.csv --out out/hunter_domains.csv --domain-search-only`
+   → Hunter **Bulk Domain Search** (the contact is an entity or placeholder like `--`, `N/A`)
 
-`python enrich.py hunter --enriched out/enriched.csv --out out/hunter_ready.csv --include-nameless`
+   Rows with no domain are skipped to the phone-first route. A person or domain repeated across
+   filings is looked up once, with the accession numbers `;`-joined — copy the result back to each.
+   The credit count prints before you spend anything.
+3. Fill `hunter_email`, `hunter_confidence`, `hunter_status` and `email1_approved` on
+   `enriched.csv`, then:
 
-Rows split by route — `email_finder` where the filing named a person, `domain_search` where it did
-not. Rows with no domain are skipped to the phone-first route. The credit count prints before you
-spend anything.
+   `python formd_pipeline.py arms --enriched out/enriched.csv --out out --seed 2026`
 
 Arms are assigned only to rows with `email1_approved = yes` and segment ≠ C, stratified by segment,
 fixed seed — the same file always gets the same arms. Import `enriched_with_arms.csv` to GHL using
@@ -65,7 +73,7 @@ the `ghl_import.csv` column mapping.
 | `candidates.csv` | Passed every filter and the hold gate. Sorted by score, then remaining |
 | `held.csv` | Matched `hold_list.csv` (accession → CIK → name stem). Never soften |
 | `screened_out.csv` | Dropped, with `screen_reason` |
-| `hunter_upload.csv` | Candidates with a named related person from the filing, in Hunter's bulk shape |
+| `hunter_upload.csv` | Candidates with a named related person from the filing. Domain column is empty — upload `hunter_finder.csv` / `hunter_domains.csv` from `enrich.py hunter` instead |
 | `ghl_import.csv` | Candidates in the GHL import shape (spec §5.1 fields, `src_cold_email` + `tier_*` tags) |
 | `run_log.txt` | Counts per stage — this is the audit trail |
 
