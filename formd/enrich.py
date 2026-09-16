@@ -79,6 +79,21 @@ def clean_domain(raw: str) -> str:
     return d.rstrip(".")
 
 
+NAME_PLACEHOLDERS = {"n/a", "na", "none", "null", "unknown", "tbd"}
+ENTITY_RE = re.compile(r"\b(llc|l\.l\.c|lp|l\.p|llp|inc|corp|corporation|ltd|trust|fund)\b\.?",
+                       re.IGNORECASE)
+
+
+def is_person_name(first: str, last: str) -> bool:
+    """False for the filler EDGAR puts in the name fields when the related person is an entity:
+    '--', '.', 'N/A', or an LLC/LP name in contact_last."""
+    first, last = (first or "").strip(), (last or "").strip()
+    for part in (first, last):
+        if not re.search(r"[a-z]", part, re.IGNORECASE) or part.lower() in NAME_PLACEHOLDERS:
+            return False
+    return not ENTITY_RE.search(last)
+
+
 def derive_segment(f: dict) -> str:
     ad = f.get("ad_status", "")
     if ad == "confirmed_live":
@@ -250,27 +265,40 @@ def cmd_hunter(a) -> int:
     the file to upload.
     """
     _, rows = read_csv(Path(a.enriched))
-    out_rows, no_domain, no_name, no_route = [], 0, 0, 0
+    out_rows, no_domain, no_name, no_route, dupes = [], 0, 0, 0, 0
+    # One Hunter lookup per person (or per domain for domain_search). A sponsor filing several
+    # series repeats the same contact; later accessions are folded into the first row, ';'-joined,
+    # so a result can still be copied back to every row it answers.
+    seen: dict[tuple, dict] = {}
+
+    def emit(key: tuple, row: dict) -> None:
+        nonlocal dupes
+        if key in seen:
+            seen[key]["form_d_accession_no"] += ";" + row["form_d_accession_no"]
+            dupes += 1
+            return
+        seen[key] = row
+        out_rows.append(row)
+
     for r in rows:
         dom, first, last = r.get("domain", ""), r.get("contact_first", ""), r.get("contact_last", "")
+        acc = r.get("form_d_accession_no", "")
         if not dom:
             no_domain += 1
             continue
-        if not (first and last):
+        if not is_person_name(first, last):
             no_name += 1
             if a.domain_search_only or a.include_nameless:
-                out_rows.append({"first_name": "", "last_name": "",
-                                 "company": r.get("entity_name", ""), "domain": dom,
-                                 "form_d_accession_no": r.get("form_d_accession_no", ""),
-                                 "route": "domain_search"})
+                emit(("domain_search", dom),
+                     {"first_name": "", "last_name": "", "company": r.get("entity_name", ""),
+                      "domain": dom, "form_d_accession_no": acc, "route": "domain_search"})
             continue
         if a.domain_search_only:
             no_route += 1
             continue
-        out_rows.append({"first_name": first, "last_name": last,
-                         "company": r.get("entity_name", ""), "domain": dom,
-                         "form_d_accession_no": r.get("form_d_accession_no", ""),
-                         "route": "email_finder"})
+        emit(("email_finder", first.strip().lower(), last.strip().lower(), dom),
+             {"first_name": first, "last_name": last, "company": r.get("entity_name", ""),
+              "domain": dom, "form_d_accession_no": acc, "route": "email_finder"})
 
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -291,6 +319,8 @@ def cmd_hunter(a) -> int:
         skipped.append(f"{no_name} with no named contact")
     if no_route:
         skipped.append(f"{no_route} named (--domain-search-only)")
+    if dupes:
+        skipped.append(f"{dupes} duplicate lookup(s) folded into an earlier row")
     print("  skipped: " + (", ".join(skipped) if skipped else "none"))
     print(f"  credits needed: ~{len(out_rows)}")
     return 0
