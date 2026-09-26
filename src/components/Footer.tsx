@@ -1,6 +1,6 @@
 import type { Vertical } from "@content/verticals/types";
 import { BrandLockup } from "@/components/Logo";
-import { formatAddress } from "@/lib/business";
+import { formatAddress, telHref } from "@/lib/business";
 import calebFree from "@content/people/caleb-free";
 
 /*
@@ -30,7 +30,7 @@ export function Footer({ vertical }: { vertical: Vertical }) {
         <div className="mt-8 flex flex-col items-start gap-1">
           {business.phone ? (
             <a
-              href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+              href={telHref(business.phone)!}
               className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark transition-colors hover:text-paper"
             >
               {business.phone}

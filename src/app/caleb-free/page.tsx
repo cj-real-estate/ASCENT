@@ -10,6 +10,7 @@ import { BrandLockup } from "@/components/Logo";
 import ArrowRight from "@/components/ArrowRight";
 import EyebrowText from "@/components/EyebrowText";
 import { card, shell } from "@/components/sponsor/SponsorChrome";
+import { telHref } from "@/lib/business";
 
 /*
  * /caleb-free — the one authoritative page about the founder.
@@ -417,7 +418,7 @@ export default function CalebFreePage() {
             <div className="flex flex-col items-start gap-1 md:items-end">
               {business.phone ? (
                 <a
-                  href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+                  href={telHref(business.phone)!}
                   className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark hover:text-paper"
                 >
                   {business.phone}

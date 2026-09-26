@@ -1,5 +1,6 @@
 import type { Vertical } from "@content/verticals/types";
 import { PERSON_ID, personProfileUrl } from "@/lib/schema";
+import { telE164 } from "@/lib/business";
 
 /*
  * LocalBusiness structured data, rendered server-side as a single
@@ -35,7 +36,8 @@ export default function JsonLd({ vertical }: { vertical: Vertical }) {
     },
   };
 
-  if (business.phone !== null) data.telephone = business.phone;
+  /* E.164 — a dialler and a knowledge panel both want the country code. */
+  if (business.phone !== null) data.telephone = telE164(business.phone);
   if (business.email !== null) data.email = business.email;
   /* The founder, by the same @id the authoritative profile page emits, so
    * this node and that page describe one person rather than two. */

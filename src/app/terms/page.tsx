@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import general from "@content/verticals/general";
 import { LEGAL_ENTITY, smsProgramTerms } from "@content/compliance";
-import { formatAddress } from "@/lib/business";
+import { formatAddress, telHref } from "@/lib/business";
 
 /*
  * /terms — site terms, and the SMS program terms the consent language on
@@ -117,7 +117,7 @@ export default function TermsPage() {
             {business.email && business.phone ? " or " : null}
             {business.phone ? (
               <a
-                href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+                href={telHref(business.phone)!}
                 className="text-orange-deep underline underline-offset-4"
               >
                 {business.phone}

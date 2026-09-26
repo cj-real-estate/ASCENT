@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import sponsors, { sponsorsPage } from "@content/verticals/sponsors";
 import { guides } from "@content/guides";
 import { LEGAL_ENTITY, smsProgramTerms } from "@content/compliance";
-import { formatAddress } from "@/lib/business";
+import { formatAddress, telHref } from "@/lib/business";
 import {
   SponsorFooter,
   SponsorHeader,
@@ -132,7 +132,7 @@ export default function SponsorTermsPage() {
             {business.email && business.phone ? " or " : null}
             {business.phone ? (
               <a
-                href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+                href={telHref(business.phone)!}
                 className="text-paper underline underline-offset-4"
               >
                 {business.phone}

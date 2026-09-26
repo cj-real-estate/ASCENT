@@ -58,7 +58,7 @@ const sponsors: Vertical = {
     // contact sections of /privacy and /terms, and in the JSON-LD address.
     street: "1424 Highland Park Blvd",
     postalCode: "73114",
-    phone: "580-304-8470",
+    phone: "405-563-7863",
     // The sponsor domain's own mailbox — footer, /privacy and JSON-LD pick
     // it up. It must exist and be monitored; nothing on the site sends to it.
     email: "info@ascentforsponsors.com",

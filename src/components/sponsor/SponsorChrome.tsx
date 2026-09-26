@@ -3,7 +3,7 @@ import Image from "next/image";
 import type { Vertical } from "@content/verticals/types";
 import type { Guide } from "@content/guides/types";
 import EyebrowText from "@/components/EyebrowText";
-import { formatAddress } from "@/lib/business";
+import { formatAddress, telHref } from "@/lib/business";
 import calebFree from "@content/people/caleb-free";
 
 /*
@@ -144,7 +144,7 @@ export function SponsorFooter({
           <div className="flex flex-col items-start gap-1 md:items-end">
             {business.phone ? (
               <a
-                href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+                href={telHref(business.phone)!}
                 className="inline-flex min-h-[44px] items-center text-[16px] text-on-dark hover:text-paper"
               >
                 {business.phone}

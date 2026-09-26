@@ -33,7 +33,7 @@ const general: Vertical = {
     // contact sections of /privacy and /terms, and in the JSON-LD address.
     street: "1424 Highland Park Blvd",
     postalCode: "73114",
-    phone: "580-304-8470",
+    phone: "405-563-7863",
     email: "info@ascentcas.com",
     // The registered entity. Shown in the footer and used by the SMS
     // consent language — A2P review checks that the name on the site

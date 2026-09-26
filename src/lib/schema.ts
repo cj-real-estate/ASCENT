@@ -2,6 +2,7 @@ import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import type { Guide } from "@content/guides/types";
 import type { PersonProfile } from "@content/people/types";
 import calebFree from "@content/people/caleb-free";
+import { telE164 } from "@/lib/business";
 import { plainText } from "@/components/sponsor/RichText";
 
 /*
@@ -87,7 +88,7 @@ function organization(
     org.contactPoint = {
       "@type": "ContactPoint",
       contactType: "sales",
-      ...(business.phone ? { telephone: business.phone } : {}),
+      ...(business.phone ? { telephone: telE164(business.phone) } : {}),
       ...(business.email ? { email: business.email } : {}),
       areaServed: "US",
       availableLanguage: "en",
@@ -420,7 +421,7 @@ export function personProfileGraph(v: Vertical, person: PersonProfile) {
     };
   }
   if (v.business.email) personNode.email = v.business.email;
-  if (v.business.phone) personNode.telephone = v.business.phone;
+  if (v.business.phone) personNode.telephone = telE164(v.business.phone);
 
   return {
     "@context": "https://schema.org",

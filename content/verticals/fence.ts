@@ -14,8 +14,11 @@ const fence: Vertical = {
     // contact sections of /privacy and /terms, and in the JSON-LD address.
     street: "1424 Highland Park Blvd",
     postalCode: "73114",
-    // Supplied by the client 2026-08-21.
-    phone: "580-304-8470",
+    // The company line, supplied 2026-09-26. It replaced a personal
+    // number, and it is the number registered for the A2P 10DLC campaign
+    // — the SMS program terms quote it as the support contact, so it must
+    // match what the carriers have.
+    phone: "405-563-7863",
     email: "info@ascentcas.com",
     // The registered entity. Shown in the footer and used by the SMS
     // consent language — A2P review checks that the name on the site

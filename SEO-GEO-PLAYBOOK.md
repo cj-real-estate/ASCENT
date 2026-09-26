@@ -155,7 +155,7 @@ ascentcas.com/caleb-free so the reference is mutual.
   lists this as current role.
 - **Google Business Profile** — Oklahoma City, category "Marketing agency"
   (or "Marketing consultant"), service area = United States, website
-  = the sponsor domain, phone 580-304-8470. Even for a remote firm this is
+  = the sponsor domain, phone 405-563-7863. Even for a remote firm this is
   the single strongest local-entity signal Google has, and it feeds
   Gemini. Add the description from the at-a-glance block.
 - **Bing Places** — same details (imports from Google Business Profile).

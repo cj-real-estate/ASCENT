@@ -3,7 +3,7 @@ import Link from "next/link";
 import general from "@content/verticals/general";
 import { LEGAL_ENTITY, SMS_PROGRAM_NAME } from "@content/compliance";
 import { toSmsConsentProps } from "@/lib/consent";
-import { formatAddress } from "@/lib/business";
+import { formatAddress, telHref } from "@/lib/business";
 import { BrandLockup } from "@/components/Logo";
 import SmsOptInForm from "@/components/SmsOptInForm";
 
@@ -111,7 +111,7 @@ export default function SmsOptInPage() {
               Questions, or want to be removed by hand? Call{" "}
               {business.phone ? (
                 <a
-                  href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+                  href={telHref(business.phone)!}
                   className="text-orange-deep underline underline-offset-4"
                 >
                   {business.phone}

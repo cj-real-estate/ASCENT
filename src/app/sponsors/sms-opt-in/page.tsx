@@ -3,7 +3,7 @@ import sponsors, { sponsorsPage } from "@content/verticals/sponsors";
 import { guides } from "@content/guides";
 import { LEGAL_ENTITY, SMS_AGE_REQUIREMENT, SMS_PROGRAM_NAME } from "@content/compliance";
 import { toSmsConsentProps } from "@/lib/consent";
-import { formatAddress } from "@/lib/business";
+import { formatAddress, telHref } from "@/lib/business";
 import SmsConsentFields from "@/components/SmsConsentFields";
 import {
   SponsorFooter,
@@ -246,7 +246,7 @@ export default async function SmsOptInPage({
               {business.email && business.phone ? " or " : null}
               {business.phone ? (
                 <a
-                  href={`tel:${business.phone.replace(/[^+\d]/g, "")}`}
+                  href={telHref(business.phone)!}
                   className="text-paper underline underline-offset-4"
                 >
                   {business.phone}

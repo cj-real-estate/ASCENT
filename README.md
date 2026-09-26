@@ -201,7 +201,8 @@ content module for `DECISION`:
 2. **Ad-account screenshots** — cleared for publication? (`proof.screenshots`)
 3. **Phone + email** (`business.phone` / `business.email`) — footer, privacy
    page, and JSON-LD pick them up automatically.
-   *(Supplied 2026-08-21: 580-304-8470 / caleb@ascentcas.com.)*
+   *(Supplied 2026-08-21, phone replaced 2026-09-26 with the company
+   line: 405-563-7863 / caleb@ascentcas.com.)*
 4. **Cal.com vs Calendly + scheduling link** (`booking.schedulingLink`).
    *(Resolved: Calendly, wired 2026-08-22 — now revealed only after
    qualification.)*
