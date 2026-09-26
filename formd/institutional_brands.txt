@@ -1,0 +1,29 @@
+# one case-insensitive substring per line — named manager tier, institutionally served
+hines
+brookfield
+starwood
+two sigma
+digital realty
+principal real estate
+rreef
+eqt exeter
+blackstone
+kkr
+carlyle
+apollo
+ares
+tpg
+invesco
+nuveen
+pgim
+clarion
+lasalle
+cbre
+jll
+prologis
+greystar
+cortland
+harrison street
+bridge investment
+walton street
+crow holdings
