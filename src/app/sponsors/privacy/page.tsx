@@ -12,7 +12,7 @@ import { SponsorFooter, SponsorHeader, shell, sponsorHref } from "@/components/s
 /*
  * Privacy for ascentforsponsors.com — served at /privacy on that host via
  * the rewrite in next.config.ts, so the sponsor domain has a policy that
- * describes the sponsor site (the qualification gate, the Calendly embed,
+ * describes the sponsor site (the qualification gate, the scheduler embed,
  * the sponsor mailbox) rather than the brand site's strategy-call form.
  * Same plain-English scope as the brand policy: it lists everything the
  * site collects and nothing it doesn't.
@@ -81,8 +81,9 @@ export default function SponsorPrivacyPage() {
             call. The site itself stores nothing.
           </p>
           <p className={pClass}>
-            If the engagement fits, the site shows a Calendly scheduler. Calendly&apos;s own privacy policy
-            governs what you enter there.
+            If the engagement fits, the site shows a scheduler embedded from GoHighLevel, the same
+            system that holds the enquiry. What you enter there is governed by GoHighLevel&apos;s own
+            privacy policy.
           </p>
 
           <h2 className={h2Class}>Text messages and your mobile number</h2>

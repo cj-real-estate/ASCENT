@@ -5,10 +5,10 @@
  *
  *   form     — the fallback form routes to /thanks, so a page-load
  *              conversion on that route is exactly right.
- *   calendly — the calendar is an iframe. Booking inside it never navigates
- *              the parent page, so a page-load tag would never see it.
- *              Calendly posts a `calendly.event_scheduled` message instead,
- *              which is what src/components/CalendlyConversion.tsx listens for.
+ *   calendar — the calendar is an iframe. Booking inside it never navigates
+ *              the parent page, so a page-load tag would never see it. The
+ *              provider posts a message up instead, which is what
+ *              src/components/BookingConversion.tsx listens for.
  *
  * The two paths are mutually exclusive, so a visitor cannot fire both.
  */
@@ -50,7 +50,7 @@ function whenGtagReady(run: () => void, timeoutMs = 10_000): () => void {
  * blocked script), and reports at most once per session per path so a
  * refreshed /thanks does not inflate the count.
  */
-export function trackLeadConversion(source: "form" | "calendly"): () => void {
+export function trackLeadConversion(source: "form" | "calendar"): () => void {
   if (typeof window === "undefined") return () => {};
 
   const key = `ascent:conversion:${source}`;

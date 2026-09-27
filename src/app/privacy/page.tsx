@@ -81,6 +81,11 @@ export default function PrivacyPage() {
             schedule and prepare for your call. It lives in that CRM once
             it&apos;s sent — this site itself stores nothing.
           </p>
+          <p className={pClass}>
+            If your answers fit, the site then shows a scheduler embedded from GoHighLevel, the same
+            system that holds the enquiry. What you enter there is governed by GoHighLevel&apos;s own
+            privacy policy.
+          </p>
 
           <h2 className={h2Class}>Text messages and your mobile number</h2>
           <p className={pClass}>

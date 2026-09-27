@@ -376,15 +376,18 @@ const sponsors: Vertical = {
     eyebrow: "BOOK A SCOPING CALL",
     h2: "Find out where your last raise's leads went.",
     body: "Thirty minutes. Bring the numbers from your last raise — media spent, leads generated, meetings that actually happened. We'll tell you, in dollars, what the gap between the leads you paid for and the appointments you held is costing you, and whether this structure will clear your counsel. If it doesn't fit, we'll say so on the call.",
-    // A dedicated Calendly event for sponsors, separate from the brand
-    // page's strategy call, so bookings from this domain are their own
-    // event type. The event MUST exist in Calendly under exactly this slug
-    // (caleb-ascentcas → "Scoping call", URL slug "scoping-call", 30 min)
-    // before the domain goes live — a qualified sponsor is shown this embed,
-    // and a missing event renders Calendly's not-found page in its place.
-    // Set-up steps are in CONNECT-ASCENTFORSPONSORS.md.
+    // The GoHighLevel (LeadConnector) booking widget, supplied 2026-09-27,
+    // replacing the Calendly scoping-call event. Scheduling now sits in the
+    // same system the leads already land in, so a booked appointment is on
+    // the contact record rather than in a second tool.
+    //
+    // The trailing path segment is the calendar's id. src/lib/scheduler.ts
+    // reads the provider off the /widget/booking/ path, then derives the
+    // resize script and the message origin from this same URL, so moving
+    // to another white-label host or another calendar is a change here and
+    // nowhere else.
     schedulingLink:
-      "https://calendly.com/caleb-ascentcas/scoping-call?hide_gdpr_banner=1&embed_domain=ascentforsponsors.com&embed_type=Inline",
+      "https://links.ascentforsponsors.com/widget/booking/2qqDWLxVgjzCoxlnlRPb",
     // Legacy form labels — the gate below is the live path.
     form: {
       nameLabel: "Name",

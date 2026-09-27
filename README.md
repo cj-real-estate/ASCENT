@@ -144,7 +144,7 @@ and the booking headline switch to the "filled / waitlist" framing.
 
 ## The qualification gate and /apply
 
-Nobody reaches the Calendly scheduler without answering the ICP questions
+Nobody reaches the scheduler without answering the ICP questions
 first. `QualifyFlow` (the client island inside every booking section, and the
 whole of `/apply` — the bare landing page for social/paid CTAs) posts contact
 info + answers to `/api/book`. The lead is delivered in BOTH cases — tagged
@@ -155,7 +155,7 @@ Two things are deliberate about the wiring:
 - **Which answers qualify lives in `content/verticals/*.ts`** (the
   `qualifies` flag per option). Tune thresholds there; a prospect passes only
   if every chosen option qualifies.
-- **The flags and the Calendly URL never reach the browser.** Client props
+- **The flags and the scheduler URL never reach the browser.** Client props
   are serialized into view-source, so `src/lib/qualify.ts` strips both, and
   `/api/book` recomputes the verdict server-side and returns the scheduling
   link only on a pass. Don't hand a client component the whole `Vertical` —
@@ -203,9 +203,10 @@ content module for `DECISION`:
    page, and JSON-LD pick them up automatically.
    *(Supplied 2026-08-21, phone replaced 2026-09-26 with the company
    line: 405-563-7863 / caleb@ascentcas.com.)*
-4. **Cal.com vs Calendly + scheduling link** (`booking.schedulingLink`).
-   *(Resolved: Calendly, wired 2026-08-22 — now revealed only after
-   qualification.)*
+4. **Scheduler + link** (`booking.schedulingLink`).
+   *(Resolved: Calendly wired 2026-08-22, revealed only after
+   qualification; replaced 2026-09-27 by the GoHighLevel booking widget on
+   every vertical, so scheduling and the CRM are one system.)*
 5. **Current founding-spots count** (`foundingSpotsRemaining`).
 6. Whether founding pricing stays published at launch (currently: yes).
 
@@ -288,7 +289,7 @@ There are two booking paths and they need different handling:
 | Path | Signal |
 |---|---|
 | Fallback form | routes to `/thanks`, so `LeadConversion` fires on page load there |
-| Calendly embed | books inside an iframe and never navigates the page, so `CalendlyConversion` listens for Calendly's `calendly.event_scheduled` message |
+| Calendar embed | books inside an iframe and never navigates the page, so `BookingConversion` listens for the message the provider posts up — exact for Calendly, matched by name for GoHighLevel, which documents none |
 
 Google's setup screen only offers page-load or click tracking. Page load alone
 would miss **every** calendar booking, which is the primary path — hence the

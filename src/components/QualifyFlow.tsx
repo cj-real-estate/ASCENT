@@ -1,11 +1,17 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import type { QualifyFlowProps } from "@/lib/qualify";
 import { trackLeadConversion } from "@/lib/conversion";
-import CalendlyConversion from "./CalendlyConversion";
+import BookingConversion from "./BookingConversion";
 import type { SmsConsentValues } from "@/lib/consent";
 import SmsConsentFields from "./SmsConsentFields";
+import Script from "next/script";
+import {
+  schedulerEmbedScript,
+  schedulerWidgetId,
+  withSchedulerPrefill,
+} from "@/lib/scheduler";
 
 /*
  * The ICP gate as a multi-step wizard: one card per question, contact
@@ -76,24 +82,6 @@ function formatPhone(raw: string): string {
   return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
 }
 
-/*
- * Calendly prefills its "Enter Details" step from `name` and `email` query
- * params, so a lead who already typed both into the gate never types them
- * twice. Appended client-side after the verdict comes back — the link still
- * only ever arrives via the /api/book response, never in page source.
- */
-function withCalendlyPrefill(
-  link: string,
-  name: string,
-  email: string,
-): string {
-  const parts: string[] = [];
-  if (name) parts.push(`name=${encodeURIComponent(name)}`);
-  if (email) parts.push(`email=${encodeURIComponent(email)}`);
-  if (parts.length === 0) return link;
-  return `${link}${link.includes("?") ? "&" : "?"}${parts.join("&")}`;
-}
-
 const inputBase =
   "mt-2 w-full min-h-[44px] rounded-md border bg-graphite px-4 py-2 text-[17px] text-paper";
 
@@ -141,6 +129,16 @@ export function QualifyFlow({
   // Handed back by /api/book on a qualifying verdict; null otherwise. This
   // is the only way the URL ever reaches the page.
   const [schedulingLink, setSchedulingLink] = useState<string | null>(null);
+  /* Both null unless the link is a LeadConnector widget — see
+   * src/lib/scheduler.ts for why that provider needs the extra two. */
+  const embedScript = useMemo(
+    () => (schedulingLink ? schedulerEmbedScript(schedulingLink) : null),
+    [schedulingLink],
+  );
+  const widgetId = useMemo(
+    () => (schedulingLink ? schedulerWidgetId(schedulingLink) : null),
+    [schedulingLink],
+  );
 
   const contactRefs = useRef<Record<ContactField, HTMLInputElement | null>>({
     name: null,
@@ -285,7 +283,11 @@ export function QualifyFlow({
         cancelConversion.current = trackLeadConversion("form");
         setSchedulingLink(
           qualified && link
-            ? withCalendlyPrefill(link, values.name.trim(), values.email.trim())
+            ? withSchedulerPrefill(link, {
+                name: values.name,
+                email: values.email,
+                phone: values.phone,
+              })
             : null,
         );
         setStage(qualified ? "pass" : "declined");
@@ -387,16 +389,26 @@ export function QualifyFlow({
         {schedulingLink ? (
           <>
             {/* Two conversion signals are live on this path: the gate submit
-                reports "form", and this reports "calendly" if they go on to
+                reports "form", and this reports "calendar" if they go on to
                 book. */}
-            <CalendlyConversion />
-            {/* 700px is Calendly's own minimum for the inline calendar. */}
+            <BookingConversion schedulingLink={schedulingLink} />
+            {/* 700px is the inline minimum both providers want. Under
+                LeadConnector the embed script below grows it to whatever
+                the widget actually reports, so this is only the floor
+                while the script loads or if it is blocked. */}
             <iframe
+              id={widgetId ?? undefined}
               src={schedulingLink}
               title="Scheduling calendar"
               loading="lazy"
+              allow="payment"
+              scrolling="no"
               className="mt-10 min-h-[700px] w-full rounded-md border border-white/15 bg-paper"
             />
+            {/* LeadConnector only: reads the height the iframe posts up and
+                sets it, so the calendar is never clipped. Served from the
+                same host as the widget — see src/lib/scheduler.ts. */}
+            {embedScript ? <Script src={embedScript} strategy="afterInteractive" /> : null}
           </>
         ) : (
           <p className="mt-6 max-w-[68ch] text-[17px] text-on-dark">

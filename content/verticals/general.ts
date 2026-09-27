@@ -469,10 +469,12 @@ const general: Vertical = {
     eyebrow: "BOOK YOUR STRATEGY CALL",
     h2: "Let's look at your numbers.",
     body: "Thirty minutes: where your leads stall, what a held appointment should cost you, and exactly which parts of our system we'd install. No cost, no obligation.",
-    // Calendly, supplied by the client 2026-08-21. See fence.ts for the
-    // reasoning behind the embed params.
-    schedulingLink:
-      "https://calendly.com/caleb-ascentcas/30min?hide_gdpr_banner=1&embed_domain=ascentcas.com&embed_type=Inline",
+    // The GoHighLevel (LeadConnector) booking widget — the same calendar
+    // the sponsor domain uses. One calendar for both sites was the owner's
+    // call on 2026-09-27: scheduling now sits in the system the leads
+    // already land in, so a booked appointment is on the contact record
+    // rather than in a second tool. See fence.ts for the mechanics.
+    schedulingLink: "https://links.ascentforsponsors.com/widget/booking/2qqDWLxVgjzCoxlnlRPb",
     form: {
       nameLabel: "Name",
       companyLabel: "Company",

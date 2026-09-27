@@ -12,20 +12,16 @@ production builds.
    `https://ascentcas.com/sponsors` should load the sponsor page (headline
    "Investor meetings held, not just investor leads."). If it doesn't,
    production hasn't redeployed yet — wait for the Vercel build.
-2. **Create the Calendly event the page embeds.** A qualified sponsor is
-   shown a Calendly embed for a dedicated event that does not exist until
-   you create it — until then they see Calendly's not-found page instead of
-   a calendar. In Calendly (account `caleb-ascentcas`) → *Event Types* →
-   *New event type* → one-on-one:
-   - Name: **Scoping call** · Duration: **30 min**
-   - URL slug: **`scoping-call`** — exactly, so the link is
-     `calendly.com/caleb-ascentcas/scoping-call`. This is what
-     `booking.schedulingLink` in `content/verticals/sponsors.ts` points at;
-     if you pick a different slug, change it there too.
-   - Description (optional): "Thirty minutes on your last raise's numbers,
-     in dollars. Bring counsel if you like."
-   Then open `https://calendly.com/caleb-ascentcas/scoping-call` in a
-   private window and confirm it shows a calendar.
+2. **Check the GoHighLevel calendar the page embeds.** Superseded as a
+   set-up step on 2026-09-27: scheduling moved off Calendly onto the
+   GoHighLevel (LeadConnector) booking widget
+   `2qqDWLxVgjzCoxlnlRPb`, which every vertical now points at via
+   `booking.schedulingLink`. There is nothing to create — confirm instead
+   that the calendar is published, has availability, and is named and
+   described for both audiences, because the contractor site books a
+   strategy call on it and the sponsor site books a scoping call. Open
+   `https://links.ascentforsponsors.com/widget/booking/2qqDWLxVgjzCoxlnlRPb`
+   in a private window and confirm it shows a calendar.
 3. **Make sure `info@ascentforsponsors.com` exists and is monitored.** It is
    the contact address in the sponsor page's footer, privacy page and
    structured data. The site never sends to it, but sponsors will.
@@ -156,9 +152,11 @@ Switch to the GoDaddy tab, on the DNS records page for
 5. Give me a final summary: the DNS records as they now stand, the domain
    status in Vercel, and the result of each of the five checks.
 6. (For me, not the agent.) Run the gate end to end once: answer the six
-   questions with qualifying answers and confirm the Calendly calendar
-   appears — that proves the `scoping-call` event exists and the embed
-   domain is right.
+   questions with qualifying answers and confirm the calendar appears and
+   takes a booking. Book a real test slot: that is also the only way to
+   confirm the Google Ads conversion fires, because it depends on the
+   message the widget posts up — see the note in
+   `src/components/BookingConversion.tsx`.
 
 ## Don't do these
 

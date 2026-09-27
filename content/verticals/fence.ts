@@ -434,11 +434,17 @@ const fence: Vertical = {
     eyebrow: "BOOK YOUR STRATEGY CALL",
     h2: "Let's look at your numbers.",
     body: "Thirty minutes: where your leads stall, what an estimate appointment should cost you, and exactly which parts of our system we'd install. No cost, no obligation.",
-    // Calendly, supplied by the client 2026-08-21. The embed params drop
-    // Calendly's own page chrome and the GDPR banner so it sits inside the
-    // section rather than looking like a framed website.
-    schedulingLink:
-      "https://calendly.com/caleb-ascentcas/30min?hide_gdpr_banner=1&embed_domain=ascentcas.com&embed_type=Inline",
+    // The GoHighLevel (LeadConnector) booking widget, supplied 2026-09-27,
+    // replacing Calendly on every vertical. The trailing path segment is
+    // the calendar's id.
+    //
+    // src/lib/scheduler.ts reads the provider off the /widget/booking/
+    // path, then derives the resize script, the prefill parameter names
+    // and the message origin from this same URL — so moving to another
+    // calendar, or back to Calendly, is a change to this string and
+    // nothing else. All three verticals point at one calendar today; they
+    // are separate fields precisely so one of them can stop.
+    schedulingLink: "https://links.ascentforsponsors.com/widget/booking/2qqDWLxVgjzCoxlnlRPb",
     form: {
       nameLabel: "Name",
       companyLabel: "Company",

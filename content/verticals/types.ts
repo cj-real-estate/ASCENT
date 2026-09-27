@@ -631,7 +631,12 @@ export interface Vertical {
     h2: string;
     body: string;
     /**
-     * DECISION #4 — Cal.com (recommended) or Calendly embed link.
+     * The inline booking embed a qualified lead is shown, as a URL. The
+     * provider is read off the URL by src/lib/scheduler.ts, which derives
+     * the prefill parameter names, the resize script and the origin to
+     * trust for the booked-appointment message — so switching calendars,
+     * or providers, is a change to this string alone.
+     *
      * null renders the fallback form as the only path.
      */
     schedulingLink: string | null;
