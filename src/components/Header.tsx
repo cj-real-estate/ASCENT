@@ -4,7 +4,7 @@ import { BrandLockup } from "@/components/Logo";
 
 /*
  * Sticky site header. Sits over the light hero: translucent paper with a
- * blur and a hairline rule, the v3 lockup on its light ground. No nav —
+ * blur and a hairline rule, the v3 wordmark on its light ground. No nav —
  * one CTA.
  */
 export default function Header({ vertical }: { vertical: Vertical }) {
@@ -14,10 +14,8 @@ export default function Header({ vertical }: { vertical: Vertical }) {
     <header className="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur">
       <div className="section-shell flex min-h-16 items-center justify-between gap-4 py-2">
         <Link href="/" aria-label={name} className="shrink-0">
-          {/* Two widths rather than one responsive component: under the
-              230px lockup minimum BrandLockup drops the tagline itself,
-              so the small screen gets the wordmark and md up gets the
-              full lockup. */}
+          {/* Two widths rather than one responsive component: the
+              wordmark sits smaller on phones, larger from md up. */}
           <BrandLockup variant="onLight" width={168} name={name} priority className="md:hidden" />
           <BrandLockup
             variant="onLight"
