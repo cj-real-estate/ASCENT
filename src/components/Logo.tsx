@@ -20,23 +20,21 @@ import Image from "next/image";
  * "onLight" / "onDark" name the GROUND the logo sits on, not its own
  * colour, which is the brand system's convention.
  *
- * Below the full lockup's 230px minimum the brand rules say drop the
- * tagline, so `BrandLockup` switches to the wordmark on its own from the
- * width it is given. Callers pass a width and a ground; nothing else.
+ * ascentcas.com uses the WORDMARK — chevron plus "ASCENT", no tagline — at
+ * every size. The owner chose it over the tagline lockup (September 2026):
+ * the "INVESTOR ACQUISITION" line doesn't describe this site's offer, and
+ * the wordmark is the logo he hands out. The sponsor host keeps its own
+ * lockup in components/sponsor/SponsorChrome.tsx; that is deliberate.
+ * Callers pass a width and a ground; nothing else.
  */
 
 const ASSETS = {
-  onDark: {
-    lockup: { src: "/brand/ascent-lockup-primary-on-dark.svg", w: 807.027, h: 186.375 },
-    wordmark: { src: "/brand/ascent-wordmark-on-dark.svg", w: 762.917, h: 144.779 },
-  },
-  onLight: {
-    lockup: { src: "/brand/ascent-lockup-primary-on-light.svg", w: 807.027, h: 186.375 },
-    wordmark: { src: "/brand/ascent-wordmark-on-light.svg", w: 762.917, h: 144.779 },
-  },
+  onDark: { src: "/brand/ascent-wordmark-on-dark.svg", w: 762.917, h: 144.779 },
+  onLight: { src: "/brand/ascent-wordmark-on-light.svg", w: 762.917, h: 144.779 },
 } as const;
 
-/** The brand guide's full-lockup minimum. Under it, the tagline is dropped. */
+/** The brand guide's full-lockup minimum. No longer used on this host, where
+ *  the wordmark is shown at every size; kept for anything that imports it. */
 export const LOCKUP_MIN_WIDTH = 230;
 
 export function BrandLockup({
@@ -47,14 +45,14 @@ export function BrandLockup({
   priority = false,
 }: {
   variant?: "onLight" | "onDark";
-  /** Rendered width in px. Under 230 the wordmark is used instead. */
+  /** Rendered width in px. */
   width: number;
   /** Accessible name — the business, not the file. */
   name: string;
   className?: string;
   priority?: boolean;
 }) {
-  const asset = width >= LOCKUP_MIN_WIDTH ? ASSETS[variant].lockup : ASSETS[variant].wordmark;
+  const asset = ASSETS[variant];
   return (
     <Image
       src={asset.src}
