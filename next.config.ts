@@ -26,7 +26,36 @@ const sponsorHostRewrites = SPONSOR_HOSTS.flatMap((host) => {
   ];
 });
 
+/*
+ * growwithascent.com forwards to the sponsor site, path and query intact,
+ * as a permanent (308) redirect — so a link or a bookmark to
+ * growwithascent.com/guides/x lands on the same guide, and search engines
+ * consolidate the domain into ascentforsponsors.com rather than indexing
+ * it as a copy.
+ *
+ * This only runs once the domain is attached to this Vercel project. The
+ * intended setup is to attach it in Vercel as a REDIRECT domain pointed at
+ * ascentforsponsors.com, in which case Vercel answers at the edge and this
+ * never executes. It is here as the safety net for the other case: if the
+ * domain is attached as an ordinary one, the host rewrites above do not
+ * match it, and without this it would serve the contractor site under the
+ * sponsor brand's domain. With it, either way of attaching the domain
+ * produces the same result.
+ */
+const FORWARDED_HOSTS = ["growwithascent.com", "www.growwithascent.com"];
+const FORWARD_TO = "https://ascentforsponsors.com";
+
+const forwardedHostRedirects = FORWARDED_HOSTS.map((host) => ({
+  source: "/:path*",
+  has: [{ type: "host" as const, value: host }],
+  destination: `${FORWARD_TO}/:path*`,
+  permanent: true,
+}));
+
 const nextConfig: NextConfig = {
+  async redirects() {
+    return forwardedHostRedirects;
+  },
   async rewrites() {
     return { beforeFiles: sponsorHostRewrites };
   },
