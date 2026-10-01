@@ -77,8 +77,9 @@ export default function SponsorPrivacyPage() {
             in your browser and records the pages you view here, how you arrived (the referring site and
             any campaign tags in the link), and the form you submit. If you request a call, that history
             is attached to your contact record so we know what you read before we talk. It only covers
-            this site; it does not follow you elsewhere. Clearing your browser&apos;s site data removes the
-            identifier.
+            this site; it does not follow you elsewhere. The site also remembers in your browser, for up to
+            90 days, the link or site that first brought you here and the most recent one, and sends that
+            along if you submit a form. Clearing your browser&apos;s site data removes both.
           </p>
 
           <h2 className={h2Class}>The qualification questions and booking</h2>

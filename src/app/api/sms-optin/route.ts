@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import general from "@content/verticals/general";
 import { deliverOptIn } from "@/lib/optIn";
 import { leadSiteFromRequest } from "@/lib/leadSite";
+import { sanitizeAttribution } from "@/lib/attribution";
 
 /*
  * The standalone SMS opt-in endpoint, behind /sms.
@@ -25,7 +26,7 @@ import { leadSiteFromRequest } from "@/lib/leadSite";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const MAX_BODY_BYTES = 4_000;
+const MAX_BODY_BYTES = 8_000; // room for the attribution block
 const MAX_FIELD_LENGTH = 200;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_CHARS_RE = /^\+?[\d\s()\-.]+$/;
@@ -116,6 +117,7 @@ export async function POST(request: Request) {
     smsCallName: general.smsCallName,
     receivedAt,
     site: leadSiteFromRequest(request),
+    attribution: sanitizeAttribution(body.attribution),
   });
 
   if (!delivered) {

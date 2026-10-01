@@ -79,7 +79,9 @@ export default function PrivacyPage() {
             any campaign tags in the link), and the form you submit. If you
             request a call, that history is attached to your contact record so
             we know what you read before we talk. It only covers this site; it
-            doesn&apos;t follow you elsewhere.
+            doesn&apos;t follow you elsewhere. The site also remembers in your
+            browser, for up to 90 days, the link or site that brought you here,
+            and sends it along if you submit a form.
           </p>
 
           <h2 className={h2Class}>The booking form</h2>

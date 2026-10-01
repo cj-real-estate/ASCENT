@@ -7,6 +7,7 @@ import BookingConversion from "./BookingConversion";
 import type { SmsConsentValues } from "@/lib/consent";
 import SmsConsentFields from "./SmsConsentFields";
 import Script from "next/script";
+import { readAttribution } from "@/lib/attributionClient";
 import {
   schedulerEmbedScript,
   schedulerWidgetId,
@@ -262,6 +263,7 @@ export function QualifyFlow({
           smsConsentTransactional: smsConsent.transactional,
           smsConsentMarketing: smsConsent.marketing,
           answers,
+          attribution: readAttribution(),
         }),
       });
       if (res.ok) {

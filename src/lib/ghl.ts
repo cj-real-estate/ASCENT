@@ -31,6 +31,12 @@ import {
 } from "@content/compliance";
 import { envNamesMatching, readEnv, readSecret } from "./env";
 import { leadSourceLabel } from "./leadSite";
+import {
+  type Attribution,
+  attributionFlat,
+  attributionNoteLines,
+  attributionTag,
+} from "./attribution";
 
 /* Overridable only so the integration can be exercised against a mock in
  * development. Leave GHL_API_BASE unset everywhere else — production
@@ -105,6 +111,8 @@ export interface LeadRecord {
   receivedAt: string;
   /** Public site the lead came in on, e.g. "ascentforsponsors.com" — see leadSite.ts. */
   site: string;
+  /** How the visitor found the site (UTMs, click IDs, referrer) — see attribution.ts. */
+  attribution?: Attribution;
 }
 
 /* GHL stores first and last separately. One word means no last name — never
@@ -136,6 +144,10 @@ function leadTags(lead: LeadRecord): string[] {
    * — which is the whole point of collecting them separately. */
   if (lead.smsConsentTransactional) tags.push("sms consent: transactional");
   if (lead.smsConsentMarketing) tags.push("sms consent: marketing");
+  /* "source: instagram", "source: google ads", "source: direct"… — one per
+   * lead, for smart lists and workflow filters. */
+  const sourceTag = attributionTag(lead.attribution);
+  if (sourceTag) tags.push(sourceTag);
   return tags;
 }
 
@@ -178,6 +190,7 @@ function noteBody(lead: LeadRecord): string {
     `Wants: ${lead.interest}`,
     `Site: ${lead.site}`,
     `Page: ${lead.page}`,
+    ...attributionNoteLines(lead.attribution),
     "",
     ...consentLines(lead),
     ...(lead.answerLines.length ? ["", ...lead.answerLines] : []),
@@ -306,6 +319,7 @@ async function postInboundWebhook(lead: LeadRecord): Promise<boolean> {
         sms_consent_marketing_at: lead.smsConsentMarketing ? lead.receivedAt : "",
         sms_consent_marketing_text: lead.smsConsentMarketing ? SMS_MARKETING_CONSENT_LABEL : "",
         answers_summary: lead.answerLines.join("\n"),
+        ...attributionFlat(lead.attribution),
         ...flatAnswers,
       }),
       signal: AbortSignal.timeout(TIMEOUT_MS),

@@ -6,6 +6,7 @@ import { deliverOptIn } from "@/lib/optIn";
 import { CONSENT_FIELD_NAMES } from "@/components/SmsConsentFields";
 import { readEnv } from "@/lib/env";
 import { leadSiteFromRequest } from "@/lib/leadSite";
+import { sanitizeAttribution } from "@/lib/attribution";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
@@ -83,7 +84,7 @@ export async function GET() {
   });
 }
 
-const MAX_BODY_BYTES = 10_000;
+const MAX_BODY_BYTES = 16_000; // answers + the attribution block
 const MAX_FIELD_LENGTH = 200;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -443,6 +444,7 @@ export async function POST(request: Request) {
       smsCallName: config.smsCallName,
       receivedAt,
       site: leadSiteFromRequest(request),
+      attribution: sanitizeAttribution(body.attribution),
     }),
     postLeadWebhook({
       verdict,

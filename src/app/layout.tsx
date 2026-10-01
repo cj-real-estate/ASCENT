@@ -3,6 +3,7 @@ import { archivo, plexSans, plexMono } from "./fonts";
 import general from "@content/verticals/general";
 import GoogleTag from "@/components/GoogleTag";
 import GhlTracking from "@/components/GhlTracking";
+import AttributionCapture from "@/components/AttributionCapture";
 import { readEnv } from "@/lib/env";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -86,6 +87,7 @@ export default function RootLayout({
         {children}
         <GoogleTag />
         <GhlTracking />
+        <AttributionCapture />
         <Analytics />
       </body>
     </html>

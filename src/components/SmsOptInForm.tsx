@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import type { SmsConsentProps, SmsConsentValues } from "@/lib/consent";
 import SmsConsentFields from "./SmsConsentFields";
+import { readAttribution } from "@/lib/attributionClient";
 
 /*
  * The form on /sms — a name, a mobile number, an optional email, and the
@@ -100,6 +101,7 @@ export default function SmsOptInForm({
           website,
           smsConsentTransactional: smsConsent.transactional,
           smsConsentMarketing: smsConsent.marketing,
+          attribution: readAttribution(),
         }),
       });
       if (res.ok) {

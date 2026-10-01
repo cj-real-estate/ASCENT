@@ -1,5 +1,6 @@
 import { deliverLeadToGhl } from "./ghl";
 import { postLeadWebhook } from "./leadSink";
+import type { Attribution } from "./attribution";
 
 /*
  * Delivering a standalone SMS opt-in.
@@ -30,6 +31,8 @@ export interface OptInRecord {
   receivedAt: string;
   /** Public site it came in on — see leadSite.ts. */
   site: string;
+  /** How they found the site; absent on the no-JavaScript form. */
+  attribution?: Attribution;
 }
 
 const INTEREST = "SMS updates";
@@ -53,6 +56,7 @@ export async function deliverOptIn(record: OptInRecord): Promise<boolean> {
       smsCallName: record.smsCallName,
       receivedAt: record.receivedAt,
       site: record.site,
+      attribution: record.attribution,
     }),
     postLeadWebhook({
       verdict: VERDICT,
