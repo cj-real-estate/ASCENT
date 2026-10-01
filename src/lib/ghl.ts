@@ -34,6 +34,7 @@ import { leadSourceLabel } from "./leadSite";
 import {
   type Attribution,
   attributionFlat,
+  channelOf,
   attributionNoteLines,
   attributionTag,
 } from "./attribution";
@@ -197,6 +198,21 @@ function noteBody(lead: LeadRecord): string {
   ].join("\n");
 }
 
+/*
+ * The CRM "Contact source": the channel that brought the lead, then the
+ * site — "Instagram — ascentforsponsors.com". Channel first because it is
+ * what gets filtered and reported on; the site stays in so a "contains"
+ * filter can still split the two brands. The converting (last non-direct)
+ * arrival wins; the note carries the full detail and the first visit.
+ * Without attribution (the no-JavaScript opt-in form) it falls back to
+ * "Website — <site>".
+ */
+function contactSource(lead: LeadRecord): string {
+  const touch = lead.attribution?.last ?? lead.attribution?.first;
+  if (!touch) return leadSourceLabel(lead.site);
+  return `${channelOf(touch).name} — ${lead.site}`;
+}
+
 async function ghlFetch(path: string, token: string, body: unknown) {
   return fetch(`${GHL_API_BASE}${path}`, {
     method: "POST",
@@ -241,7 +257,7 @@ async function upsertContact(lead: LeadRecord): Promise<boolean> {
       email: lead.email,
       phone: lead.phone,
       companyName: lead.company,
-      source: leadSourceLabel(lead.site),
+      source: contactSource(lead),
       tags: leadTags(lead),
     });
     if (!res.ok) {
@@ -303,7 +319,7 @@ async function postInboundWebhook(lead: LeadRecord): Promise<boolean> {
         email: lead.email,
         phone: lead.phone,
         company: lead.company,
-        source: leadSourceLabel(lead.site),
+        source: contactSource(lead),
         site: lead.site,
         page: lead.page,
         interest: lead.interest,
