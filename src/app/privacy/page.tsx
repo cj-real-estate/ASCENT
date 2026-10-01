@@ -38,7 +38,7 @@ export default function PrivacyPage() {
           </h1>
           <p className="mt-4 text-[14px] text-slate">
             {business.name} · {business.city}, {business.region} · Effective
-            August 21, 2026
+            October 1, 2026
           </p>
 
           <p className={pClass}>
@@ -69,6 +69,17 @@ export default function PrivacyPage() {
               myadcenter.google.com
             </a>
             , and most browsers let you block or clear these cookies outright.
+          </p>
+
+          <h2 className={h2Class}>Visit history in our CRM</h2>
+          <p className={pClass}>
+            The site loads a tracking script from our CRM provider,
+            GoHighLevel. It stores an identifier in your browser and records
+            the pages you view here, how you arrived (the referring site and
+            any campaign tags in the link), and the form you submit. If you
+            request a call, that history is attached to your contact record so
+            we know what you read before we talk. It only covers this site; it
+            doesn&apos;t follow you elsewhere.
           </p>
 
           <h2 className={h2Class}>The booking form</h2>
@@ -125,8 +136,9 @@ export default function PrivacyPage() {
           <h2 className={h2Class}>What we don&apos;t do</h2>
           <p className={pClass}>
             We don&apos;t sell your data. Beyond the Google advertising tag
-            described above, we don&apos;t set tracking cookies, and nothing on
-            this site follows you around the web on our behalf.
+            and the CRM visit history described above, we don&apos;t set
+            tracking cookies, and nothing on this site follows you around the
+            web on our behalf.
           </p>
 
           <h2 className={h2Class}>Questions or deletion</h2>

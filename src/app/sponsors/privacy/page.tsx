@@ -46,7 +46,7 @@ export default function SponsorPrivacyPage() {
         <div className={shell}>
           <h1 className="display text-[34px] text-paper md:text-[46px]">Privacy</h1>
           <p className="mt-4 text-[14px] text-ash">
-            {business.legalName ?? business.name} · {business.city}, {business.region} · Effective September 9, 2026
+            {business.legalName ?? business.name} · {business.city}, {business.region} · Effective October 1, 2026
           </p>
 
           <p className={pClass}>
@@ -69,6 +69,16 @@ export default function SponsorPrivacyPage() {
               myadcenter.google.com
             </a>
             , and most browsers let you block or clear these cookies.
+          </p>
+
+          <h2 className={h2Class}>Visit history in our CRM</h2>
+          <p className={pClass}>
+            The site loads a tracking script from our CRM provider, GoHighLevel. It stores an identifier
+            in your browser and records the pages you view here, how you arrived (the referring site and
+            any campaign tags in the link), and the form you submit. If you request a call, that history
+            is attached to your contact record so we know what you read before we talk. It only covers
+            this site; it does not follow you elsewhere. Clearing your browser&apos;s site data removes the
+            identifier.
           </p>
 
           <h2 className={h2Class}>The qualification questions and booking</h2>
@@ -127,8 +137,8 @@ export default function SponsorPrivacyPage() {
           <h2 className={h2Class}>What we don&apos;t do</h2>
           <p className={pClass}>
             We don&apos;t sell your data. We never ask about, collect or assess accredited-investor status on
-            this site. Beyond the Google advertising tag described above, we set no tracking cookies, and
-            nothing on this site follows you around the web on our behalf.
+            this site. Beyond the Google advertising tag and the CRM visit history described above, we set no
+            tracking cookies, and nothing on this site follows you around the web on our behalf.
           </p>
 
           <h2 className={h2Class}>Contact</h2>

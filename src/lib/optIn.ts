@@ -28,6 +28,8 @@ export interface OptInRecord {
   /** The vertical's `smsCallName`, for quoting the sentence that was shown. */
   smsCallName: string;
   receivedAt: string;
+  /** Public site it came in on — see leadSite.ts. */
+  site: string;
 }
 
 const INTEREST = "SMS updates";
@@ -50,6 +52,7 @@ export async function deliverOptIn(record: OptInRecord): Promise<boolean> {
       smsConsentMarketing: record.smsConsentMarketing,
       smsCallName: record.smsCallName,
       receivedAt: record.receivedAt,
+      site: record.site,
     }),
     postLeadWebhook({
       verdict: VERDICT,

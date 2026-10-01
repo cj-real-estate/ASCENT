@@ -5,6 +5,7 @@ import { postLeadWebhook } from "@/lib/leadSink";
 import { deliverOptIn } from "@/lib/optIn";
 import { CONSENT_FIELD_NAMES } from "@/components/SmsConsentFields";
 import { readEnv } from "@/lib/env";
+import { leadSiteFromRequest } from "@/lib/leadSite";
 
 /*
  * Booking endpoint. Validates the contact fields (same rules as the client),
@@ -192,6 +193,7 @@ async function handleFormPost(request: Request) {
     smsConsentMarketing,
     smsCallName: config.smsCallName,
     receivedAt,
+    site: leadSiteFromRequest(request),
   });
 
   if (!delivered) {
@@ -440,6 +442,7 @@ export async function POST(request: Request) {
       smsConsentMarketing,
       smsCallName: config.smsCallName,
       receivedAt,
+      site: leadSiteFromRequest(request),
     }),
     postLeadWebhook({
       verdict,

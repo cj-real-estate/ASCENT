@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import general from "@content/verticals/general";
 import { deliverOptIn } from "@/lib/optIn";
+import { leadSiteFromRequest } from "@/lib/leadSite";
 
 /*
  * The standalone SMS opt-in endpoint, behind /sms.
@@ -114,6 +115,7 @@ export async function POST(request: Request) {
     smsConsentMarketing,
     smsCallName: general.smsCallName,
     receivedAt,
+    site: leadSiteFromRequest(request),
   });
 
   if (!delivered) {

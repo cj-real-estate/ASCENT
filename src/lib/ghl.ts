@@ -30,6 +30,7 @@ import {
   smsTransactionalConsentLabel,
 } from "@content/compliance";
 import { envNamesMatching, readEnv, readSecret } from "./env";
+import { leadSourceLabel } from "./leadSite";
 
 /* Overridable only so the integration can be exercised against a mock in
  * development. Leave GHL_API_BASE unset everywhere else — production
@@ -102,6 +103,8 @@ export interface LeadRecord {
   smsCallName: string;
   /** ISO timestamp the lead was received — the consent timestamp when consented. */
   receivedAt: string;
+  /** Public site the lead came in on, e.g. "ascentforsponsors.com" — see leadSite.ts. */
+  site: string;
 }
 
 /* GHL stores first and last separately. One word means no last name — never
@@ -173,6 +176,7 @@ function noteBody(lead: LeadRecord): string {
     `Website lead — ${lead.verdict}`,
     `Company: ${lead.company}`,
     `Wants: ${lead.interest}`,
+    `Site: ${lead.site}`,
     `Page: ${lead.page}`,
     "",
     ...consentLines(lead),
@@ -224,7 +228,7 @@ async function upsertContact(lead: LeadRecord): Promise<boolean> {
       email: lead.email,
       phone: lead.phone,
       companyName: lead.company,
-      source: "Website — ascentcas.com",
+      source: leadSourceLabel(lead.site),
       tags: leadTags(lead),
     });
     if (!res.ok) {
@@ -286,7 +290,8 @@ async function postInboundWebhook(lead: LeadRecord): Promise<boolean> {
         email: lead.email,
         phone: lead.phone,
         company: lead.company,
-        source: "Website — ascentcas.com",
+        source: leadSourceLabel(lead.site),
+        site: lead.site,
         page: lead.page,
         interest: lead.interest,
         verdict: lead.verdict,
