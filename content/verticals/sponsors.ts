@@ -576,17 +576,15 @@ export const sponsorsPage: SponsorPageContent = {
     disclosure:
       "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal.",
     /*
-     * The owner's "Website Banner.mov", once it is in the repo as the three
-     * files below. null until then: the hero renders exactly as before,
-     * and nothing requests a file that is not there. Set this to
-     *
-     *   { mp4: "/video/hero.mp4", webm: "/video/hero.webm",
-     *     poster: "/video/hero-poster.jpg" }
-     *
-     * after adding them — scripts/build-hero-video.mjs makes all three from
-     * the .mov.
+     * The owner's "Website Banner.mov" (Drive, 2026-10-05): a 74-second 4K
+     * drone reel of multifamily, office and downtown real estate, made with
+     * scripts/build-hero-video.mjs. 1280 wide at 0.7 Mbps, about 6 MB for
+     * the whole reel, and the browser streams it as it plays rather than
+     * fetching it up front. No WebM: VP9 came out larger than the H.264 on
+     * this footage, so the script dropped it. The poster is the opening
+     * golden-hour frame.
      */
-    video: null,
+    video: { mp4: "/video/hero.mp4", webm: null, poster: "/video/hero-poster.jpg" },
   },
 
   problems: {

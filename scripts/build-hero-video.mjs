@@ -17,9 +17,14 @@
  *   - Audio stripped. A background video is muted, and an audio track is
  *     bytes for nothing — and some browsers refuse to autoplay video that
  *     carries one even when muted.
- *   - At most 1920 wide, never upscaled.
- *   - Quality set for "fine under a 70% dark tint", not for "pristine";
- *     the script warns if the result is still heavy.
+ *   - 1280 wide and CRF 30 by default, never upscaled. Measured on the
+ *     owner's 4K drone reel (2026-10-05): against 1920/CRF 26, the
+ *     difference was barely visible scaled to a 1440px desktop and
+ *     invisible under the hero's ~70% dark tint, at under a third of the
+ *     bitrate (0.7 vs 2.6 Mbps). Override with HERO_WIDTH and HERO_CRF.
+ *   - What matters is the BITRATE, not the file size: the browser streams
+ *     the video as it plays, so a visitor who stays fifteen seconds pulls
+ *     roughly fifteen seconds of it. The script warns above 1.5 Mbps.
  *   - `+faststart` so playback starts before the file finishes loading.
  *
  * Usage:
@@ -51,8 +56,11 @@ const mp4 = path.join(outDir, "hero.mp4");
 const webm = path.join(outDir, "hero.webm");
 const poster = path.join(outDir, "hero-poster.jpg");
 
+const width = Number(process.env.HERO_WIDTH || 1280);
+const crf = String(process.env.HERO_CRF || 30);
+
 // Never upscale; keep the aspect ratio; even dimensions for the encoders.
-const scale = "scale='min(1920,iw)':-2";
+const scale = `scale='min(${width},iw)':-2`;
 
 function run(args) {
   execFileSync(ffmpeg, ["-hide_banner", "-loglevel", "error", "-y", ...args], { stdio: "inherit" });
@@ -62,7 +70,7 @@ console.log("→ hero.mp4 (H.264)");
 run([
   "-i", input, "-an",
   "-vf", `${scale},format=yuv420p`,
-  "-c:v", "libx264", "-preset", "slow", "-crf", "26", "-profile:v", "high",
+  "-c:v", "libx264", "-preset", "slow", "-crf", crf, "-profile:v", "high",
   "-movflags", "+faststart",
   mp4,
 ]);
@@ -100,9 +108,24 @@ console.log(
     keepWebm ? '"/video/hero.webm"' : "null"
   }, poster: "/video/hero-poster.jpg" }`,
 );
-if (statSync(mp4).size > 6 * 1024 * 1024) {
-  console.warn(
-    "Warning: the MP4 is over 6 MB. Trim the clip, or raise -crf, before shipping it — " +
-      "it loads on every visit to the sponsor home page.",
-  );
+/* ffmpeg with an input and no output prints the stream info to stderr and
+ * exits non-zero, by design — so read the duration out of the error. */
+function durationSeconds(file) {
+  let info = "";
+  try {
+    execFileSync(ffmpeg, ["-hide_banner", "-i", file], { stdio: ["ignore", "pipe", "pipe"] });
+  } catch (err) {
+    info = String(err.stderr ?? "");
+  }
+  const m = info.match(/Duration: (\d+):(\d+):([\d.]+)/);
+  return m ? Number(m[1]) * 3600 + Number(m[2]) * 60 + Number(m[3]) : 0;
+}
+
+const seconds = durationSeconds(mp4);
+if (seconds > 0) {
+  const mbps = (statSync(mp4).size * 8) / seconds / 1e6;
+  console.log(`MP4 bitrate ${mbps.toFixed(2)} Mbps over ${seconds.toFixed(1)}s`);
+  if (mbps > 1.5) {
+    console.warn("Warning: over 1.5 Mbps. Raise HERO_CRF or lower HERO_WIDTH before shipping it.");
+  }
 }
