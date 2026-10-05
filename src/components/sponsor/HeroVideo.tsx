@@ -6,41 +6,48 @@ import { useEffect, useRef, useState } from "react";
  * The hero's background footage.
  *
  * Decorative only — the h1 and the CTAs carry the page — so the video is
- * hidden from assistive technology and never takes focus. Everything about
- * how it plays follows from that:
+ * hidden from assistive technology and never takes focus. How it plays
+ * follows from that:
  *
+ *   - Two encodings, picked by the browser from the screen size: a sharper
+ *     1920-wide file from 1024px up, where the brightened right side shows
+ *     the footage at size, and a 1280-wide one below that at half the
+ *     bitrate. `media` on <source> is honoured by every current browser; an
+ *     old one that ignores it simply takes the first (sharper) file.
  *   - No `autoPlay` attribute. Autoplay starts before hydration, before
  *     anything can check whether this visitor wants motion. Playback is
  *     started here instead, and only when it should be.
  *   - Reduced motion: anyone whose system asks for it gets the poster frame
  *     and never downloads the footage (`preload="metadata"` fetches headers
  *     only). The same for Data Saver.
- *   - A pause control. Moving content that loops for more than five seconds
- *     beside other content needs a way to stop it (WCAG 2.2.2), and a
- *     background video is exactly that. The choice holds for the visit.
  *   - Off-screen it pauses, so it does not spend a laptop's battery behind a
  *     page the visitor has scrolled past.
+ *   - No on-screen pause control, at the owner's request (2026-10-05). The
+ *     reduced-motion path above is what stops the footage for the visitors
+ *     who have asked for that.
  *   - `muted` is set on the element in script as well as in markup, because
  *     React does not reliably put the attribute into server HTML, and a
  *     browser will only start unmuted video from a user gesture.
  *
- * The scrims that keep the text readable are not in here — they are part of
- * the hero layout in SponsorPage.tsx, so they render with or without
- * JavaScript.
+ * The scrim that keeps the text readable is not in here — it is part of the
+ * hero layout in SponsorPage.tsx, so it renders with or without JavaScript.
  */
 
 export interface HeroVideoSource {
+  /** 1280 wide — phones and tablets. */
   mp4: string;
-  webm: string | null;
+  /** 1920 wide — screens 1024px and up. null serves `mp4` everywhere. */
+  mp4Large: string | null;
   poster: string;
 }
+
+/** Where the sharper encoding takes over. Matches Tailwind's `lg`. */
+const LARGE_MEDIA = "(min-width: 1024px)";
 
 export default function HeroVideo({ video }: { video: HeroVideoSource }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [motionOk, setMotionOk] = useState(false);
-  const [userPaused, setUserPaused] = useState(false);
   const [inView, setInView] = useState(true);
-  const [playing, setPlaying] = useState(false);
 
   // Whether this visitor wants motion at all, kept live if they change it.
   useEffect(() => {
@@ -69,7 +76,7 @@ export default function HeroVideo({ video }: { video: HeroVideoSource }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (motionOk && inView && !userPaused) {
+    if (motionOk && inView) {
       el.muted = true;
       // A blocked play() (Low Power Mode, a strict browser) leaves the
       // poster showing, which is the right fallback.
@@ -77,57 +84,22 @@ export default function HeroVideo({ video }: { video: HeroVideoSource }) {
     } else {
       el.pause();
     }
-  }, [motionOk, inView, userPaused]);
+  }, [motionOk, inView]);
 
   return (
-    <>
-      <video
-        ref={ref}
-        aria-hidden="true"
-        tabIndex={-1}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster={video.poster}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-      >
-        {video.webm ? <source src={video.webm} type="video/webm" /> : null}
-        <source src={video.mp4} type="video/mp4" />
-      </video>
-
-      {/* Only offered when the video can play at all — with reduced motion
-          there is nothing to pause. */}
-      {motionOk ? (
-        <button
-          type="button"
-          onClick={() => {
-            const el = ref.current;
-            if (!el) return;
-            if (playing) {
-              setUserPaused(true);
-            } else {
-              // A tap is a user gesture, so this play() succeeds even where
-              // autoplay was refused (Low Power Mode, strict browsers).
-              setUserPaused(false);
-              el.muted = true;
-              el.play().catch(() => {});
-            }
-          }}
-          aria-label={playing ? "Pause background video" : "Play background video"}
-          className="absolute bottom-3 right-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-night/60 text-paper backdrop-blur transition-colors hover:border-white/45 md:bottom-5 md:right-6"
-        >
-          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-            {playing ? (
-              <path d="M3 1.5h2.5v11H3zM8.5 1.5H11v11H8.5z" />
-            ) : (
-              <path d="M3.5 1.5 12 7l-8.5 5.5z" />
-            )}
-          </svg>
-        </button>
-      ) : null}
-    </>
+    <video
+      ref={ref}
+      aria-hidden="true"
+      tabIndex={-1}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      poster={video.poster}
+      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+    >
+      {video.mp4Large ? <source src={video.mp4Large} type="video/mp4" media={LARGE_MEDIA} /> : null}
+      <source src={video.mp4} type="video/mp4" />
+    </video>
   );
 }

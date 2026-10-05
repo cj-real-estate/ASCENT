@@ -124,43 +124,49 @@ function FlagIcon({ className = "" }: { className?: string }) {
 }
 
 /*
- * The colour fade that keeps the hero text readable over the footage, as
- * three stacked layers — all CSS, so they render before any script and
- * stay put if the video never loads.
+ * The colour fade that keeps the hero text readable over the footage — all
+ * CSS, so it renders before any script and stays put if the video never
+ * loads.
  *
- *   1. A flat tint that mutes the footage everywhere.
- *   2. The readability layer. From lg up the text is a left-hand column, so
- *      the fade is heaviest behind it and opens toward the right, where the
- *      video shows through. Below lg the text runs most of the width, so the
- *      tint is even instead.
- *   3. A fade to solid night at the bottom, so the footage dissolves into
- *      the cards below rather than stopping on a line.
+ * Below lg the text runs nearly the full width, so the tint is even:
+ * 72% night everywhere.
  *
- * Sized against the worst case — a pure-white frame behind the text — so it
- * holds whatever footage goes in. Behind any text the darkness is at least
- * 72%, which keeps white at 8:1 and the on-dark tone at 5.8:1. The muted ash
- * tone would drop to 3.4:1, which is why the hero lifts its small ash lines
- * to on-dark whenever a video is set.
+ * From lg up the text is a left-hand column and the right side is left to
+ * the footage. The fade is pinned to where the text actually ends rather
+ * than to a percentage, because that edge moves: the column is 800px wide
+ * (h1 and sub-line, measured) and starts at the 1200px shell's left padding,
+ * so it ends at max(832px, 50% + 232px). Up to that edge the night holds at
+ * 88% → 78%; over the next 360px it opens to 18%, and the rest of the frame
+ * is footage at nearly full brightness. Re-measure the 800px if the hero
+ * type sizes or the sub-line's measure change.
  *
- * Colours are the night token (13 13 13), so the fade blends into the page
- * ground exactly.
+ * Sized against the worst case, a pure-white frame directly behind the
+ * text: the lightest point under any text is 72% night (phone), which keeps
+ * white at 8:1 and the on-dark tone at 5.8:1. The small ash lines would
+ * drop to 3.4:1, which is why the hero lifts them to on-dark whenever a
+ * video is set.
+ *
+ * Under all of it, a fade to solid night at the bottom edge so the footage
+ * dissolves into the cards below. Colours are the night token, so every
+ * layer blends into the page ground exactly.
  */
 const NIGHT = "13 13 13";
+const TEXT_RIGHT = "max(832px, calc(50% + 232px))";
+const FADE_END = "max(1192px, calc(50% + 592px))";
 
 function HeroScrim() {
   return (
     <>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: `rgb(${NIGHT} / 0.45)` }} />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 lg:hidden"
-        style={{ background: `rgb(${NIGHT} / 0.5)` }}
+        style={{ background: `rgb(${NIGHT} / 0.725)` }}
       />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 hidden lg:block"
         style={{
-          background: `linear-gradient(90deg, rgb(${NIGHT} / 0.85) 0%, rgb(${NIGHT} / 0.78) 50%, rgb(${NIGHT} / 0.35) 80%, rgb(${NIGHT} / 0.08) 100%)`,
+          background: `linear-gradient(90deg, rgb(${NIGHT} / 0.88) 0px, rgb(${NIGHT} / 0.78) ${TEXT_RIGHT}, rgb(${NIGHT} / 0.18) ${FADE_END}, rgb(${NIGHT} / 0.12) 100%)`,
         }}
       />
       <div
@@ -198,14 +204,16 @@ function Hero({ page }: { page: SponsorPageContent }) {
           }}
         />
       <div className={`${shell} relative z-10 pb-14 pt-16 md:pb-16 md:pt-24`}>
-        <p
-          className={`font-mono text-[12px] font-medium uppercase tracking-[0.14em] ${
-            hero.video ? "text-on-dark" : "text-ash"
-          }`}
-        >
-          <EyebrowText text={hero.kicker} />
-        </p>
-        <h1 className="display mt-5 max-w-[20ch] text-balance text-[38px] text-paper min-[380px]:text-[44px] md:text-[58px] xl:text-[64px]">
+        {hero.kicker ? (
+          <p
+            className={`mb-5 font-mono text-[12px] font-medium uppercase tracking-[0.14em] ${
+              hero.video ? "text-on-dark" : "text-ash"
+            }`}
+          >
+            <EyebrowText text={hero.kicker} />
+          </p>
+        ) : null}
+        <h1 className="display max-w-[20ch] text-balance text-[38px] text-paper min-[380px]:text-[44px] md:text-[58px] xl:text-[64px]">
           {hl && hero.h1.includes(hl) ? (
             <>
               {hero.h1.slice(0, hero.h1.indexOf(hl))}

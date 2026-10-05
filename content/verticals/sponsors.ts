@@ -540,7 +540,9 @@ export const sponsorsPage: SponsorPageContent = {
   },
 
   hero: {
-    kicker: "Real estate · Rule 506(c) · Investor acquisition",
+    // Removed at the owner's request (2026-10-05): the h1 now opens the
+    // hero on its own, over the footage.
+    kicker: null,
     h1: "The investor acquisition firm for real estate sponsors.",
     h1Highlight: "investor acquisition",
     sub: "Ascent builds the investor pipeline for your syndication, multifamily, or CRE raise under Rule 506(c). Precision audience targeting, battle-tested funnels, counsel-approved media, and instrumented lead response feed a live setter who turns leads into meetings that are actually held. Flat monthly fee. Nothing tied to capital raised.",
@@ -578,13 +580,16 @@ export const sponsorsPage: SponsorPageContent = {
     /*
      * The owner's "Website Banner.mov" (Drive, 2026-10-05): a 74-second 4K
      * drone reel of multifamily, office and downtown real estate, made with
-     * scripts/build-hero-video.mjs. 1280 wide at 0.7 Mbps, about 6 MB for
-     * the whole reel, and the browser streams it as it plays rather than
-     * fetching it up front. No WebM: VP9 came out larger than the H.264 on
-     * this footage, so the script dropped it. The poster is the opening
-     * golden-hour frame.
+     * scripts/build-hero-video.mjs. Phones get the 1280-wide file at
+     * 0.7 Mbps; screens 1024px and up get the 1920-wide one at 1.4 Mbps,
+     * because that is where the hero opens its right side to the footage.
+     * Both stream as they play. The poster is the opening golden-hour frame.
      */
-    video: { mp4: "/video/hero.mp4", webm: null, poster: "/video/hero-poster.jpg" },
+    video: {
+      mp4: "/video/hero.mp4",
+      mp4Large: "/video/hero-1080.mp4",
+      poster: "/video/hero-poster.jpg",
+    },
   },
 
   problems: {

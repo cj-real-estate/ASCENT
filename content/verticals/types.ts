@@ -249,8 +249,8 @@ export interface SponsorPageContent {
     cta: string;
   };
   hero: {
-    /** Small mono line above the h1, e.g. "Real Estate · Rule 506(c)". */
-    kicker: string;
+    /** Small mono line above the h1, e.g. "Real Estate · Rule 506(c)". null omits it. */
+    kicker: string | null;
     h1: string;
     /** Substring of h1 rendered in orange. null renders plain. */
     h1Highlight: string | null;
@@ -274,19 +274,21 @@ export interface SponsorPageContent {
     disclosure: string;
     /**
      * Background footage behind the hero's text, or null for the plain
-     * dark hero. Files live in /public; see src/components/sponsor/
-     * HeroVideo.tsx for why there are two encodings and a poster.
+     * dark hero. Files live in /public and are made by
+     * scripts/build-hero-video.mjs; src/components/sponsor/HeroVideo.tsx
+     * plays them.
      *
-     *   mp4    — H.264, the encoding every browser plays. Required.
-     *   webm   — VP9/AV1, smaller where supported. Optional.
-     *   poster — a still from the footage: shown before the video loads,
-     *            to anyone who has asked their system for reduced motion,
-     *            and wherever autoplay is blocked.
+     *   mp4      — H.264, 1280 wide: phones and tablets.
+     *   mp4Large — H.264, 1920 wide: screens 1024px and up. null serves
+     *              `mp4` everywhere.
+     *   poster   — a still from the footage: shown before the video loads,
+     *              to anyone who has asked their system for reduced
+     *              motion, and wherever autoplay is blocked.
      *
      * Never a .mov: Safari plays QuickTime, Chrome and Firefox mostly do
      * not, so a .mov background is a blank box for most visitors.
      */
-    video: { mp4: string; webm: string | null; poster: string } | null;
+    video: { mp4: string; mp4Large: string | null; poster: string } | null;
   };
   problems: {
     eyebrow: string;
