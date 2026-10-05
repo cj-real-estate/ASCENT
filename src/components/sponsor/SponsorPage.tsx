@@ -189,7 +189,7 @@ function Hero({ page }: { page: SponsorPageContent }) {
       <div className="relative isolate">
         {hero.video ? (
           <>
-            <HeroVideo video={hero.video} />
+            <HeroVideo basePath={hero.video.basePath} />
             <HeroScrim />
           </>
         ) : null}

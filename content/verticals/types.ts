@@ -274,21 +274,14 @@ export interface SponsorPageContent {
     disclosure: string;
     /**
      * Background footage behind the hero's text, or null for the plain
-     * dark hero. Files live in /public and are made by
-     * scripts/build-hero-video.mjs; src/components/sponsor/HeroVideo.tsx
-     * plays them.
-     *
-     *   mp4      — H.264, 1280 wide: phones and tablets.
-     *   mp4Large — H.264, 1920 wide: screens 1024px and up. null serves
-     *              `mp4` everywhere.
-     *   poster   — a still from the footage: shown before the video loads,
-     *              to anyone who has asked their system for reduced
-     *              motion, and wherever autoplay is blocked.
-     *
-     * Never a .mov: Safari plays QuickTime, Chrome and Firefox mostly do
-     * not, so a .mov background is a blank box for most visitors.
+     * dark hero. `basePath` is the stem every file is named from — the
+     * video in three codecs at two shapes, and an art-directed poster in
+     * three image formats. scripts/build-hero-video.mjs makes them all;
+     * src/components/sponsor/HeroVideo.tsx (`heroVideoFiles`) serves them.
+     * Never point this at a .mov: Chrome and Firefox mostly cannot play
+     * QuickTime.
      */
-    video: { mp4: string; mp4Large: string | null; poster: string } | null;
+    video: { basePath: string } | null;
   };
   problems: {
     eyebrow: string;

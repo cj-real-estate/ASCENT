@@ -579,17 +579,13 @@ export const sponsorsPage: SponsorPageContent = {
       "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal.",
     /*
      * The owner's "Website Banner.mov" (Drive, 2026-10-05): a 74-second 4K
-     * drone reel of multifamily, office and downtown real estate, made with
-     * scripts/build-hero-video.mjs. Phones get the 1280-wide file at
-     * 0.7 Mbps; screens 1024px and up get the 1920-wide one at 1.4 Mbps,
-     * because that is where the hero opens its right side to the footage.
-     * Both stream as they play. The poster is the opening golden-hour frame.
+     * drone reel of multifamily, office and downtown real estate. Built by
+     * scripts/build-hero-video.mjs into AV1 / HEVC / H.264 at 1080p for
+     * screens 640px and up, and a portrait crop for phones — near-source
+     * quality (VMAF ~94) at the same ~1.3 Mbps and ~0.7 Mbps the previous
+     * H.264-only files used. The poster is the opening golden-hour frame.
      */
-    video: {
-      mp4: "/video/hero.mp4",
-      mp4Large: "/video/hero-1080.mp4",
-      poster: "/video/hero-poster.jpg",
-    },
+    video: { basePath: "/video/hero" },
   },
 
   problems: {
