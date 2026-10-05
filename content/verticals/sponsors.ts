@@ -575,6 +575,18 @@ export const sponsorsPage: SponsorPageContent = {
     ],
     disclosure:
       "Guarantee terms — the appointment minimum, its conditions and the remedy — are set in writing in each proposal.",
+    /*
+     * The owner's "Website Banner.mov", once it is in the repo as the three
+     * files below. null until then: the hero renders exactly as before,
+     * and nothing requests a file that is not there. Set this to
+     *
+     *   { mp4: "/video/hero.mp4", webm: "/video/hero.webm",
+     *     poster: "/video/hero-poster.jpg" }
+     *
+     * after adding them — scripts/build-hero-video.mjs makes all three from
+     * the .mov.
+     */
+    video: null,
   },
 
   problems: {

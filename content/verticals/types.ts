@@ -272,6 +272,21 @@ export interface SponsorPageContent {
     cards: { icon: IconName; label: string; title: string; body: string }[];
     /** The line under the cards that says where the terms are set. */
     disclosure: string;
+    /**
+     * Background footage behind the hero's text, or null for the plain
+     * dark hero. Files live in /public; see src/components/sponsor/
+     * HeroVideo.tsx for why there are two encodings and a poster.
+     *
+     *   mp4    — H.264, the encoding every browser plays. Required.
+     *   webm   — VP9/AV1, smaller where supported. Optional.
+     *   poster — a still from the footage: shown before the video loads,
+     *            to anyone who has asked their system for reduced motion,
+     *            and wherever autoplay is blocked.
+     *
+     * Never a .mov: Safari plays QuickTime, Chrome and Firefox mostly do
+     * not, so a .mov background is a blank box for most visitors.
+     */
+    video: { mp4: string; webm: string | null; poster: string } | null;
   };
   problems: {
     eyebrow: string;

@@ -3,6 +3,7 @@ import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import { guides } from "@content/guides";
 import { SPONSOR_PAGE_UPDATED } from "@content/verticals/sponsors";
 import { toQualifyFlowProps } from "@/lib/qualify";
+import HeroVideo from "./HeroVideo";
 import { sponsorPageGraph } from "@/lib/schema";
 import ArrowRight from "@/components/ArrowRight";
 import ServiceIcon from "@/components/ServiceIcon";
@@ -122,22 +123,86 @@ function FlagIcon({ className = "" }: { className?: string }) {
   );
 }
 
+/*
+ * The colour fade that keeps the hero text readable over the footage, as
+ * three stacked layers — all CSS, so they render before any script and
+ * stay put if the video never loads.
+ *
+ *   1. A flat tint that mutes the footage everywhere.
+ *   2. The readability layer. From lg up the text is a left-hand column, so
+ *      the fade is heaviest behind it and opens toward the right, where the
+ *      video shows through. Below lg the text runs most of the width, so the
+ *      tint is even instead.
+ *   3. A fade to solid night at the bottom, so the footage dissolves into
+ *      the cards below rather than stopping on a line.
+ *
+ * Sized against the worst case — a pure-white frame behind the text — so it
+ * holds whatever footage goes in. Behind any text the darkness is at least
+ * 72%, which keeps white at 8:1 and the on-dark tone at 5.8:1. The muted ash
+ * tone would drop to 3.4:1, which is why the hero lifts its small ash lines
+ * to on-dark whenever a video is set.
+ *
+ * Colours are the night token (13 13 13), so the fade blends into the page
+ * ground exactly.
+ */
+const NIGHT = "13 13 13";
+
+function HeroScrim() {
+  return (
+    <>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: `rgb(${NIGHT} / 0.45)` }} />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 lg:hidden"
+        style={{ background: `rgb(${NIGHT} / 0.5)` }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 hidden lg:block"
+        style={{
+          background: `linear-gradient(90deg, rgb(${NIGHT} / 0.85) 0%, rgb(${NIGHT} / 0.78) 50%, rgb(${NIGHT} / 0.35) 80%, rgb(${NIGHT} / 0.08) 100%)`,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{ background: `linear-gradient(180deg, transparent 55%, rgb(${NIGHT}) 100%)` }}
+      />
+    </>
+  );
+}
+
 function Hero({ page }: { page: SponsorPageContent }) {
   const { hero } = page;
   const hl = hero.h1Highlight;
   return (
-    <section className="relative overflow-hidden pb-16 pt-16 md:pb-24 md:pt-24">
-      {/* One orange wash off the top edge, faint on near-black. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
-        style={{
-          background:
-            "radial-gradient(60% 60% at 50% 0%, rgb(240 94 35 / 0.14), transparent 70%)",
-        }}
-      />
-      <div className={`${shell} relative`}>
-        <p className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ash">
+    <section className="relative overflow-hidden pb-16 md:pb-24">
+      {/* The banner: full-bleed, so the footage runs edge to edge, with the
+          text in the usual column on top. `isolate` keeps the video, the
+          scrim and the pause button in their own stacking order. */}
+      <div className="relative isolate">
+        {hero.video ? (
+          <>
+            <HeroVideo video={hero.video} />
+            <HeroScrim />
+          </>
+        ) : null}
+        {/* One orange wash off the top edge, faint on near-black — kept
+            over the footage too, so the brand colour still opens the page. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[420px]"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 50% 0%, rgb(240 94 35 / 0.14), transparent 70%)",
+          }}
+        />
+      <div className={`${shell} relative z-10 pb-14 pt-16 md:pb-16 md:pt-24`}>
+        <p
+          className={`font-mono text-[12px] font-medium uppercase tracking-[0.14em] ${
+            hero.video ? "text-on-dark" : "text-ash"
+          }`}
+        >
           <EyebrowText text={hero.kicker} />
         </p>
         <h1 className="display mt-5 max-w-[20ch] text-balance text-[38px] text-paper min-[380px]:text-[44px] md:text-[58px] xl:text-[64px]">
@@ -151,7 +216,11 @@ function Hero({ page }: { page: SponsorPageContent }) {
             hero.h1
           )}
         </h1>
-        <p className="mt-7 max-w-[64ch] text-[17px] leading-relaxed text-ash md:text-[19px]">
+        <p
+          className={`mt-7 max-w-[64ch] text-[17px] leading-relaxed md:text-[19px] ${
+            hero.video ? "text-on-dark" : "text-ash"
+          }`}
+        >
           {hero.sub}
         </p>
         <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:gap-4">
@@ -169,14 +238,23 @@ function Hero({ page }: { page: SponsorPageContent }) {
         </div>
 
         {hero.patrioticLine ? (
-          <p className="mt-6 inline-flex items-center gap-2 text-[13px] font-medium text-ash">
+          <p
+            className={`mt-6 inline-flex items-center gap-2 text-[13px] font-medium ${
+              hero.video ? "text-on-dark" : "text-ash"
+            }`}
+          >
             <FlagIcon className="h-[13px] w-auto" />
             {hero.patrioticLine}
           </p>
         ) : null}
+      </div>
+      </div>
 
-        {/* Commitment cards — what Ascent does and signs, never a result. */}
-        <ul className="mt-14 grid gap-4 md:mt-16 md:grid-cols-2 xl:grid-cols-4">
+      <div className={shell}>
+        {/* Commitment cards — what Ascent does and signs, never a result.
+            Outside the banner, so they sit on solid ground and the footage
+            never runs behind their copy. */}
+        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {hero.cards.map((item) => (
             <li
               key={item.label}

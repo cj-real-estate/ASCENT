@@ -47,11 +47,43 @@ export function Eyebrow({ children }: { children: string }) {
  * wordmark (no tagline) is used. So: full lockup from md up, wordmark on a
  * phone. Both are the outlined SVG masters, so no font is involved.
  */
-const LOCKUP = { src: "/brand/ascent-lockup-primary-on-dark.svg", w: 807.027, h: 186.375 };
-const WORDMARK = { src: "/brand/ascent-wordmark-on-dark.svg", w: 762.917, h: 144.779 };
+/*
+ * Two tones of the same artwork, both from the v3 masters in brand/v3.
+ *
+ *   brand — the primary on-dark lockup: orange chevron and tagline. The
+ *           default on any dark ground.
+ *   white — the official one-colour white lockup (ascent-lockup-white.svg
+ *           and its wordmark, byte-identical to the Drive masters). Used in
+ *           the header, which sits over the hero's background video: an
+ *           orange chevron competes with moving footage, and a single tone
+ *           reads cleanly over anything the video shows. Never a recolour
+ *           of the brand file — these are the delivered white variants.
+ *
+ * Same dimensions, so swapping tone never shifts the layout.
+ */
+const ARTWORK = {
+  brand: {
+    lockup: { src: "/brand/ascent-lockup-primary-on-dark.svg", w: 807.027, h: 186.375 },
+    wordmark: { src: "/brand/ascent-wordmark-on-dark.svg", w: 762.917, h: 144.779 },
+  },
+  white: {
+    lockup: { src: "/brand/ascent-lockup-white.svg", w: 807.027, h: 186.375 },
+    wordmark: { src: "/brand/ascent-wordmark-white.svg", w: 762.917, h: 144.779 },
+  },
+} as const;
 
-export function Logo({ name, width, className = "" }: { name: string; width: number; className?: string }) {
-  const src = width >= 230 ? LOCKUP : WORDMARK;
+export function Logo({
+  name,
+  width,
+  className = "",
+  tone = "brand",
+}: {
+  name: string;
+  width: number;
+  className?: string;
+  tone?: keyof typeof ARTWORK;
+}) {
+  const src = width >= 230 ? ARTWORK[tone].lockup : ARTWORK[tone].wordmark;
   return (
     <Image
       src={src.src}
@@ -91,8 +123,8 @@ export function SponsorHeader({
     <header className="sticky top-0 z-50 border-b border-seam bg-night/85 backdrop-blur">
       <div className={`${shell} flex min-h-16 items-center justify-between gap-4 py-2`}>
         <Link href={home} aria-label={name} className="shrink-0">
-          <Logo name={name} width={168} className="md:hidden" />
-          <Logo name={name} width={236} className="hidden md:block" />
+          <Logo name={name} width={168} tone="white" className="md:hidden" />
+          <Logo name={name} width={236} tone="white" className="hidden md:block" />
         </Link>
         <a
           href={ctaHref}
