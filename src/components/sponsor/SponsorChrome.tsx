@@ -167,11 +167,6 @@ export function SponsorFooter({
             {address ? (
               <address className="mt-1 text-[15px] not-italic text-ash">{address}</address>
             ) : null}
-            {business.founder ? (
-              <p className="mt-1 text-[15px] text-ash">
-                {business.founder.name}, {business.founder.title}
-              </p>
-            ) : null}
           </div>
           <div className="flex flex-col items-start gap-1 md:items-end">
             {business.phone ? (

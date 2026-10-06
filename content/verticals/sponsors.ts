@@ -56,8 +56,8 @@ const sponsors: Vertical = {
     areaServed: "United States",
     // The registered street address. Rendered in the footer and in the
     // contact sections of /privacy and /terms, and in the JSON-LD address.
-    street: "1424 Highland Park Blvd",
-    postalCode: "73114",
+    street: "204 N Robinson Ave",
+    postalCode: "73102",
     phone: "405-563-7863",
     // The sponsor domain's own mailbox — footer, /privacy and JSON-LD pick
     // it up. It must exist and be monitored; nothing on the site sends to it.

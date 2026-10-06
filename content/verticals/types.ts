@@ -383,14 +383,14 @@ export interface Vertical {
     /** For LocalBusiness JSON-LD */
     areaServed: string;
     /**
-     * Registered street address, e.g. "1424 Highland Park Blvd". Shown in
+     * Registered street address, e.g. "204 N Robinson Ave". Shown in
      * the footer and in the contact section of /privacy and /terms — A2P
      * 10DLC brand registration and the carriers both expect the sending
      * business's postal address to be findable on its site — and used for
      * `streetAddress` in the PostalAddress JSON-LD.
      */
     street?: string;
-    /** ZIP, e.g. "73114". Pairs with `street` wherever the address renders. */
+    /** ZIP, e.g. "73102". Pairs with `street` wherever the address renders. */
     postalCode?: string;
     /** null until the client supplies it — renders a visible placeholder */
     phone: string | null;

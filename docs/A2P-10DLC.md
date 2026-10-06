@@ -158,7 +158,7 @@ See `src/lib/ghl.ts` and `src/app/api/book/route.ts`.
    real, monitored mailboxes.** The terms and privacy pages give them as the
    support contact, and a reviewer may email one.
 7. **Check the address matches.** The site publishes
-   1424 Highland Park Blvd, Oklahoma City, OK 73114 in both footers and in
+   204 N Robinson Ave, Oklahoma City, OK 73102 in both footers and in
    the contact section of both policies and both terms pages. It must be the
    same address as the brand registration and the state filing.
 

@@ -31,8 +31,8 @@ const general: Vertical = {
     areaServed: "Oklahoma",
     // The registered street address. Rendered in the footer and in the
     // contact sections of /privacy and /terms, and in the JSON-LD address.
-    street: "1424 Highland Park Blvd",
-    postalCode: "73114",
+    street: "204 N Robinson Ave",
+    postalCode: "73102",
     phone: "405-563-7863",
     email: "info@ascentcas.com",
     // The registered entity. Shown in the footer and used by the SMS
