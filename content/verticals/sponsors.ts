@@ -698,7 +698,7 @@ export const sponsorsPage: SponsorPageContent = {
         icon: "megaphone",
         title: "Accredited-investor media lane",
         bullets: [
-          "LinkedIn, Meta and Google campaigns built for real estate investor acquisition",
+          "Meta, Google and X campaigns built for real estate investor acquisition",
           "Every ad drafted against the metrics your counsel approved — no projected returns, no manufactured urgency",
           "Media billed by the platform to your own account; never held, advanced or marked up",
         ],
@@ -762,7 +762,7 @@ export const sponsorsPage: SponsorPageContent = {
     eyebrow: "ASCENT AT A GLANCE",
     h2: "What Ascent is, in one paragraph.",
     definition:
-      "Ascent is a flat-fee investor acquisition firm for U.S. real estate syndicators and private real estate fund sponsors raising under Rule 506(c). It runs counsel-approved paid media on LinkedIn, Meta and Google, instrumented lead response, and a live, scripted appointment setter who calls every inbound investor lead as the sponsor — and reports one primary number, cost per appointment held. Ascent is not a broker-dealer, finder or placement agent, never verifies accredited status, and takes nothing tied to capital raised.",
+      "Ascent is a flat-fee investor acquisition firm for U.S. real estate syndicators and private real estate fund sponsors raising under Rule 506(c). It runs counsel-approved paid media on Meta, Google and X, instrumented lead response, and a live, scripted appointment setter who calls every inbound investor lead as the sponsor — and reports one primary number, cost per appointment held. Ascent is not a broker-dealer, finder or placement agent, never verifies accredited status, and takes nothing tied to capital raised.",
     facts: [
       { label: "Serves", value: "U.S. real estate sponsors — multifamily, industrial, self-storage, build-to-rent, opportunity zone, real estate credit" },
       { label: "Offerings", value: "Rule 506(c) and Regulation A+ only. Never 506(b)" },

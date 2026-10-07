@@ -78,7 +78,7 @@ function organization(
     knowsAbout: [
       "Investor acquisition for real estate syndications and private real estate funds",
       "Regulation D Rule 506(c) general solicitation",
-      "Accredited investor lead generation on LinkedIn, Meta and Google",
+      "Accredited investor lead generation on Meta, Google and X",
       "Investor lead response and appointment setting",
       "Cost per appointment held",
     ],
