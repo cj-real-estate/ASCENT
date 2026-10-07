@@ -361,31 +361,38 @@ function Comparison({ page }: { page: SponsorPageContent }) {
   );
 }
 
+/* An editorial split, not a card row: the hero's four cards sit directly
+ * above, so this section reads as a numbered argument instead (owner's
+ * request, 2026-10-07). Headline pinned left on desktop; the three
+ * reasons run down the right between hairlines. */
 function Problems({ page }: { page: SponsorPageContent }) {
   const { problems } = page;
   return (
-    <section className="py-16 md:py-24">
-      <div className={shell}>
-        {problems.eyebrow ? <Eyebrow>{problems.eyebrow}</Eyebrow> : null}
-        <h2 className={problems.eyebrow ? `${h2} mt-4` : h2}>{problems.h2}</h2>
-        {problems.sub ? <p className={sub}>{problems.sub}</p> : null}
-        <ul className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">
-          {problems.cards.map((item) => (
-            <li key={item.title} className={`${card} p-6 md:p-7`}>
-              <span className="icon-tile">
-                <ServiceIcon name={item.icon} />
+    <section className="border-t border-seam py-16 md:py-24">
+      <div className={`${shell} grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16`}>
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          {problems.eyebrow ? <Eyebrow>{problems.eyebrow}</Eyebrow> : null}
+          <h2 className={problems.eyebrow ? `${h2} mt-4` : h2}>{problems.h2}</h2>
+          {problems.sub ? <p className={sub}>{problems.sub}</p> : null}
+        </div>
+        <ol className="divide-y divide-seam border-y border-seam">
+          {problems.cards.map((item, i) => (
+            <li
+              key={item.title}
+              className="grid grid-cols-[3rem_minmax(0,1fr)] gap-x-4 py-7 md:grid-cols-[5rem_minmax(0,1fr)] md:gap-x-6 md:py-9"
+            >
+              <span aria-hidden="true" className="readout text-[30px] leading-none text-orange md:text-[44px]">
+                {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="mt-5 text-[20px] font-semibold leading-snug text-paper">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-[16px] leading-relaxed text-ash">{item.body}</p>
+              <div>
+                <h3 className="text-[21px] font-semibold leading-snug text-paper md:text-[26px]">{item.title}</h3>
+                <p className="mt-3 max-w-[58ch] text-[16px] leading-relaxed text-ash md:text-[17px]">{item.body}</p>
+              </div>
             </li>
           ))}
-        </ul>
+        </ol>
         {problems.note ? (
-          <p className="mt-8 max-w-[90ch] text-[13px] leading-relaxed text-ash/80">
-            {problems.note}
-          </p>
+          <p className="max-w-[90ch] text-[13px] leading-relaxed text-ash/80 lg:col-span-2">{problems.note}</p>
         ) : null}
       </div>
     </section>
