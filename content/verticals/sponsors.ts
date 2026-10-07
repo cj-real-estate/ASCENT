@@ -699,7 +699,7 @@ export const sponsorsPage: SponsorPageContent = {
         title: "Accredited-investor media lane",
         bullets: [
           "Meta, Google and X campaigns built for real estate investor acquisition",
-          "Every ad drafted against the metrics your counsel approved — no projected returns, no manufactured urgency",
+          "Every ad drafted against the metrics your counsel approved",
           "Media billed by the platform to your own account; never held, advanced or marked up",
         ],
       },
