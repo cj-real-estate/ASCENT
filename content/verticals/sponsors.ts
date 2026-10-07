@@ -662,33 +662,90 @@ export const sponsorsPage: SponsorPageContent = {
 
   comparison: {
     eyebrow: "THE ALTERNATIVES",
-    h2: "Four ways to fill a raise. One of them is a flat fee.",
-    sub: "What a sponsor is usually choosing between, and where the money actually goes in each.",
+    h2: "Five ways to fill a raise. One of them is a flat fee.",
+    sub: "Side by side, on how each one is paid, what it costs again on the next raise, and who keeps the investors.",
+    columns: [
+      { name: "Ascent", highlight: true },
+      { name: "Broker-dealer network" },
+      { name: "Co-GP capital raiser" },
+      { name: "Media-only agency" },
+      { name: "In-house IR hire" },
+    ],
     rows: [
       {
-        name: "A media-only agency",
-        cost: "Monthly retainer",
-        body: "Builds the funnel and hands you leads. The service list stops there — calling, appointment setting and investor-relations staffing are somebody's problem, and that somebody is you.",
+        label: "How it's paid",
+        cells: [
+          "Flat monthly fee",
+          "A percentage of every dollar raised",
+          "A slice of GP economics",
+          "Monthly retainer",
+          "Salary, fixed whether you're raising or not",
+        ],
       },
       {
-        name: "A broker-dealer network",
-        cost: "8.5–10% of capital raised",
-        body: "Registered, and priced like it. A typical load on a $10 million raise is $850,000 to $1 million, charged on every dollar and again on the next fund.",
+        label: "Typical cost",
+        cells: [
+          "Quoted in writing after scoping; media billed to your own account",
+          "8.5–10% load: about $850K–$1M on a $10M raise",
+          "Often cited near 35% of the GP's share",
+          "Retainer plus media",
+          "$90K–$140K a year, fully loaded",
+        ],
       },
       {
-        name: "An in-house IR hire",
-        cost: "$90K–$140K a year",
-        body: "Fully loaded, and fixed whether you are raising this quarter or not. You still buy the media, build the compliance workflow, and do the recruiting yourself.",
+        label: "Charged again next raise",
+        cells: [
+          "No. The investors are on your list",
+          "Yes, on every dollar",
+          "Yes, on each deal they raise for",
+          "Retainer continues",
+          "Salary continues",
+        ],
       },
       {
-        name: "Ascent",
-        cost: "Flat monthly fee",
-        body: "Counsel-approved media, instrumented response, and a live scripted setter who gets the meeting held — inside one compliance gate. Nothing is tied to capital raised, so you keep 100% of it.",
-        highlight: true,
+        label: "Who keeps the investors",
+        cells: [
+          "You: CRM, number and data in your name",
+          "Often the rep's relationship",
+          "Shared with the raiser",
+          "Often in the agency's CRM",
+          "You",
+        ],
+      },
+      {
+        label: "Calls every inbound lead",
+        cells: [
+          "Yes. A live American setter, on your script",
+          "Reps sell to their own book",
+          "Works their own network",
+          "No. Leads are handed to you",
+          "If you hire and train for it",
+        ],
+      },
+      {
+        label: "Ads, pages and follow-up",
+        cells: [
+          "Included",
+          "Not part of the service",
+          "Not part of the service",
+          "Included",
+          "You build and buy them",
+        ],
+      },
+      {
+        label: "Pay tied to capital raised",
+        cells: [
+          "Never",
+          "Yes, as a registered firm",
+          "Often; a question for your securities counsel",
+          "No",
+          "No",
+        ],
       },
     ],
-    note: "Broker-dealer and in-house figures are standard published industry ranges, not quotes. Ascent's fee is quoted in writing after the scoping call.",
+    note: "Broker-dealer, co-GP and in-house figures are standard published industry ranges and common structures, not quotes. Whether any arrangement tied to capital raised suits your offering is a question for your securities counsel. Ascent's fee is quoted in writing after the scoping call.",
   },
+
 
   process: {
     eyebrow: "HOW IT WORKS",

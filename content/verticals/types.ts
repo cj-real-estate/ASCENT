@@ -319,8 +319,10 @@ export interface SponsorPageContent {
     eyebrow: string;
     h2: string;
     sub: string;
-    /** `highlight` marks the Ascent row — exactly one. */
-    rows: { name: string; cost: string; body: string; highlight?: boolean }[];
+    /** Table columns, left to right. `highlight` marks Ascent — exactly one. */
+    columns: { name: string; highlight?: boolean }[];
+    /** One row per attribute; `cells` line up with `columns`. */
+    rows: { label: string; cells: string[] }[];
     note: string;
   };
   process: {

@@ -303,40 +303,55 @@ function Comparison({ page }: { page: SponsorPageContent }) {
         <h2 className={`${h2} mt-4`}>{comparison.h2}</h2>
         <p className={sub}>{comparison.sub}</p>
 
-        <ul className="mt-10 overflow-hidden rounded-xl border border-seam md:mt-12">
-          {comparison.rows.map((row, i) => (
-            <li
-              key={row.name}
-              className={`grid gap-x-8 gap-y-2 p-6 md:grid-cols-[15rem_1fr] md:p-7 ${
-                i > 0 ? "border-t border-seam" : ""
-              } ${row.highlight ? "bg-coal" : ""}`}
-            >
-              <div className={row.highlight ? "border-l-2 border-orange pl-4 md:-ml-4" : ""}>
-                <h3
-                  className={`text-[18px] font-semibold leading-snug ${
-                    row.highlight ? "text-paper" : "text-on-dark"
-                  }`}
-                >
-                  {row.name}
-                </h3>
-                <p
-                  className={`readout mt-1 text-[15px] ${
-                    row.highlight ? "text-orange" : "text-ash"
-                  }`}
-                >
-                  {row.cost}
-                </p>
-              </div>
-              <p
-                className={`max-w-[62ch] text-[15px] leading-relaxed ${
-                  row.highlight ? "text-on-dark" : "text-ash"
-                }`}
-              >
-                {row.body}
-              </p>
-            </li>
-          ))}
-        </ul>
+        {/* Side by side. Scrolls sideways inside its own box on a phone,
+            with the row labels pinned so every cell keeps its context. */}
+        <p className="mt-8 text-[13px] text-ash md:hidden">Swipe sideways to compare all five.</p>
+        <div className="mt-3 overflow-x-auto rounded-xl border border-seam md:mt-12">
+          <table className="w-full min-w-[720px] border-collapse text-left md:min-w-[860px]">
+            <caption className="sr-only">{comparison.h2}</caption>
+            <thead>
+              <tr>
+                <td className="sticky left-0 z-10 w-[7rem] bg-night p-3 md:w-[11rem] md:p-5" />
+                {comparison.columns.map((col) => (
+                  <th
+                    key={col.name}
+                    scope="col"
+                    className={`p-4 align-bottom text-[16px] font-semibold leading-snug md:p-5 ${
+                      col.highlight ? "border-t-2 border-orange bg-coal text-paper" : "text-on-dark"
+                    }`}
+                  >
+                    {col.name}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {comparison.rows.map((row) => (
+                <tr key={row.label} className="border-t border-seam">
+                  <th
+                    scope="row"
+                    className="sticky left-0 z-10 bg-night p-3 align-top text-[11px] font-semibold uppercase leading-snug tracking-[0.06em] text-ash md:p-5 md:text-[13px]"
+                  >
+                    {row.label}
+                  </th>
+                  {row.cells.map((cell, i) => {
+                    const hl = comparison.columns[i]?.highlight;
+                    return (
+                      <td
+                        key={i}
+                        className={`p-4 align-top text-[15px] leading-relaxed md:p-5 ${
+                          hl ? "bg-coal font-semibold text-paper" : "text-ash"
+                        }`}
+                      >
+                        {cell}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <p className="mt-6 max-w-[90ch] text-[13px] leading-relaxed text-ash/80">
           {comparison.note}
