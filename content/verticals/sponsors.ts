@@ -588,31 +588,37 @@ export const sponsorsPage: SponsorPageContent = {
     video: { basePath: "/video/hero" },
   },
 
+  /*
+   * Rewritten 2026-10-07 from the Company Hub's "ICP & Messaging Pillars":
+   * why change (Network Ceiling, the approved core line, as the h2), why
+   * this path (cost to raise), why now (rate shock). Guardrails from that
+   * page: say "cost to raise", never "cost of capital"; never call a
+   * co-GP arrangement illegal, only "a question for your securities
+   * counsel"; frame rates as what already changed, never a forecast.
+   */
   problems: {
     eyebrow: null,
-    h2: "Why most syndications struggle to fill the investor pipeline.",
-    sub: "Three failures, and the one most vendors are paid to ignore is the last one.",
+    h2: "Every sponsor runs out of network before they run out of raise.",
+    sub: null,
     cards: [
       {
         icon: "target",
-        title: "No repeatable investor pipeline",
-        body: "Most sponsors raise from a personal network, a country club and warm introductions. When that runs dry the deal doesn't fill — and there is no system for sourcing the next accredited investor.",
+        title: "The same list, asked twice",
+        body: "Most raises start with prior LPs and referrals, and they should. But by the time a raise is half sold, the same people have been asked twice, and there is no system for reaching the accredited investors who don't know your name yet.",
       },
       {
-        icon: "shield",
-        title: "Built for one profession, not both",
-        body: "Marketing agencies write manufactured urgency into what is legally a securities communication. Securities lawyers know the rules but can't run a media buy — so a raise gets one discipline or the other, never both.",
+        icon: "stack",
+        title: "Every other path takes a cut",
+        body: "A broker-dealer network charges a percentage of every dollar it sells, and charges it again on the next fund. A co-GP raiser takes a slice of your promote, and pay tied to dollars raised is a question for your securities counsel.",
       },
       {
-        icon: "calendar",
-        title: "Meetings booked, not held",
-        body: "A $25K–$500K decision is long and high-diligence. Without confirmation, reschedules and a nurture sequence between touches, booked meetings quietly stop happening — and the report never says so.",
+        icon: "chart",
+        title: "The raise got bigger. The network didn't.",
+        body: "Higher rates mean lenders want more equity in every deal, and every investor now has a Treasury yield to measure you against. More to raise and a higher bar to clear, from the same network that got you here.",
       },
     ],
-    // No published figure remains in this row — the 2% benchmark now lives
-    // in the guides (see cost-per-investor-lead-506c-benchmarks), attributed
-    // there. Don't restore this note without a number on the page for it to
-    // attach to.
+    // No published figure in this row. Add a note only with a number on
+    // the page for it to attach to.
     note: null,
   },
 

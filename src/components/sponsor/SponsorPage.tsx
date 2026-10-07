@@ -353,7 +353,7 @@ function Problems({ page }: { page: SponsorPageContent }) {
       <div className={shell}>
         {problems.eyebrow ? <Eyebrow>{problems.eyebrow}</Eyebrow> : null}
         <h2 className={problems.eyebrow ? `${h2} mt-4` : h2}>{problems.h2}</h2>
-        <p className={sub}>{problems.sub}</p>
+        {problems.sub ? <p className={sub}>{problems.sub}</p> : null}
         <ul className="mt-10 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">
           {problems.cards.map((item) => (
             <li key={item.title} className={`${card} p-6 md:p-7`}>

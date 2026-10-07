@@ -287,7 +287,7 @@ export interface SponsorPageContent {
     /** Null renders no eyebrow (removed at the owner's request, 2026-10-07). */
     eyebrow: string | null;
     h2: string;
-    sub: string;
+    sub: string | null;
     cards: { icon: IconName; title: string; body: string }[];
     /** Source line for any published figure quoted in the cards. */
     note: string | null;
