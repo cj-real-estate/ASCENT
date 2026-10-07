@@ -725,7 +725,8 @@ export const sponsorsPage: SponsorPageContent = {
         icon: "phone",
         title: "A live, scripted setter",
         bullets: [
-          "Recruited, trained and supervised by Ascent; calls as you, from a number registered to you",
+          "American setters based in the U.S., never hired overseas; recruited, trained and supervised by Ascent",
+          "Calls as you, from a number registered to you",
           "Logistics only — never the offering. A breach is a stop-work event",
           "Attendance confirmed before every meeting; every call recorded for you and counsel",
         ],
