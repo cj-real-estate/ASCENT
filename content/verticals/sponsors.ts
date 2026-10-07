@@ -323,53 +323,73 @@ const sponsors: Vertical = {
    * boundaries, the owner-card steps, the expectations. Nothing new is
    * claimed here; if a fact changes above, change it here too.
    */
+  // Brought up to date 2026-10-07 from the Company Hub: Offers & Pricing
+  // (packages, implementation, billing, term, Diagnostic), Delivery
+  // Boundaries (the calling rule, reactivation, securities terms) and
+  // ICP & Messaging Pillars. Still no prices on the page.
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
     h2: "What sponsors and their counsel ask first.",
     items: [
       {
         q: "What is investor acquisition for a 506(c) raise?",
-        a: "Generating accredited-investor leads for a syndication or fund that is permitted to advertise under Rule 506(c), and then working those leads until a meeting with the sponsor is actually held. Ascent runs the whole path — counsel-approved media, instrumented response, and a live setter — and reports it as cost per appointment held.",
+        a: "Reaching accredited investors who don't know you yet, for a syndication or fund permitted to advertise under Rule 506(c), and working every inquiry until a meeting with the sponsor is actually held. Ascent runs the whole path: counsel-approved paid media, landing pages and follow-up, and a live setter, reported as cost per appointment held.",
       },
       {
-        q: "How much should we budget?",
-        a: "Two lines. Media, which you pay to the platform on your own account — $15,000 a month is the floor at which a campaign holds a stable footing, and published guidance for this category puts total marketing at roughly three to four percent of the raise. And Ascent's flat monthly fee, which scales with media under management and is quoted in writing after the scoping call.",
-      },
-      {
-        q: "How long until the lane is live?",
-        a: "Fourteen days from account access and counsel's approvals. The compliance gate runs first and in parallel with scoping; the build clock starts when the gate closes, not before. The first weekly report follows the first full week live.",
-      },
-      {
-        q: "What results can we expect?",
-        a: "Ascent publishes no client figures without a named, written case study, and nothing on this site projects capital raised. What you get in writing is a minimum number of investor appointments held in the first ninety days, set in your proposal from your own media budget and history — and if it's missed, Ascent keeps working at no fee until it's met. Plus the reporting: median speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held, every week from the first one.",
-      },
-      {
-        q: "Is Ascent a broker-dealer, finder, or placement agent?",
-        a: "No. Compensation is a flat monthly fee — nothing tied to capital raised, investors acquired, or appointments held, at any performance level. Ascent never touches funds, never verifies accredited-investor status, and never gives investment advice. Those terms are in the contract, not in a policy.",
-      },
-      {
-        q: "What does the setter actually say to an investor lead?",
-        a: "Logistics only: confirming the lead asked to hear from you, and getting a meeting onto your calendar. The setter never discusses returns, valuation, merits, timing, or terms — a script your counsel approved holds that line, and every call is recorded so counsel can check it.",
-      },
-      {
-        q: "Who verifies accredited-investor status?",
-        a: "You do, permanently. Ascent never asks about, assesses, or verifies it, and the CRM Ascent operates has no field for it.",
+        q: "Who is it for?",
+        a: "U.S. real estate syndicators and fund sponsors with an active or upcoming 506(c) raise, a track record, securities counsel engaged, and someone who can take investor meetings. It fits best when your network and referrals are no longer producing enough new investor conversations and there is no repeatable system beyond them.",
       },
       {
         q: "What does it cost?",
-        a: "A flat monthly fee that scales with media under management, quoted in writing after the scoping call — once we have read your numbers, not before. Media spend is billed by the platform directly to you, on your own account; Ascent never holds, advances, or marks it up.",
+        a: "Two packages, both a flat monthly fee. Managed Investor Pipeline, where Ascent recruits, trains and supervises a live setter for your leads, and Investor Pipeline, where your own staff answers the leads and Ascent supplies the workflow and training. Each has a one-time implementation fee. Media is separate, paid by you to the platform. The numbers are quoted in writing after the scoping call, once we've read yours.",
       },
       {
-        q: "What if our counsel has questions or an approval lapses?",
-        a: "Counsel gets one complete package — the script, the legends, the approval workflow, and the express no-transaction-based-compensation clause — with one review deadline of three business days. Nothing publishes and nobody dials without approval, and if an approval lapses, calling stops the same day, in writing. Bring counsel to the scoping call.",
+        q: "How much media should we budget?",
+        a: "Media is billed by the platform to your own ad account; Ascent never holds, advances or marks it up. $15,000 a month is the starting point we qualify against, adjusted to your campaign economics. Whether that spend beats a broker-dealer load turns on your average check and commit rate, which the cost-to-raise chart on this page runs for you.",
+      },
+      {
+        q: "How is it billed, and how long is the commitment?",
+        a: "Implementation is billed in two halves: one at kickoff, the other only when the agreed system passes acceptance testing. The monthly fee starts at campaign launch, against a written readiness checklist. The initial term is 90 days, then month to month with 30 days' notice.",
+      },
+      {
+        q: "Is there a smaller first step?",
+        a: "Yes. The Investor Pipeline Diagnostic takes about ten business days: a funnel audit, tracking gaps, a response and attendance analysis, and a 90-day plan. If you go ahead within 30 days, its full fee is credited toward implementation. It's there for sponsors who want evidence first, not as a required step.",
+      },
+      {
+        q: "How long until we're live?",
+        a: "Fourteen days from account access and counsel's approvals. Counsel's review runs first, alongside scoping, and the build clock starts once it closes. The first weekly report follows the first full week live.",
+      },
+      {
+        q: "What results can we expect?",
+        a: "Ascent publishes no client figures without a named, written case study, and nothing on this site projects capital raised. What you get in writing is a minimum number of investor appointments held in the first ninety days, set in your proposal from your own media budget and history, and if it's missed, Ascent keeps working at no fee until it's met. Plus a weekly dashboard on cost per appointment held, with media-only cost kept separate from all-in cost.",
+      },
+      {
+        q: "Is Ascent a broker-dealer, finder, or placement agent?",
+        a: "No. Compensation is a flat monthly fee: nothing tied to capital raised, investors acquired, or appointments booked, at any performance level. Ascent never touches funds, never verifies accredited status, and never gives investment advice. Those terms are in the contract, not in a policy.",
+      },
+      {
+        q: "Who makes the calls, and what do they say?",
+        a: "American setters based in the U.S., recruited, trained and supervised by Ascent. They call only new inbound leads your campaign generated, under your name, from a number registered to you, on a written script your counsel approved. Logistics only: confirming the lead asked to hear from you and getting a meeting onto your calendar. Never returns, valuation, merits, timing or terms. Every call is recorded.",
+      },
+      {
+        q: "Will you call our old investor list?",
+        a: "No. Calls go only to new inbound leads. Reactivating an older list is text and email only, from your name and number. Calling an aged database would need separate scoping, consent review and DNC scrubbing.",
+      },
+      {
+        q: "Who verifies accredited-investor status?",
+        a: "You do, permanently. Ascent never asks about, assesses or verifies it.",
+      },
+      {
+        q: "What does our counsel need to approve?",
+        a: "The communications, the script and the setter structure, before launch. Nothing publishes and nobody dials without that approval, and if an approval lapses, calling stops the same day, in writing. A flat fee alone doesn't settle every registration question, which is why counsel signs off first. Bring counsel to the scoping call.",
       },
       {
         q: "Do you work with 506(b) offerings?",
-        a: "No. General solicitation is prohibited under 506(b), and no vendor can change that. If you are filing a 506(c) offering in the next ninety days, the scoping call is still the right first step.",
+        a: "No. General solicitation is prohibited under 506(b), and no vendor can change that. If you're filing a 506(c) offering in the next ninety days, the scoping call is still the right first step.",
       },
       {
         q: "What do we keep if we leave?",
-        a: "Everything built: the phone number registered to you, every call recording, the investor list, and the setter scripts. Nothing is held hostage to the engagement.",
+        a: "Everything built: the CRM and pipeline, the investor list, the phone number registered to you, every call recording, the landing pages and the scripts, with a documented handoff. Nothing is held hostage to the engagement.",
       },
     ],
   },
