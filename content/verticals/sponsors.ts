@@ -722,36 +722,43 @@ export const sponsorsPage: SponsorPageContent = {
     cta: "Book a scoping call",
   },
 
+  // Rewritten 2026-10-07 from the Company Hub's Offers & Pricing (the
+  // Managed Investor Pipeline scope, implementation deliverables and
+  // ongoing delivery limits) and Delivery Boundaries. No prices: the fee
+  // is quoted in writing after the scoping call.
   included: {
     eyebrow: "FULL-SERVICE INVESTOR ACQUISITION",
     h2: "What's included in the Ascent system.",
-    sub: "End-to-end investor acquisition for real estate sponsors — everything from the first impression to the meeting that is held, inside a structure your counsel approved.",
+    sub: "The media, the follow-up and a live setter, run as one system from the first ad to the meeting that is held, inside a structure your counsel approved. Every asset is yours.",
     cards: [
       {
         icon: "megaphone",
         title: "Accredited-investor media lane",
         bullets: [
-          "Meta, Google and X campaigns built for real estate investor acquisition",
+          "Meta, Google and X campaigns built for real estate investor acquisition, starting on one primary platform",
+          "Ten initial ad variations from your materials, then six new ones every month",
           "Every ad drafted against the metrics your counsel approved",
           "Media billed by the platform to your own account; never held, advanced or marked up",
         ],
       },
       {
         icon: "stack",
-        title: "Investor-grade assets",
+        title: "Pages, CRM and follow-up",
         bullets: [
-          "Landing pages and lead forms carrying the legends your counsel specifies, verbatim",
-          "Staged nurture sequences by text and email, from your name",
-          "A CRM and pipeline you own, with source and creative recorded on every lead",
+          "Two branded landing pages with an inquiry form and calendar flow, carrying your counsel's legends verbatim",
+          "Approved text and email sequences for response, reminders and rescheduling, from your name",
+          "A CRM and pipeline in your name, with the source recorded on every lead",
+          "Data, numbers and assets stay yours, with a documented handoff if you leave",
         ],
       },
       {
         icon: "loop",
-        title: "Instrumented lead response",
+        title: "Lead response and reporting",
         bullets: [
-          "Instant acknowledgement of every lead, within seconds",
-          "First touch and first human touch timestamped as separate fields",
-          "Contact rate and set rate bucketed by response time",
+          "Instant acknowledgement of every new lead",
+          "Automated and human first touch timestamped separately",
+          "No-show recovery and a reminder before every meeting",
+          "A weekly dashboard and operating review built on cost per appointment held",
         ],
       },
       {
@@ -759,9 +766,10 @@ export const sponsorsPage: SponsorPageContent = {
         title: "A live, scripted setter",
         bullets: [
           "American setters based in the U.S., never hired overseas; recruited, trained and supervised by Ascent",
-          "Calls as you, from a number registered to you",
+          "Calls as you, from a number registered to you, on a script your counsel approved",
+          "Up to 20 staffed hours a week, scheduled around when your leads arrive",
           "Logistics only — never the offering. A breach is a stop-work event",
-          "Attendance confirmed before every meeting; every call recorded for you and counsel",
+          "Every call recorded for you and counsel",
         ],
       },
       {
