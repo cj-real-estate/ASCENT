@@ -575,26 +575,26 @@ export const sponsorsPage: SponsorPageContent = {
       {
         icon: "calendar",
         label: "Week 1",
-        title: "Investor calls from the first week live.",
-        body: "The lane is live in fourteen days from access and approvals, and the setter is on the phone with your investor leads in the first week — not after a ramp.",
+        title: "On the phone with investors in week one.",
+        body: "Live fourteen days after access and approvals. From the first week, a live American setter is calling your new investor leads. No ramp, no warm-up quarter.",
       },
       {
         icon: "stack",
         label: "Next raise",
-        title: "Every lead stays on a list you own.",
-        body: "Accredited-investor leads, recordings and pipeline live in a CRM registered to you, so the next raise starts from a warmer list than this one did.",
+        title: "Your next raise starts with a list you own.",
+        body: "Every investor lead, call recording and pipeline stage lives in a CRM registered to you. A broker-dealer charges again on the next fund. Your list doesn't.",
       },
       {
         icon: "shield",
         label: "Guaranteed",
-        title: "A minimum of appointments held, in writing.",
-        body: "Each proposal sets a minimum number of investor appointments held in the first ninety days, from your own media budget and history. Miss it, and Ascent keeps working at no fee until it's met.",
+        title: "Meetings held, guaranteed in writing.",
+        body: "Your proposal sets a minimum number of investor appointments held in the first 90 days, built from your own media budget and history. Fall short, and Ascent works for free until it's met.",
       },
       {
         icon: "target",
         label: "100%",
         title: "You keep 100% of what you raise.",
-        body: "Ascent handles everything from the creative to the setter who gets the meeting onto your calendar. You show up. Ascent is a flat-fee firm — nothing tied to capital raised.",
+        body: "No load, no promote, no percentage. Ascent runs everything from the first ad to the meeting on your calendar for a flat monthly fee. You show up and make the case.",
       },
     ],
     disclosure:
