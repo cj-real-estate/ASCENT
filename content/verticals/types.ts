@@ -297,6 +297,24 @@ export interface SponsorPageContent {
    * Structural comparison of fee models and scope only — never a claim that
    * Ascent performs better, and never a named competitor.
    */
+  /**
+   * The interactive cost-to-raise chart (replaced the appointments
+   * calculator on 2026-10-07). Straight arithmetic on the visitor's own
+   * inputs: cost to raise = cost per meeting held ÷ commit rate ÷ average
+   * check, drawn against published fee ranges for the other paths. Never
+   * a client result, a quote or a projection — and never Westwin's
+   * numbers without Ed's written OK (Company Hub, ICP & Messaging Pillars).
+   */
+  costChart: {
+    eyebrow: string;
+    h2: string;
+    sub: string;
+    /** Published fee ranges, as a share of capital raised. */
+    bands: { key: "bd" | "pa"; label: string; low: number; high: number; caveat: string }[];
+    /** Footnote: method, sources, and "not a quote or projection". */
+    note: string;
+    cta: string;
+  };
   comparison: {
     eyebrow: string;
     h2: string;

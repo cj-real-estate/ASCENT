@@ -15,6 +15,9 @@ export function formatUSDCompact(value: number): string {
     style: "currency",
     currency: "USD",
     notation: "compact",
+    // Explicit 0 minimum: Node's ICU otherwise pads currency to "$10.0M"
+    // while browsers print "$10M", and the mismatch breaks hydration.
+    minimumFractionDigits: 0,
     maximumFractionDigits: 1,
   }).format(value);
 }

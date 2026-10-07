@@ -629,6 +629,37 @@ export const sponsorsPage: SponsorPageContent = {
    * and never by name. Every figure here is a standard published industry
    * range, labelled as such in the note.
    */
+  /*
+   * From the Company Hub's ICP & Messaging Pillars (Pillar A, cost to
+   * raise) and its chart. Guardrails carried from that page: "cost to
+   * raise", never "cost of capital"; the broker-dealer figure is "a typical
+   * load", never the sponsor's actual cost; never call a broker-dealer a
+   * placement agent; no Westwin figures on the public site.
+   */
+  costChart: {
+    eyebrow: "WHAT THE REST OF YOUR RAISE COSTS",
+    h2: "A broker-dealer charges on every dollar. Every raise.",
+    sub: "Raising directly, you pay to meet each investor once, and every name stays on a list you own for the next fund. Whether that costs less turns on two numbers only you have: your average check and how many of the investors you meet commit. Set yours.",
+    bands: [
+      {
+        key: "bd",
+        label: "Retail broker-dealer load",
+        low: 0.085,
+        high: 0.1,
+        caveat: "Sells to individual accredited investors. Charged on every dollar, and again on the next fund.",
+      },
+      {
+        key: "pa",
+        label: "Institutional placement agent",
+        low: 0.015,
+        high: 0.03,
+        caveat: "Success fee before retainer. Built for pensions and endowments; rarely takes a raise from individual investors.",
+      },
+    ],
+    note: "Illustrative arithmetic on your inputs, not a quote or a projection of results. Cost to raise = cost per meeting held ÷ commit rate ÷ average check. Broker-dealer range: selling commission plus dealer-manager fee as disclosed in public offering documents filed with the SEC; FINRA caps the pair at 10%. Placement-agent range: published institutional success fees, before retainers and tails. A typical load is not your actual cost.",
+    cta: "Run it on your raise",
+  },
+
   comparison: {
     eyebrow: "THE ALTERNATIVES",
     h2: "Four ways to fill a raise. One of them is a flat fee.",
@@ -640,9 +671,9 @@ export const sponsorsPage: SponsorPageContent = {
         body: "Builds the funnel and hands you leads. The service list stops there — calling, appointment setting and investor-relations staffing are somebody's problem, and that somebody is you.",
       },
       {
-        name: "A placement agent",
-        cost: "6–8% of capital raised",
-        body: "Registered, and priced like it. On a $10 million raise that is $600,000 to $800,000, and it comes out of your equity rather than your marketing budget.",
+        name: "A broker-dealer network",
+        cost: "8.5–10% of capital raised",
+        body: "Registered, and priced like it. A typical load on a $10 million raise is $850,000 to $1 million, charged on every dollar and again on the next fund.",
       },
       {
         name: "An in-house IR hire",
@@ -656,7 +687,7 @@ export const sponsorsPage: SponsorPageContent = {
         highlight: true,
       },
     ],
-    note: "Placement-agent and in-house figures are standard published industry ranges, not quotes. Ascent's fee is quoted in writing after the scoping call.",
+    note: "Broker-dealer and in-house figures are standard published industry ranges, not quotes. Ascent's fee is quoted in writing after the scoping call.",
   },
 
   process: {

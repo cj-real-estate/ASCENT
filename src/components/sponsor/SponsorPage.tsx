@@ -8,7 +8,7 @@ import { sponsorPageGraph } from "@/lib/schema";
 import ArrowRight from "@/components/ArrowRight";
 import ServiceIcon from "@/components/ServiceIcon";
 import EyebrowText from "@/components/EyebrowText";
-import Calculator from "@/components/Calculator";
+import CostToRaiseChart from "./CostToRaiseChart";
 import QualifyFlow from "@/components/QualifyFlow";
 import LeadModal from "@/components/LeadModal";
 import TrustBanner from "@/components/TrustBanner";
@@ -377,21 +377,18 @@ function Problems({ page }: { page: SponsorPageContent }) {
   );
 }
 
-function CalculatorBlock({ vertical }: { vertical: Vertical }) {
-  const { calculatorSection } = vertical;
+/* Replaced the appointments calculator on 2026-10-07 at the owner's
+ * request. The section keeps the #calculator id: the guides link to it. */
+function CostChartBlock({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
+  const { costChart } = page;
   return (
-    <section id="calculator" className="py-16 md:py-24">
+    <section id="calculator" className="scroll-mt-16 py-16 md:py-24">
       <div className={shell}>
-        <Eyebrow>{calculatorSection.eyebrow}</Eyebrow>
-        <h2 className={`${h2} mt-4`}>{calculatorSection.h2}</h2>
-        <p className={sub}>{calculatorSection.sub}</p>
+        <Eyebrow>{costChart.eyebrow}</Eyebrow>
+        <h2 className={`${h2} mt-4`}>{costChart.h2}</h2>
+        <p className={sub}>{costChart.sub}</p>
         <div className="mt-10 md:mt-12">
-          <Calculator
-            calculator={vertical.calculator}
-            ctaLabel={vertical.hero.cta}
-            ctaMicrocopy={vertical.hero.microcopy}
-            tone="dark"
-          />
+          <CostToRaiseChart chart={costChart} ctaMicrocopy={vertical.hero.microcopy} />
         </div>
       </div>
     </section>
@@ -681,7 +678,7 @@ export function SponsorPage({
       <main>
         <Hero page={page} />
         <Problems page={page} />
-        <CalculatorBlock vertical={vertical} />
+        <CostChartBlock vertical={vertical} page={page} />
         <Process page={page} />
         <Included page={page} />
         <Comparison page={page} />
