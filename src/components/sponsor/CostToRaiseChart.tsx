@@ -189,7 +189,7 @@ export default function CostToRaiseChart({
   ctaMicrocopy: string;
 }) {
   const uid = useId();
-  const [check, setCheck] = useState(100000);
+  const [check, setCheck] = useState(150000);
   const [meeting, setMeeting] = useState(900);
   const [commit, setCommit] = useState(20);
   const [remaining, setRemaining] = useState(10_000_000);
