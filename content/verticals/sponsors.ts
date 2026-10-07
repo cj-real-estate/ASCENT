@@ -250,6 +250,8 @@ const sponsors: Vertical = {
   // Folded into the process and feature grid in `sponsorsPage`.
   transparency: null,
 
+  // No longer rendered on the page (removed at the owner's request,
+  // 2026-10-07); kept for /sponsors/llms.txt, where answer engines read it.
   boundaries: {
     eyebrow: "WHAT WE NEVER DO",
     h2: "The terms on which Ascent is not a broker.",
@@ -735,9 +737,10 @@ export const sponsorsPage: SponsorPageContent = {
         icon: "shield",
         title: "Compliance gate and governance",
         bullets: [
-          "Nine written conditions close before anything publishes or anyone dials",
-          "One complete package to counsel, one review deadline of three business days",
-          "A lapsed approval stops calling the same day, in writing",
+          "Nothing publishes and nobody dials until your counsel approves it in writing",
+          "Flat fee only: nothing tied to capital raised, investors acquired or appointments booked",
+          "Ascent never verifies accreditation, never touches funds and never gives investment advice",
+          "If an approval lapses, calling stops the same day, in writing",
         ],
       },
     ],

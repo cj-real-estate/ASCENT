@@ -37,7 +37,7 @@ import {
  * check, an FAQ, and a long-form disclosure in the footer.
  *
  * Everything rendered comes from content: the `Vertical` (gate, booking,
- * boundaries, fit, FAQ, footer, JSON-LD) and the `SponsorPageContent`
+ * fit, FAQ, footer, JSON-LD) and the `SponsorPageContent`
  * beside it. No copy lives here. The header, footer and logo are shared
  * with the guide and privacy pages — see SponsorChrome.tsx.
  *
@@ -495,33 +495,6 @@ function Included({ page }: { page: SponsorPageContent }) {
   );
 }
 
-function Boundaries({ vertical }: { vertical: Vertical }) {
-  const { boundaries } = vertical;
-  if (boundaries === null) return null;
-  return (
-    <section className="border-t border-seam bg-coal/40 py-16 md:py-24">
-      <div className={shell}>
-        <Eyebrow>{boundaries.eyebrow}</Eyebrow>
-        <h2 className={`${h2} mt-4`}>{boundaries.h2}</h2>
-        <p className={sub}>{boundaries.intro}</p>
-        <ul className="mt-10 grid gap-x-10 gap-y-6 md:mt-12 md:grid-cols-2 lg:grid-cols-3">
-          {boundaries.items.map((item) => (
-            <li key={item.title} className="border-t border-seam pt-5">
-              <h3 className="text-[17px] font-semibold leading-snug text-orange">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-ash">{item.body}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-10 max-w-[80ch] border-l-2 border-orange pl-4 text-[15px] leading-relaxed text-ash">
-          {boundaries.closing}
-        </p>
-      </div>
-    </section>
-  );
-}
-
 function Fit({ vertical }: { vertical: Vertical }) {
   const { fit } = vertical;
   if (fit === null) return null;
@@ -739,7 +712,6 @@ export function SponsorPage({
         <CalculatorBlock vertical={vertical} />
         <Process page={page} />
         <Included page={page} />
-        <Boundaries vertical={vertical} />
         <Comparison page={page} />
         <Fit vertical={vertical} />
         <CtaBand page={page} />
