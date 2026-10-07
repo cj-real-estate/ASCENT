@@ -225,8 +225,8 @@ function Hero({ page }: { page: SponsorPageContent }) {
           )}
         </h1>
         <p
-          className={`mt-7 max-w-[64ch] text-[17px] leading-relaxed md:text-[19px] ${
-            hero.video ? "text-on-dark" : "text-ash"
+          className={`mt-7 max-w-[54ch] text-[18px] leading-relaxed md:text-[20px] ${
+            hero.video ? "text-paper [text-shadow:0_1px_14px_rgb(0_0_0/0.65)]" : "text-ash"
           }`}
         >
           {hero.sub}

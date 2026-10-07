@@ -567,7 +567,7 @@ export const sponsorsPage: SponsorPageContent = {
     kicker: null,
     h1: "The investor acquisition firm for real estate sponsors.",
     h1Highlight: "investor acquisition",
-    sub: "Ascent builds the investor pipeline for your syndication, multifamily, or CRE raise under Rule 506(c). Precision audience targeting, battle-tested funnels, counsel-approved media, and instrumented lead response feed a live setter who turns leads into meetings that are actually held. Flat monthly fee. Nothing tied to capital raised.",
+    sub: "We find accredited investors for your 506(c) raise and put them on your calendar. Counsel-approved ads bring in the leads, and a live American setter turns them into meetings that actually happen. One flat monthly fee, never a cut of what you raise.",
     primaryCta: "See if you qualify",
     secondaryCta: { label: "How it works", href: "#process" },
     patrioticLine: "100% American owned & operated.",
