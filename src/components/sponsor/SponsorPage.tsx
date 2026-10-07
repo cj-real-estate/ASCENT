@@ -306,18 +306,21 @@ function Comparison({ page }: { page: SponsorPageContent }) {
         {/* Side by side. Scrolls sideways inside its own box on a phone,
             with the row labels pinned so every cell keeps its context. */}
         <p className="mt-8 text-[13px] text-ash md:hidden">Swipe sideways to compare all five.</p>
-        <div className="mt-3 overflow-x-auto rounded-xl border border-seam md:mt-12">
+        {/* Lifted off the page: a graphite table with brighter text and a
+            tinted Ascent column, after the first version read too dark
+            (owner, 2026-10-07). */}
+        <div className="mt-3 overflow-x-auto rounded-xl border border-white/15 bg-graphite md:mt-12">
           <table className="w-full min-w-[720px] border-collapse text-left md:min-w-[860px]">
             <caption className="sr-only">{comparison.h2}</caption>
             <thead>
-              <tr>
-                <td className="sticky left-0 z-10 w-[7rem] bg-night p-3 md:w-[11rem] md:p-5" />
+              <tr className="bg-white/[0.06]">
+                <td className="sticky left-0 z-10 w-[7rem] bg-[#383838] p-3 md:w-[11rem] md:p-5" />
                 {comparison.columns.map((col) => (
                   <th
                     key={col.name}
                     scope="col"
-                    className={`p-4 align-bottom text-[16px] font-semibold leading-snug md:p-5 ${
-                      col.highlight ? "border-t-2 border-orange bg-coal text-paper" : "text-on-dark"
+                    className={`p-4 align-bottom text-[16px] font-semibold leading-snug md:p-5 md:text-[17px] ${
+                      col.highlight ? "border-t-[3px] border-orange bg-orange/15 text-paper" : "text-paper"
                     }`}
                   >
                     {col.name}
@@ -326,11 +329,11 @@ function Comparison({ page }: { page: SponsorPageContent }) {
               </tr>
             </thead>
             <tbody>
-              {comparison.rows.map((row) => (
-                <tr key={row.label} className="border-t border-seam">
+              {comparison.rows.map((row, r) => (
+                <tr key={row.label} className={`border-t border-white/10 ${r % 2 === 1 ? "bg-white/[0.03]" : ""}`}>
                   <th
                     scope="row"
-                    className="sticky left-0 z-10 bg-night p-3 align-top text-[11px] font-semibold uppercase leading-snug tracking-[0.06em] text-ash md:p-5 md:text-[13px]"
+                    className="sticky left-0 z-10 bg-[#333333] p-3 align-top text-[11px] font-semibold uppercase leading-snug tracking-[0.06em] text-on-dark md:p-5 md:text-[13px]"
                   >
                     {row.label}
                   </th>
@@ -339,8 +342,8 @@ function Comparison({ page }: { page: SponsorPageContent }) {
                     return (
                       <td
                         key={i}
-                        className={`p-4 align-top text-[15px] leading-relaxed md:p-5 ${
-                          hl ? "bg-coal font-semibold text-paper" : "text-ash"
+                        className={`p-4 align-top text-[15px] leading-relaxed md:p-5 md:text-[16px] ${
+                          hl ? "bg-orange/15 font-semibold text-paper" : "text-on-dark"
                         }`}
                       >
                         {cell}
@@ -700,10 +703,10 @@ export function SponsorPage({
       <main>
         <Hero page={page} />
         <Problems page={page} />
+        <Comparison page={page} />
         <CostChartBlock vertical={vertical} page={page} />
         <Process page={page} />
         <Included page={page} />
-        <Comparison page={page} />
         <Fit vertical={vertical} />
         <CtaBand page={page} />
         <Faq vertical={vertical} />
