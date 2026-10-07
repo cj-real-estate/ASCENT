@@ -589,7 +589,7 @@ export const sponsorsPage: SponsorPageContent = {
   },
 
   problems: {
-    eyebrow: "WHY RAISES STALL",
+    eyebrow: null,
     h2: "Why most syndications struggle to fill the investor pipeline.",
     sub: "Three failures, and the one most vendors are paid to ignore is the last one.",
     cards: [

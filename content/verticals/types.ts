@@ -284,7 +284,8 @@ export interface SponsorPageContent {
     video: { basePath: string } | null;
   };
   problems: {
-    eyebrow: string;
+    /** Null renders no eyebrow (removed at the owner's request, 2026-10-07). */
+    eyebrow: string | null;
     h2: string;
     sub: string;
     cards: { icon: IconName; title: string; body: string }[];
