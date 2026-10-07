@@ -570,34 +570,6 @@ function CtaBand({ page }: { page: SponsorPageContent }) {
  * facts as a description list. Written to be lifted whole by an answer
  * engine, which is why it sits beside the FAQ rather than in the hero.
  */
-function Glance({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
-  const { glance } = page;
-  return (
-    <section id="about" aria-labelledby="about-h" className="scroll-mt-16 border-t border-seam py-16 md:py-24">
-      <div className={shell}>
-        <Eyebrow>{glance.eyebrow}</Eyebrow>
-        <h2 id="about-h" className={`${h2} mt-4`}>
-          {glance.h2}
-        </h2>
-        <p className="mt-6 max-w-[80ch] border-l-2 border-orange pl-5 text-[17px] leading-relaxed text-on-dark md:text-[19px]">
-          {glance.definition}
-        </p>
-        <dl className="mt-10 grid gap-x-8 gap-y-5 md:grid-cols-2">
-          {glance.facts.map((f) => (
-            <div key={f.label} className="border-t border-seam pt-4">
-              <dt className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ash">{f.label}</dt>
-              <dd className="mt-1 text-[16px] leading-relaxed text-paper">{f.value}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-8 text-[14px] text-ash">
-          {vertical.business.legalName ?? vertical.business.name} · {vertical.footer.locationLine}
-        </p>
-      </div>
-    </section>
-  );
-}
-
 /*
  * The guides strip. Every guide registered in content/guides, linked
  * absolutely on the sponsor domain (the guides do not exist under
@@ -715,7 +687,6 @@ export function SponsorPage({
         <Comparison page={page} />
         <Fit vertical={vertical} />
         <CtaBand page={page} />
-        <Glance vertical={vertical} page={page} />
         <Faq vertical={vertical} />
         <Guides vertical={vertical} page={page} />
         <Booking vertical={vertical} />

@@ -762,6 +762,8 @@ export const sponsorsPage: SponsorPageContent = {
    * whole; every fact is a practice, a term or a boundary — nothing here
    * is a result.
    */
+  // Not rendered on the page since 2026-10-07 (owner's request). The
+  // definition still feeds the Organization JSON-LD and llms.txt.
   glance: {
     eyebrow: "ASCENT AT A GLANCE",
     h2: "What Ascent is, in one paragraph.",
