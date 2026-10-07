@@ -309,8 +309,8 @@ export interface SponsorPageContent {
     eyebrow: string;
     h2: string;
     sub: string;
-    /** Published fee ranges, as a share of capital raised. */
-    bands: { key: "bd" | "pa"; label: string; low: number; high: number; caveat: string }[];
+    /** The retail broker-dealer load range, as a share of capital raised. */
+    load: { label: string; low: number; high: number; caveat: string };
     /** Footnote: method, sources, and "not a quote or projection". */
     note: string;
     cta: string;

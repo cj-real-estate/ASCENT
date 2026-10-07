@@ -659,24 +659,17 @@ export const sponsorsPage: SponsorPageContent = {
   costChart: {
     eyebrow: "WHAT THE REST OF YOUR RAISE COSTS",
     h2: "A broker-dealer charges on every dollar. Every raise.",
-    sub: "Raising directly, you pay to meet each investor once, and every name stays on a list you own for the next fund. Whether that costs less turns on two numbers only you have: your average check and how many of the investors you meet commit. Set yours.",
-    bands: [
-      {
-        key: "bd",
-        label: "Retail broker-dealer load",
-        low: 0.085,
-        high: 0.1,
-        caveat: "Sells to individual accredited investors. Charged on every dollar, and again on the next fund.",
-      },
-      {
-        key: "pa",
-        label: "Institutional placement agent",
-        low: 0.015,
-        high: 0.03,
-        caveat: "Success fee before retainer. Built for pensions and endowments; rarely takes a raise from individual investors.",
-      },
-    ],
-    note: "Illustrative arithmetic on your inputs, not a quote or a projection of results. Cost to raise = cost per meeting held ÷ commit rate ÷ average check. Broker-dealer range: selling commission plus dealer-manager fee as disclosed in public offering documents filed with the SEC; FINRA caps the pair at 10%. Placement-agent range: published institutional success fees, before retainers and tails. A typical load is not your actual cost.",
+    sub: "With Ascent you pay to meet each investor once, and every name stays on a list you own for the next fund. Enter your average check and how many of the investors you meet commit, and see what the rest of your raise costs each way.",
+    // The institutional placement-agent band was dropped 2026-10-07 at the
+    // owner's request: the comparison that matters to this buyer is the
+    // retail broker-dealer channel, which reaches the same investors.
+    load: {
+      label: "Retail broker-dealer load",
+      low: 0.085,
+      high: 0.1,
+      caveat: "Sells to individual accredited investors. Charged on every dollar, and again on the next fund.",
+    },
+    note: "Illustrative arithmetic on your inputs, not a quote or a projection of results. Cost to raise = cost per meeting held ÷ commit rate ÷ average check. Broker-dealer range: selling commission plus dealer-manager fee as disclosed in public offering documents filed with the SEC; FINRA caps the pair at 10%. A typical load is not your actual cost.",
     cta: "Run it on your raise",
   },
 
