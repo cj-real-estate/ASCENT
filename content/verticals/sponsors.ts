@@ -661,26 +661,29 @@ export const sponsorsPage: SponsorPageContent = {
     eyebrow: "HOW IT WORKS",
     h2: "Our real estate investor acquisition process.",
     sub: "Four stages, each with a written output. Your counsel signs before anything runs, and the conversation about your offering is the only one that stays yours.",
+    // Rewritten 2026-10-07 from the Company Hub's Offers & Pricing
+    // (implementation deliverables, milestone billing, delivery limits,
+    // term) and Delivery Boundaries (the calling rule).
     steps: [
       {
         icon: "shield",
-        title: "Scope, and clear compliance",
-        body: "We read your last raise's numbers and interview whoever calls the leads today. In parallel, the nine-condition gate closes with your securities counsel: exemption confirmed, approver named, every legend and the full setter script approved in writing.",
+        title: "Scope it, and clear it with counsel",
+        body: "A scoping call on your raise, your current lead flow and who answers it today, then a written acquisition plan and a baseline funnel assessment. Your securities counsel approves the setter structure, the script and every ad before anything publishes or anyone dials.",
       },
       {
         icon: "stack",
-        title: "Build the lane",
-        body: "Campaign architecture and counsel-approved creative, a CRM and pipeline you own, telephony registered in your name, instant text-and-email acknowledgement, and instrumentation that timestamps first touch and first human touch separately. Live in fourteen days from access and approvals.",
+        title: "Build the system",
+        body: "Two branded landing pages with an inquiry form and calendar flow, a CRM and pipeline in your name, source tracking, approved text and email sequences, the setter script and ten initial ad variations from your materials. The second half of implementation is billed only when the system passes acceptance testing.",
       },
       {
         icon: "phone",
-        title: "Run the media and the phone",
-        body: "LinkedIn for accredited-investor quality, Meta for volume, Google for existing demand. A live setter, recruited and supervised by Ascent, calls every inbound investor lead as you, confirms attendance, reschedules no-shows and logs every outcome. Every call recorded.",
+        title: "Launch, and answer every lead",
+        body: "Paid media goes live on one primary platform, billed to your own ad account. A live setter, recruited, trained and supervised by Ascent, calls every new inbound lead under your name, from your number, on the approved script, and books the meeting onto your calendar. You run the meeting.",
       },
       {
         icon: "chart",
-        title: "Report and optimize, weekly",
-        body: "Fifteen minutes a week on the four numbers: speed to first human touch, contact rate by response bucket, set-to-held rate, and cost per appointment held. Long-form reviews at thirty, sixty and ninety days. Creative refreshed on fatigue; budget moved on evidence.",
+        title: "Report weekly, on meetings held",
+        body: "A weekly dashboard and operating review built on cost per appointment held, with media-only cost kept separate from all-in cost. Six new ad variations a month and a landing-page test where traffic supports it. A 90-day initial term, then month to month.",
       },
     ],
     cta: "Book a scoping call",
