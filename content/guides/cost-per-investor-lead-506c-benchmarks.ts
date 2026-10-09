@@ -113,7 +113,7 @@ const guide: Guide = {
       blocks: [
         {
           type: "p",
-          text: "A booked meeting is just a spot on a calendar. A held meeting is one where the investor showed up and the sponsor made the case. The investor is deciding on $25,000 to $500,000, so the gap between the two is big. You need a confirmation the day before. You need a way to reschedule no-shows. You need a nurture sequence (follow-up messages) between touches. Without these, booked meetings quietly stop happening. Any vendor can pump up a booked count. Only real work can move a held count. That is why Ascent reports cost per appointment held as its main number. It is also why the [cost-to-raise chart on the main page](/#calculator) asks for your cost per meeting held, not per meeting booked.",
+          text: "A booked meeting is just a spot on a calendar. A held meeting is one where the investor showed up and the sponsor made the case. The investor is deciding on $25,000 to $500,000, so the gap between the two is big. You need a confirmation the day before. You need a way to reschedule no-shows. You need a nurture sequence (follow-up messages) between touches. Without these, booked meetings quietly stop happening. Any vendor can pump up a booked count. Only real work can move a held count. That is why Ascent reports cost per appointment held as its main number.",
         },
       ],
     },

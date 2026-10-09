@@ -327,37 +327,18 @@ const sponsors: Vertical = {
   // (packages, implementation, billing, term, Diagnostic), Delivery
   // Boundaries (the calling rule, reactivation, securities terms) and
   // ICP & Messaging Pillars. Still no prices on the page.
+  // Cut to the five most-asked questions on 2026-10-09 (owner's request).
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
     h2: "What sponsors and their counsel ask first.",
     items: [
       {
-        q: "What is investor acquisition for a 506(c) raise?",
-        a: "It means finding accredited investors who don't know you yet. It works for a deal or fund that is allowed to advertise under Rule 506(c). Then you follow up with each one until a real meeting happens. Ascent runs every step: ads your lawyer approves, landing pages, follow-up and a live setter. We report it all as cost per meeting held.",
-      },
-      {
-        q: "Who is it for?",
-        a: "U.S. real estate sponsors with a 506(c) raise that is open or coming soon. You need a track record, a securities lawyer and someone who can take investor meetings. It fits best when your network and referrals no longer bring in enough new investors, and you have no other system.",
-      },
-      {
         q: "What does it cost?",
         a: "There are two plans. Both cost one flat fee each month. In Managed Investor Pipeline, Ascent hires, trains and manages a live setter for your leads. In Investor Pipeline, your own staff answers the leads, and we give them the system and training. Each plan has a one-time setup fee. You pay for ads separately, straight to the platform. We quote the numbers in writing after the call, once we've seen yours.",
       },
       {
-        q: "How much should we spend on ads?",
-        a: "The ad platform bills you directly, on your own account. Ascent never holds, fronts or marks up that money. We start at $15,000 a month and adjust to what your campaign needs. Whether that beats a broker-dealer load depends on your average check and how many investors say yes. The cost-to-raise chart on this page does that math for you.",
-      },
-      {
         q: "How is it billed, and how long is the commitment?",
         a: "You pay for setup in two halves. The first is due at kickoff. The second is due only when the system passes the tests we agreed on. The monthly fee starts when your ads launch, once a written checklist is done. You start with 90 days. After that it's month to month, with 30 days' notice to stop.",
-      },
-      {
-        q: "Is there a smaller first step?",
-        a: "Yes. The Investor Pipeline Diagnostic takes about ten business days. We review your funnel and find gaps in your tracking. We look at how fast leads hear back and who shows up. Then you get a 90-day plan. If you go ahead within 30 days, the full fee counts toward setup. It's for sponsors who want proof first. You don't have to do it.",
-      },
-      {
-        q: "How long until we're live?",
-        a: "Fourteen days after we get account access and your lawyer's approvals. Your lawyer's review happens first, while we plan. The build clock starts once it's done. Your first weekly report comes after your first full week live.",
       },
       {
         q: "What results can we expect?",
@@ -370,26 +351,6 @@ const sponsors: Vertical = {
       {
         q: "Who makes the calls, and what do they say?",
         a: "American setters based in the U.S. Ascent hires, trains and manages them. They only call new leads that came from your own ads. They call in your name, from a number registered to you, using a written script your lawyer approved. They only handle the basics: checking that the lead asked to hear from you, and putting a meeting on your calendar. They never talk about returns, value, merits, timing or terms. Every call is recorded.",
-      },
-      {
-        q: "Will you call our old investor list?",
-        a: "No. We only call new leads. To wake up an older list, we use text and email only, from your name and number. Calling an old list would need its own plan, a consent review and a check against Do Not Call lists.",
-      },
-      {
-        q: "Who checks if an investor is accredited?",
-        a: "You do, always. Ascent never asks about it, judges it or checks it.",
-      },
-      {
-        q: "What does our lawyer need to approve?",
-        a: "The messages, the script and how the setter is set up, all before launch. Nothing goes live and no one calls without that approval. If an approval runs out, calls stop that same day, in writing. A flat fee alone doesn't answer every registration question. That's why your lawyer signs off first. Bring them to the call.",
-      },
-      {
-        q: "Do you work with 506(b) offerings?",
-        a: "No. 506(b) bans general solicitation (public ads), and no vendor can change that. If you plan to file a 506(c) offering in the next 90 days, the call is still a good first step.",
-      },
-      {
-        q: "What do we keep if we leave?",
-        a: "Everything we built: the CRM, the investor list, the phone number in your name, every call recording, the landing pages and the scripts. We hand it all over with a written record. Nothing is held back.",
       },
     ],
   },
@@ -656,6 +617,8 @@ export const sponsorsPage: SponsorPageContent = {
    * load", never the sponsor's actual cost; never call a broker-dealer a
    * placement agent; no Westwin figures on the public site.
    */
+  // Not rendered since 2026-10-09 (owner's request). Kept with
+  // src/components/sponsor/CostToRaiseChart.tsx so it can come back.
   costChart: {
     eyebrow: "WHAT THE REST OF YOUR RAISE COSTS",
     h2: "A broker-dealer charges on every dollar. Every raise.",

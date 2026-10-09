@@ -85,7 +85,7 @@ const guide: Guide = {
         { type: "h3", text: "4. Cost per appointment held" },
         {
           type: "p",
-          text: "This is media spend divided by meetings held. It counts media only, unless the report says fully loaded. It is the main number because no one can game it. Booking a meeting nobody attends raises the count of meetings set. It does nothing to the count of meetings held. The [cost-to-raise chart on the main page](/#calculator) starts from this number. You enter your own cost per meeting held.",
+          text: "This is media spend divided by meetings held. It counts media only, unless the report says fully loaded. It is the main number because no one can game it. Booking a meeting nobody attends raises the count of meetings set. It does nothing to the count of meetings held.",
         },
       ],
     },

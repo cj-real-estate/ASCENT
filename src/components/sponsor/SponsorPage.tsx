@@ -8,7 +8,6 @@ import { sponsorPageGraph } from "@/lib/schema";
 import ArrowRight from "@/components/ArrowRight";
 import ServiceIcon from "@/components/ServiceIcon";
 import EyebrowText from "@/components/EyebrowText";
-import CostToRaiseChart from "./CostToRaiseChart";
 import QualifyFlow from "@/components/QualifyFlow";
 import LeadModal from "@/components/LeadModal";
 import TrustBanner from "@/components/TrustBanner";
@@ -402,24 +401,6 @@ function Problems({ page }: { page: SponsorPageContent }) {
   );
 }
 
-/* Replaced the appointments calculator on 2026-10-07 at the owner's
- * request. The section keeps the #calculator id: the guides link to it. */
-function CostChartBlock({ vertical, page }: { vertical: Vertical; page: SponsorPageContent }) {
-  const { costChart } = page;
-  return (
-    <section id="calculator" className="scroll-mt-16 py-16 md:py-24">
-      <div className={shell}>
-        <Eyebrow>{costChart.eyebrow}</Eyebrow>
-        <h2 className={`${h2} mt-4`}>{costChart.h2}</h2>
-        <p className={sub}>{costChart.sub}</p>
-        <div className="mt-10 md:mt-12">
-          <CostToRaiseChart chart={costChart} ctaMicrocopy={vertical.hero.microcopy} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /*
  * Centered, pill-eyebrow, ghost-numeral treatment for this section only —
  * modeled on the reference site's process block. Every other section
@@ -704,7 +685,6 @@ export function SponsorPage({
         <Hero page={page} />
         <Problems page={page} />
         <Comparison page={page} />
-        <CostChartBlock vertical={vertical} page={page} />
         <Process page={page} />
         <Included page={page} />
         <Fit vertical={vertical} />
