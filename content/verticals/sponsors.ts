@@ -330,7 +330,7 @@ const sponsors: Vertical = {
   // Cut to the five most-asked questions on 2026-10-09 (owner's request).
   faq: {
     eyebrow: "FREQUENTLY ASKED QUESTIONS",
-    h2: "What sponsors and their counsel ask first.",
+    h2: "What sponsors and their lawyers ask first.",
     items: [
       {
         q: "What does it cost?",
