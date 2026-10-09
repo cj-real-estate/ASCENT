@@ -44,31 +44,31 @@ interface Field {
 const FIELDS = {
   check: {
     label: "Average check",
-    hint: "What a typical investor in this raise writes.",
+    hint: "What a typical investor puts in.",
     min: 10000,
     max: 5_000_000,
     step: 5000,
     prefix: "$",
   },
   meeting: {
-    label: "All-in cost per meeting held",
-    hint: "Media plus fees, divided by meetings that actually happen. Your assumption.",
+    label: "Total cost per meeting held",
+    hint: "Ads plus fees, divided by meetings that really happen. Your best guess.",
     min: 100,
     max: 10000,
     step: 25,
     prefix: "$",
   },
   commit: {
-    label: "Met investors who commit",
-    hint: "Or drag across the chart.",
+    label: "Investors you meet who invest",
+    hint: "You can also drag across the chart.",
     min: COMMIT_MIN,
     max: COMMIT_MAX,
     step: 1,
     suffix: "%",
   },
   remaining: {
-    label: "Capital left to raise",
-    hint: "The dollar comparison runs on this.",
+    label: "Money left to raise",
+    hint: "We use this for the dollar numbers.",
     min: 100_000,
     max: 1_000_000_000,
     step: 500_000,
@@ -295,7 +295,7 @@ export default function CostToRaiseChart({
                   {formatUSDCompact(difference)}
                 </p>
                 <p className="mt-3 max-w-[44ch] text-[14px] leading-relaxed text-ash">
-                  more of this raise than a typical load would take, and every investor stays on your list for the next one. A broker-dealer charges again.
+                  more of this raise than a typical load would take. Every investor stays on your list for next time. A broker-dealer would charge you again.
                 </p>
               </div>
             ) : (
@@ -305,7 +305,7 @@ export default function CostToRaiseChart({
                   a typical load costs <span className="tabular-nums">{formatUSDCompact(-difference)}</span> less
                 </p>
                 <p className="mt-3 max-w-[44ch] text-[14px] leading-relaxed text-ash">
-                  Raising direct costs less once 1 in {breakEvenOneIn} met investors commit, and the list it builds is yours for the next raise.
+                  Raising direct costs less once 1 in {breakEvenOneIn} investors you meet go on to invest. And the list it builds is yours for next time.
                 </p>
               </div>
             )}
@@ -320,7 +320,7 @@ export default function CostToRaiseChart({
               <div>
                 <dt className="text-ash">Break-even</dt>
                 <dd className="mt-0.5 text-on-dark">
-                  Ascent costs less once <span className="font-semibold text-paper">1 in {breakEvenOneIn}</span> met investors commit
+                  Ascent costs less once <span className="font-semibold text-paper">1 in {breakEvenOneIn}</span> investors you meet invest
                 </dd>
               </div>
             </dl>
@@ -375,7 +375,7 @@ export default function CostToRaiseChart({
                 </text>
               ))}
               <text x={m.left + plotW / 2} y={H - 4} textAnchor="middle" fontSize="12" fill="var(--ash)">
-                Share of met investors who commit
+                Share of investors you meet who invest
               </text>
 
               <rect

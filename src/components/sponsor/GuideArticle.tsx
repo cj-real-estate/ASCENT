@@ -193,7 +193,7 @@ export default function GuideArticle({
 
         <section aria-labelledby="takeaways" className="mt-10 max-w-[80ch]">
           <h2 id="takeaways" className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ash">
-            Key takeaways
+            What to know
           </h2>
           <ul className="mt-4 space-y-3">
             {guide.takeaways.map((t, i) => (
@@ -224,7 +224,7 @@ export default function GuideArticle({
             {guide.faq.length > 0 ? (
               <li>
                 <a href="#faq" className="inline-flex min-h-[32px] items-center text-[15px] text-on-dark hover:text-paper">
-                  Frequently asked questions
+                  Common questions
                 </a>
               </li>
             ) : null}
@@ -245,7 +245,7 @@ export default function GuideArticle({
         {guide.faq.length > 0 ? (
           <section id="faq" aria-labelledby="faq-h" className="scroll-mt-20">
             <h2 id="faq-h" className={h2}>
-              Frequently asked questions
+              Common questions
             </h2>
             <div className="mt-6 max-w-[80ch]">
               {guide.faq.map((item) => (
@@ -299,7 +299,7 @@ export default function GuideArticle({
         {related.length > 0 ? (
           <section aria-labelledby="related-h" className="mt-14">
             <h2 id="related-h" className="font-mono text-[12px] font-medium uppercase tracking-[0.14em] text-ash">
-              Related guides
+              More guides
             </h2>
             <ul className="mt-4 grid gap-4 md:grid-cols-3">
               {related.map((g) => (
