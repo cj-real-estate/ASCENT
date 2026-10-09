@@ -11,42 +11,42 @@ const guide: Guide = {
   title: "Rule 506(b) vs 506(c): what a real estate sponsor can and cannot do to find investors",
   seoTitle: "506(b) vs 506(c): Marketing Rules for Real Estate Sponsors",
   description:
-    "The practical difference between Rule 506(b) and 506(c) for a real estate syndication or fund: what counts as general solicitation, who can invest, what verification means, and how sponsors switch.",
+    "How Rule 506(b) and 506(c) differ for a real estate deal or fund. Learn what counts as general solicitation and who can invest. See what it means to verify, and how to switch.",
   eyebrow: "Regulation D · Real estate",
   published: "2026-09-09",
-  updated: "2026-09-09",
+  updated: "2026-10-09",
   answer:
-    "Under Rule 506(b) a real estate sponsor cannot advertise the offering at all — investors come from pre-existing relationships, and up to 35 of them may be non-accredited. Under Rule 506(c) the sponsor may advertise publicly (paid ads, a public website, social media, podcasts), but every purchaser must be an accredited investor and the sponsor must take reasonable steps to verify that status rather than accept a self-certification. Both are exemptions under Regulation D of the Securities Act, both allow an unlimited raise, and both require a Form D filing within 15 days of the first sale. The marketing consequence is binary: paid investor acquisition is only possible under 506(c).",
+    "Rule 506(b) and Rule 506(c) are two SEC rules. Each one lets a real estate sponsor raise money in private. Under Rule 506(b), you cannot advertise the deal at all. Your investors come from ties you already have. Up to 35 of them may be non-accredited. An accredited investor meets SEC tests, such as for income or net worth. Under Rule 506(c), you may advertise to the public. You can use paid ads and a public website. You can use social media and podcasts. But each buyer must be an accredited investor. You must also take reasonable steps to verify that. You can't just take the buyer's word for it. That is called a self-certification. Both rules are exemptions under Regulation D of the Securities Act. Regulation D is the SEC's set of rules for private deals. Both rules let you raise as much as you want. Both need a Form D filing within 15 days of the first sale. Form D is a short notice you file with the SEC. For marketing, the line is clear. Paid investor acquisition is only possible under 506(c).",
   takeaways: [
-    "506(b): no general solicitation. Unlimited accredited investors plus up to 35 non-accredited, sophisticated investors. Self-certification questionnaires are customary.",
-    "506(c): general solicitation permitted. Accredited investors only, and the issuer must take reasonable steps to verify — a questionnaire alone is not enough.",
-    "General solicitation includes paid ads, a public offering page, social posts about the deal, mass email to strangers and speaking about the offering at public events.",
-    "Both file Form D within 15 days of the first sale; both are subject to the Rule 506(d) bad-actor disqualification; both produce restricted securities.",
-    "SEC staff guidance has allowed a 506(b) offering to convert to 506(c) if no general solicitation has yet occurred. The reverse is not available once you have advertised.",
-    "Every paid investor-acquisition vendor, Ascent included, works only on 506(c) (or Regulation A+) offerings. No vendor can make advertising legal under 506(b).",
+    "506(b): no general solicitation. That means no public ads or pitches for the deal. You can take any number of accredited investors. You can also take up to 35 who are not accredited. They must be sophisticated. Most investors fill out a form to vouch for their own status.",
+    "506(c): general solicitation is allowed. Only accredited investors may buy. The issuer must take reasonable steps to verify their status. A form alone is not enough.",
+    "General solicitation includes paid ads and a public deal page. It includes social posts about the deal. It also includes mass email to strangers. Talking about the deal at public events counts too.",
+    "Both rules have you file Form D within 15 days of the first sale. Both fall under the Rule 506(d) bad-actor rule. That rule can disqualify a deal. Both make restricted securities.",
+    "SEC staff guidance has let a 506(b) deal switch to 506(c). It allows this if no general solicitation has happened yet. You can't go the other way once you have run ads.",
+    "Each vendor that runs paid investor acquisition works only on 506(c) or Regulation A+ deals. So does Ascent. Regulation A+ is a separate SEC path for raising money from the public. No vendor can make ads legal under 506(b).",
   ],
   sections: [
     {
       id: "what-they-share",
-      h2: "What the two exemptions share",
+      h2: "What the two rules have in common",
       blocks: [
         {
           type: "p",
-          text: "Rule 506 is the workhorse exemption of Regulation D. The SEC's own Regulation D statistics show it carries the large majority of private capital raised in the United States each year, and nearly every real estate syndication and private real estate fund uses one of its two paragraphs. Whichever one a sponsor picks:",
+          text: "Rule 506 is the workhorse exemption of Regulation D. An exemption lets you sell securities without first registering them with the SEC. The SEC's own Regulation D numbers show how big it is. Each year, it carries the large majority of private capital raised in the United States. Almost all real estate syndications use one of its two paragraphs. In a syndication, a sponsor pools money from investors to buy property. So do almost all private real estate funds. Whichever one a sponsor picks:",
         },
         {
           type: "ul",
           items: [
-            "There is **no cap on the amount raised**.",
-            "The securities are **restricted** — investors cannot freely resell them.",
-            "The issuer files a **Form D** with the SEC within 15 days of the first sale, and makes the state notice filings (blue-sky filings) counsel specifies. Rule 506 securities are “covered securities,” so states may require notice and a fee but may not impose their own merit review.",
-            "The **bad-actor rule (506(d))** applies: a disqualifying event involving the issuer or a covered person — including anyone paid to solicit investors — can cost the exemption.",
-            "The offering is made under **offering documents** — a private placement memorandum, subscription agreement and operating agreement — prepared under securities counsel.",
+            "There is **no cap on how much you can raise**.",
+            "The securities are **restricted**. Investors can't freely sell them to others.",
+            "The issuer files a **Form D** with the SEC within 15 days of the first sale. The issuer is the entity that sells the securities. It also makes the state notice filings that counsel names. These are called blue-sky filings. Rule 506 securities are \"covered securities.\" So a state may ask for a notice and a fee. But a state may not do its own merit review.",
+            "The **bad-actor rule (506(d))** applies. A disqualifying event can cost you the exemption. That is true if the event involves the issuer or a covered person. Anyone paid to solicit investors is a covered person.",
+            "The deal is made under **offering documents**. These are a private placement memo, a subscription agreement and an operating agreement. They are prepared under securities counsel. That is the lawyer who handles the legal side of your deal.",
           ],
         },
         {
           type: "p",
-          text: "The difference is entirely about how a sponsor is allowed to find investors, and what the sponsor must know about them.",
+          text: "The whole difference comes down to two things. One is how a sponsor may find investors. The other is what the sponsor must know about them.",
         },
       ],
     },
@@ -56,16 +56,16 @@ const guide: Guide = {
       blocks: [
         {
           type: "p",
-          text: "506(b) is the older, quieter path. The issuer may sell to an unlimited number of accredited investors and to up to 35 non-accredited investors, provided those non-accredited investors are sophisticated — able, alone or with a purchaser representative, to evaluate the merits and risks — and receive the disclosure the rule requires. The price of that flexibility is a prohibition on **general solicitation and general advertising**.",
+          text: "506(b) is the older, quieter path. The issuer may sell to any number of accredited investors. It may also sell to up to 35 who are not accredited. But those people must be sophisticated. That means they can judge the deal's merits and risks. They can do it alone or with a purchaser representative. They must also get the disclosure the rule calls for. The price of that freedom is a ban on **general solicitation and general advertising**. In plain words, you can't pitch the deal to the public.",
         },
         {
           type: "p",
-          text: "In practice that means investors come from **pre-existing, substantive relationships** — people the sponsor already knows well enough to have a view on their financial circumstances and sophistication before the offering is discussed. The SEC staff has said that relationship can be formed by a registered broker-dealer or investment adviser on the issuer's behalf, and that a relationship formed before the offering begins can qualify even if it was formed online. What the staff has not said is that a stranger who clicks an ad and fills out a form has one.",
+          text: "In practice, investors come from **pre-existing, substantive relationships**. These are people the sponsor knows well. The sponsor knows enough to have a view on their finances and their sophistication. And the sponsor has that view before the deal comes up. The SEC staff has said a registered broker-dealer can form that tie for the issuer. A broker-dealer is a firm licensed to sell securities. A registered investment adviser can form it too. The staff has also said a tie formed before the deal starts can count. That is true even if it was formed online. But what about a stranger who clicks an ad and fills out a form? The staff has not said that person has one.",
         },
         {
           type: "callout",
           title: "What a 506(b) sponsor can still market",
-          text: "The brand, not the deal. A sponsor raising under 506(b) can build an audience — a newsletter, a podcast, educational content, a track-record page — as long as none of it offers or describes the securities being sold. Many sponsors use that audience to form relationships they later raise from. The moment the content describes a specific open offering, it is a solicitation.",
+          text: "The brand, not the deal. A sponsor raising under 506(b) can still build an audience. It can use a newsletter or a podcast. It can post content that teaches, or a track-record page. That is fine as long as none of it offers the securities being sold. None of it can describe them, either. Many sponsors use that audience to build ties. Later they raise money from those people. But once the content describes a specific open deal, it is a solicitation.",
         },
       ],
     },
@@ -75,15 +75,15 @@ const guide: Guide = {
       blocks: [
         {
           type: "p",
-          text: "506(c) was created by the JOBS Act and took effect in September 2013. It lets an issuer solicit the general public — paid media, a public offering page, social media, webinars, podcasts, direct mail — on two conditions: **every purchaser must be an accredited investor**, and the issuer must take **reasonable steps to verify** that status. Non-accredited investors are not permitted at all, sophisticated or otherwise.",
+          text: "The JOBS Act created 506(c). It took effect in September 2013. It lets an issuer solicit the general public. That can mean paid media, a public deal page or social media. It can also mean webinars, podcasts or direct mail. Two things must be true. First, **every buyer must be an accredited investor**. Second, the issuer must take **reasonable steps to verify** that status. Investors who are not accredited can't buy at all. That holds even if they are sophisticated.",
         },
         {
           type: "p",
-          text: "Verification is the part that changes a sponsor's operation. Under 506(b), a subscription questionnaire in which the investor checks a box is the customary basis for the issuer's reasonable belief. Under 506(c) that is not sufficient on its own. The rule offers non-exclusive safe harbors — reviewing two years of tax forms for income, reviewing recent bank and brokerage statements plus a credit report for net worth, or obtaining a written confirmation from a registered broker-dealer, SEC-registered investment adviser, licensed attorney or CPA — and a principles-based standard behind them. In March 2025 the SEC staff issued a no-action letter that treats a high minimum investment ($200,000 for a natural person, $1,000,000 for an entity) combined with specific written representations as reasonable steps in itself. The details are in [the verification guide](/guides/accredited-investor-verification-506c).",
+          text: "Verifying is the part that changes how a sponsor works. Under 506(b), the investor most often checks a box on a form. That form is the usual basis for the issuer's reasonable belief. Under 506(c), that is not enough on its own. The rule gives you safe harbors. These are set ways to verify, but they are not the only ways. You can look at two years of tax forms to check income. To check net worth, you can look at recent bank and brokerage statements. You also pull a credit report. Or you can get a written confirmation from a pro. It can come from a registered broker-dealer or an SEC-registered investment adviser. It can also come from a licensed attorney or a CPA. Behind the safe harbors sits a principles-based standard. In March 2025 the SEC staff put out a no-action letter. It says a high minimum investment can count as reasonable steps in itself. It must come with specific written representations. The minimum is $200,000 for a natural person. It is $1,000,000 for an entity. The details are in [the verification guide](/guides/accredited-investor-verification-506c).",
         },
         {
           type: "p",
-          text: "The other operational change is that the whole raise becomes a **public communication**. Every ad, landing page and email is a securities communication, and the anti-fraud provisions of the securities laws apply to all of it. That is why serious 506(c) sponsors run every piece of creative past counsel before it publishes, and why a marketing vendor working on a raise needs a written approval workflow rather than a style guide.",
+          text: "The other change is that the whole raise goes public. Each ad, landing page and email is a securities communication. The anti-fraud rules of the securities laws apply to all of it. So serious 506(c) sponsors show counsel each ad and post before it goes live. And a marketing vendor on a raise needs a written sign-off process. A style guide is not enough.",
         },
       ],
     },
@@ -93,22 +93,22 @@ const guide: Guide = {
       blocks: [
         {
           type: "p",
-          text: "Regulation D does not define the term with a list; the SEC's Rule 502(c) gives examples, and decades of staff guidance fill in the rest. For a real estate sponsor, the following are general solicitation when they describe or offer a specific offering:",
+          text: "Regulation D does not define the term with a list. The SEC's Rule 502(c) gives examples. Decades of staff guidance fill in the rest. Here is a list for a real estate sponsor. Each item is general solicitation if it describes or offers a specific deal:",
         },
         {
           type: "ul",
           items: [
-            "Paid advertising on LinkedIn, Meta, Google, YouTube or any other platform.",
-            "A public web page describing the offering, or a deal page reachable without a login gated on a pre-existing relationship.",
-            "Social media posts, newsletters or podcast segments that mention the offering.",
-            "Mass email or direct mail to people the sponsor has no substantive relationship with.",
-            "Presenting the offering at a seminar, conference or webinar open to the public.",
-            "Press releases or media interviews that describe the offering's terms.",
+            "Paid ads on LinkedIn, Meta, Google or YouTube. Ads on any other site count too.",
+            "A public web page about the deal. A deal page counts too, unless a login limits it to people you already have a relationship with.",
+            "Social posts, newsletters or podcast segments that name the deal.",
+            "Mass email or direct mail to strangers. Here that means people the sponsor has no substantive tie with.",
+            "Pitching the deal at a seminar, conference or webinar. This counts if the event is open to the public.",
+            "Press releases or media interviews that lay out the deal's terms.",
           ],
         },
         {
           type: "p",
-          text: "The common misunderstanding is that the medium matters. It does not. A sponsor who describes an open 506(b) offering to an audience of strangers at a meetup has solicited generally, and a sponsor who runs paid ads for an educational webinar that never mentions a deal may not have. Counsel draws that line for each sponsor; the marketing team's job is to make sure nothing crosses it without counsel having seen it first.",
+          text: "A common mistake is to think the medium matters. It does not. Say a sponsor is at a meetup. The sponsor describes an open 506(b) deal to a room of strangers. That sponsor has solicited generally. Now say a sponsor runs paid ads for a webinar. The webinar only teaches and never mentions a deal. That sponsor may not have. Counsel draws that line for each sponsor. Then the marketing team does its job. It makes sure nothing crosses that line until counsel has seen it.",
         },
       ],
     },
@@ -118,17 +118,17 @@ const guide: Guide = {
       blocks: [
         {
           type: "table",
-          caption: "Rule 506(b) and Rule 506(c) compared, from the sponsor's marketing seat.",
+          caption: "How Rule 506(b) and Rule 506(c) compare for a sponsor's marketing.",
           head: ["", "Rule 506(b)", "Rule 506(c)"],
           rows: [
-            ["General solicitation", "Prohibited", "Permitted"],
-            ["Who may invest", "Accredited investors, plus up to 35 non-accredited sophisticated investors", "Accredited investors only"],
-            ["Accredited status", "Issuer's reasonable belief — self-certification is customary", "Issuer must take reasonable steps to verify"],
-            ["Offering size", "Unlimited", "Unlimited"],
-            ["Form D", "Within 15 days of first sale", "Within 15 days of first sale — 506(c) box checked"],
+            ["General solicitation", "Not allowed", "Allowed"],
+            ["Who may invest", "Accredited investors. Also up to 35 sophisticated people who are not accredited.", "Accredited investors only"],
+            ["Accredited status", "The issuer's reasonable belief. Most investors just check a box.", "The issuer must take reasonable steps to verify"],
+            ["Deal size", "No limit", "No limit"],
+            ["Form D", "Within 15 days of first sale", "Within 15 days of first sale. The 506(c) box is checked."],
             ["Bad-actor disqualification", "Applies", "Applies"],
-            ["Disclosure to non-accredited investors", "Required if any are included", "Not applicable — none permitted"],
-            ["Paid investor acquisition", "Not possible for the offering itself", "The reason the rule exists"],
+            ["Disclosure to investors who are not accredited", "Required if any take part", "Does not apply. None may take part."],
+            ["Paid investor acquisition", "Not possible for the deal itself", "The reason the rule exists"],
           ],
         },
       ],
@@ -139,11 +139,11 @@ const guide: Guide = {
       blocks: [
         {
           type: "p",
-          text: "Sponsors often start under 506(b) because it is familiar, then discover mid-raise that the personal network has been exhausted. SEC staff guidance in its Securities Act Rules Compliance and Disclosure Interpretations has allowed an issuer that began an offering under 506(b) to continue it under 506(c), provided no general solicitation had been used up to that point and all sales after the switch meet 506(c)'s requirements — including verification of every purchaser going forward. The issuer amends its Form D to reflect the change. Going the other way is not available: once an offering has been generally solicited, it cannot become a 506(b) offering.",
+          text: "Sponsors often start under 506(b) because they know it. Then, partway through the raise, they run out of people in their own network. SEC staff guidance speaks to this. You can find it in the staff's Securities Act Rules Compliance and Disclosure Interpretations. Say an issuer began a deal under 506(b). That guidance has let it go on under 506(c). Two things must be true. First, no general solicitation can have been used up to that point. Second, all sales after the switch must meet the 506(c) rules. That means you must verify each buyer from then on. The issuer amends its Form D to show the change. You can't go the other way. Once a deal has been generally solicited, it can't become a 506(b) deal.",
         },
         {
           type: "p",
-          text: "Two practical consequences. First, if a sponsor thinks it may ever want to advertise a raise, the cleanest path is to structure it as 506(c) from the start and verify every investor, including friends and family, from the first check. Second, the switch is a counsel decision with a filing attached — not something a marketing vendor can make on the sponsor's behalf, and not something any vendor should be launching ads ahead of.",
+          text: "This means two things in practice. First, say a sponsor may ever want to advertise a raise. The cleanest path is to set it up as 506(c) from the start. Then verify each investor, starting with the first check that comes in. That includes friends and family. Second, the switch is a call for counsel, and it comes with a filing. A marketing vendor can't make it for the sponsor. And no vendor should launch ads before it is made.",
         },
       ],
     },
@@ -153,51 +153,51 @@ const guide: Guide = {
       blocks: [
         {
           type: "quote",
-          text: "No investor-acquisition vendor can make advertising legal under 506(b). Paid investor acquisition exists only under 506(c).",
+          text: "No investor acquisition vendor can make ads legal under 506(b). Paid investor acquisition exists only under 506(c).",
         },
         {
           type: "p",
-          text: "That is why Ascent's qualification gate asks about the exemption before anything else, and why a 506(b) sponsor is turned away rather than sold something adjacent. For a sponsor already under 506(c), the rule shapes the whole system: the creative is drafted against what counsel has approved, the landing page carries the legends counsel specifies verbatim, the lead-response sequence is a securities communication, and the appointment setter who calls an investor lead back is scripted to logistics only — confirming the lead asked to hear from the sponsor and getting a meeting onto the calendar — never the offering's returns, terms or merits. Verification of accredited status stays with the issuer, permanently. [How the whole lane runs](/#process) is on the main page.",
+          text: "That is why Ascent's screening asks about the exemption first. A 506(b) sponsor is turned away. Ascent does not sell that sponsor something close to it instead. For a sponsor already under 506(c), the rule shapes the whole system. The ads are written to fit what counsel has approved. The landing page carries the legends counsel names, word for word. Legends are required legal notices. The messages that reply to a new lead are a securities communication. Then an appointment setter calls the investor lead back. A setter is the caller who sets up the first meeting. The setter's script covers logistics only. The setter checks that the lead asked to hear from the sponsor. Then the setter puts a meeting on the calendar. The setter never talks about the deal's returns, terms or merits. Verifying accredited status stays with the issuer. That never changes. [See how the whole lane runs](/#process) on the main page.",
         },
       ],
     },
   ],
   faq: [
     {
-      q: "Can a real estate sponsor run Facebook or LinkedIn ads for a 506(b) offering?",
-      a: "No. Paid advertising that describes or offers the securities is general solicitation, which Rule 506(b) prohibits. A 506(b) sponsor can advertise its brand and educational content, but not the offering.",
+      q: "Can a sponsor run Facebook or LinkedIn ads for a 506(b) real estate deal?",
+      a: "No. Paid ads that describe or offer the securities are general solicitation. Rule 506(b) bans it. A 506(b) sponsor can advertise its brand and content that teaches. It can't advertise the deal.",
     },
     {
-      q: "Can non-accredited investors participate in a 506(c) offering?",
-      a: "No. Every purchaser in a Rule 506(c) offering must be an accredited investor, and the issuer must take reasonable steps to verify that status.",
+      q: "Can investors who are not accredited buy into a 506(c) deal?",
+      a: "No. Each buyer in a Rule 506(c) deal must be an accredited investor. The issuer must also take reasonable steps to verify that status.",
     },
     {
       q: "Does a 506(c) sponsor have to verify friends and family too?",
-      a: "Yes. The verification requirement applies to every purchaser in a 506(c) offering, regardless of the sponsor's relationship with them.",
+      a: "Yes. The duty to verify applies to each buyer in a 506(c) deal. It does not matter how well the sponsor knows them.",
     },
     {
-      q: "Is a self-certification questionnaire enough under 506(c)?",
-      a: "On its own, no. The SEC has said that a check-the-box representation is not reasonable steps to verify. Counsel chooses a method — the safe harbors, a third-party verifier, or the minimum-investment approach described in the SEC staff's March 2025 no-action letter.",
+      q: "Under 506(c), is it enough for investors to vouch for themselves on a form?",
+      a: "On its own, no. The SEC has said that checking a box is not reasonable steps to verify. Counsel picks a method. It could be one of the safe harbors. It could be an outside firm that verifies. It could also be the minimum investment path in the SEC staff's March 2025 no-action letter.",
     },
     {
-      q: "Can an offering switch from 506(b) to 506(c) after it starts?",
-      a: "SEC staff guidance has allowed it, provided no general solicitation has occurred and all purchasers after the switch are verified as accredited. The Form D is amended. The switch is a decision for the issuer's securities counsel.",
+      q: "Can a deal switch from 506(b) to 506(c) after it starts?",
+      a: "SEC staff guidance has allowed it if two things are true. No general solicitation has happened yet. And each buyer after the switch is verified as accredited. The Form D is amended. The switch is a call for the issuer's securities counsel.",
     },
     {
       q: "Does Ascent work with 506(b) sponsors?",
-      a: "No. Ascent runs paid investor acquisition, which is only lawful under Rule 506(c) or Regulation A+. A sponsor planning a 506(c) filing within the next ninety days can book a scoping call ahead of it.",
+      a: "No. Ascent runs paid investor acquisition. That is only lawful under Rule 506(c) or Regulation A+. Say you plan a 506(c) filing within the next ninety days. You can book a scoping call before you file.",
     },
   ],
   sources: [
-    { label: "U.S. Securities and Exchange Commission — Regulation D, Rules 501, 502, 506 (17 CFR 230.501–230.506)", url: "https://www.ecfr.gov/current/title-17/chapter-II/part-230/subject-group-ECFR6e651a4c86c0174/section-230.506" },
-    { label: "SEC — Securities Act Rules: Compliance and Disclosure Interpretations, Section 256 (Rule 506)", url: "https://www.sec.gov/rules-regulations/staff-guidance/compliance-disclosure-interpretations/securities-act-rules" },
-    { label: "SEC — Form D and filing requirements", url: "https://www.sec.gov/resources-small-businesses/exempt-offerings/frequently-asked-questions-about-form-d" },
-    { label: "SEC Division of Corporation Finance — no-action letter to Latham & Watkins LLP regarding Rule 506(c) verification, March 12, 2025", url: "https://www.sec.gov/rules-regulations/staff-guidance/corporation-finance-no-action-letters" },
-    { label: "SEC Division of Economic and Risk Analysis — Regulation D offerings statistics", url: "https://www.sec.gov/dera" },
+    { label: "U.S. Securities and Exchange Commission: Regulation D, Rules 501, 502, 506 (17 CFR 230.501 to 230.506)", url: "https://www.ecfr.gov/current/title-17/chapter-II/part-230/subject-group-ECFR6e651a4c86c0174/section-230.506" },
+    { label: "SEC: Securities Act Rules, Compliance and Disclosure Interpretations, Section 256 (Rule 506)", url: "https://www.sec.gov/rules-regulations/staff-guidance/compliance-disclosure-interpretations/securities-act-rules" },
+    { label: "SEC: Form D and filing requirements", url: "https://www.sec.gov/resources-small-businesses/exempt-offerings/frequently-asked-questions-about-form-d" },
+    { label: "SEC Division of Corporation Finance: no-action letter to Latham & Watkins LLP on Rule 506(c) verification, March 12, 2025", url: "https://www.sec.gov/rules-regulations/staff-guidance/corporation-finance-no-action-letters" },
+    { label: "SEC Division of Economic and Risk Analysis: Regulation D offerings statistics", url: "https://www.sec.gov/dera" },
   ],
   image: {
     src: "/guide-images/506b-vs-506c-real-estate-marketing.jpg",
-    alt: "Fluted granite columns on the facade of a courthouse-style building.",
+    alt: "Granite columns with long grooves. They stand on the front of a building that looks like a courthouse.",
     credit: "The Building Envelope via StockSnap, CC0",
   },
   related: [
