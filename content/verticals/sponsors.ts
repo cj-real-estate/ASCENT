@@ -659,6 +659,13 @@ export const sponsorsPage: SponsorPageContent = {
         cells: ["Meetings held with investors", "Leads"],
       },
       {
+        label: "Guarantee",
+        cells: [
+          "A minimum number of meetings held in 90 days, in writing. If we miss it, we work for free until we hit it",
+          "No promise on meetings held",
+        ],
+      },
+      {
         label: "Who calls new leads",
         cells: [
           "A live American setter, in your name, on your script",
@@ -681,7 +688,7 @@ export const sponsorsPage: SponsorPageContent = {
         cells: ["You. It is all in your name", "Often the agency"],
       },
     ],
-    note: "This compares how a typical agency is set up, not any one firm. We quote our fee in writing after the call.",
+    note: "This compares how a typical agency is set up, not any one firm. Each proposal spells out the guarantee in writing. We quote our fee in writing after the call.",
   },
 
 
