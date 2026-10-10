@@ -636,91 +636,54 @@ export const sponsorsPage: SponsorPageContent = {
     cta: "Run it on your raise",
   },
 
+  // Ascent against a typical marketing agency (owner's request,
+  // 2026-10-10). Structure only, never outcomes, never a named firm. Each
+  // agency cell restates a claim the page has made before: agencies sell
+  // the top of the funnel and hand over leads, report leads delivered, and
+  // often keep the CRM and number (ICP & Messaging Pillars, "control fear").
   comparison: {
-    eyebrow: "THE ALTERNATIVES",
-    h2: "Five ways to fill a raise. One of them is a flat fee.",
-    sub: "Here they are side by side: how each one gets paid, what it costs again next time, and who keeps the investors.",
+    eyebrow: "ASCENT VS. OTHER AGENCIES",
+    h2: "Other agencies stop at the lead. We go all the way to the meeting.",
+    sub: "Here is how we compare to a typical marketing agency, side by side.",
     columns: [
       { name: "Ascent", highlight: true },
-      { name: "Broker-dealer network" },
-      { name: "Co-GP capital raiser" },
-      { name: "Media-only agency" },
-      { name: "Your own IR hire" },
+      { name: "A typical agency" },
     ],
     rows: [
       {
-        label: "How it's paid",
+        label: "How you pay",
+        cells: ["One flat monthly fee", "A monthly retainer"],
+      },
+      {
+        label: "What you get",
+        cells: ["Meetings held with investors", "Leads"],
+      },
+      {
+        label: "Who calls new leads",
         cells: [
-          "One flat monthly fee",
-          "A percentage of every dollar raised",
-          "A slice of the GP's profits",
-          "A monthly retainer",
-          "A salary, paid whether you're raising or not",
+          "A live American setter, in your name, on your script",
+          "No one. They hand the leads to you",
         ],
       },
       {
-        label: "Typical cost",
+        label: "Legal review",
         cells: [
-          "Quoted in writing after our call. You pay for ads on your own account",
-          "8.5 to 10% load: about $850K to $1M on a $10M raise",
-          "Often said to be near 35% of the GP's share",
-          "Retainer plus ads",
-          "$90K to $140K a year, all in",
+          "Your lawyer approves every ad and script before anything runs",
+          "Often written like a sales promo, not a securities message",
         ],
       },
       {
-        label: "Charged again next raise",
-        cells: [
-          "No. The investors are on your list",
-          "Yes, on every dollar",
-          "Yes, on each deal they raise for",
-          "Yes, the retainer keeps going",
-          "Yes, the salary keeps going",
-        ],
+        label: "What they report",
+        cells: ["Cost per meeting held, every week", "Leads delivered"],
       },
       {
-        label: "Who keeps the investors",
-        cells: [
-          "You. The CRM, number and data are in your name",
-          "Often the rep",
-          "Shared with the raiser",
-          "Often the agency's CRM",
-          "You",
-        ],
-      },
-      {
-        label: "Calls every new lead",
-        cells: [
-          "Yes. A live American setter, on your script",
-          "Their reps sell to their own clients",
-          "They work their own network",
-          "No. They hand the leads to you",
-          "Only if you hire and train for it",
-        ],
-      },
-      {
-        label: "Ads, pages and follow-up",
-        cells: [
-          "Included",
-          "Not part of the service",
-          "Not part of the service",
-          "Included",
-          "You build and pay for them",
-        ],
-      },
-      {
-        label: "Pay tied to money raised",
-        cells: [
-          "Never",
-          "Yes, as a registered firm",
-          "Often. That is a question for your securities lawyer",
-          "No",
-          "No",
-        ],
+        label: "Who keeps the CRM, number and data",
+        cells: ["You. It is all in your name", "Often the agency"],
       },
     ],
-    note: "Broker-dealer, co-GP and in-house numbers are common industry ranges and setups, not quotes. Whether pay tied to money raised fits your offering is a question for your securities lawyer. We quote our fee in writing after the call.",
+    note: "This compares how a typical agency is set up, not any one firm. We quote our fee in writing after the call.",
   },
+
 
 
   process: {

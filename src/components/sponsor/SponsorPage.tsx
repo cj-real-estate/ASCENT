@@ -304,12 +304,18 @@ function Comparison({ page }: { page: SponsorPageContent }) {
 
         {/* Side by side. Scrolls sideways inside its own box on a phone,
             with the row labels pinned so every cell keeps its context. */}
-        <p className="mt-8 text-[13px] text-ash md:hidden">Swipe sideways to compare all five.</p>
+        {comparison.columns.length > 2 ? (
+          <p className="mt-8 text-[13px] text-ash md:hidden">Swipe sideways to compare them all.</p>
+        ) : null}
         {/* Lifted off the page: a graphite table with brighter text and a
             tinted Ascent column, after the first version read too dark
             (owner, 2026-10-07). */}
-        <div className="mt-3 overflow-x-auto rounded-xl border border-white/15 bg-graphite md:mt-12">
-          <table className="w-full min-w-[720px] border-collapse text-left md:min-w-[860px]">
+        <div className={`${comparison.columns.length > 2 ? "mt-3" : "mt-8"} overflow-x-auto rounded-xl border border-white/15 bg-graphite md:mt-12`}>
+          <table
+            className={`w-full border-collapse text-left ${
+              comparison.columns.length > 2 ? "min-w-[720px] md:min-w-[860px]" : ""
+            }`}
+          >
             <caption className="sr-only">{comparison.h2}</caption>
             <thead>
               <tr className="bg-white/[0.06]">
