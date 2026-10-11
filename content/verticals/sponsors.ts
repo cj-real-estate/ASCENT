@@ -526,12 +526,12 @@ export const sponsorsPage: SponsorPageContent = {
     // Removed at the owner's request (2026-10-05): the h1 now opens the
     // hero on its own, over the footage.
     kicker: null,
-    h1: "We find investors for real estate sponsors.",
-    h1Highlight: "find investors",
+    h1: "The investor acquisition firm for real estate sponsors.",
+    h1Highlight: "investor acquisition",
     sub: "We find accredited investors for your 506(c) raise and put them on your calendar. Ads your lawyer approves bring in the leads. A live American setter calls each one and sets up a real meeting. You pay one flat fee each month. We never take a cut of what you raise.",
     primaryCta: "See if you qualify",
     secondaryCta: { label: "How it works", href: "#process" },
-    patrioticLine: "100% American owned and run.",
+    patrioticLine: "100% American owned and operated.",
     cards: [
       {
         icon: "calendar",
