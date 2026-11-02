@@ -1,0 +1,62 @@
+[
+  {
+    "name": "home",
+    "ghlPath": "/",
+    "bytes": 120910
+  },
+  {
+    "name": "guides",
+    "ghlPath": "/guides",
+    "bytes": 73323
+  },
+  {
+    "name": "privacy",
+    "ghlPath": "/privacy",
+    "bytes": 66165
+  },
+  {
+    "name": "terms",
+    "ghlPath": "/terms",
+    "bytes": 67689
+  },
+  {
+    "name": "sms-opt-in",
+    "ghlPath": "/sms-opt-in",
+    "bytes": 62322
+  },
+  {
+    "name": "guide-506b-vs-506c-real-estate-marketing",
+    "ghlPath": "/guide-506b-vs-506c-real-estate-marketing",
+    "bytes": 96018
+  },
+  {
+    "name": "guide-how-to-find-accredited-investors-real-estate-syndication",
+    "ghlPath": "/guide-how-to-find-accredited-investors-real-estate-syndication",
+    "bytes": 95470
+  },
+  {
+    "name": "guide-cost-per-investor-lead-506c-benchmarks",
+    "ghlPath": "/guide-cost-per-investor-lead-506c-benchmarks",
+    "bytes": 92049
+  },
+  {
+    "name": "guide-speed-to-lead-investor-acquisition",
+    "ghlPath": "/guide-speed-to-lead-investor-acquisition",
+    "bytes": 89928
+  },
+  {
+    "name": "guide-accredited-investor-verification-506c",
+    "ghlPath": "/guide-accredited-investor-verification-506c",
+    "bytes": 91897
+  },
+  {
+    "name": "guide-placement-agent-vs-flat-fee-investor-acquisition",
+    "ghlPath": "/guide-placement-agent-vs-flat-fee-investor-acquisition",
+    "bytes": 94618
+  },
+  {
+    "name": "guide-investor-acquisition-glossary",
+    "ghlPath": "/guide-investor-acquisition-glossary",
+    "bytes": 88243
+  }
+]

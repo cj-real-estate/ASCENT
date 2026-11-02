@@ -52,7 +52,21 @@ const forwardedHostRedirects = FORWARDED_HOSTS.map((host) => ({
   permanent: true,
 }));
 
+/*
+ * The GHL-hosted copy of the sponsor site (ghl-export/, see GHL-SETUP.md)
+ * loads its fonts, images and hero video from ascentcas.com, which stays on
+ * this project. Fonts need CORS to load cross-origin; the rest are plain
+ * public assets, so allowing any origin to read them costs nothing.
+ */
+const PUBLIC_ASSET_PATHS = ["/ghl/:path*", "/video/:path*", "/brand/:path*", "/guide-images/:path*"];
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return PUBLIC_ASSET_PATHS.map((source) => ({
+      source,
+      headers: [{ key: "Access-Control-Allow-Origin", value: "*" }],
+    }));
+  },
   async redirects() {
     return forwardedHostRedirects;
   },
