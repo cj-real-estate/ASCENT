@@ -86,6 +86,7 @@ export async function GET() {
 
 const MAX_BODY_BYTES = 16_000; // answers + the attribution block
 const MAX_FIELD_LENGTH = 200;
+const MAX_NOTES_LENGTH = 1500;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_CHARS_RE = /^\+?[\d\s()\-.]+$/;
@@ -317,6 +318,104 @@ export async function POST(request: Request) {
    * `smsCallName` to record which transactional consent sentence was on
    * screen. An unknown or missing slug falls back to the brand page. */
   const config = VERTICALS_BY_SLUG.get(verticalSlug) ?? general;
+
+  /*
+   * The "Book a demo" funnel (src/components/DemoFlow.tsx). Two posts per
+   * visitor, both optional to finish:
+   *
+   *   contact — name, company, email, phone. Delivered to the CRM at once,
+   *   so a visitor who stops here is still a lead, and answered with the
+   *   scheduling link: nothing gates the calendar on this funnel.
+   *   context — the same contact plus any optional answers and a free-text
+   *   note, delivered as a second note on the same contact (GHL upserts by
+   *   email; the "website lead" tag is already on it, so the owner's
+   *   notification workflow does not fire twice).
+   *
+   * Answers are still checked against the labels the vertical offers, so a
+   * hand-edited payload cannot put arbitrary text in the CRM's answer lines.
+   */
+  const demoStage = readString(body, "demoStage");
+  if (demoStage) {
+    const demo = config.demo;
+    if (!demo || (demoStage !== "contact" && demoStage !== "context")) {
+      return bad("Unknown request.");
+    }
+    const answerLines: string[] = [];
+    const answersByKey: Record<string, string> = {};
+    if (demoStage === "context") {
+      const submitted = body.answers ?? {};
+      if (typeof submitted !== "object" || submitted === null || Array.isArray(submitted)) {
+        return bad("Answers must be a list of choices.");
+      }
+      for (const question of demo.questions) {
+        const value = readString(submitted as Record<string, unknown>, question.key);
+        if (!value) continue; // every question is optional
+        if (!question.options.includes(value)) return bad("Choose one of the options shown.");
+        answerLines.push(`${question.label}: ${value}`);
+        answersByKey[question.key] = value;
+      }
+      const notes = readString(body, "notes");
+      if (notes.length > MAX_NOTES_LENGTH) {
+        return bad(`Keep the note under ${MAX_NOTES_LENGTH} characters.`);
+      }
+      if (notes) answerLines.push(`${demo.notesLabel}: ${notes}`);
+    }
+    const verdict = demoStage === "contact" ? "DEMO REQUEST" : "DEMO CONTEXT";
+    const page = verticalSlug || "general";
+    const demoResults = await Promise.allSettled([
+      deliverLeadToGhl({
+        name,
+        company,
+        phone,
+        email,
+        page,
+        interest: "Demo",
+        verdict,
+        qualified: null,
+        answers: answersByKey,
+        answerLines,
+        smsConsentTransactional,
+        smsConsentMarketing,
+        smsCallName: config.smsCallName,
+        receivedAt,
+        site: leadSiteFromRequest(request),
+        attribution: sanitizeAttribution(body.attribution),
+      }),
+      postLeadWebhook({
+        verdict,
+        name,
+        company,
+        phone,
+        email,
+        page,
+        interest: "Demo",
+        answers: answersByKey,
+        smsConsentTransactional,
+        smsConsentMarketing,
+        receivedAt,
+      }),
+    ]);
+    const demoDelivered = demoResults.some(
+      (result) => result.status === "fulfilled" && result.value,
+    );
+    if (!demoDelivered) {
+      // Same deliberate exception as below: the log is the only copy left.
+      console.error("[LEAD_UNDELIVERED] no sink accepted this demo lead:", {
+        verdict,
+        name,
+        company,
+        phone,
+        email,
+        answerLines,
+      });
+    }
+    return NextResponse.json({
+      ok: true,
+      ...(demoStage === "contact" && config.booking.schedulingLink
+        ? { schedulingLink: config.booking.schedulingLink }
+        : {}),
+    });
+  }
 
   let subject: string;
   let text: string;

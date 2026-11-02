@@ -690,6 +690,13 @@ export interface Vertical {
    *  chosen option has qualifies: true. Thresholds are tuned here, in content,
    *  never in components. */
   qualification: QualificationContent;
+  /**
+   * The "Book a demo" funnel (sponsor site, 2026-11-02). When present it
+   * replaces the qualification gate on that site: contact details first
+   * (saved to the CRM on submit), then optional context questions, then
+   * the calendar with a "Not now" way out. No answer gates anything.
+   */
+  demo?: DemoContent;
 
   /** The standalone social-CTA page at /apply. null on verticals without one. */
   applyPage: ApplyPageContent | null;
@@ -741,4 +748,29 @@ export interface Vertical {
      */
     complianceLine: string | null;
   };
+}
+
+/** Copy and optional questions for the "Book a demo" funnel. */
+export interface DemoContent {
+  /** Every button that opens the funnel. */
+  cta: string;
+  contactHeading: string;
+  contactSub: string;
+  contactSubmitLabel: string;
+  submittingLabel: string;
+  contextHeading: string;
+  contextSub: string;
+  /** Optional multiple choice. Any subset may be answered. */
+  questions: { key: string; label: string; options: string[] }[];
+  notesLabel: string;
+  notesPlaceholder: string;
+  contextSubmitLabel: string;
+  skipLabel: string;
+  bookHeading: string;
+  bookBody: string;
+  notNowLabel: string;
+  laterHeading: string;
+  laterBody: string;
+  /** Shown if the calendar link is missing (mid-deploy): never a dead end. */
+  fallbackBody: string;
 }

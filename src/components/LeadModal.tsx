@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { QualifyFlowProps } from "@/lib/qualify";
+import type { DemoFlowProps } from "@/lib/demo";
 import QualifyFlow from "./QualifyFlow";
+import DemoFlow from "./DemoFlow";
 
 /*
  * The qualification flow in a native <dialog>, opened by any element
@@ -16,7 +18,14 @@ import QualifyFlow from "./QualifyFlow";
  * The flow instance is remounted per open so a half-finished wizard from a
  * closed modal doesn't reappear stale minutes later.
  */
-export function LeadModal({ flow }: { flow: QualifyFlowProps }) {
+export function LeadModal({
+  flow,
+  demo = null,
+}: {
+  flow: QualifyFlowProps;
+  /** When given, the modal runs the "Book a demo" funnel instead of the gate. */
+  demo?: DemoFlowProps | null;
+}) {
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [intent, setIntent] = useState<"audit" | "strategy-call">(
     "strategy-call",
@@ -47,7 +56,7 @@ export function LeadModal({ flow }: { flow: QualifyFlowProps }) {
   return (
     <dialog
       ref={dialogRef}
-      aria-label="Book a call"
+      aria-label={demo ? "Book a demo" : "Book a call"}
       className="lead-modal m-auto w-[min(680px,calc(100vw-2rem))] rounded-xl border border-white/15 bg-ink p-0 text-paper backdrop:bg-black/70"
       onClick={(event) => {
         // Click on the backdrop (the dialog element itself) closes.
@@ -67,7 +76,11 @@ export function LeadModal({ flow }: { flow: QualifyFlowProps }) {
         </div>
         <div className="mt-2">
           {/* remount per open; keep instance while open */}
-          <QualifyFlow key={openCount} flow={flow} intent={intent} />
+          {demo ? (
+            <DemoFlow key={openCount} flow={demo} />
+          ) : (
+            <QualifyFlow key={openCount} flow={flow} intent={intent} />
+          )}
         </div>
       </div>
     </dialog>

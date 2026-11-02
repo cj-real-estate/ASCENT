@@ -87,7 +87,7 @@ const sponsors: Vertical = {
   },
 
   header: {
-    cta: "Book a call",
+    cta: "Book a demo",
   },
 
   hero: {
@@ -99,7 +99,7 @@ const sponsors: Vertical = {
     h1Highlight: "Investor meetings held",
     sub: "Roughly two percent of investor leads become investors. Most of the rest were never called, or were called days later by someone reading no script — and you paid to generate every one. Ascent works the other ninety-eight: a live setter calling as you, inside a structure your securities counsel approved in writing.",
     closingLine: "You run the investor conversation. We run everything before it.",
-    cta: "See if you qualify",
+    cta: "Book a demo",
     secondaryCta: null,
     // Practice claims only — things a sponsor or their counsel can check.
     chips: [
@@ -356,7 +356,7 @@ const sponsors: Vertical = {
   },
 
   booking: {
-    eyebrow: "BOOK A CALL",
+    eyebrow: "BOOK A DEMO",
     h2: "Find out where your last raise's leads went.",
     body: "Thirty minutes. Bring the numbers from your last raise: what you spent on ads, how many leads you got and how many meetings really happened. We'll show you, in dollars, what the gap between leads and meetings is costing you. We'll also tell you if this setup will pass your lawyer's review. If it's not a fit, we'll say so on the call.",
     // The GoHighLevel (LeadConnector) booking widget, supplied 2026-09-27,
@@ -488,6 +488,57 @@ const sponsors: Vertical = {
     ],
   },
 
+  // The "Book a demo" funnel (owner's request, 2026-11-02). Replaces the
+  // qualification gate on this site: contact first, saved to GHL on
+  // submit; then optional context; then the calendar, with a way out.
+  demo: {
+    cta: "Book a demo",
+    contactHeading: "Book a demo",
+    contactSub: "Tell us how to reach you. It takes 30 seconds.",
+    contactSubmitLabel: "Continue",
+    submittingLabel: "Sending…",
+    contextHeading: "A few quick questions",
+    contextSub: "These are optional. They help us get ready for your demo.",
+    questions: [
+      {
+        key: "offering",
+        label: "What kind of offering is it?",
+        options: ["Rule 506(c)", "Regulation A+", "Rule 506(b)", "Not sure yet"],
+      },
+      {
+        key: "raiseSize",
+        label: "How big is the raise?",
+        options: [
+          "Under $10 million",
+          "$10 to $25 million",
+          "$25 to $50 million",
+          "More than $50 million",
+          "Evergreen (always raising)",
+        ],
+      },
+      {
+        key: "mediaBudget",
+        label: "How much could you spend on ads each month?",
+        options: ["Under $15,000", "$15,000 to $30,000", "$30,000 to $50,000", "More than $50,000"],
+      },
+      {
+        key: "timeline",
+        label: "When do you want to start?",
+        options: ["Now", "In the next 30 days", "In 1 to 3 months", "Just looking"],
+      },
+    ],
+    notesLabel: "Anything else we should know?",
+    notesPlaceholder: "Your deal, your last raise, questions for us…",
+    contextSubmitLabel: "Continue",
+    skipLabel: "Skip",
+    bookHeading: "Pick a time for your demo",
+    bookBody: "Thirty minutes. Free. No strings. Bring your lawyer if you like.",
+    notNowLabel: "Not now",
+    laterHeading: "Thanks. We'll be in touch.",
+    laterBody: "You'll hear from us within one business day to set a time.",
+    fallbackBody: "Thanks. You'll get a call or an email within one business day to set a time.",
+  },
+
   // /apply runs on the brand vertical.
   applyPage: null,
 
@@ -519,7 +570,7 @@ const sponsors: Vertical = {
  */
 export const sponsorsPage: SponsorPageContent = {
   nav: {
-    cta: "See if you qualify",
+    cta: "Book a demo",
   },
 
   hero: {
@@ -529,7 +580,7 @@ export const sponsorsPage: SponsorPageContent = {
     h1: "The investor acquisition firm for real estate sponsors.",
     h1Highlight: "investor acquisition",
     sub: "We find accredited investors for your 506(c) raise and put them on your calendar. Ads your lawyer approves bring in the leads. A live American setter calls each one and sets up a real meeting. You pay one flat fee each month. We never take a cut of what you raise.",
-    primaryCta: "See if you qualify",
+    primaryCta: "Book a demo",
     secondaryCta: { label: "How it works", href: "#process" },
     patrioticLine: "100% American owned and operated.",
     cards: [
@@ -722,7 +773,7 @@ export const sponsorsPage: SponsorPageContent = {
         body: "Each week you get a dashboard and a review built on cost per meeting held. We show ad cost apart from total cost. You get six new ads a month, and a landing page test when there is enough traffic. You start with 90 days, then go month to month.",
       },
     ],
-    cta: "Book a call",
+    cta: "Book a demo",
   },
 
   // Rewritten 2026-10-07 from the Company Hub's Offers & Pricing (the
@@ -788,15 +839,15 @@ export const sponsorsPage: SponsorPageContent = {
     ],
     ctaCard: {
       title: "Ready to see what one meeting held costs?",
-      body: "Six quick questions. If it's a fit, the calendar is on the next screen.",
-      cta: "See if you qualify",
+      body: "Leave your details and pick a time. It takes about a minute.",
+      cta: "Book a demo",
     },
   },
 
   ctaBand: {
     h2: "Want to know where your last raise's leads went?",
     body: "Thirty minutes on your numbers, in dollars. Bring your lawyer if you like. If it's not a fit, we'll tell you on the call.",
-    cta: "Book a call",
+    cta: "Book a demo",
   },
 
   /*

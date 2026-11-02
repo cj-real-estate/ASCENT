@@ -3,12 +3,14 @@ import type { SponsorPageContent, Vertical } from "@content/verticals/types";
 import { guides } from "@content/guides";
 import { SPONSOR_PAGE_UPDATED } from "@content/verticals/sponsors";
 import { toQualifyFlowProps } from "@/lib/qualify";
+import { toDemoFlowProps } from "@/lib/demo";
 import HeroVideo from "./HeroVideo";
 import { sponsorPageGraph } from "@/lib/schema";
 import ArrowRight from "@/components/ArrowRight";
 import ServiceIcon from "@/components/ServiceIcon";
 import EyebrowText from "@/components/EyebrowText";
 import QualifyFlow from "@/components/QualifyFlow";
+import DemoFlow from "@/components/DemoFlow";
 import LeadModal from "@/components/LeadModal";
 import TrustBanner from "@/components/TrustBanner";
 import { JsonLdData } from "@/components/JsonLd";
@@ -661,6 +663,7 @@ function Faq({ vertical }: { vertical: Vertical }) {
 
 function Booking({ vertical }: { vertical: Vertical }) {
   const { booking } = vertical;
+  const demo = toDemoFlowProps(vertical);
   return (
     <section id="book" className="scroll-mt-16 border-t border-seam bg-coal/40 py-16 md:py-24">
       <div className={shell}>
@@ -668,7 +671,7 @@ function Booking({ vertical }: { vertical: Vertical }) {
         <h2 className={`${h2} mt-4`}>{booking.h2}</h2>
         <p className="mt-6 max-w-[68ch] text-[17px] leading-relaxed text-on-dark">{booking.body}</p>
         <div className="mt-10">
-          <QualifyFlow flow={toQualifyFlowProps(vertical)} />
+          {demo ? <DemoFlow flow={demo} /> : <QualifyFlow flow={toQualifyFlowProps(vertical)} />}
         </div>
         <TrustBanner items={vertical.qualification.trustItems} />
       </div>
@@ -698,7 +701,7 @@ export function SponsorPage({
         <Faq vertical={vertical} />
         <Guides vertical={vertical} page={page} />
         <Booking vertical={vertical} />
-        <LeadModal flow={toQualifyFlowProps(vertical)} />
+        <LeadModal flow={toQualifyFlowProps(vertical)} demo={toDemoFlowProps(vertical)} />
       </main>
       <SponsorFooter vertical={vertical} legal={page.legal} guides={guides} guidesLabel={page.guides.eyebrow} />
     </div>

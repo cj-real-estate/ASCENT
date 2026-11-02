@@ -80,7 +80,7 @@ export interface LeadRecord {
   /** Vertical slug the lead came from — "general" | "fence" */
   page: string;
   interest: string;
-  verdict: "QUALIFIED" | "BELOW ICP" | "LEGACY FORM" | "SMS OPT-IN";
+  verdict: "QUALIFIED" | "BELOW ICP" | "LEGACY FORM" | "SMS OPT-IN" | "DEMO REQUEST" | "DEMO CONTEXT";
   /** null on the legacy form, which has no gate */
   qualified: boolean | null;
   /** question key → chosen option label */
